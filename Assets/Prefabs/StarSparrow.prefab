@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114272042875472538}
   - component: {fileID: 114874511062287174}
   - component: {fileID: 114706800781384434}
+  - component: {fileID: 114814333849505752}
   m_Layer: 0
   m_Name: StarSparrow
   m_TagString: Untagged
@@ -85,7 +86,7 @@ GameObject:
   m_Icon: {fileID: -215833656, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4118188134401196
 Transform:
   m_ObjectHideFlags: 1
@@ -360,6 +361,18 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114814333849505752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389673082934982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa94b94e6afa7f4d86a7dfd73a9c4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 1741360824536088}
 --- !u!114 &114874511062287174
 MonoBehaviour:
   m_ObjectHideFlags: 1
