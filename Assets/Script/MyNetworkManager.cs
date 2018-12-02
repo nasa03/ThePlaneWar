@@ -8,14 +8,8 @@ public class MyNetworkManager : NetworkManager {
 
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
-        GameObject player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-        //设置player的一些参数
+        GameObject player = Instantiate(playerPrefab, startPositions[playerControllerId].position, Quaternion.identity);
         player.GetComponent<MeshFilter>().mesh = playerMesh[playerControllerId];
-        MeshRenderer renderer = player.GetComponent<MeshRenderer>();
-        BoxCollider collider = player.GetComponent<BoxCollider>();
-        collider.center = renderer.bounds.center;
-        collider.size = renderer.bounds.size;
-
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
 }
