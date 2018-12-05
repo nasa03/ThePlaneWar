@@ -7,8 +7,7 @@ public class MyNetworkManager : NetworkManager {
 
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
-        GameObject player = Instantiate(playerPrefab, startPositions[playerControllerId].position, Quaternion.identity);
-        //player.GetComponent<MeshFilter>().mesh = playerMesh[playerControllerId];
+        GameObject player = Instantiate(GlobalManager.GetInstance().GetPlayerPrefab(), startPositions[playerControllerId].position, Quaternion.identity);
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
 }
