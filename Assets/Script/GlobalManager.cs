@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class GlobalManager : SingletonManager<GlobalManager> {
     [SerializeField] GameObject[] playerPrefabs;
-    [HideInInspector] public int playerIndex = 0;
 
-    public GameObject GetPlayerPrefab()
+    public GameObject PlayerPrefab
     {
-        Debug.Log(playerIndex);
-        return playerPrefabs[playerIndex];
+        get
+        {
+            return playerPrefabs[ChoosePlane.Instance.TotalPlaneInt];
+        }
     }
 }

@@ -5,9 +5,11 @@ using UnityEngine;
 public class SingletonManager<T> : MonoBehaviour where T : Component {
     static T instance;
 
-    public static T GetInstance()
+    public static T Instance
     {
-        return FindObjectOfType<T>() as T;
+        get
+        {
+            return FindObjectOfType<T>() as T;
+        }
     }
-    
 }
