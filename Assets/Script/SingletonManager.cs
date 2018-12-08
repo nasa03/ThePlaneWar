@@ -9,7 +9,10 @@ public class SingletonManager<T> : MonoBehaviour where T : Component {
     {
         get
         {
-            return FindObjectOfType<T>() as T;
+            if (instance == null)
+                instance = FindObjectOfType<T>() as T;
+
+            return instance;
         }
     }
 }
