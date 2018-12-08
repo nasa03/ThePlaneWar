@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Name: GaiaSettings
   m_EditorClassIdentifier: 
   m_currentController: 1
-  m_currentSize: 5
-  m_currentEnvironment: 2
+  m_currentSize: 7
+  m_currentEnvironment: 1
   m_currentRenderer: 0
-  m_currentDefaults: {fileID: 11400000, guid: 54f4fac3c7f0a1e44a45853d26c87b49, type: 2}
-  m_currentResources: {fileID: 11400000, guid: c98e02f9daf2eb944b96f40d0aaed8d4, type: 2}
-  m_currentGameObjectResources: {fileID: 11400000, guid: 2b779137b43e398459f18a8610b712de,
+  m_currentDefaults: {fileID: 11400000, guid: 523e7c864412c3144932b865df8adefa, type: 2}
+  m_currentResources: {fileID: 11400000, guid: 33c0b072fc8e85e43bf3f76a9bf8c955, type: 2}
+  m_currentGameObjectResources: {fileID: 11400000, guid: 33c0b072fc8e85e43bf3f76a9bf8c955,
     type: 2}
   m_currentSizeDivisor: 1
   m_currentPlayerPrefabName: Flycam
-  m_currentWaterPrefabName: Water4Advanced
+  m_currentWaterPrefabName: WaterBasicDaytime
   m_publisherName: 
   m_fpsPlayerPrefabName: FPSController
   m_3pPlayerPrefabName: ThirdPersonController
