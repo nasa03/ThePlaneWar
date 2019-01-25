@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class projectileActor : MonoBehaviour {
 
@@ -93,12 +94,12 @@ public class projectileActor : MonoBehaviour {
             Switch(1);
         }
 
-	    if(Input.GetButtonDown("Fire1"))
+	    if(CrossPlatformInputManager.GetButtonDown("Fire1"))
         {
             firing = true;
             Fire();
         }
-        if (Input.GetButtonUp("Fire1"))
+        if (CrossPlatformInputManager.GetButtonUp("Fire1"))
         {
             firing = false;
             firingTimer = 0;
