@@ -89,12 +89,12 @@ public class projectileActor : MonoBehaviour {
         {
             Switch(-1);
         }
-        if (Input.GetButtonDown("Fire2") || Input.GetKeyDown(KeyCode.A))
+        if (CrossPlatformInputManager.GetButtonDown("Fire2") || Input.GetKeyDown(KeyCode.A))
         {
             Switch(1);
         }
 
-	    if(CrossPlatformInputManager.GetButtonDown("Fire1"))
+	    if (CrossPlatformInputManager.GetButtonDown("Fire1"))
         {
             firing = true;
             Fire();
