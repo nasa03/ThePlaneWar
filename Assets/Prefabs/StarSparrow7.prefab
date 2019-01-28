@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 114962560971875724}
   - component: {fileID: 114153855350994846}
   - component: {fileID: 114651898517042948}
+  - component: {fileID: 8080979527477060245}
+  - component: {fileID: 2760551582535331017}
   m_Layer: 0
   m_Name: StarSparrow7
   m_TagString: Untagged
@@ -39,7 +41,8 @@ Transform:
   m_Children:
   - {fileID: 6701172958646002586}
   - {fileID: 4958845405120982}
-  - {fileID: 6470146267743014798}
+  - {fileID: 6470146269015062919}
+  - {fileID: 6470146269143341085}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -254,6 +257,722 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 4745020085401796817}
+--- !u!114 &8080979527477060245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058240963411080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ae8ab904635734bab03b361009b30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnLocator: {fileID: 6470146269015062919}
+  spawnLocatorMuzzleFlare: {fileID: 6470146269143341085}
+  shellLocator: {fileID: 6470146269393947277}
+  recoilAnimator: {fileID: 2760551582535331017}
+  shotgunLocator:
+  - {fileID: 6470146268265528773}
+  - {fileID: 6470146267777594579}
+  - {fileID: 6470146268915911048}
+  - {fileID: 6470146268040360059}
+  - {fileID: 6470146268578876915}
+  - {fileID: 6470146268460583291}
+  - {fileID: 6470146267703800376}
+  - {fileID: 6470146267910765845}
+  bombList:
+  - name: Goldfire Bullet Small
+    bombPrefab: {fileID: 54453457801900860, guid: 3b952465a137ae4459f7be070b8ebfa8,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 9b2faf3baf02074448f732f82b94e385,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.12
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: Goldfire Bullet Medium
+    bombPrefab: {fileID: 54212628334827884, guid: 061404bc873e1bc47ad3e9f305e4bc51,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: 24cdef2780d093d4c849bc53f1dca256,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: Goldfire Bullet Big
+    bombPrefab: {fileID: 54212628334827884, guid: bc005d43007bfc140a15996ff3940144,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: b5c3ea142d4491246b24fc253c317e06,
+      type: 3}
+    min: 38000
+    max: 41000
+    rapidFire: 1
+    rapidFireCooldown: 0.3
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: Goldfire Bullet Small Shotgun
+    bombPrefab: {fileID: 54453457801900860, guid: 3b952465a137ae4459f7be070b8ebfa8,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: 24cdef2780d093d4c849bc53f1dca256,
+      type: 3}
+    min: 37000
+    max: 41000
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 1
+    shotgunPellets: 8
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: BlazingRed Bullet Small
+    bombPrefab: {fileID: 54453457801900860, guid: a2700d7f89910434081c7dc7c92e22ca,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 2cc07ac0b88fafc40b730713b6dac672,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.12
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: BlazingRed Bullet Medium
+    bombPrefab: {fileID: 54212628334827884, guid: 0d5375de13c0d07418db45e642648e1b,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: 722795f4bd4886a438dbd4c6ff443394,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: BlazingRed Bullet Big
+    bombPrefab: {fileID: 54212628334827884, guid: 7d9628d8dd1c41e40a689cba91859604,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: f54bb1ec5b694b74ba4f1ff9c5556eee,
+      type: 3}
+    min: 38000
+    max: 41000
+    rapidFire: 1
+    rapidFireCooldown: 0.3
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: BlazingRed Bullet Small Shotgun
+    bombPrefab: {fileID: 54453457801900860, guid: a2700d7f89910434081c7dc7c92e22ca,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: 722795f4bd4886a438dbd4c6ff443394,
+      type: 3}
+    min: 38000
+    max: 41000
+    rapidFire: 1
+    rapidFireCooldown: 0.3
+    shotgunBehavior: 1
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: SilverFlare Bullet Small
+    bombPrefab: {fileID: 54453457801900860, guid: df1a1922af2b37e4f9ade4203d8566bd,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: e165b34d6402b6449bce6c32e18c8419,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.12
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: SilverFlare Bullet Medium
+    bombPrefab: {fileID: 54212628334827884, guid: 39857ee6d99944b4e807aa60e2c121b8,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: 2eb0d1c997028f344ba8ee6cc887fab7,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: SilverFlare Bullet Big
+    bombPrefab: {fileID: 54212628334827884, guid: 54198a7dbde9a55489adb98417866dfd,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: c2ee59d1549e34640b56a6b23dc7fb9a,
+      type: 3}
+    min: 38000
+    max: 41000
+    rapidFire: 1
+    rapidFireCooldown: 0.3
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: VenomGreen Bullet Small
+    bombPrefab: {fileID: 54453457801900860, guid: f28a900373870dd46b5aa1352c03c233,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 581d5d8274d685543ab36b8fe76a6c2e,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.12
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: VenomGreen Bullet Medium
+    bombPrefab: {fileID: 54212628334827884, guid: 3e6e0da4bb550b9409620dff24cfdefa,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: 1f9704793f0d6fe43b386c174f6b5ce4,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: VenomGreen Bullet Big
+    bombPrefab: {fileID: 54212628334827884, guid: 3c156ec90b33acd4a992851f55a27eac,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: 284f473a4831afa47bc286c36b9f8689,
+      type: 3}
+    min: 38000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.3
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: DemonPurple Bullet Small
+    bombPrefab: {fileID: 54453457801900860, guid: 9e80e89bac104d14f9a55cf85b640e28,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 2dfb7a6ee2797114dbbdb4c44ba63170,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.12
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: DemonPurple Bullet Medium
+    bombPrefab: {fileID: 54212628334827884, guid: 2fa2d7455fc1db84e9c6ec4494aed9f3,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: 813963554cbee4a47b7f0a4be502643e,
+      type: 3}
+    min: 28000
+    max: 31000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: DemonPurple Bullet Big
+    bombPrefab: {fileID: 54212628334827884, guid: 73b4224817378674a81e2a3aa95a76c4,
+      type: 3}
+    muzzleflare: {fileID: 1584403288528622, guid: a0e8689fb74a9a54ba789dd606357a0e,
+      type: 3}
+    min: 38000
+    max: 41000
+    rapidFire: 1
+    rapidFireCooldown: 0.3
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 1
+  - name: Laser Red Small
+    bombPrefab: {fileID: 54929995699331496, guid: 46283029775b07e41bcee10d380c6f0d,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: e4c1563681f77304ebf03a9073fda230,
+      type: 3}
+    min: 20000
+    max: 21000
+    rapidFire: 1
+    rapidFireCooldown: 0.16
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Red Medium
+    bombPrefab: {fileID: 54929995699331496, guid: 5e486dbaa8aaffb458af02f5b8d83621,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 3a4fa769c1e617d41829520cb23b7919,
+      type: 3}
+    min: 17000
+    max: 17000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: 'Laser Red Big '
+    bombPrefab: {fileID: 54929995699331496, guid: 624541ee5e3a00b4db9f57d9ca66b598,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: be4ee116212b7cb438758178158b6c8f,
+      type: 3}
+    min: 16500
+    max: 16500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: 'Laser Green Small '
+    bombPrefab: {fileID: 54929995699331496, guid: da569c0f83ca4b648aec954193d757e5,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: c33493550f19f7c46b567bbdd9e72038,
+      type: 3}
+    min: 20000
+    max: 21000
+    rapidFire: 1
+    rapidFireCooldown: 0.16
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Green Medium
+    bombPrefab: {fileID: 54929995699331496, guid: bad57c5fb182fb8449467ca897400b7e,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 3a548f79be2642041af8667558f82732,
+      type: 3}
+    min: 17000
+    max: 17000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Green Big
+    bombPrefab: {fileID: 54929995699331496, guid: b22cf5060c5092d4297f0d177666e79c,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 089935eb399f7b14d887ca8e260e8ffc,
+      type: 3}
+    min: 16500
+    max: 16500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Blue Small
+    bombPrefab: {fileID: 54929995699331496, guid: 1b81ed6643072854688c442ec72032d6,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 66ce0f27574363a4dabe7162e2636e3f,
+      type: 3}
+    min: 20000
+    max: 21000
+    rapidFire: 1
+    rapidFireCooldown: 0.16
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Blue Medium
+    bombPrefab: {fileID: 54929995699331496, guid: 19c7f662c0bf1a447be313604bf5e7a3,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 0bb2091220a6d754686c0d0486f7f56e,
+      type: 3}
+    min: 20000
+    max: 21000
+    rapidFire: 1
+    rapidFireCooldown: 0.16
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Blue Big
+    bombPrefab: {fileID: 54929995699331496, guid: e791bce961c856c48a4aaf3bf189e3aa,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: e821333cccab63b4bba30b332e5f2031,
+      type: 3}
+    min: 16500
+    max: 16500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Purple Small
+    bombPrefab: {fileID: 54929995699331496, guid: cd3a4ee3b9b481342afe44304c00fd97,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 94784aaeafdcced4c9acece16afc1e79,
+      type: 3}
+    min: 20000
+    max: 21000
+    rapidFire: 1
+    rapidFireCooldown: 0.16
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Purple Medium
+    bombPrefab: {fileID: 54929995699331496, guid: a9bf75c6c2f9d824c9c94dc55cc450b1,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 4545aa9bc2cad74409a86e4e3c2bed9b,
+      type: 3}
+    min: 20000
+    max: 21000
+    rapidFire: 1
+    rapidFireCooldown: 0.16
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Purple Big
+    bombPrefab: {fileID: 54929995699331496, guid: b20aa33fbcc0f9341bafbb0b018927eb,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: b42501c26d5c23846a97f2a67069064f,
+      type: 3}
+    min: 16500
+    max: 16500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Orange Small
+    bombPrefab: {fileID: 54929995699331496, guid: 50ec823dd4a23dd4d9de5dfa8f5104b8,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 397ccf67564205345a8bfdf09a5b5bed,
+      type: 3}
+    min: 20000
+    max: 21000
+    rapidFire: 1
+    rapidFireCooldown: 0.16
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Orange Medium
+    bombPrefab: {fileID: 54929995699331496, guid: 188c00203ec6f7f47bb714a7a7a875af,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: c5c17f834efbfd945a5e2c5c059319be,
+      type: 3}
+    min: 20000
+    max: 21000
+    rapidFire: 1
+    rapidFireCooldown: 0.16
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Laser Orange Big
+    bombPrefab: {fileID: 54929995699331496, guid: 81c4f6a987bb9b44184e51ede81129d5,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 575f1cf1c4503354a9a2e195b40e2bea,
+      type: 3}
+    min: 16500
+    max: 16500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 0
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma LightBlue Small
+    bombPrefab: {fileID: 54344322164163910, guid: 6cc183c0aaf06eb4e953092b441c6a05,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 21e04529b4352a549890236407afaa2f,
+      type: 3}
+    min: 11000
+    max: 12000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma LightBlue Medium
+    bombPrefab: {fileID: 54453457801900860, guid: 92505d387f2abfd4d88d59618a85e2af,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 8d0875cc65f86f24d84ba82b4cf2d71b,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.25
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma LightBlue Big
+    bombPrefab: {fileID: 54453457801900860, guid: 561abac2220442c4da20719a0d81371f,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 7d382bcd7b765b540af4959fc4be5179,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma PurpleHaze Small
+    bombPrefab: {fileID: 54344322164163910, guid: a1d5609ff2cc6754ab75f8c4dd567bca,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 90b7c8dcfcffb9b4181f7311f5ec0ccf,
+      type: 3}
+    min: 11000
+    max: 12000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma PurpleHaze Medium
+    bombPrefab: {fileID: 54453457801900860, guid: 44b0798f8b718d8438a4e83ab28d42a2,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 4952a84eb0a54d1499a7b15512792645,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.25
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma PurpleHaze Big
+    bombPrefab: {fileID: 54453457801900860, guid: 3037e882f52864141aea4f144d222c73,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: f8b8cd355e6bbb640876977975f66ca1,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma RagingRed Small
+    bombPrefab: {fileID: 54344322164163910, guid: 3e8f90cf5ace53541b8523ce5200cdc5,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 6a0a0f7a97e0e7747accda091cb14743,
+      type: 3}
+    min: 11000
+    max: 12000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma RagingRed Medium
+    bombPrefab: {fileID: 54453457801900860, guid: 46bf08350ee566542b0bb087e35a1020,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 033d08e548a8e0c4b85a2110d068aaa0,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma RagingRed Big
+    bombPrefab: {fileID: 54453457801900860, guid: 659fe3ff3c5cb6640a2decc431b3351b,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 3735129208580034781b585da5229bda,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma PosionGreen Small
+    bombPrefab: {fileID: 54344322164163910, guid: 53969f535551323489f9059fbe5ca740,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 8b89c403978447f4aa56b43be456dd4f,
+      type: 3}
+    min: 11000
+    max: 12000
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma PosionGreen Medium
+    bombPrefab: {fileID: 54453457801900860, guid: 918ff3ea946d5bc42920f6a004bca98a,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 333af583f4c104e4bae5f88877d2cebb,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.2
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma PosionGreen Big
+    bombPrefab: {fileID: 54453457801900860, guid: 0d589ddd2ed60394784c5add357069fa,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 8b56da22c6bc71744b3a938c65d79323,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma OceanBlue Small
+    bombPrefab: {fileID: 54344322164163910, guid: 3a341c353f340584e91f13d8ef0055e8,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: b662320d35110c4429923b52881f4828,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma OceanBlue Medium
+    bombPrefab: {fileID: 54453457801900860, guid: 7b4b488721e2ac54a873cf71cd131a14,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 1f593e474aeb78d42aa8a8f94ab4aaf8,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  - name: Plasma OceanBlue Big
+    bombPrefab: {fileID: 54453457801900860, guid: e1ea459f4762c81448d4b4d986f075a2,
+      type: 3}
+    muzzleflare: {fileID: 1000012903210382, guid: 848063b3947d8504f9cc4f48795e11e7,
+      type: 3}
+    min: 8000
+    max: 8500
+    rapidFire: 1
+    rapidFireCooldown: 0.4
+    shotgunBehavior: 0
+    shotgunPellets: 4
+    shellPrefab: {fileID: 1467181274829480, guid: 41e86fd3ee46b76448791422f9949474,
+      type: 3}
+    hasShells: 0
+  UiText: {fileID: 0}
+  UImaster: 0
+  CameraShake: 1
+  rapidFireDelay: 0
+  CameraShakeCaller: {fileID: 2223551311095451629}
+  firing: 0
+  bombType: 0
+  swarmMissileLauncher: 0
+  Torque: 0
+  Tor_min: 0
+  Tor_max: 0
+  MinorRotate: 1
+  MajorRotate: 0
+--- !u!95 &2760551582535331017
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058240963411080}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2b41a6b2321212546adc388c7a4ad000, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1730455248607410
 GameObject:
   m_ObjectHideFlags: 0
@@ -9717,6 +10436,862 @@ MonoBehaviour:
   m_SpinTurnLimit: 90
   m_TargetVelocityLowerLimit: 4
   m_SmoothTurnTime: 0.2
+--- !u!1 &6470146267703800377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146267703800376}
+  - component: {fileID: 6470146267703800378}
+  - component: {fileID: 6470146267703800379}
+  m_Layer: 0
+  m_Name: shotgunLocator6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146267703800376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146267703800377}
+  m_LocalRotation: {x: -0.017815761, y: -0.007955594, z: 0.043458953, w: 0.9988647}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00000017881393}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 6470146269015062919}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: -2, y: -1, z: 5}
+--- !u!33 &6470146267703800378
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146267703800377}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146267703800379
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146267703800377}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146267777594576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146267777594579}
+  - component: {fileID: 6470146267777594581}
+  - component: {fileID: 6470146267777594578}
+  m_Layer: 0
+  m_Name: shotgunLocator1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146267777594579
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146267777594576}
+  m_LocalRotation: {x: 0.017136648, y: -0.03504515, z: 0.0093289735, w: 0.9991953}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00000029802322}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 6470146269015062919}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 2, y: -4, z: 1}
+--- !u!33 &6470146267777594581
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146267777594576}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146267777594578
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146267777594576}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146267910765842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146267910765845}
+  - component: {fileID: 6470146267910765847}
+  - component: {fileID: 6470146267910765844}
+  m_Layer: 0
+  m_Name: shotgunLocator7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146267910765845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146267910765842}
+  m_LocalRotation: {x: -0.028082429, y: -0.009960563, z: -0.04365592, w: 0.9986022}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00000017881393}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 6470146269015062919}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: -3.265, y: -1.001, z: -4.978}
+--- !u!33 &6470146267910765847
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146267910765842}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146267910765844
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146267910765842}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146268040360056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146268040360059}
+  - component: {fileID: 6470146268040360061}
+  - component: {fileID: 6470146268040360058}
+  m_Layer: 0
+  m_Name: shotgunLocator3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146268040360059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268040360056}
+  m_LocalRotation: {x: -0.017449792, y: 0.017449792, z: 0.000304588, w: 0.9996954}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00000017881393}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 6470146269015062919}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: -2, y: 2, z: 0}
+--- !u!33 &6470146268040360061
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268040360056}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146268040360058
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268040360056}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146268265528770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146268265528773}
+  - component: {fileID: 6470146268265528775}
+  - component: {fileID: 6470146268265528772}
+  m_Layer: 0
+  m_Name: shotgunLocator0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146268265528773
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268265528770}
+  m_LocalRotation: {x: -0.033884715, y: -0.017774945, z: -0.010378414, w: 0.9992138}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00000017881393}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 6470146269015062919}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -3.9040003, y: -2, z: -1.1220001}
+--- !u!33 &6470146268265528775
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268265528770}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146268265528772
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268265528770}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146268460583288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146268460583291}
+  - component: {fileID: 6470146268460583293}
+  - component: {fileID: 6470146268460583290}
+  m_Layer: 0
+  m_Name: shotgunLocator5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146268460583291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268460583288}
+  m_LocalRotation: {x: 0.01744647, y: 0.00045685144, z: -0.026172938, w: 0.9995051}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00000017881393}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 6470146269015062919}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 2, y: 0, z: -3}
+--- !u!33 &6470146268460583293
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268460583288}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146268460583290
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268460583288}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146268578876912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146268578876915}
+  - component: {fileID: 6470146268578876917}
+  - component: {fileID: 6470146268578876914}
+  m_Layer: 0
+  m_Name: shotgunLocator4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146268578876915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268578876912}
+  m_LocalRotation: {x: 0.026167953, y: -0.026167953, z: 0.0006852313, w: 0.9993148}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00000017881393}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 6470146269015062919}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 3, y: -3, z: 0}
+--- !u!33 &6470146268578876917
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268578876912}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146268578876914
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268578876912}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146268915911049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146268915911048}
+  - component: {fileID: 6470146268915911050}
+  - component: {fileID: 6470146268915911051}
+  m_Layer: 0
+  m_Name: shotgunLocator2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146268915911048
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268915911049}
+  m_LocalRotation: {x: 0.0259386, y: 0.009405782, z: -0.026395313, w: 0.99927074}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00000017881393}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 6470146269015062919}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 3, y: 1, z: -3}
+--- !u!33 &6470146268915911050
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268915911049}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146268915911051
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146268915911049}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146269015062916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146269015062919}
+  - component: {fileID: 6470146269015062969}
+  - component: {fileID: 6470146269015062918}
+  m_Layer: 0
+  m_Name: locator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146269015062919
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146269015062916}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children:
+  - {fileID: 6470146268265528773}
+  - {fileID: 6470146267777594579}
+  - {fileID: 6470146268915911048}
+  - {fileID: 6470146268040360059}
+  - {fileID: 6470146268578876915}
+  - {fileID: 6470146268460583291}
+  - {fileID: 6470146267703800376}
+  - {fileID: 6470146267910765845}
+  m_Father: {fileID: 4982193291596370}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &6470146269015062969
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146269015062916}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146269015062918
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146269015062916}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146269143341082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146269143341085}
+  - component: {fileID: 6470146269143341087}
+  - component: {fileID: 6470146269143341084}
+  m_Layer: 0
+  m_Name: muzzleFlareLocator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146269143341085
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146269143341082}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children:
+  - {fileID: 6470146269393947277}
+  m_Father: {fileID: 4982193291596370}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!33 &6470146269143341087
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146269143341082}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146269143341084
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146269143341082}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &6470146269393947274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470146269393947277}
+  - component: {fileID: 6470146269393947279}
+  - component: {fileID: 6470146269393947276}
+  m_Layer: 0
+  m_Name: shellLocator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470146269393947277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146269393947274}
+  m_LocalRotation: {x: -0.46193898, y: 0.19134118, z: 0.33141425, w: 0.8001034}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 6470146269143341085}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -60.000004, y: 0, z: 45.000004}
+--- !u!33 &6470146269393947279
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146269393947274}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6470146269393947276
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470146269393947274}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &7307409611392621310
 GameObject:
   m_ObjectHideFlags: 0
@@ -9813,83 +11388,3 @@ Transform:
   m_Father: {fileID: 9197108371879362919}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &7815781625689773065
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 4982193291596370}
-    m_Modifications:
-    - target: {fileID: 3872436224302504834, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_Name
-      value: fire
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872436224302504836, guid: ff7515a474d344f34a1a31a3c6bf0268,
-        type: 3}
-      propertyPath: spawnLocator
-      value: 
-      objectReference: {fileID: 4982193291596370}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ff7515a474d344f34a1a31a3c6bf0268, type: 3}
---- !u!4 &6470146267743014798 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3872436224302504839, guid: ff7515a474d344f34a1a31a3c6bf0268,
-    type: 3}
-  m_PrefabInstance: {fileID: 7815781625689773065}
-  m_PrefabAsset: {fileID: 0}

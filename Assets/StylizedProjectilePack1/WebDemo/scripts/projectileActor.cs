@@ -85,11 +85,11 @@ public class projectileActor : MonoBehaviour {
         }
 
         //BULLETS
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Switch(-1);
-        }
-        if (CrossPlatformInputManager.GetButtonDown("Fire2") || Input.GetKeyDown(KeyCode.A))
+        //if (Input.GetKeyDown(KeyCode.D))
+        //{
+        //    Switch(-1);
+        //}
+        if (CrossPlatformInputManager.GetButtonDown("Fire2") /* || Input.GetKeyDown(KeyCode.A) */)
         {
             Switch(1);
         }
