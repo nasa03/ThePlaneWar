@@ -3,15 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChooseFire : SingletonManager<ChooseFire> {
-    [SerializeField] UIPopupList popupList;
+    [SerializeField] UIPopupList fireList;
+    [SerializeField] UIPopupList sizeList;
     [HideInInspector] public int index = 0;
 
     public void Choose()
     {
-        for (int i = 0; i < popupList.items.Count; i++)
+        int fireInt = GetItemsInt(fireList);
+        int sizeInt = GetItemsInt(sizeList);
+        if (fireInt < 2)
         {
-            if (popupList.value == popupList.items[i])
-                index = i;
+            if (sizeList.items.Count == 3)
+                sizeList.items.Add("Shotgun");
+
+            index = fireInt * 4 + sizeInt;
         }
+        else
+        {
+            if (sizeList.items.Count == 4)
+                sizeList.items.Remove("Shotgun");
+
+            index = 8 + (fireInt - 2) * 3 + sizeInt;
+        }
+    }
+
+    int GetItemsInt(UIPopupList list)
+    {
+        for (int i = 0; i < list.items.Count; i++)
+        {
+            if (list.value == list.items[i])
+                return i;
+        }
+
+        return 0;
     }
 }

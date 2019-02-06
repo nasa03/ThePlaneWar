@@ -112,6 +112,356 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &199989094
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 542830358}
+    m_Modifications:
+    - target: {fileID: 100002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_Name
+      value: Control - Size List
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 459
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 440
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: leftAnchor.target
+      value: 
+      objectReference: {fileID: 542830358}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: leftAnchor.relative
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: leftAnchor.absolute
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: rightAnchor.target
+      value: 
+      objectReference: {fileID: 542830358}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: rightAnchor.absolute
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: bottomAnchor.target
+      value: 
+      objectReference: {fileID: 542830358}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: bottomAnchor.relative
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: bottomAnchor.absolute
+      value: -110
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: topAnchor.target
+      value: 
+      objectReference: {fileID: 542830358}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: topAnchor.absolute
+      value: -80
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: mWidth
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: aspectRatio
+      value: 5.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: mHeight
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: onChange.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: mSelectedItem
+      value: Small
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[0]
+      value: Small
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[1]
+      value: Medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[2]
+      value: Big
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[3]
+      value: Shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[4]
+      value: DemonPurple Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[5]
+      value: Laser Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[6]
+      value: Laser Green
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[7]
+      value: Laser Blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[8]
+      value: Laser Purple
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[9]
+      value: Laser Orange
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[10]
+      value: Plasma LightBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[11]
+      value: Plasma PurpleHaze
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[12]
+      value: Plasma RagingRed
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[13]
+      value: Plasma PosionGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[14]
+      value: Plasma OceanBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[15]
+      value: Plasma PosionGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[16]
+      value: Plasma OceanBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[17]
+      value: Plasma PosionGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[18]
+      value: Plasma OceanBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[19]
+      value: Plasma PosionGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[20]
+      value: Plasma OceanBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[21]
+      value: Plasma PosionGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[22]
+      value: Plasma OceanBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[23]
+      value: Plasma PosionGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[24]
+      value: Plasma OceanBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[25]
+      value: "Plasma PosionGreen \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[26]
+      value: Plasma OceanBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[27]
+      value: P
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[28]
+      value: "Plasma OceanBlue \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[29]
+      value: "Plasma OceanBlue \uF739Medium"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[30]
+      value: "Plasma OceanBlue \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[31]
+      value: "Plasma OceanBlue \uF739Medium"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[32]
+      value: "Plasma OceanBlue \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[33]
+      value: "Plasma OceanBlue \uF739Medium"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[34]
+      value: "Plasma OceanBlue \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[35]
+      value: "Plasma OceanBlue \uF739Medium"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[36]
+      value: "Plasma OceanBlue \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[37]
+      value: "Plasma OceanBlue \uF739Medium"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[38]
+      value: "Plasma OceanBlue \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[39]
+      value: "Plasma OceanBlue \uF739Medium"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[40]
+      value: "Plasma OceanBlue \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[41]
+      value: "Plasma OceanBlue \uF739Small"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[42]
+      value: "Plasma OceanBlue \uF739Medium"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[43]
+      value: "Plasma OceanBlue \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[44]
+      value: "Plasma OceanBlue \uF739Small"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[45]
+      value: "Plasma OceanBlue \uF739Medium"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: items.Array.data[46]
+      value: "Plasma OceanBlue \uF739Big"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: bitmapFont
+      value: 
+      objectReference: {fileID: 11400000, guid: 29056518aafb01b49a5b08faf8e30cff,
+        type: 3}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: onChange.Array.data[1].mTarget
+      value: 
+      objectReference: {fileID: 954965987}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: onChange.Array.data[1].mMethodName
+      value: Choose
+      objectReference: {fileID: 0}
+    - target: {fileID: 6500000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_Size.x
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 6500000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_Center.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6500000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_Size.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: mWidth
+      value: 104
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: aspectRatio
+      value: 4.7272725
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: mText
+      value: Small
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
 --- !u!1 &229661603
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 359
+      value: 259
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_LocalPosition.y
@@ -294,7 +644,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: leftAnchor.absolute
-      value: -280
+      value: -380
       objectReference: {fileID: 0}
     - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: rightAnchor.target
@@ -302,7 +652,7 @@ PrefabInstance:
       objectReference: {fileID: 542830358}
     - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: rightAnchor.absolute
-      value: -100
+      value: -200
       objectReference: {fileID: 0}
     - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: bottomAnchor.target
@@ -330,7 +680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: aspectRatio
-      value: 6
+      value: 12.666667
       objectReference: {fileID: 0}
     - target: {fileID: 11400006, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: mHeight
@@ -338,7 +688,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.size
-      value: 47
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: onChange.Array.size
@@ -350,183 +700,183 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: mSelectedItem
-      value: 
+      value: Goldfire Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[0]
-      value: Goldfire Bullet Small
+      value: Goldfire Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[1]
-      value: Goldfire Bullet Medium
+      value: BlazingRed Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[2]
-      value: Goldfire Bullet Big
+      value: SilverFlare Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[3]
-      value: Goldfire Bullet Small Shotgun
+      value: VenomGreen Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[4]
-      value: BlazingRed Bullet Small
+      value: DemonPurple Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[5]
-      value: BlazingRed Bullet Medium
+      value: Laser Red
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[6]
-      value: BlazingRed Bullet Big
+      value: Laser Green
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[7]
-      value: BlazingRed Bullet Small Shotgun
+      value: Laser Blue
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[8]
-      value: SilverFlare Bullet Small
+      value: Laser Purple
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[9]
-      value: SilverFlare Bullet Medium
+      value: Laser Orange
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[10]
-      value: SilverFlare Bullet Big
+      value: Plasma LightBlue
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[11]
-      value: VenomGreen Bullet Small
+      value: Plasma PurpleHaze
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[12]
-      value: VenomGreen Bullet Medium
+      value: Plasma RagingRed
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[13]
-      value: VenomGreen Bullet Big
+      value: Plasma PosionGreen
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[14]
-      value: DemonPurple Bullet Small
+      value: Plasma OceanBlue
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[15]
-      value: DemonPurple Bullet Medium
+      value: Plasma PosionGreen
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[16]
-      value: DemonPurple Bullet Big
+      value: Plasma OceanBlue
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[17]
-      value: "Laser Red \uF739Small"
+      value: Plasma PosionGreen
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[18]
-      value: Laser Red Medium
+      value: Plasma OceanBlue
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[19]
-      value: Laser Red Big
+      value: Plasma PosionGreen
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[20]
-      value: "Laser Green \uF739Small"
+      value: Plasma OceanBlue
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[21]
-      value: Laser Green Medium
+      value: Plasma PosionGreen
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[22]
-      value: Laser Green Big
+      value: Plasma OceanBlue
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[23]
-      value: "Laser Blue \uF739Small"
+      value: Plasma PosionGreen
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[24]
-      value: Laser Blue Medium
+      value: Plasma OceanBlue
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[25]
-      value: Laser Blue Big
+      value: "Plasma PosionGreen \uF739Big"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[26]
-      value: "Laser Purple \uF739Small"
+      value: Plasma OceanBlue
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[27]
-      value: Laser Purple Medium
+      value: P
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[28]
-      value: Laser Purple Big
+      value: "Plasma OceanBlue \uF739Big"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[29]
-      value: "Laser Orange \uF739Small"
+      value: "Plasma OceanBlue \uF739Medium"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[30]
-      value: Laser Orange Medium
+      value: "Plasma OceanBlue \uF739Big"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[31]
-      value: Laser Orange Big
+      value: "Plasma OceanBlue \uF739Medium"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[32]
-      value: "Plasma LightBlue \uF739Small"
+      value: "Plasma OceanBlue \uF739Big"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[33]
-      value: "Plasma LightBlue \uF739Medium"
+      value: "Plasma OceanBlue \uF739Medium"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[34]
-      value: "Plasma LightBlue \uF739Big"
+      value: "Plasma OceanBlue \uF739Big"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[35]
-      value: "Plasma PurpleHaze \uF739Small"
+      value: "Plasma OceanBlue \uF739Medium"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[36]
-      value: "Plasma PurpleHaze \uF739Medium"
+      value: "Plasma OceanBlue \uF739Big"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[37]
-      value: "Plasma PurpleHaze \uF739Big"
+      value: "Plasma OceanBlue \uF739Medium"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[38]
-      value: "Plasma RagingRed \uF739Small"
+      value: "Plasma OceanBlue \uF739Big"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[39]
-      value: "Plasma RagingRed \uF739Medium"
+      value: "Plasma OceanBlue \uF739Medium"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[40]
-      value: "Plasma RagingRed \uF739Big"
+      value: "Plasma OceanBlue \uF739Big"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[41]
-      value: "Plasma PosionGreen \uF739Small"
+      value: "Plasma OceanBlue \uF739Small"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[42]
-      value: "Plasma PosionGreen \uF739Medium"
+      value: "Plasma OceanBlue \uF739Medium"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[43]
-      value: "Plasma PosionGreen \uF739Big"
+      value: "Plasma OceanBlue \uF739Big"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[44]
@@ -575,7 +925,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: mText
-      value: Goldfire Bullet Small
+      value: Goldfire Bullet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
@@ -705,6 +1055,7 @@ Transform:
   - {fileID: 229661604}
   - {fileID: 2135526006}
   - {fileID: 537985722}
+  - {fileID: 876566154}
   - {fileID: 1157519585}
   - {fileID: 998765257}
   - {fileID: 1382465371}
@@ -716,6 +1067,24 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44,
     type: 3}
   m_PrefabInstance: {fileID: 537985721}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e428c9b6087304da439ec665b56a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &876566154 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44,
+    type: 3}
+  m_PrefabInstance: {fileID: 199989094}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &876566157 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44,
+    type: 3}
+  m_PrefabInstance: {fileID: 199989094}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -754,7 +1123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd44d2f5fa44436faf47512f365a0f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popupList: {fileID: 695617939}
+  fireList: {fileID: 695617939}
+  sizeList: {fileID: 876566157}
   index: 0
 --- !u!114 &954965988
 MonoBehaviour:
@@ -938,7 +1308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: mTrueTypeFont
@@ -1081,7 +1451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: mTrueTypeFont
@@ -1224,7 +1594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: mTrueTypeFont
