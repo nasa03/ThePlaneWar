@@ -67,7 +67,7 @@ public class projectileActor : MonoBehaviour {
             projectileSimFire = 5;
         }
 
-        Switch(FindObjectOfType<ChooseFire>().index);
+        Switch(ChooseFire.Instance.index);
 	}
 	
 	// Update is called once per frame

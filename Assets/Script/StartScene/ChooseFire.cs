@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChooseFire : MonoBehaviour {
+public class ChooseFire : SingletonManager<ChooseFire> {
     [SerializeField] UIPopupList popupList;
     [HideInInspector] public int index = 0;
 
