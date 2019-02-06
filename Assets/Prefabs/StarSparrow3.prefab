@@ -35,7 +35,7 @@ Transform:
 --- !u!199 &199220483179664400
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -4646,7 +4646,7 @@ Transform:
 --- !u!199 &199742377841901072
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -9290,9 +9290,9 @@ GameObject:
   - component: {fileID: 114999083876950468}
   - component: {fileID: 114713342259604460}
   - component: {fileID: 114353408623946398}
-  - component: {fileID: 114769584536917176}
   - component: {fileID: 5232192097999546791}
   - component: {fileID: 2970417422320831800}
+  - component: {fileID: 4908079473530778871}
   m_Layer: 0
   m_Name: StarSparrow3
   m_TagString: Untagged
@@ -9516,19 +9516,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114769584536917176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1954049807403060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fa94b94e6afa7f4d86a7dfd73a9c4fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPrefab: {fileID: 4548804333099344915}
 --- !u!114 &5232192097999546791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10245,6 +10232,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4908079473530778871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954049807403060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1654e93b3c6347fa9daf21f0765948b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 4548804333099344915}
+  projectile: {fileID: 5232192097999546791}
 --- !u!1 &1646042142313447696
 GameObject:
   m_ObjectHideFlags: 0

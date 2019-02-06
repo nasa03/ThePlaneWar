@@ -66,6 +66,8 @@ public class projectileActor : MonoBehaviour {
         {
             projectileSimFire = 5;
         }
+
+        Switch(FindObjectOfType<ChooseFire>().index);
 	}
 	
 	// Update is called once per frame
@@ -85,14 +87,16 @@ public class projectileActor : MonoBehaviour {
         }
 
         //BULLETS
-        //if (Input.GetKeyDown(KeyCode.D))
-        //{
-        //    Switch(-1);
-        //}
-        if (CrossPlatformInputManager.GetButtonDown("Fire2") /* || Input.GetKeyDown(KeyCode.A) */)
+        /*
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Switch(-1);
+        }
+        if (CrossPlatformInputManager.GetButtonDown("Fire2")  || Input.GetKeyDown(KeyCode.A) )
         {
             Switch(1);
         }
+        */
 
 	    if (CrossPlatformInputManager.GetButtonDown("Fire1"))
         {
@@ -122,6 +126,7 @@ public class projectileActor : MonoBehaviour {
 
     public void Switch(int value)
     {
+        /* 
             bombType += value;
             if (bombType < 0)
             {
@@ -136,6 +141,8 @@ public class projectileActor : MonoBehaviour {
         {
             UiText.text = bombList[bombType].name.ToString();
         }
+        */
+        bombType = value;
     }
 
     public void Fire()
