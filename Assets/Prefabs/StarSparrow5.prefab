@@ -19283,8 +19283,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: 8d0875cc65f86f24d84ba82b4cf2d71b,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.25
     shotgunBehavior: 0
@@ -19297,8 +19297,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: 7d382bcd7b765b540af4959fc4be5179,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.4
     shotgunBehavior: 0
@@ -19325,8 +19325,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: 4952a84eb0a54d1499a7b15512792645,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.25
     shotgunBehavior: 0
@@ -19339,8 +19339,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: f8b8cd355e6bbb640876977975f66ca1,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.4
     shotgunBehavior: 0
@@ -19368,7 +19368,7 @@ MonoBehaviour:
     muzzleflare: {fileID: 1000012903210382, guid: 033d08e548a8e0c4b85a2110d068aaa0,
       type: 3}
     min: 8000
-    max: 8500
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.2
     shotgunBehavior: 0
@@ -19381,8 +19381,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: 3735129208580034781b585da5229bda,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.4
     shotgunBehavior: 0
@@ -19409,8 +19409,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: 333af583f4c104e4bae5f88877d2cebb,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.2
     shotgunBehavior: 0
@@ -19423,8 +19423,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: 8b56da22c6bc71744b3a938c65d79323,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.4
     shotgunBehavior: 0
@@ -19437,8 +19437,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: b662320d35110c4429923b52881f4828,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.4
     shotgunBehavior: 0
@@ -19451,8 +19451,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: 1f593e474aeb78d42aa8a8f94ab4aaf8,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.4
     shotgunBehavior: 0
@@ -19465,8 +19465,8 @@ MonoBehaviour:
       type: 3}
     muzzleflare: {fileID: 1000012903210382, guid: 848063b3947d8504f9cc4f48795e11e7,
       type: 3}
-    min: 8000
-    max: 8500
+    min: 11000
+    max: 12000
     rapidFire: 1
     rapidFireCooldown: 0.4
     shotgunBehavior: 0
@@ -19519,7 +19519,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 364858838510242182}
-  projectile: {fileID: 2410936018900109231}
 --- !u!1 &1527307004440226
 GameObject:
   m_ObjectHideFlags: 0

@@ -125,11 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 459
+      value: 23259
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 440
+      value: 30806
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_LocalPosition.z
@@ -233,7 +233,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: mSelectedItem
-      value: Small
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[0]
@@ -434,7 +434,7 @@ PrefabInstance:
       objectReference: {fileID: 954965987}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: onChange.Array.data[1].mMethodName
-      value: Choose
+      value: Size
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_Size.x
@@ -592,11 +592,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 259
+      value: 23059
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 440
+      value: 30806
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_LocalPosition.z
@@ -700,7 +700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: mSelectedItem
-      value: Goldfire Bullet
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[0]
@@ -901,7 +901,7 @@ PrefabInstance:
       objectReference: {fileID: 954965987}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: onChange.Array.data[1].mMethodName
-      value: Choose
+      value: Fire
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_Size.x
@@ -1280,11 +1280,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 99
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -413
+      value: -8097
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1423,11 +1423,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -101
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -413
+      value: -8097
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1566,11 +1566,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 414
+      value: 23214
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -413
+      value: -8097
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1937,11 +1937,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -540
+      value: -23339
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 440
+      value: 30806
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: m_LocalPosition.z
