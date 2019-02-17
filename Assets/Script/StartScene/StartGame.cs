@@ -42,6 +42,21 @@ public class StartGame : MonoBehaviour {
 
     public void OnStartButtonClick()
     {
+        //由于服务器不可用，添加临时代码
+        switch (networkList.GetComponentInChildren<UILabel>().text)
+        {
+            case "作为主机":
+                networkManager.StartHost();
+                break;
+            case "作为客户端":
+                networkManager.StartClient();
+                break;
+            case "作为服务器":
+                networkManager.StartServer();
+                break;
+        }
+
+        /*
         switch (networkList.GetComponentInChildren<UILabel>().text)
         {
             case "作为主机":
@@ -49,9 +64,9 @@ public class StartGame : MonoBehaviour {
                 break;
             case "作为客户端":
                 int index = 0;
-                for(int i=0; i<serverList.items.Count;i++)
+                for (int i = 0; i < serverList.items.Count; i++)
                 {
-                    if(serverList.value==serverList.items[i])
+                    if (serverList.GetComponentInChildren<UILabel>().text == serverList.items[i])
                     {
                         index = i;
                         break;
@@ -63,6 +78,7 @@ public class StartGame : MonoBehaviour {
                 networkManager.matchMaker.CreateMatch(ipAddress, 4, true, "", "", "", 0, 0, OnMatchCreateServer);
                 break;
         }
+        */
     }
 
     private void OnMatchesList(bool success, string extendedInfo, List<MatchInfoSnapshot> responseData)
