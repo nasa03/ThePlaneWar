@@ -731,10 +731,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 2
-  cloudProjectId: 
+  cloudProjectId: f3b815ef-1fd4-4c8e-8350-bc511b7d7e5f
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: ThePlaneWar
+  organizationId: 664235822
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

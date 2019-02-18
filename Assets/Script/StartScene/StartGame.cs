@@ -42,7 +42,7 @@ public class StartGame : MonoBehaviour {
 
     public void OnStartButtonClick()
     {
-        //由于服务器不可用，添加临时代码
+        /* 如果服务器不可用，添加临时代码
         switch (networkList.GetComponentInChildren<UILabel>().text)
         {
             case "作为主机":
@@ -55,8 +55,8 @@ public class StartGame : MonoBehaviour {
                 networkManager.StartServer();
                 break;
         }
+        */
 
-        /*
         switch (networkList.GetComponentInChildren<UILabel>().text)
         {
             case "作为主机":
@@ -78,7 +78,7 @@ public class StartGame : MonoBehaviour {
                 networkManager.matchMaker.CreateMatch(ipAddress, 4, true, "", "", "", 0, 0, OnMatchCreateServer);
                 break;
         }
-        */
+
     }
 
     private void OnMatchesList(bool success, string extendedInfo, List<MatchInfoSnapshot> responseData)
