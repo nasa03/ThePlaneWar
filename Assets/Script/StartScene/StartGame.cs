@@ -34,10 +34,14 @@ public class StartGame : MonoBehaviour {
         if (networkList.value == "作为客户端")
         {
             serverList.gameObject.SetActive(true);
-            networkManager.matchMaker.ListMatches(0, 20, "", true, 0, 0, OnMatchesList);
         }
         else
             serverList.gameObject.SetActive(false);
+    }
+
+    public void OnServerListClick()
+    {
+        networkManager.matchMaker.ListMatches(0, 20, "", true, 0, 0, OnMatchesList);
     }
 
     public void OnStartButtonClick()
