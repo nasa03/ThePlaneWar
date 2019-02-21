@@ -11,6 +11,7 @@ public class StartGame : MonoBehaviour {
     [SerializeField] NetworkManager networkManager;
     [SerializeField] UIPopupList networkList;
     [SerializeField] UIPopupList serverList;
+    [SerializeField] UIButton StartButton;
     string ipAddress = "";
     List<MatchInfoSnapshot> serverMatchList = null;
 
@@ -32,9 +33,7 @@ public class StartGame : MonoBehaviour {
     public void OnNetworkListValueChanged()
     {
         if (networkList.value == "作为客户端")
-        {
             serverList.gameObject.SetActive(true);
-        }
         else
             serverList.gameObject.SetActive(false);
     }
@@ -60,6 +59,8 @@ public class StartGame : MonoBehaviour {
                 break;
         }
         */
+
+        StartButton.isEnabled = false;
 
         switch (networkList.GetComponentInChildren<UILabel>().text)
         {
