@@ -1,14 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class MyNetworkManager : NetworkManager {
+public class MyNetworkManager : MonoBehaviourPunCallbacks {
+    [SerializeField] string gameVersion = "1";
+    [SerializeField] byte maxPlayersPerRoom = 4;
     [SerializeField] GameObject[] playerPrefabs;
 
-    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+    // Start is called before the first frame update
+    void Start()
     {
-        GameObject player = Instantiate(playerPrefabs[ChoosePlane.Instance.TotalPlaneInt], startPositions[playerControllerId].position, Quaternion.identity);
-        NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+        PhotonNetwork.GameVersion = gameVersion;
+    }
+
+    private void Awake()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinRandomRoom();
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }
 }

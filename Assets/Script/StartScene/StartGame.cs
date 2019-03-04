@@ -8,7 +8,7 @@ using System.Net;
 using System.Net.Sockets;
 
 public class StartGame : MonoBehaviour {
-    [SerializeField] NetworkManager networkManager;
+    // [SerializeField] NetworkManager networkManager;
     [SerializeField] UIPopupList networkList;
     [SerializeField] UIPopupList serverList;
     [SerializeField] UIButton StartButton;
@@ -18,7 +18,7 @@ public class StartGame : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
-        networkManager.StartMatchMaker();
+        // networkManager.StartMatchMaker();
 
         IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
         foreach (IPAddress ip in ips)
@@ -40,7 +40,7 @@ public class StartGame : MonoBehaviour {
 
     public void OnServerListClick()
     {
-        networkManager.matchMaker.ListMatches(0, 20, "", true, 0, 0, OnMatchesList);
+        // networkManager.matchMaker.ListMatches(0, 20, "", true, 0, 0, OnMatchesList);
     }
 
     public void OnStartButtonClick()
@@ -65,7 +65,7 @@ public class StartGame : MonoBehaviour {
         switch (networkList.GetComponentInChildren<UILabel>().text)
         {
             case "作为主机":
-                networkManager.matchMaker.CreateMatch(ipAddress, 4, true, "", "", "", 0, 0, OnMatchCreateHost);
+                // networkManager.matchMaker.CreateMatch(ipAddress, 4, true, "", "", "", 0, 0, OnMatchCreateHost);
                 break;
             case "作为客户端":
                 int index = 0;
@@ -77,10 +77,10 @@ public class StartGame : MonoBehaviour {
                         break;
                     }
                 }
-                networkManager.matchMaker.JoinMatch(serverMatchList[index].networkId, "", "", "", 0, 0, OnMatchJoined);
+                // networkManager.matchMaker.JoinMatch(serverMatchList[index].networkId, "", "", "", 0, 0, OnMatchJoined);
                 break;
             case "作为服务器":
-                networkManager.matchMaker.CreateMatch(ipAddress, 4, true, "", "", "", 0, 0, OnMatchCreateServer);
+                // networkManager.matchMaker.CreateMatch(ipAddress, 4, true, "", "", "", 0, 0, OnMatchCreateServer);
                 break;
         }
 
@@ -112,7 +112,7 @@ public class StartGame : MonoBehaviour {
             return;
         }
 
-        networkManager.StartHost(responseData);
+        // networkManager.StartHost(responseData);
     }
 
     private void OnMatchJoined(bool success, string extendedInfo, MatchInfo responseData)
@@ -123,7 +123,7 @@ public class StartGame : MonoBehaviour {
             return;
         }
 
-        networkManager.StartClient(responseData);
+        // networkManager.StartClient(responseData);
     }
 
 
@@ -135,6 +135,6 @@ public class StartGame : MonoBehaviour {
             return;
         }
         
-        networkManager.StartServer(responseData);
+        // networkManager.StartServer(responseData);
     }
 }
