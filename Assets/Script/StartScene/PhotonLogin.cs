@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class InputName : MonoBehaviour
+public class PhotonLogin : MonoBehaviourPunCallbacks
 {
+    [SerializeField] GameObject LoginUI;
+    [SerializeField] GameObject LobbyUI;
     [SerializeField] UIInput nameInput;
+    [SerializeField] UIButton ConnectButton;
     string playerName = string.Empty;
     const string playerNamePrefKey = "playerName";
 
@@ -16,12 +19,12 @@ public class InputName : MonoBehaviour
             playerName = PlayerPrefs.GetString(playerNamePrefKey);
     }
 
-    public void Input_OnValueChanged()
+    public void InputValueChanged()
     {
         playerName = nameInput.value;
     }
 
-    public void Button_OnClicked()
+    public void Connect()
     {
         if (string.IsNullOrEmpty(playerName))
         {
@@ -32,5 +35,16 @@ public class InputName : MonoBehaviour
         PlayerPrefs.SetString(playerNamePrefKey, playerName);
 
         PhotonNetwork.NickName = playerName;
+
+        ConnectButton.isEnabled = false;
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public override void OnConnected()
+    {
+        base.OnConnected();
+
+        LoginUI.SetActive(false);
+        LobbyUI.SetActive(true);
     }
 }
