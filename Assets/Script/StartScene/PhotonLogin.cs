@@ -9,6 +9,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
     [SerializeField] GameObject LobbyUI;
     [SerializeField] UIInput nameInput;
     [SerializeField] UIButton ConnectButton;
+    [SerializeField] UILabel IDLabel;
     string playerName = string.Empty;
     const string playerNamePrefKey = "playerName";
 
@@ -46,5 +47,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
 
         LoginUI.SetActive(false);
         LobbyUI.SetActive(true);
+
+        IDLabel.text = PlayerPrefs.GetString(playerNamePrefKey);
     }
 }
