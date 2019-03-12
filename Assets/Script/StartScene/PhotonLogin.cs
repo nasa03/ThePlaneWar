@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class PhotonLogin : MonoBehaviourPunCallbacks
 {
@@ -48,6 +49,16 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         LoginUI.SetActive(false);
         LobbyUI.SetActive(true);
 
-        IDLabel.text = PlayerPrefs.GetString(playerNamePrefKey);
+        IDLabel.text = string.Format("UserName：{0}", PlayerPrefs.GetString(playerNamePrefKey));
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+
+        ConnectButton.isEnabled = true;
+
+        LoginUI.SetActive(true);
+        LobbyUI.SetActive(false);
     }
 }
