@@ -29,10 +29,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
         foreach (RoomInfo roominfo in roomList)
         {
-            GameObject room = Instantiate(roomPrefab);
+            GameObject room = Instantiate(roomPrefab, roomGrid.transform);
             room.transform.Find("RoomID Label").GetComponent<UILabel>().text = string.Format("ID：{0}", roominfo.masterClientId);
             room.transform.Find("RoomName Label").GetComponent<UILabel>().text = string.Format("Name：{0}", roominfo.Name);
             room.GetComponent<UIDragScrollView>().scrollView = scrollView;
+            ChooseRoom.Instance.roomInfo = roominfo;
+            EventDelegate.Add(room.transform.Find("Control - Room Button").GetComponent<UIButton>().onClick, ChooseRoom.Instance.Show);
         }
 
         roomGrid.Reposition();
