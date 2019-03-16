@@ -11,7 +11,7 @@ public class MaxPlayersSlider : MonoBehaviour
 
     public void OnValueChange()
     {
-        maxPlayers = (int)(playerSlider.value * 8 + 1);
+        maxPlayers = (int)(playerSlider.value * 7 + 1);
         label.text = string.Format("人数：{0}", maxPlayers);
     }
 }
