@@ -7,17 +7,11 @@ public class MaxPlayersSlider : MonoBehaviour
     [SerializeField] UISlider playerSlider;
     [SerializeField] UILabel label;
     int maxPlayers;
-    public int MaxPlayers
-    {
-        get
-        {
-            return maxPlayers;
-        }
-    }
+    public int MaxPlayers { get { return maxPlayers; } }
 
     public void OnValueChange()
     {
-        maxPlayers = (int)(playerSlider.value * 8);
+        maxPlayers = (int)(playerSlider.value * 8 + 1);
         label.text = string.Format("人数：{0}", maxPlayers);
     }
 }
