@@ -49,7 +49,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         LoginUI.SetActive(false);
         LobbyUI.SetActive(true);
 
-        IDLabel.text = string.Format("UserName：{0}", PlayerPrefs.GetString(playerNamePrefKey));
+        IDLabel.text = string.Format("用户名：{0}", PlayerPrefs.GetString(playerNamePrefKey));
     }
 
     public override void OnDisconnected(DisconnectCause cause)

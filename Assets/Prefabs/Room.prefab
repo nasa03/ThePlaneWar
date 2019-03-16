@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 6012015344959852726}
   - component: {fileID: 6012015344959852724}
   - component: {fileID: 6012015344959852727}
+  - component: {fileID: 1781380347274715495}
   m_Layer: 8
   m_Name: Room
   m_TagString: Untagged
@@ -320,6 +321,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 450, y: 100, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1781380347274715495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6012015344959852720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924ce59ed7d18416284186532863400b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6012015343269940168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -386,6 +399,18 @@ PrefabInstance:
     - target: {fileID: 11400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: mText
       value: "\u786E\u8BA4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
+      propertyPath: onClick.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
+      propertyPath: onClick.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 1781380347274715495}
+    - target: {fileID: 11400000, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
+      propertyPath: onClick.Array.data[0].mMethodName
+      value: Choose
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}

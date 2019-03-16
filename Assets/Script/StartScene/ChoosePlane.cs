@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChoosePlane : SingletonManager<ChoosePlane> {
+public class ChoosePlane : MonoBehaviour {
     [SerializeField] GameObject[] planePrefabs;
     GameObject totalPlaneObject;
     int totalPlaneInt = 0;
