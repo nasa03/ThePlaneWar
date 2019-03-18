@@ -71,6 +71,9 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
 
-        PhotonNetwork.JoinLobby();
+        TypedLobby typedLobby = new TypedLobby();
+        typedLobby.Name = "MyLobby";
+        typedLobby.Type = LobbyType.SqlLobby;
+        PhotonNetwork.JoinLobby(typedLobby);
     }
 }
