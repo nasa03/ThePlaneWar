@@ -168,7 +168,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -207,13 +207,13 @@ MonoBehaviour:
   mColor: {r: 0.3432836, g: 0.3432836, b: 0.3432836, a: 0.36078432}
   mPivot: 4
   mWidth: 1280
-  mHeight: 1184
+  mHeight: 926
   mDepth: -2
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.081081
+  aspectRatio: 1.3822894
   mType: 2
   mFillDirection: 4
   mFillAmount: 1
@@ -262,13 +262,13 @@ MonoBehaviour:
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
   mWidth: 1280
-  mHeight: 1184
+  mHeight: 926
   mDepth: -3
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.081081
+  aspectRatio: 1.3336933
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -1201,7 +1201,7 @@ Transform:
   m_GameObject: {fileID: 542830354}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0016891892, y: 0.0016891892, z: 0.0016891892}
+  m_LocalScale: {x: 0.0021598272, y: 0.0021598272, z: 0.0021598272}
   m_Children:
   - {fileID: 229661604}
   - {fileID: 400002}
@@ -1729,6 +1729,7 @@ GameObject:
   m_Component:
   - component: {fileID: 864388915}
   - component: {fileID: 864388916}
+  - component: {fileID: 864388917}
   m_Layer: 8
   m_Name: Message Label
   m_TagString: Untagged
@@ -1820,6 +1821,18 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+--- !u!114 &864388917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864388914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff2357ed1d2146348c43624b8128b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &882783247 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135,
@@ -2748,6 +2761,18 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
+      propertyPath: onClick.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
+      propertyPath: onClick.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 954965990}
+    - target: {fileID: 11400000, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
+      propertyPath: onClick.Array.data[0].mMethodName
+      value: RefreshButtonOnClick
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
 --- !u!1 &1363707771
@@ -3265,7 +3290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -161
+      value: -160
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: m_LocalPosition.y

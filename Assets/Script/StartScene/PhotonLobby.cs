@@ -11,6 +11,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     [SerializeField] UIScrollView scrollView;
     public Join join;
     public Create create;
+    Dictionary<string, RoomInfo> roomDictionary = new Dictionary<string, RoomInfo>();
 
     [System.Serializable]
     public class Join
@@ -51,26 +52,44 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     }
     public void RefreshButtonOnClick()
     {
-        PhotonNetwork.GetCustomRoomList(PhotonNetwork.CurrentLobby, null);
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.GetCustomRoomList(PhotonNetwork.CurrentLobby, null);
+        }
     }
 
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
 
-        PhotonNetwork.GetCustomRoomList(PhotonNetwork.CurrentLobby, null);
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.GetCustomRoomList(PhotonNetwork.CurrentLobby, null);
+        }
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
 
+        foreach(RoomInfo roomInfo in roomList)
+        {
+            if (roomInfo.RemovedFromList)
+                roomDictionary.Remove(roomInfo.Name);
+            if (roomDictionary.ContainsKey(roomInfo.Name))
+                roomDictionary.Add(roomInfo.Name, roomInfo);
+            else
+                roomDictionary[roomInfo.Name] = roomInfo;
+        }
+
         roomGrid.transform.DestroyChildren();
 
-        foreach (RoomInfo roominfo in roomList)
+        foreach (RoomInfo roominfo in roomDictionary.Values)
         {
-            GameObject room = Instantiate(roomPrefab, roomGrid.transform);
-            room.transform.Find("RoomID Label").GetComponent<UILabel>().text = string.Format("ID：{0}", roominfo.masterClientId);
-            room.transform.Find("RoomName Label").GetComponent<UILabel>().text = string.Format("Name：{0}", roominfo.Name);
+            GameObject room = Instantiate(roomPrefab);
+            room.transform.parent = roomGrid.transform;
+            room.transform.localScale = Vector3.one;
+            room.transform.Find("Room ID Label").GetComponent<UILabel>().text = string.Format("ID：{0}", roominfo.masterClientId);
+            room.transform.Find("Room Name Label").GetComponent<UILabel>().text = string.Format("Name：{0}", roominfo.Name);
             room.GetComponent<UIDragScrollView>().scrollView = scrollView;
             room.GetComponent<ChooseRoom>().roomInfo = roominfo;
         }

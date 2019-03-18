@@ -21,6 +21,11 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
             playerName = PlayerPrefs.GetString(playerNamePrefKey);
     }
 
+    private void Awake()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+    }
+
     public void InputValueChanged()
     {
         playerName = nameInput.value;
@@ -60,5 +65,12 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
 
         LoginUI.SetActive(true);
         LobbyUI.SetActive(false);
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        base.OnConnectedToMaster();
+
+        PhotonNetwork.JoinLobby();
     }
 }
