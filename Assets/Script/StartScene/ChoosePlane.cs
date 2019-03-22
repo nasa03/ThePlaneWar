@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChoosePlane : MonoBehaviour {
     [SerializeField] GameObject[] planePrefabs;
     GameObject totalPlaneObject;
-    int totalPlaneInt = 0;
+    [SerializeField] [HideInInspector] int totalPlaneInt = 0;
 
     // Use this for initialization
     void Start()

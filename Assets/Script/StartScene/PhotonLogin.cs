@@ -8,6 +8,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject LoginUI;
     [SerializeField] GameObject LobbyUI;
+    [SerializeField] GameObject RoomUI;
     [SerializeField] UIInput nameInput;
     [SerializeField] UIButton ConnectButton;
     [SerializeField] UILabel IDLabel;
@@ -24,6 +25,8 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+
+        DontDestroyOnLoad(this);
     }
 
     public void InputValueChanged()
@@ -53,6 +56,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
 
         LoginUI.SetActive(false);
         LobbyUI.SetActive(true);
+        RoomUI.SetActive(false);
 
         IDLabel.text = string.Format("用户名：{0}", PlayerPrefs.GetString(playerNamePrefKey));
     }
@@ -65,8 +69,8 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
 
         LoginUI.SetActive(true);
         LobbyUI.SetActive(false);
+        RoomUI.SetActive(false);
     }
-
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
@@ -75,5 +79,23 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         typedLobby.Name = "MyLobby";
         typedLobby.Type = LobbyType.SqlLobby;
         PhotonNetwork.JoinLobby(typedLobby);
+    }
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        LoginUI.SetActive(false);
+        LobbyUI.SetActive(false);
+        RoomUI.SetActive(true);
+
+        FindObjectOfType<PhotonRoom>().Refresh();
+    }
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+
+        LoginUI.SetActive(false);
+        LobbyUI.SetActive(true);
+        RoomUI.SetActive(false);
     }
 }

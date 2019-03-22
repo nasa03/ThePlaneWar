@@ -86,16 +86,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
         roomGrid.Reposition();
     }
-    public override void OnJoinedRoom()
-    {
-        base.OnJoinedRoom();
-    }
-    public override void OnCreatedRoom()
-    {
-        base.OnCreatedRoom();
-
-        Debug.Log("Create Room");
-    }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
