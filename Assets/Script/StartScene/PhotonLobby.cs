@@ -11,7 +11,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     [SerializeField] UIScrollView scrollView;
     public Join join;
     public Create create;
-    Dictionary<string, RoomInfo> roomDictionary = new Dictionary<string, RoomInfo>();
 
     [System.Serializable]
     public class Join
@@ -71,27 +70,18 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         base.OnRoomListUpdate(roomList);
 
-        foreach(RoomInfo roomInfo in roomList)
-        {
-            if (roomInfo.RemovedFromList)
-                roomDictionary.Remove(roomInfo.Name);
-            if (roomDictionary.ContainsKey(roomInfo.Name))
-                roomDictionary.Add(roomInfo.Name, roomInfo);
-            else
-                roomDictionary[roomInfo.Name] = roomInfo;
-        }
-
         roomGrid.transform.DestroyChildren();
 
-        foreach (RoomInfo roominfo in roomDictionary.Values)
+        foreach (RoomInfo roomInfo in roomList)
         {
             GameObject room = Instantiate(roomPrefab);
             room.transform.parent = roomGrid.transform;
+            room.transform.localPosition = Vector3.zero;
             room.transform.localScale = Vector3.one;
-            room.transform.Find("Room ID Label").GetComponent<UILabel>().text = string.Format("ID：{0}", roominfo.masterClientId);
-            room.transform.Find("Room Name Label").GetComponent<UILabel>().text = string.Format("Name：{0}", roominfo.Name);
+            room.transform.Find("Room Name Label").GetComponent<UILabel>().text = string.Format("Name：{0}", roomInfo.Name);
+            room.transform.Find("Room Players Label").GetComponent<UILabel>().text= string.Format("人数：{0}/{1}", roomInfo.PlayerCount, roomInfo.MaxPlayers);
             room.GetComponent<UIDragScrollView>().scrollView = scrollView;
-            room.GetComponent<ChooseRoom>().roomInfo = roominfo;
+            room.GetComponent<ChooseRoom>().roomInfo = roomInfo;
         }
 
         roomGrid.Reposition();

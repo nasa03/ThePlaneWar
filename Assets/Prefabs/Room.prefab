@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6012015343492435985}
   - component: {fileID: 6012015343492435990}
   m_Layer: 8
-  m_Name: Room Name Label
+  m_Name: Room Players Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
-  mText: 'Name:'
+  mText: "\u4EBA\u6570\uFF1A"
   mFontSize: 20
   mFontStyle: 0
   mAlignment: 1
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 6012015343558553863}
   - component: {fileID: 6012015343558553860}
   m_Layer: 8
-  m_Name: Room ID Label
+  m_Name: Room Name Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
-  mText: 'ID:'
+  mText: "\u623F\u95F4\u540D\uFF1A"
   mFontSize: 20
   mFontStyle: 0
   mAlignment: 1
@@ -291,7 +291,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 3}
+  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
   mSpriteName: Button
   mFillCenter: 1
 --- !u!114 &6012015344959852724
@@ -398,7 +398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: mText
-      value: "\u786E\u8BA4"
+      value: "\u67E5\u770B"
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 7c3a28b051e872b448d4808cfcf9199c, type: 3}
       propertyPath: onClick.Array.size
