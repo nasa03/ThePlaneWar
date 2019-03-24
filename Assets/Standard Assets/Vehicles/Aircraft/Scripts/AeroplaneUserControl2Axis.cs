@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using Photon.Pun;
 
 namespace UnityStandardAssets.Vehicles.Aeroplane
 {
@@ -24,6 +25,9 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
 
         private void FixedUpdate()
         {
+            if (!GetComponent<PhotonView>().IsMine)
+                return;
+
             // Read input for the pitch, yaw, roll and throttle of the aeroplane.
             float roll = CrossPlatformInputManager.GetAxis("Horizontal");
             float pitch = CrossPlatformInputManager.GetAxis("Vertical");

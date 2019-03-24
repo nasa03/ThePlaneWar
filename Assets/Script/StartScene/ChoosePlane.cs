@@ -5,21 +5,14 @@ using UnityEngine;
 public class ChoosePlane : MonoBehaviour {
     [SerializeField] GameObject[] planePrefabs;
     GameObject totalPlaneObject;
-    [SerializeField] [HideInInspector] int totalPlaneInt = 0;
+    int totalPlaneInt = 0;
+    public int TotalPlaneInt { get { return totalPlaneInt; } }
 
     // Use this for initialization
     void Start()
     {
         totalPlaneObject = Instantiate(planePrefabs[totalPlaneInt], new Vector3(0, 5, 0), Quaternion.identity);
         totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
-    }
-
-    public int TotalPlaneInt
-    {
-        get
-        {
-            return totalPlaneInt;
-        }
     }
 
     public void NextPlane()

@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
+using Photon.Pun;
 
 public class projectileActor : MonoBehaviour {
 
@@ -73,6 +74,9 @@ public class projectileActor : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if (!GetComponent<PhotonView>().IsMine)
+            return;
+
         //Movement
         if(Input.GetButton("Horizontal"))
         {
