@@ -213,7 +213,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 0.00010799136
+  aspectRatio: 1.3822894
   mType: 2
   mFillDirection: 4
   mFillAmount: 1
@@ -268,7 +268,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 0.00010799136
+  aspectRatio: 1.3822894
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -974,7 +974,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &335246672
 Transform:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.IO;
 
 public class PhotonLogin : MonoBehaviourPunCallbacks
 {
@@ -13,13 +14,19 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
     [SerializeField] UIButton ConnectButton;
     [SerializeField] UILabel IDLabel;
     string playerName = string.Empty;
-    const string playerNamePrefKey = "playerName";
 
     // Start is called before the first frame update
     void Start()
     {
-        if (PlayerPrefs.HasKey(playerNamePrefKey))
-            playerName = PlayerPrefs.GetString(playerNamePrefKey);
+        if (!File.Exists(Global.path))
+            return;
+
+        FileStream stream = new FileStream(Global.path, FileMode.Open);
+        StreamReader reader = new StreamReader(stream);
+        playerName = reader.ReadToEnd();
+        nameInput.value = playerName;
+        reader.Close();
+        stream.Close();
     }
 
     private void Awake()
@@ -42,7 +49,12 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
             return;
         }
 
-        PlayerPrefs.SetString(playerNamePrefKey, playerName);
+        FileStream stream = new FileStream(Global.path, FileMode.OpenOrCreate);
+        StreamWriter writer = new StreamWriter(stream);
+        writer.Flush();
+        writer.Write(playerName);
+        writer.Close();
+        stream.Close();
 
         PhotonNetwork.NickName = playerName;
 
@@ -58,7 +70,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         LobbyUI.SetActive(true);
         RoomUI.SetActive(false);
 
-        IDLabel.text = string.Format("用户名：{0}", PlayerPrefs.GetString(playerNamePrefKey));
+        IDLabel.text = string.Format("用户名：{0}", PhotonNetwork.NickName);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
