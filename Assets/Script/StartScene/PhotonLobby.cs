@@ -9,43 +9,18 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     [SerializeField] UIGrid roomGrid;
     [SerializeField] GameObject roomPrefab;
     [SerializeField] UIScrollView scrollView;
-    public Join join;
-    public Create create;
+    [SerializeField] GameObject CreateWidget;
+    [SerializeField] UIInput nameInput;
+    [SerializeField] MaxPlayersSlider maxPlayersSlider;
+    [SerializeField] UIToggle openToggle;
 
-    [System.Serializable]
-    public class Join
+    public void CreateButtonOnclick()
     {
-        public GameObject joinWidget;
-        public UILabel nameLabel;
-        public UILabel playersLabel;
-        public UILabel openLabel;
-        [HideInInspector] public RoomInfo totalRoonInfo;
-    }
-    [System.Serializable]
-    public class Create
-    {
-        public GameObject CreateWidget;
-        public UIInput nameInput;
-        public MaxPlayersSlider maxPlayersSlider;
-        public UIToggle openToggle;
-    }
-
-    public void JoinButtonOnClick()
-    {
-        PhotonNetwork.JoinRoom(join.totalRoonInfo.Name);
-    }
-    public void CreateBottonOnclick()
-    {
-        join.joinWidget.SetActive(false);
-        create.CreateWidget.SetActive(true);
-    }
-    public void CreateEnterButtonOnclick()
-    {
-        string roomName = create.nameInput.value;
+        string roomName = nameInput.value;
 
         RoomOptions options = new RoomOptions();
-        options.MaxPlayers = (byte)create.maxPlayersSlider.MaxPlayers;
-        options.IsOpen = create.openToggle.value;
+        options.MaxPlayers = (byte)maxPlayersSlider.MaxPlayers;
+        options.IsOpen = openToggle.value;
 
         PhotonNetwork.CreateRoom(roomName, options, PhotonNetwork.CurrentLobby);
     }
