@@ -7,6 +7,7 @@ using Photon.Realtime;
 public class PhotonRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField] UIGrid playersGrid;
+    [SerializeField] UILabel UserNameLabel;
     [SerializeField] GameObject playerPrefab;
 
     public void Refresh()
@@ -27,6 +28,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         }
 
         playersGrid.Reposition();
+
+        //新排版
+        UserNameLabel.text = PhotonNetwork.NickName;
     }
 
     public void LeftRoomButtonOnClick()

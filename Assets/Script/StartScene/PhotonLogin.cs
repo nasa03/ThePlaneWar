@@ -49,10 +49,10 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
             return;
         }
 
-        FileStream stream = new FileStream(Global.path, FileMode.OpenOrCreate);
+        FileStream stream = new FileStream(Global.path, FileMode.Create);
         StreamWriter writer = new StreamWriter(stream);
-        writer.Flush();
         writer.Write(playerName);
+        writer.Flush();
         writer.Close();
         stream.Close();
 
@@ -100,6 +100,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         LobbyUI.SetActive(false);
         RoomUI.SetActive(true);
 
+        FindObjectOfType<ChoosePlane>().Show(true);
         FindObjectOfType<PhotonRoom>().Refresh();
     }
     public override void OnLeftRoom()
@@ -109,5 +110,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         LoginUI.SetActive(false);
         LobbyUI.SetActive(true);
         RoomUI.SetActive(false);
+
+        FindObjectOfType<ChoosePlane>().Show(false);
     }
 }

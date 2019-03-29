@@ -7,6 +7,7 @@ using Photon.Realtime;
 public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     [SerializeField] UIGrid roomGrid;
+    [SerializeField] UILabel emptyRoomLabel;
     [SerializeField] GameObject roomPrefab;
     [SerializeField] UIScrollView scrollView;
     [SerializeField] GameObject CreateWidget;
@@ -44,6 +45,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
+
+        if (roomList.Count == 0)
+            emptyRoomLabel.gameObject.SetActive(true);
+        else
+            emptyRoomLabel.gameObject.SetActive(false);
 
         roomGrid.transform.DestroyChildren();
 

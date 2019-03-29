@@ -11,8 +11,15 @@ public class ChoosePlane : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        totalPlaneObject = Instantiate(planePrefabs[totalPlaneInt], new Vector3(0, 5, 0), Quaternion.identity);
+        totalPlaneObject = Instantiate(planePrefabs[totalPlaneInt], new Vector3(0, 5, -15), Quaternion.Euler(0, 180, 0));
         totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
+
+        Show(false);
+    }
+
+    public void Show(bool isShow)
+    {
+        totalPlaneObject.SetActive(isShow);
     }
 
     public void NextPlane()
@@ -36,7 +43,7 @@ public class ChoosePlane : MonoBehaviour {
     void ChangePlane()
     {
         Destroy(totalPlaneObject);
-        totalPlaneObject = Instantiate(planePrefabs[totalPlaneInt], new Vector3(0, 5, 0), Quaternion.identity);
+        totalPlaneObject = Instantiate(planePrefabs[totalPlaneInt], new Vector3(0, 5, -15), Quaternion.Euler(0, 180, 0));
         totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
     }
 }
