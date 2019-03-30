@@ -8,6 +8,16 @@ public class ChoosePlane : MonoBehaviour {
     int totalPlaneInt = 0;
     public int TotalPlaneInt { get { return totalPlaneInt; } }
 
+    Vector3[] planePositions =
+    {
+        new Vector3 (0,5,-15),
+        new Vector3 (-12,5,-8),
+        new Vector3 (12,5,-8),
+        new Vector3 (-24,5,5),
+        new Vector3 (24,5,5),
+        new Vector3 (0,5,5)
+    };
+
     // Use this for initialization
     void Start()
     {

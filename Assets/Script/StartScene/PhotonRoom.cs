@@ -6,31 +6,35 @@ using Photon.Realtime;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks
 {
-    [SerializeField] UIGrid playersGrid;
-    [SerializeField] UILabel UserNameLabel;
-    [SerializeField] GameObject playerPrefab;
+    [SerializeField] UISprite[] usernameSprides;
+    [SerializeField] UIButton startGameButton;
 
     public void Refresh()
     {
-        playersGrid.transform.DestroyChildren();
+        Player localPlayer = PhotonNetwork.LocalPlayer;
+        usernameSprides[0].GetComponentInChildren<UILabel>().text = localPlayer.NickName;
 
-        foreach(Player player in PhotonNetwork.PlayerList)
+        if (localPlayer.IsMasterClient)
+            startGameButton.isEnabled = true;
+        else
+            startGameButton.isEnabled = false;
+
+        for (int i = 1; i <= PhotonNetwork.PlayerListOthers.Length; i++)
         {
-            GameObject playerObject = Instantiate(playerPrefab);
-            playerObject.transform.parent = playersGrid.transform;
-            playerObject.transform.position = Vector3.zero;
-            playerObject.transform.localScale = Vector3.one;
-            UILabel label = playerObject.transform.Find("Label").GetComponent<UILabel>();
-            label.text = player.NickName;
+            Player player = PhotonNetwork.PlayerListOthers[i - 1];
+            usernameSprides[i].GetComponentInChildren<UILabel>().text = player.NickName;
 
-            if (player.IsMasterClient) label.color = Color.red;
-            else if (player.IsLocal) label.color = Color.green;
+            if (player.IsMasterClient)
+                usernameSprides[i].GetComponentInChildren<UILabel>().effectColor = Color.red;
         }
 
-        playersGrid.Reposition();
-
-        //新排版
-        UserNameLabel.text = PhotonNetwork.NickName;
+        for (int i = 0; i < 6; i++)
+        {
+            if (i > PhotonNetwork.PlayerListOthers.Length)
+                usernameSprides[i].gameObject.SetActive(false);
+            else
+                usernameSprides[i].gameObject.SetActive(true);
+        }
     }
 
     public void LeftRoomButtonOnClick()
