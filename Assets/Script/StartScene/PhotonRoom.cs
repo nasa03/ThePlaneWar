@@ -15,9 +15,15 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         usernameSprides[0].GetComponentInChildren<UILabel>().text = localPlayer.NickName;
 
         if (localPlayer.IsMasterClient)
+        {
             startGameButton.isEnabled = true;
+            usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.red;
+        }
         else
+        {
             startGameButton.isEnabled = false;
+            usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.white;
+        }
 
         for (int i = 1; i <= PhotonNetwork.PlayerListOthers.Length; i++)
         {
@@ -25,7 +31,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
             usernameSprides[i].GetComponentInChildren<UILabel>().text = player.NickName;
 
             if (player.IsMasterClient)
-                usernameSprides[i].GetComponentInChildren<UILabel>().effectColor = Color.red;
+                usernameSprides[i].GetComponentInChildren<UILabel>().color = Color.red;
+            else
+                usernameSprides[i].GetComponentInChildren<UILabel>().color = Color.white;
         }
 
         for (int i = 0; i < 6; i++)
