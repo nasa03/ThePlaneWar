@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaxPlayersSlider : MonoBehaviour
-{
+public class MaxPlayersSlider : MonoBehaviour {
     [SerializeField] UISlider playerSlider;
     [SerializeField] UILabel label;
     int maxPlayers;

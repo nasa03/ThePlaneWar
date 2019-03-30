@@ -207,7 +207,7 @@ MonoBehaviour:
   mColor: {r: 0.3432836, g: 0.3432836, b: 0.3432836, a: 0.36078432}
   mPivot: 4
   mWidth: 1280
-  mHeight: 926
+  mHeight: 930
   mDepth: -2
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
   mWidth: 1280
-  mHeight: 926
+  mHeight: 930
   mDepth: -3
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
@@ -1168,7 +1168,7 @@ Transform:
   m_GameObject: {fileID: 542830354}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 0.0021598272, y: 0.0021598272, z: 0.0021598272}
+  m_LocalScale: {x: 0.0021505377, y: 0.0021505377, z: 0.0021505377}
   m_Children:
   - {fileID: 229661604}
   - {fileID: 400002}
@@ -2385,6 +2385,7 @@ GameObject:
   - component: {fileID: 954965990}
   - component: {fileID: 954965992}
   - component: {fileID: 954965991}
+  - component: {fileID: 954965993}
   - component: {fileID: 954965987}
   m_Layer: 0
   m_Name: Manager
@@ -2503,6 +2504,18 @@ MonoBehaviour:
   - {fileID: 190724205}
   - {fileID: 714017310}
   startGameButton: {fileID: 504255659}
+--- !u!114 &954965993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954965986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948fac19d07d647b6bc64b2bcd8830f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1011004359
 GameObject:
   m_ObjectHideFlags: 0

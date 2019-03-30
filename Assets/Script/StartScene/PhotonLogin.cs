@@ -5,8 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.IO;
 
-public class PhotonLogin : MonoBehaviourPunCallbacks
-{
+public class PhotonLogin : MonoBehaviourPunCallbacks {
     [SerializeField] GameObject LoginUI;
     [SerializeField] GameObject LobbyUI;
     [SerializeField] GameObject RoomUI;
@@ -112,5 +111,6 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         RoomUI.SetActive(false);
 
         FindObjectOfType<ChoosePlane>().Show(false);
+        FindObjectOfType<ShowPlane>().DestroyAll();
     }
 }

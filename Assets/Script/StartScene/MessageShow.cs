@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MessageShow : MonoBehaviour
-{
+public class MessageShow : MonoBehaviour {
+
     public IEnumerator Show(string message)
     {
         gameObject.SetActive(true);

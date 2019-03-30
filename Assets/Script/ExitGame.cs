@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class ExitGame : MonoBehaviour
-{
+public class ExitGame : MonoBehaviour {
+
     public void OnClick()
     {
         Application.Quit();

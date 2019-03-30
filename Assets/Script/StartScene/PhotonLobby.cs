@@ -4,8 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PhotonLobby : MonoBehaviourPunCallbacks
-{
+public class PhotonLobby : MonoBehaviourPunCallbacks {
     [SerializeField] UIGrid roomGrid;
     [SerializeField] UILabel emptyRoomLabel;
     [SerializeField] GameObject roomPrefab;

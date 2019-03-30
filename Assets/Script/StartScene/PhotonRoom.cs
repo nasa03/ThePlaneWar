@@ -4,8 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PhotonRoom : MonoBehaviourPunCallbacks
-{
+public class PhotonRoom : MonoBehaviourPunCallbacks {
     [SerializeField] UISprite[] usernameSprides;
     [SerializeField] UIButton startGameButton;
 
@@ -38,10 +37,16 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < 6; i++)
         {
-            if (i > PhotonNetwork.PlayerListOthers.Length)
-                usernameSprides[i].gameObject.SetActive(false);
-            else
+            if (i < PhotonNetwork.PlayerList.Length)
+            {
                 usernameSprides[i].gameObject.SetActive(true);
+                FindObjectOfType<ShowPlane>().Show(i, true);
+            }
+            else
+            {
+                usernameSprides[i].gameObject.SetActive(false);
+                FindObjectOfType<ShowPlane>().Show(i, false);
+            }
         }
     }
 

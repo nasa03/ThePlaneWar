@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PhotonStart : MonoBehaviour
-{
+public class PhotonStart : MonoBehaviour {
     [SerializeField] GameObject[] planePrefabs;
     [SerializeField] Transform[] groundRunwayPosotion;
     
