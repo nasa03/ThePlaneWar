@@ -8,20 +8,13 @@ using ExitGames.Client.Photon;
 public class ShowPlane : MonoBehaviourPunCallbacks {
     GameObject[] otherPlaneObject = new GameObject[5];
 
-    public void Show(int PlayerInt, bool isShow)
+    public void Show(int PlayerInt)
     {
         if (PlayerInt == 0)
             return;
 
-        if (isShow)
-        {
-            otherPlaneObject[PlayerInt - 1] = Instantiate(FindObjectOfType<ChoosePlane>().planePrefabs[0], Global.planePositions[PlayerInt], Quaternion.Euler(0, 180, 0));
-            otherPlaneObject[PlayerInt - 1].transform.localScale = new Vector3(5, 5, 5);
-        }
-        else
-        {
-            Destroy(otherPlaneObject[PlayerInt - 1]);
-        }
+        otherPlaneObject[PlayerInt - 1] = Instantiate(FindObjectOfType<ChoosePlane>().planePrefabs[0], Global.planePositions[PlayerInt], Quaternion.Euler(0, 180, 0));
+        otherPlaneObject[PlayerInt - 1].transform.localScale = new Vector3(5, 5, 5);
     }
 
     public void DestroyAll()
