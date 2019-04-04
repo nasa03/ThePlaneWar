@@ -52,6 +52,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
     public void StartGameButtonOnClick()
     {
         PhotonNetwork.LoadLevel(1);
+        startGameButton.isEnabled = false;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
