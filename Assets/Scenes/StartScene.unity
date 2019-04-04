@@ -168,7 +168,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: -969, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -206,14 +206,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 0.3432836, g: 0.3432836, b: 0.3432836, a: 0.36078432}
   mPivot: 4
-  mWidth: 1280
-  mHeight: 926
+  mWidth: 34135
+  mHeight: 21385
   mDepth: -2
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.3822894
+  aspectRatio: 1.5962123
   mType: 2
   mFillDirection: 4
   mFillAmount: 1
@@ -261,14 +261,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
-  mWidth: 1280
-  mHeight: 926
+  mWidth: 34135
+  mHeight: 21385
   mDepth: -3
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.3822894
+  aspectRatio: 1.5962123
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -4803,6 +4803,86 @@ PrefabInstance:
       propertyPath: m_Name
       value: Control - Fire Popup List
       objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: onChange.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[0]
+      value: Goldfire Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: mSelectedItem
+      value: Goldfire Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[2]
+      value: SilverFlare Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[1]
+      value: BlazingRed Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[3]
+      value: VenomGreen Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[4]
+      value: DemonPurple Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[5]
+      value: Laser Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[6]
+      value: Laser Green
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[7]
+      value: Laser Blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[8]
+      value: Laser Purple
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[9]
+      value: Laser Orange
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[10]
+      value: Plasma LightBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[11]
+      value: Plasma PurpleHaze
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[12]
+      value: Plasma RagingRed
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[13]
+      value: Plasma PosionGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: items.Array.data[14]
+      value: Plasma OceanBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: onChange.Array.data[1].mTarget
+      value: 
+      objectReference: {fileID: 954965987}
+    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: onChange.Array.data[1].mMethodName
+      value: Fire
+      objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: m_LocalPosition.x
       value: -560
@@ -4898,86 +4978,6 @@ PrefabInstance:
     - target: {fileID: 11400010, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: mHeight
       value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.size
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: onChange.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[0]
-      value: Goldfire Bullet
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: mSelectedItem
-      value: Goldfire Bullet
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[2]
-      value: SilverFlare Bullet
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[1]
-      value: BlazingRed Bullet
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[3]
-      value: VenomGreen Bullet
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[4]
-      value: DemonPurple Bullet
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[5]
-      value: Laser Red
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[6]
-      value: Laser Green
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[7]
-      value: Laser Blue
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[8]
-      value: Laser Purple
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[9]
-      value: Laser Orange
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[10]
-      value: Plasma LightBlue
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[11]
-      value: Plasma PurpleHaze
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[12]
-      value: Plasma RagingRed
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[13]
-      value: Plasma PosionGreen
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: items.Array.data[14]
-      value: Plasma OceanBlue
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: onChange.Array.data[1].mTarget
-      value: 
-      objectReference: {fileID: 954965987}
-    - target: {fileID: 11400004, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
-      propertyPath: onChange.Array.data[1].mMethodName
-      value: Fire
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: m_Size.x
@@ -5178,7 +5178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 101
+      value: -869
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: m_LocalPosition.z

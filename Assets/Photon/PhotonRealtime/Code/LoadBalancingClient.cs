@@ -690,6 +690,10 @@ namespace Photon.Realtime
         {
             this.DisconnectedCause = DisconnectCause.None;
 
+            #if UNITY_WEBGL
+            SocketWebTcp.SerializationProtocol = Enum.GetName(typeof(SerializationProtocol), this.LoadBalancingPeer.SerializationProtocolType);
+            #endif
+
             if (this.LoadBalancingPeer.Connect(this.MasterServerAddress, this.AppId, this.TokenForInit))
             {
                 this.State = ClientState.ConnectingToMasterserver;
@@ -717,6 +721,10 @@ namespace Photon.Realtime
         {
             this.IsUsingNameServer = true;
             this.CloudRegion = null;
+
+            #if UNITY_WEBGL
+            SocketWebTcp.SerializationProtocol = Enum.GetName(typeof(SerializationProtocol), this.LoadBalancingPeer.SerializationProtocolType);
+            #endif
 
             if (this.AuthMode == AuthModeOption.AuthOnceWss)
             {
@@ -749,6 +757,10 @@ namespace Photon.Realtime
 
             this.LoadBalancingPeer.Disconnect();
             this.CloudRegion = region;
+
+            #if UNITY_WEBGL
+            SocketWebTcp.SerializationProtocol = Enum.GetName(typeof(SerializationProtocol), this.LoadBalancingPeer.SerializationProtocolType);
+            #endif
 
             if (this.AuthMode == AuthModeOption.AuthOnceWss)
             {
@@ -1643,7 +1655,10 @@ namespace Photon.Realtime
             if (this.CurrentRoom != null && gameProperties != null)
             {
                 this.CurrentRoom.InternalCacheProperties(gameProperties);
-                this.InRoomCallbackTargets.OnRoomPropertiesUpdate(gameProperties);
+                if (this.InRoom)
+                {
+                    this.InRoomCallbackTargets.OnRoomPropertiesUpdate(gameProperties);
+                }
             }
 
             if (actorProperties != null && actorProperties.Count > 0)
@@ -1681,9 +1696,7 @@ namespace Photon.Realtime
                             target = this.CreatePlayer(newName, actorNr, false, props);
                             this.CurrentRoom.StorePlayer(target);
                         }
-
                         target.InternalCacheProperties(props);
-                        this.InRoomCallbackTargets.OnPlayerPropertiesUpdate(target, props);
                     }
                 }
             }

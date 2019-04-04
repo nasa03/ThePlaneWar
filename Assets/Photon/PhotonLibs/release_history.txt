@@ -8,9 +8,16 @@ https://doc.photonengine.com
 http://forum.photonengine.com
 
 
-*** Version 4.1.2.9 (13. February 2019 - rev4985)
-    Removed: Name set for internally used Threads. This was used for debugging only (since a while) but caused issues on a console platform (due to an issue in Unity IL2CPP exports).
+*** Version 4.1.2.10 (11. March 2019 - rev5023)
+    Fixed: A timeout issue for WS / WSS transport protocols by sending a ping.
+LoadBalancing:
+    Changed: The cached "best region" is cleared whenever a region's pinging finishes. This fixes a potential issue when the BestRegion value is used before the pinging is done. Then, you end up with a wrong selection.
 
+
+*** Version 4.1.2.9 (20. February 2019 - rev5003)
+    Note: Release .Net and Unity SDK from our page. 
+*** Version 4.1.2.9 (13. February 2019 - rev4985)
+    Removed: Setting of Thread.Name for internally used threads. This was used for debugging only (since a while) but caused issues on a console platform (due to an issue in Unity IL2CPP exports).
 
 *** Version 4.1.2.8 (31. January 2019 - rev4975)
     Fixed: The cap for the lastRoundtripTime. When the current roundTripTime was very low this meant the rtt wasn't going up again. This was a problem with local servers.

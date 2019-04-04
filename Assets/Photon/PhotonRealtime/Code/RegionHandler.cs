@@ -79,19 +79,10 @@ namespace Photon.Realtime
                     return this.bestRegionCache;
                 }
 
-                Region result = null;
-                int bestRtt = Int32.MaxValue;
-                foreach (Region region in this.EnabledRegions)
-                {
-                    if (region.Ping != 0 && region.Ping < bestRtt)
-                    {
-                        bestRtt = region.Ping;
-                        result = region;
-                    }
-                }
+                this.EnabledRegions.Sort((a, b) => { return (a.Ping == b.Ping) ? 0 : (a.Ping < b.Ping) ? -1 : 1; });
 
-                this.bestRegionCache = result;
-                return result;
+                this.bestRegionCache = this.EnabledRegions[0];
+                return this.bestRegionCache;
             }
         }
 
@@ -259,6 +250,7 @@ namespace Photon.Realtime
 
         private void OnRegionDone(Region region)
         {
+            this.bestRegionCache = null;
             foreach (RegionPinger pinger in this.pingerList)
             {
                 if (!pinger.Done)
@@ -501,7 +493,7 @@ namespace Photon.Realtime
             #endif
 
             this.Done = true;
-            Debug.Log(this.region.ToString());
+            //Debug.Log(this.region.ToString());
             this.onDoneCall(this.region);
             yield return null;
         }

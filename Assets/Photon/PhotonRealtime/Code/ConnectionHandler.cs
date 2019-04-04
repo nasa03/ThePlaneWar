@@ -78,7 +78,7 @@ namespace Photon.Realtime
         {
             //Debug.Log("OnApplicationQuit");
             this.StopFallbackSendAckThread();
-            if (this.Client != null)
+            if (this.Client != null && this.Client.IsConnected)
             {
                 this.Client.Disconnect();
                 this.Client.LoadBalancingPeer.StopThread();

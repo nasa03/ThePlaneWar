@@ -143,31 +143,17 @@ namespace Photon.Chat
                     }
                 }
                 object temp;
-                if (this.properties.ContainsKey(ChannelWellKnownProperties.PublishSubscribers))
+                if (this.properties.TryGetValue(ChannelWellKnownProperties.PublishSubscribers, out temp))
                 {
-                    temp = this.properties[ChannelWellKnownProperties.PublishSubscribers];
-                    this.PublishSubscribers = temp != null && (bool)temp;
+                    this.PublishSubscribers = (bool)temp;
                 }
-                if (this.properties.ContainsKey(ChannelWellKnownProperties.MaxSubscribers))
+                if (this.properties.TryGetValue(ChannelWellKnownProperties.MaxSubscribers, out temp))
                 {
-                    temp = this.properties[ChannelWellKnownProperties.MaxSubscribers];
-                    if (temp == null)
-                    {
-                        this.MaxSubscribers = 0;
-                    }
-                    else
-                    {
-                        this.MaxSubscribers = (int)temp;
-                    }
+                    this.MaxSubscribers = (int)temp;
                 }
             }
         }
-
-        internal bool TryAddSubscriber(string user)
-        {
-            return !string.IsNullOrEmpty(user) && !this.Subscribers.Contains(user) && this.Subscribers.Add(user);
-        }
-
+        
         internal void AddSubscribers(string[] users)
         {
             if (users == null)
@@ -176,7 +162,15 @@ namespace Photon.Chat
             }
             for (int i = 0; i < users.Length; i++)
             {
-                this.TryAddSubscriber(users[i]);
+                this.Subscribers.Add(users[i]);
+            }
+        }
+        
+        internal void ClearProperties()
+        {
+            if (this.properties != null && this.properties.Count > 0)
+            {
+                this.properties.Clear();
             }
         }
     }

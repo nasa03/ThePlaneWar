@@ -441,10 +441,10 @@ namespace Photon.Pun.Demo.Cockpit
 
         public void CreateRoom()
         {
-            this.CreateRoom("");
+            this.CreateRoom(null, null, LobbyType.Default);
         }
 
-        public void CreateRoom(string roomName, string lobbyName = "myLobby", LobbyType lobbyType = LobbyType.SqlLobby, string[] expectedUsers = null)
+        public void CreateRoom(string roomName, string lobbyName = "MyLobby", LobbyType lobbyType = LobbyType.SqlLobby, string[] expectedUsers = null)
         {
 			if (debug) Debug.Log("PunCockpit:CreateRoom roomName:" + roomName + " lobbyName:" + lobbyName + " lobbyType:" + lobbyType + " expectedUsers:" + (expectedUsers == null ? "null" : expectedUsers.ToStringFull()));
 
