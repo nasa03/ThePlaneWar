@@ -28,19 +28,19 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
         for (int i = 1; i < 6; i++)
             usernameSprides[i].gameObject.SetActive(false);
 
-        for (int i = 1; i <= PhotonNetwork.PlayerListOthers.Length; i++)
+        for (int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
         {
-            Player player = PhotonNetwork.PlayerListOthers[i - 1];
+            Player player = PhotonNetwork.PlayerListOthers[i];
 
-            usernameSprides[i].gameObject.SetActive(true);
-            usernameSprides[i].GetComponentInChildren<UILabel>().text = player.NickName;
+            usernameSprides[i + 1].gameObject.SetActive(true);
+            usernameSprides[i + 1].GetComponentInChildren<UILabel>().text = player.NickName;
 
             FindObjectOfType<ShowPlane>().Show(i);
 
             if (player.IsMasterClient)
-                usernameSprides[i].GetComponentInChildren<UILabel>().color = Color.red;
+                usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.red;
             else
-                usernameSprides[i].GetComponentInChildren<UILabel>().color = Color.white;
+                usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.white;
         }
     }
 

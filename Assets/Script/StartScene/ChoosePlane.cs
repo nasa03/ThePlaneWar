@@ -17,6 +17,13 @@ public class ChoosePlane : MonoBehaviour {
         {
             totalPlaneObject = Instantiate(planePrefabs[totalPlaneInt], Global.planePositions[0], Quaternion.Euler(0, 180, 0));
             totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
+
+            if (keyValuePairs.ContainsKey("totalPlaneInt"))
+                keyValuePairs["totalPlaneInt"] = totalPlaneInt;
+            else
+                keyValuePairs.Add("totalPlaneInt", totalPlaneInt);
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(keyValuePairs);
         }
         else
         {

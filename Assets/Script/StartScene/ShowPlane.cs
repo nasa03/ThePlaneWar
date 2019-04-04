@@ -10,11 +10,12 @@ public class ShowPlane : MonoBehaviourPunCallbacks {
 
     public void Show(int PlayerInt)
     {
-        if (PlayerInt == 0)
-            return;
+        Player player = PhotonNetwork.PlayerListOthers[PlayerInt];
+        Hashtable keyValuePairs = player.CustomProperties;
+        int planeInt = (int)keyValuePairs["totalPlaneInt"];
 
-        otherPlaneObject[PlayerInt - 1] = Instantiate(FindObjectOfType<ChoosePlane>().planePrefabs[0], Global.planePositions[PlayerInt], Quaternion.Euler(0, 180, 0));
-        otherPlaneObject[PlayerInt - 1].transform.localScale = new Vector3(5, 5, 5);
+        otherPlaneObject[PlayerInt] = Instantiate(FindObjectOfType<ChoosePlane>().planePrefabs[planeInt], Global.planePositions[PlayerInt + 1], Quaternion.Euler(0, 180, 0));
+        otherPlaneObject[PlayerInt].transform.localScale = new Vector3(5, 5, 5);
     }
 
     public void DestroyAll()
