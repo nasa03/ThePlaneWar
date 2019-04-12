@@ -101,6 +101,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
 
         FindObjectOfType<ChoosePlane>().Show(true);
         FindObjectOfType<PhotonRoom>().Refresh();
+        FindObjectOfType<PhotonRoom>().EnterRoom();
     }
     public override void OnLeftRoom()
     {

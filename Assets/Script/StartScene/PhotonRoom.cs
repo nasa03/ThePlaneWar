@@ -3,10 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks {
+    [SerializeField] UILabel roomLabel;
+    [SerializeField] UILabel playersLabel;
+    [SerializeField] UIToggle openToggle;
     [SerializeField] UISprite[] usernameSprides;
     [SerializeField] UIButton startGameButton;
+
+    public void EnterRoom()
+    {
+        roomLabel.text = string.Format("房间名：{0}", PhotonNetwork.CurrentRoom.Name);
+        playersLabel.text = string.Format("人数：{0}/{1}", PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
+        openToggle.value = PhotonNetwork.CurrentRoom.IsOpen;
+        openToggle.GetComponent<UIButton>().isEnabled = PhotonNetwork.LocalPlayer.IsMasterClient;
+    }
 
     public void Refresh()
     {
@@ -44,6 +56,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
         }
     }
 
+    public void OpenToggleValueChanged()
+    {
+        PhotonNetwork.CurrentRoom.IsOpen = openToggle.value;
+    }
+
     public void LeftRoomButtonOnClick()
     {
         PhotonNetwork.LeaveRoom();
@@ -60,6 +77,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
         base.OnPlayerEnteredRoom(newPlayer);
 
         Refresh();
+        EnterRoom();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -67,5 +85,13 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
         base.OnPlayerLeftRoom(otherPlayer);
 
         Refresh();
+        EnterRoom();
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+
+        openToggle.value = PhotonNetwork.CurrentRoom.IsOpen;
     }
 }
