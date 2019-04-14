@@ -411,7 +411,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 28244966}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 400, y: 346, z: 0}
+  m_LocalPosition: {x: 470, y: 344, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1987522894}
@@ -435,7 +435,7 @@ MonoBehaviour:
   leftAnchor:
     target: {fileID: 542830358}
     relative: 1
-    absolute: -480
+    absolute: -340
   rightAnchor:
     target: {fileID: 542830358}
     relative: 1
@@ -443,22 +443,22 @@ MonoBehaviour:
   bottomAnchor:
     target: {fileID: 542830358}
     relative: 1
-    absolute: -235
+    absolute: -240
   topAnchor:
     target: {fileID: 542830358}
     relative: 1
-    absolute: -1
+    absolute: 0
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 480
-  mHeight: 234
+  mWidth: 340
+  mHeight: 240
   mDepth: 0
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 2.0512822
+  aspectRatio: 1.4166666
 --- !u!1 &47829226
 GameObject:
   m_ObjectHideFlags: 0
@@ -4547,12 +4547,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftAnchor:
     target: {fileID: 28244967}
-    relative: 0.5
-    absolute: -200
+    relative: 0
+    absolute: 33
   rightAnchor:
     target: {fileID: 28244967}
-    relative: 0.5
-    absolute: -80
+    relative: 0
+    absolute: 153
   bottomAnchor:
     target: {fileID: 28244967}
     relative: 1
@@ -4611,7 +4611,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550028687}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -140, y: 0, z: 0}
+  m_LocalPosition: {x: -77, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 28244967}
@@ -5903,12 +5903,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftAnchor:
     target: {fileID: 28244967}
-    relative: 0.5
-    absolute: -200
+    relative: 0
+    absolute: 34
   rightAnchor:
     target: {fileID: 28244967}
-    relative: 0.5
-    absolute: 200
+    relative: 0
+    absolute: 334
   bottomAnchor:
     target: {fileID: 28244967}
     relative: 1
@@ -5920,14 +5920,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 400
+  mWidth: 300
   mHeight: 40
   mDepth: 1
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 10
+  aspectRatio: 7.5
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
@@ -5967,7 +5967,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987522892}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 52, z: 0}
+  m_LocalPosition: {x: 14, y: 55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 28244967}
@@ -6097,11 +6097,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -200
+      value: -137
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -54
+      value: -51
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6157,7 +6157,7 @@ PrefabInstance:
       objectReference: {fileID: 28244967}
     - target: {fileID: 11400010, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: leftAnchor.absolute
-      value: -200
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 11400010, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: rightAnchor.target
@@ -6165,11 +6165,11 @@ PrefabInstance:
       objectReference: {fileID: 28244967}
     - target: {fileID: 11400010, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: rightAnchor.relative
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400010, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: rightAnchor.absolute
-      value: 100
+      value: 333
       objectReference: {fileID: 0}
     - target: {fileID: 11400010, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: bottomAnchor.target
@@ -6197,7 +6197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400010, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: leftAnchor.relative
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: m_Size.y
