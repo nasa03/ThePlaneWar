@@ -44,7 +44,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
     {
         if (string.IsNullOrEmpty(playerName))
         {
-            Debug.Log("姓名为空！");
+            StartCoroutine(FindObjectOfType<MessageShow>().Show("ID为空！"));
             return;
         }
 
@@ -77,6 +77,8 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         base.OnDisconnected(cause);
 
         ConnectButton.isEnabled = true;
+
+        StartCoroutine(FindObjectOfType<MessageShow>().Show("已断开连接！"));
 
         LoginUI.SetActive(true);
         LobbyUI.SetActive(false);

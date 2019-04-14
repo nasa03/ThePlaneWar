@@ -18,6 +18,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
     {
         string roomName = nameInput.value;
 
+        if (string.IsNullOrEmpty(roomName))
+        {
+            StartCoroutine(FindObjectOfType<MessageShow>().Show("房间名为空!"));
+            return;
+        }
+
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = (byte)maxPlayersSlider.MaxPlayers;
         options.IsOpen = openToggle.value;
@@ -55,6 +61,10 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
         foreach (RoomInfo roomInfo in roomList)
         {
             GameObject room = Instantiate(roomPrefab);
+
+            if (!roomInfo.IsOpen)
+                continue;
+
             room.transform.parent = roomGrid.transform;
             room.transform.localPosition = Vector3.zero;
             room.transform.localScale = Vector3.one;
@@ -70,12 +80,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
     {
         base.OnJoinRoomFailed(returnCode, message);
 
-        StartCoroutine(FindObjectOfType<MessageShow>().Show(message));
+        StartCoroutine(FindObjectOfType<MessageShow>().Show("加入房间失败!"));
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         base.OnCreateRoomFailed(returnCode, message);
 
-        StartCoroutine(FindObjectOfType<MessageShow>().Show(message));
+        StartCoroutine(FindObjectOfType<MessageShow>().Show("创建房间失败！"));
     }
 }
