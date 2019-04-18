@@ -19487,7 +19487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
 --- !u!114 &3302985814982114415
 MonoBehaviour:
   m_ObjectHideFlags: 0

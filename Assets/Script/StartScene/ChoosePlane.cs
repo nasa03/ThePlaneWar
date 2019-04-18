@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using ExitGames.Client.Photon;
 
 public class ChoosePlane : MonoBehaviour {
     public GameObject[] planePrefabs;
     GameObject totalPlaneObject;
     int totalPlaneInt = 0;
+    int totalPlayerInt = 0;
     public int TotalPlaneInt { get { return totalPlaneInt; } }
+    public int TotalPlayerInt { get { return totalPlayerInt; } }
     Hashtable keyValuePairs = new Hashtable();
 
     public void Show(bool isShow)
@@ -61,5 +64,16 @@ public class ChoosePlane : MonoBehaviour {
             keyValuePairs.Add("totalPlaneInt", totalPlaneInt);
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(keyValuePairs);
+    }
+
+    public void SetPlayerInt(Player localPlayer)
+    {
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+            if (localPlayer == PhotonNetwork.PlayerList[i])
+            {
+                totalPlayerInt = i;
+            }
+        }
     }
 }

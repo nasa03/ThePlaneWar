@@ -11,6 +11,7 @@ public class PhotonStart : MonoBehaviour {
     void Start()
     {
         int planeInt = FindObjectOfType<ChoosePlane>().TotalPlaneInt;
-        PhotonNetwork.Instantiate(planePrefabs[planeInt].name, groundRunwayPosotion[Random.Range(0, groundRunwayPosotion.Length)].position + new Vector3(0, 10, 0), Quaternion.identity);
+        int playerInt = FindObjectOfType<ChoosePlane>().TotalPlayerInt;
+        PhotonNetwork.Instantiate(planePrefabs[planeInt].name, groundRunwayPosotion[playerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using ExitGames.Client.Photon;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks {
     [SerializeField] UILabel roomLabel;
@@ -35,6 +34,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
             startGameButton.isEnabled = false;
             usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.white;
         }
+
+        FindObjectOfType<ChoosePlane>().SetPlayerInt(localPlayer);
 
         FindObjectOfType<ShowPlane>().DestroyAll();
         for (int i = 1; i < 6; i++)
