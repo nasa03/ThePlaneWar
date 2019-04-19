@@ -64,7 +64,10 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
 
     public void LeftRoomButtonOnClick()
     {
-        PhotonNetwork.LeaveRoom();
+        if (!FindObjectOfType<OfflineMode>().IsOffline)
+            PhotonNetwork.LeaveRoom();
+        else
+            PhotonNetwork.Disconnect();
     }
 
     public void StartGameButtonOnClick()

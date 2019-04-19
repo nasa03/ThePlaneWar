@@ -37,6 +37,10 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
             PhotonNetwork.GetCustomRoomList(PhotonNetwork.CurrentLobby, null);
         }
     }
+    public void DisconnectButtonOnClick()
+    {
+        PhotonNetwork.Disconnect();
+    }
 
     public override void OnJoinedLobby()
     {

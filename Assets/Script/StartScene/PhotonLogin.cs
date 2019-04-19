@@ -58,7 +58,10 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         PhotonNetwork.NickName = playerName;
 
         ConnectButton.isEnabled = false;
-        PhotonNetwork.ConnectUsingSettings();
+        if (!FindObjectOfType<OfflineMode>().IsOffline)
+            PhotonNetwork.ConnectUsingSettings();
+        else
+            PhotonNetwork.OfflineMode = true;
     }
 
     public override void OnConnected()
@@ -88,10 +91,17 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
     {
         base.OnConnectedToMaster();
 
-        TypedLobby typedLobby = new TypedLobby();
-        typedLobby.Name = "MyLobby";
-        typedLobby.Type = LobbyType.SqlLobby;
-        PhotonNetwork.JoinLobby(typedLobby);
+        if (!PhotonNetwork.OfflineMode)
+        {
+            TypedLobby typedLobby = new TypedLobby();
+            typedLobby.Name = "MyLobby";
+            typedLobby.Type = LobbyType.SqlLobby;
+            PhotonNetwork.JoinLobby(typedLobby);
+        }
+        else
+        {
+            PhotonNetwork.CreateRoom("离线模式房间");
+        }
     }
     public override void OnJoinedRoom()
     {
