@@ -165,7 +165,7 @@ public class projectileActor : MonoBehaviour {
         recoilAnimator.SetTrigger("recoil_trigger");
 
         Rigidbody rocketInstance;
-        rocketInstance = Instantiate(bombList[bombType].bombPrefab, spawnLocator.position,spawnLocator.rotation) as Rigidbody;
+        rocketInstance = PhotonNetwork.Instantiate(bombList[bombType].bombPrefab.name, spawnLocator.position, spawnLocator.rotation).GetComponent<Rigidbody>();
         // Quaternion.Euler(0,90,0)
         rocketInstance.AddForce(spawnLocator.forward * Random.Range(bombList[bombType].min, bombList[bombType].max));
 
@@ -174,7 +174,7 @@ public class projectileActor : MonoBehaviour {
             for(int i = 0; i < bombList[bombType].shotgunPellets ;i++ )
             {
                 Rigidbody rocketInstanceShotgun;
-                rocketInstanceShotgun = Instantiate(bombList[bombType].bombPrefab, shotgunLocator[i].position, shotgunLocator[i].rotation) as Rigidbody;
+                rocketInstanceShotgun = PhotonNetwork.Instantiate(bombList[bombType].bombPrefab.name, shotgunLocator[i].position, shotgunLocator[i].rotation).GetComponent<Rigidbody>();
                 // Quaternion.Euler(0,90,0)
                 rocketInstanceShotgun.AddForce(shotgunLocator[i].forward * Random.Range(bombList[bombType].min, bombList[bombType].max));
             }
