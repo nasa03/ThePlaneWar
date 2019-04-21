@@ -6,11 +6,9 @@ using Photon.Pun;
 public class OfflineMode : MonoBehaviour
 {
     [SerializeField] UIToggle toggle;
-    bool isOffline = false;
-    public bool IsOffline { get { return isOffline;} }
 
     public void OnValueChange()
     {
-        isOffline = toggle.value;
+        Global.isOffline = toggle.value;
     }
 }

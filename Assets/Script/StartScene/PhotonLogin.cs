@@ -26,13 +26,14 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         nameInput.value = playerName;
         reader.Close();
         stream.Close();
+
+        if (Global.inGame)
+            PhotonNetwork.Disconnect();
     }
 
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-
-        DontDestroyOnLoad(this);
     }
 
     public void InputValueChanged()
@@ -58,10 +59,12 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         PhotonNetwork.NickName = playerName;
 
         ConnectButton.isEnabled = false;
-        if (!FindObjectOfType<OfflineMode>().IsOffline)
+        if (!Global.isOffline)
             PhotonNetwork.ConnectUsingSettings();
         else
             PhotonNetwork.OfflineMode = true;
+
+        Global.inGame = false;
     }
 
     public override void OnConnected()
@@ -78,6 +81,12 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
+
+        if (Global.inGame)
+        {
+            Connect();
+            return;
+        }
 
         ConnectButton.isEnabled = true;
 

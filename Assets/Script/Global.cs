@@ -14,4 +14,9 @@ public static class Global {
         new Vector3 (24,5,5),
         new Vector3 (0,5,5)
     };
+
+    public static int totalPlaneInt = 0;
+    public static int totalPlayerInt = 0;
+    public static bool isOffline = false;
+    public static bool inGame = false;
 }

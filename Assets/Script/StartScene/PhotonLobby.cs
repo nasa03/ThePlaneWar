@@ -72,7 +72,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
             room.transform.parent = roomGrid.transform;
             room.transform.localPosition = Vector3.zero;
             room.transform.localScale = Vector3.one;
-            room.transform.Find("Room Name Label").GetComponent<UILabel>().text = string.Format("Name：{0}", roomInfo.Name);
+            room.transform.Find("Room Name Label").GetComponent<UILabel>().text = string.Format("房间名：{0}", roomInfo.Name);
             room.transform.Find("Room Players Label").GetComponent<UILabel>().text= string.Format("人数：{0}/{1}", roomInfo.PlayerCount, roomInfo.MaxPlayers);
             room.GetComponent<UIDragScrollView>().scrollView = scrollView;
             room.GetComponent<ChooseRoom>().roomInfo = roomInfo;
