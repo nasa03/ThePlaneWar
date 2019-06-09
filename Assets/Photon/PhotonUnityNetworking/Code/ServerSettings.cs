@@ -57,7 +57,6 @@ namespace Photon.Pun
             this.AppSettings.AppIdRealtime = cloudAppid;
             this.AppSettings.Server = null;
             this.AppSettings.FixedRegion = string.IsNullOrEmpty(code) ? null : code;
-            Debug.Log("this.AppSettings.IsBestRegion: " + this.AppSettings.IsBestRegion);
         }
 
         /// <summary>Checks if a string is a Guid by attempting to create one.</summary>

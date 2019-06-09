@@ -1,6 +1,38 @@
 PUN 2 Change Log
 
 
+v2.12 (6. May 2019)
+Fixed: Breaking change of EventData. The properties Sender and CustomData are back and they keys (in the event Parameters) can now be configured at runtime (if needed).
+Updated: To new library version 4.1.2.14 (6. May 2019 - rev5088).
+
+v2.11 (3. May 2019)
+Fixed: EventData usage. PUN v2.10 had a bug in Ownership Transfer calls and some events.
+Fixed: ClientState.ConnectedToMasterserver did not have the same value as ConnectedToMasterServer (and no longer got used at all). This affects only rare cases where the enum is directly used (PUN was updated).
+Changed: Account registration scripts to use Unity's built-in JSON parsing. Now, PUN no longer incldues the NewtonSoft Json dll (which should avoid the occasional clash of dlls).
+Updated: To new library version 4.1.2.13 (3. May 2019 - rev5086).
+    Changed: EventData was changed in the Photon3Unity3d.dll again. Now it does not have a Sender or CustomData property anymore as those were not workign for Chat (and misleading). Instead, those are fetched from the Parameters of an event (each API provides accessor extensions). 
+    Added: PhotonPeer.ReuseEventInstance as option to use a single EventData instance for all incoming events. This reduces memory garbage. The drawback is: An event provided via OnEvent(EventData photonEvent) is invalidated right after the callback finished. That event's content will get modified. Typically this is not a problem as events are rarely cached.
+Chat
+    Fixed: Properly add local client's UserId to public channels' Subscribers list when applicable.
+
+
+v2.10 (26. April 2019)
+Fixed: Unity 2019 compatibility. Removed warnings about obsolete APIs. Code clean up to remove compiler warnings in Unity 2019.
+Fixed: PhotonTransformView does not interpolate between the first streamed data and subsequent to avoid the initial drift between the player's original position and the current position.
+Changed: GetGameList operation is not sent when filter is null or empty. This resulted in a server-side error and now GetGameList logs this case and returns false.
+Changed: IsConnectedAndReady is now also false for ClientState.DisconnectingFromGameserver, DisconnectingFromMasterserver and DisconnectingFromNameServer.
+Changed: InLobby property is now checking the State == JoinedLobby, which is analog to InRoom.
+Changed: InRoom property getter checks if CurrentRoom is not null.
+Added: Nintendo Switch Authentication enum value. More about this on our doc page for Nintendo Switch development.
+Changed: removed references to PUN1's removed PhotonNetwork.GetRoomList().
+Changed: Renamed ClientState items which ended on "Gameserver" and "Masterserver" to using PascalCase "GameServer" and "MasterServer". The previous names are obsolete to ease upgrading this, if needed.
+Fixed: BroadcastPropsChangeToAll is applied correctly (it wasn't used properly, when false).
+Fixed: When in offline mode, OpSetPropertiesOfActor does not get called (it failed due to not being connected).
+Updated: To new library version 4.1.2.12 (26. April 2019 - rev5046).
+Note: EventData.Parameters is no longer guaranteed to be non-null! Events sent via RaiseEvent (the most common form) will have Code, Sender and CustomData but Parameters will be null. Internally, this means we can re-use some more memory. PUN covers this change for you but if you use the events more directly, you may notice.
+Chat
+    Fixed: properly add local client's UserId to public channels' Subscribers list when applicable.
+
 v2.9 (26. March 2019)
 Fixed: Automatic level synchronization, which was affected by the callback change in v2.8.0. Now, as in 2.7 and earlier, the scene is loaded on join, before the OnJoinedRoom callback.
 Changed: The api reference for LevelLoadingProgress and LoadLevel.

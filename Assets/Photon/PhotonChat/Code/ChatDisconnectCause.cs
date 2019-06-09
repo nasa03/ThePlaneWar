@@ -6,13 +6,13 @@
 
 namespace Photon.Chat
 {
-    /// <summary>Enumaration of causes for Disconnects (used in <see cref="ChatClient.DisconnectedCause"/>).</summary>
+    /// <summary>Enumeration of causes for Disconnects (used in <see cref="ChatClient.DisconnectedCause"/>).</summary>
     /// <remarks>Read the individual descriptions to find out what to do about this type of disconnect.</remarks>
     public enum ChatDisconnectCause
     {
         /// <summary>No error was tracked.</summary>
         None,
-        /// <summary>OnStatusChanged: The CCUs count of your Photon Server License is exausted (temporarily).</summary>
+        /// <summary>OnStatusChanged: The CCUs count of your Photon Server License is exhausted (temporarily).</summary>
         DisconnectByServerUserLimit,
         /// <summary>OnStatusChanged: The server is not available or the address is wrong. Make sure the port is provided and the server is up.</summary>
         ExceptionOnConnect,

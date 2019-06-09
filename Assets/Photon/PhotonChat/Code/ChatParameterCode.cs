@@ -19,7 +19,7 @@ namespace Photon.Chat
         public const byte Messages = 2;
         /// <summary>(3) A single chat message.</summary>
         public const byte Message = 3;
-        /// <summary>(4) Array of names of the users who sent the array of chat mesages.</summary>
+        /// <summary>(4) Array of names of the users who sent the array of chat messages.</summary>
         public const byte Senders = 4;
         /// <summary>(5) Name of a the user who sent a chat message.</summary>
         public const byte Sender = 5;

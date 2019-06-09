@@ -176,6 +176,64 @@ namespace Photon.Pun
                 return EditorUtility.IsPersistent(go);
 			#endif
 		}
+
+        //https://forum.unity.com/threads/using-unitywebrequest-in-editor-tools.397466/#post-4485181
+        public static void StartCoroutine(System.Collections.IEnumerator update)
+        {
+            EditorApplication.CallbackFunction closureCallback = null;
+ 
+            closureCallback = () =>
+            {
+                try
+                {
+                    if (update.MoveNext() == false)
+                    {
+                        EditorApplication.update -= closureCallback;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogException(ex);
+                    EditorApplication.update -= closureCallback;
+                }
+            };
+
+            EditorApplication.update += closureCallback;
+        }
+        
+        public static System.Collections.IEnumerator HttpGet(string url, Action<string> successCallback, Action<string> errorCallback)
+        {
+            using (UnityEngine.Networking.UnityWebRequest w = UnityEngine.Networking.UnityWebRequest.Get(url))
+            {
+                #if UNITY_2017_2_OR_NEWER
+                yield return w.SendWebRequest();
+                #else
+                yield return w.Send();
+                #endif
+ 
+                while (w.isDone == false)
+                    yield return null;
+
+                #if UNITY_2017_1_OR_NEWER
+                if (w.isNetworkError || w.isHttpError)
+                #else
+                if (w.isError)
+                #endif
+                {
+                    if (errorCallback != null)
+                    {
+                        errorCallback(w.error);
+                    }
+                }
+                else
+                {
+                    if (successCallback != null)
+                    {
+                        successCallback(w.downloadHandler.text);
+                    }
+                }
+            }
+        }
     }
 
 

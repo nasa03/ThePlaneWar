@@ -83,8 +83,8 @@ namespace Photon.Realtime
 
                 this.nickName = value;
 
-                // update a room, if we changed our nickName (locally, while being in a room)
-                if (this.IsLocal && this.RoomReference != null)
+                // update a room, if we changed our nickName locally
+                if (this.IsLocal)
                 {
                     this.SetPlayerNameProperty();
                 }
@@ -417,7 +417,7 @@ namespace Photon.Realtime
         /// <summary>Uses OpSetPropertiesOfActor to sync this player's NickName (server is being updated with this.NickName).</summary>
         private void SetPlayerNameProperty()
         {
-            if (this.RoomReference != null)
+            if (this.RoomReference != null && !this.RoomReference.IsOffline)
             {
                 Hashtable properties = new Hashtable();
                 properties[ActorProperties.PlayerName] = this.nickName;

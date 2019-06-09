@@ -155,7 +155,7 @@ namespace Photon.Chat
         /// On a lower level, acknowledgements and pings will prevent a server-side timeout while (e.g.) Unity loads assets.
         ///
         /// Your game logic still has to call Service regularly, or else incoming messages are not dispatched.
-        /// As this typicalls triggers UI updates, it's easier to call Service from the main/UI thread.
+        /// As this typically triggers UI updates, it's easier to call Service from the main/UI thread.
         /// </remarks>
         public bool UseBackgroundWorkerForSending { get; set; }
 
@@ -687,7 +687,7 @@ namespace Photon.Chat
         /// in the Photon Chat server. Having users on your friends list gives you access
         /// to their current online status (and whatever info your client sets in it).
         ///
-        /// Each user can set an online status consisting of an integer and an arbitratry
+        /// Each user can set an online status consisting of an integer and an arbitrary
         /// (serializable) object. The object can be null, Hashtable, object[] or anything
         /// else Photon can serialize.
         ///
@@ -976,7 +976,7 @@ namespace Photon.Chat
                     }
                     break;
                 case StatusCode.EncryptionEstablished:
-                    // once encryption is availble, the client should send one (secure) authenticate. it includes the AppId (which identifies your app on the Photon Cloud)
+                    // once encryption is available, the client should send one (secure) authenticate. it includes the AppId (which identifies your app on the Photon Cloud)
                     if (!this.didAuthenticate)
                     {
                         this.didAuthenticate = this.chatPeer.AuthenticateOnNameServer(this.AppId, this.AppVersion, this.chatRegion, this.AuthValues);
@@ -1109,11 +1109,14 @@ namespace Photon.Chat
                             this.PublicChannels.Add(channel.Name, channel);
                         }
                         channel.ReadProperties(channelProperties);
-                        if (eventData.Parameters.TryGetValue(ChatParameterCode.ChannelSubscribers, out temp))
+                        if (channel.PublishSubscribers)
                         {
-                            string[] subscribers = temp as string[];
                             channel.Subscribers.Add(this.UserId);
-                            channel.AddSubscribers(subscribers);
+                            if (eventData.Parameters.TryGetValue(ChatParameterCode.ChannelSubscribers, out temp))
+                            {
+                                string[] subscribers = temp as string[];
+                                channel.AddSubscribers(subscribers);
+                            }
                         }
                     }
                     this.listener.OnSubscribed(channelsInResponse, results);
@@ -1280,7 +1283,7 @@ namespace Photon.Chat
         {
             if (this.AuthValues != null)
             {
-                if (string.IsNullOrEmpty(AuthValues.Token))
+                if (string.IsNullOrEmpty(this.AuthValues.Token))
                 {
                     if (this.DebugOut >= DebugLevel.ERROR)
                     {
@@ -1326,7 +1329,7 @@ namespace Photon.Chat
                     }
                 }
             }
-            else 
+            else
             {
                 if (this.DebugOut >= DebugLevel.WARNING)
                 {
@@ -1355,15 +1358,13 @@ namespace Photon.Chat
                     if (this.DebugOut >= DebugLevel.WARNING)
                     {
                         this.listener.DebugReturn(DebugLevel.WARNING, string.Format("Channel \"{0}\" already contains newly subscribed user \"{1}\".", channelName, userId));
-                    } 
+                    }
                 }
                 else if (channel.MaxSubscribers > 0 && channel.Subscribers.Count > channel.MaxSubscribers)
                 {
                     if (this.DebugOut >= DebugLevel.WARNING)
                     {
-                        this.listener.DebugReturn(DebugLevel.WARNING,
-                            string.Format("Channel \"{0}\"'s MaxSubscribers exceeded. count={1} > MaxSubscribers={2}.",
-                                channelName, channel.Subscribers.Count, channel.MaxSubscribers));
+                        this.listener.DebugReturn(DebugLevel.WARNING, string.Format("Channel \"{0}\"'s MaxSubscribers exceeded. count={1} > MaxSubscribers={2}.", channelName, channel.Subscribers.Count, channel.MaxSubscribers));
                     }
                 }
             }
@@ -1380,7 +1381,7 @@ namespace Photon.Chat
         #endregion
 
         /// <summary>
-        /// Subscribe to a single channel and optionally sets its well-know channel properties in case the channel is created 
+        /// Subscribe to a single channel and optionally sets its well-know channel properties in case the channel is created.
         /// </summary>
         /// <param name="channel">name of the channel to subscribe to</param>
         /// <param name="lastMsgId">ID of the last received message from this channel when re subscribing to receive only missed messages, default is 0</param>

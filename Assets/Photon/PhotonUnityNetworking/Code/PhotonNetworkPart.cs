@@ -210,7 +210,7 @@ namespace Photon.Pun
         /// Called when "this client" left a room to clean up.
         /// </summary>
         /// <remarks>
-        /// if (Server == ServerConnection.GameServer && (state == ClientState.Disconnecting || state == ClientState.DisconnectingFromGameserver))
+        /// if (Server == ServerConnection.GameServer && (state == ClientState.Disconnecting || state == ClientState.DisconnectingFromGameServer))
         /// </remarks>
         private static void LeftRoomCleanup()
         {
@@ -1981,15 +1981,11 @@ namespace Photon.Pun
 
         private static void OnEvent(EventData photonEvent)
         {
-            int actorNr = 0;
+            int actorNr = photonEvent.Sender;
             Player originatingPlayer = null;
-            if (photonEvent.Parameters.ContainsKey(ParameterCode.ActorNr))
+            if (actorNr > 0 && NetworkingClient.CurrentRoom != null)
             {
-                actorNr = (int) photonEvent[ParameterCode.ActorNr];
-                if (NetworkingClient.CurrentRoom != null)
-                {
-                    originatingPlayer = NetworkingClient.CurrentRoom.GetPlayer(actorNr);
-                }
+                originatingPlayer = NetworkingClient.CurrentRoom.GetPlayer(actorNr);
             }
 
             switch (photonEvent.Code)
@@ -1998,7 +1994,7 @@ namespace Photon.Pun
                     ResetPhotonViewsOnSerialize();
                     break;
                 case PunEvent.RPC:
-                    ExecuteRpc(photonEvent[ParameterCode.Data] as Hashtable, originatingPlayer);
+                    ExecuteRpc(photonEvent.CustomData as Hashtable, originatingPlayer);
                     break;
 
                 case PunEvent.SendSerialize:
@@ -2035,7 +2031,7 @@ namespace Photon.Pun
                     break;
 
                 case PunEvent.Instantiation:
-                    NetworkInstantiate((Hashtable) photonEvent[ParameterCode.Data], originatingPlayer);
+                    NetworkInstantiate((Hashtable) photonEvent.CustomData, originatingPlayer);
                     break;
 
                 case PunEvent.CloseConnection:
@@ -2053,7 +2049,7 @@ namespace Photon.Pun
                     break;
 
                 case PunEvent.DestroyPlayer:
-                    Hashtable evData = (Hashtable) photonEvent[ParameterCode.Data];
+                    Hashtable evData = (Hashtable) photonEvent.CustomData;
                     int targetPlayerId = (int) evData[(byte) 0];
                     if (targetPlayerId >= 0)
                     {
@@ -2075,7 +2071,7 @@ namespace Photon.Pun
                     break;
 
                 case PunEvent.Destroy:
-                    evData = (Hashtable) photonEvent[ParameterCode.Data];
+                    evData = (Hashtable) photonEvent.CustomData;
                     int instantiationId = (int) evData[(byte) 0];
                     // Debug.Log("Ev Destroy for viewId: " + instantiationId + " sent by owner: " + (instantiationId / PhotonNetwork.MAX_VIEW_IDS == actorNr) + " this client is owner: " + (instantiationId / PhotonNetwork.MAX_VIEW_IDS == this.LocalPlayer.ID));
 
@@ -2094,7 +2090,7 @@ namespace Photon.Pun
 
                 case PunEvent.OwnershipRequest:
                 {
-                    int[] requestValues = (int[]) photonEvent.Parameters[ParameterCode.CustomEventContent];
+                    int[] requestValues = (int[])photonEvent.CustomData;
                     int requestedViewId = requestValues[0];
                     int requestedFromOwnerId = requestValues[1];
 
@@ -2158,7 +2154,7 @@ namespace Photon.Pun
 
                 case PunEvent.OwnershipTransfer:
                 {
-                    int[] transferViewToUserID = (int[]) photonEvent.Parameters[ParameterCode.CustomEventContent];
+                    int[] transferViewToUserID = (int[])photonEvent.CustomData;
                     int requestedViewId = transferViewToUserID[0];
                     int newOwnerId = transferViewToUserID[1];
 

@@ -31,7 +31,7 @@ namespace Photon.Pun.UtilityScripts
         public GameObject Prefab;
 
         [SerializeField]
-        private InstantiateOption InstantiateType;
+		private InstantiateOption InstantiateType = InstantiateOption.Mine;
 
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)

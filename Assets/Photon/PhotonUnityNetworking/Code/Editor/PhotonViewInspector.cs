@@ -17,7 +17,7 @@ using Photon.Realtime;
 namespace Photon.Pun
 {
     [CustomEditor(typeof(PhotonView))]
-    public class PhotonViewInspector : Editor
+    internal class PhotonViewInspector : Editor
     {
         private PhotonView m_Target;
 
@@ -323,11 +323,6 @@ namespace Photon.Pun
                 this.m_Target.Synchronization = ViewSynchronization.Off;
                 this.serializedObject.Update();
             }
-        }
-
-        private static GameObject GetPrefabParent(GameObject mp)
-        {
-            return PrefabUtility.GetPrefabParent(mp) as GameObject;
         }
     }
 }

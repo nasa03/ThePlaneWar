@@ -61,7 +61,7 @@ namespace Photon.Pun.UtilityScripts
 
         public override void OnJoinedLobby()
         {
-            Debug.Log("OnJoinedLobby(). This client is connected and does get a room-list, which gets stored as PhotonNetwork.GetRoomList(). This script now calls: PhotonNetwork.JoinRandomRoom();");
+            Debug.Log("OnJoinedLobby(). This client is connected. This script now calls: PhotonNetwork.JoinRandomRoom();");
             PhotonNetwork.JoinRandomRoom();
         }
 

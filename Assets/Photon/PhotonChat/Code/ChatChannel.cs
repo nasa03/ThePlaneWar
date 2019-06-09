@@ -33,7 +33,7 @@ namespace Photon.Chat
         /// <summary>Name of the channel (used to subscribe and unsubscribe).</summary>
         public readonly string Name;
 
-        /// <summary>Senders of messages in chronoligical order. Senders and Messages refer to each other by index. Senders[x] is the sender of Messages[x].</summary>
+        /// <summary>Senders of messages in chronological order. Senders and Messages refer to each other by index. Senders[x] is the sender of Messages[x].</summary>
         public readonly List<string> Senders = new List<string>();
 
         /// <summary>Messages in chronological order. Senders and Messages refer to each other by index. Senders[x] is the sender of Messages[x].</summary>
@@ -43,7 +43,7 @@ namespace Photon.Chat
         public int MessageLimit;
 
         /// <summary>Is this a private 1:1 channel?</summary>
-        public bool IsPrivate { get; internal protected set; }
+        public bool IsPrivate { get; protected internal set; }
 
         /// <summary>Count of messages this client still buffers/knows for this channel.</summary>
         public int MessageCount { get { return this.Messages.Count; } }
@@ -153,7 +153,7 @@ namespace Photon.Chat
                 }
             }
         }
-        
+
         internal void AddSubscribers(string[] users)
         {
             if (users == null)
@@ -165,7 +165,7 @@ namespace Photon.Chat
                 this.Subscribers.Add(users[i]);
             }
         }
-        
+
         internal void ClearProperties()
         {
             if (this.properties != null && this.properties.Count > 0)

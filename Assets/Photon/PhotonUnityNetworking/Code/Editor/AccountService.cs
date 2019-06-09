@@ -14,13 +14,7 @@
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
-
-using ExitGames.Client.Photon;
-
-using Newtonsoft.Json;
 
 namespace Photon.Pun
 {
@@ -63,41 +57,6 @@ namespace Photon.Pun
         }
 
         /// <summary>
-        /// Attempts to create a Photon Cloud Account.
-        /// Check ReturnCode, Message and AppId to get the result of this attempt.
-        /// </summary>
-        /// <param name="email">Email of the account.</param>
-        /// <param name="origin">Marks which channel created the new account (if it's new).</param>
-        /// <param name="serviceType">Defines which type of Photon-service is being requested.</param>
-        public void RegisterByEmail(string email, Origin origin, string serviceType = null)
-        {
-            this.registrationCallback = null;
-            this.AppId = string.Empty;
-            this.AppId2 = string.Empty;
-            this.Message = string.Empty;
-            this.ReturnCode = -1;
-
-            string result;
-            try
-            {
-                WebRequest req = HttpWebRequest.Create(this.RegistrationUri(email, (byte) origin, serviceType));
-                HttpWebResponse resp = req.GetResponse() as HttpWebResponse;
-
-                // now read result
-                StreamReader reader = new StreamReader(resp.GetResponseStream());
-                result = reader.ReadToEnd();
-            }
-            catch (Exception ex)
-            {
-                this.Message = "Failed to connect to Cloud Account Service. Please register via account website.";
-                this.Exception = ex;
-                return;
-            }
-
-            this.ParseResult(result);
-        }
-
-        /// <summary>
         /// Attempts to create a Photon Cloud Account asynchronously.
         /// Once your callback is called, check ReturnCode, Message and AppId to get the result of this attempt.
         /// </summary>
@@ -105,7 +64,7 @@ namespace Photon.Pun
         /// <param name="origin">Marks which channel created the new account (if it's new).</param>
         /// <param name="serviceType">Defines which type of Photon-service is being requested.</param>
         /// <param name="callback">Called when the result is available.</param>
-        public void RegisterByEmailAsync(string email, Origin origin, string serviceType, Action<AccountService> callback = null)
+        public void RegisterByEmail(string email, Origin origin, string serviceType, Action<AccountService> callback = null)
         {
             this.registrationCallback = callback;
             this.AppId = string.Empty;
@@ -113,59 +72,26 @@ namespace Photon.Pun
             this.Message = string.Empty;
             this.ReturnCode = -1;
 
-            try
-            {
-                HttpWebRequest req = (HttpWebRequest) HttpWebRequest.Create(this.RegistrationUri(email, (byte) origin, serviceType));
-                req.Timeout = 5000;
-                req.BeginGetResponse(this.OnRegisterByEmailCompleted, req);
-            }
-            catch (Exception ex)
-            {
-                this.Message = "Failed to connect to Cloud Account Service. Please register via account website.";
-                this.Exception = ex;
-                if (this.registrationCallback != null)
-                {
-                    this.registrationCallback(this);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Internal callback with result of async HttpWebRequest (in RegisterByEmailAsync).
-        /// </summary>
-        /// <param name="ar"></param>
-        private void OnRegisterByEmailCompleted(IAsyncResult ar)
-        {
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest) ar.AsyncState;
-                HttpWebResponse response = request.EndGetResponse(ar) as HttpWebResponse;
-
-                if (response != null && response.StatusCode == HttpStatusCode.OK)
-                {
-                    // no error. use the result
-                    StreamReader reader = new StreamReader(response.GetResponseStream());
-                    string result = reader.ReadToEnd();
-
-                    this.ParseResult(result);
-                }
-                else
-                {
-                    // a response but some error on server. show message
-                    this.Message = "Failed to connect to Cloud Account Service. Please register via account website.";
-                }
-            }
-            catch (Exception ex)
-            {
-                // not even a response. show message
-                this.Message = "Failed to connect to Cloud Account Service. Please register via account website.";
-                this.Exception = ex;
-            }
-
-            if (this.registrationCallback != null)
-            {
-                this.registrationCallback(this);
-            }
+            string url = this.RegistrationUri(email, (byte) origin, serviceType);
+            PhotonEditorUtils.StartCoroutine(
+                PhotonEditorUtils.HttpGet(url, 
+                    (s) => 
+                    {
+                        this.ParseResult(s);
+                        if (this.registrationCallback != null)
+                        {
+                            this.registrationCallback(this);
+                        }
+                    }, 
+                    (e) => 
+                    { 
+                        this.Message = e; 
+                        if (this.registrationCallback != null)
+                        {
+                            this.registrationCallback(this);
+                        }
+                    })
+                );
         }
 
         /// <summary>
@@ -175,7 +101,7 @@ namespace Photon.Pun
         /// <param name="origin">1 = server-web, 2 = cloud-web, 3 = PUN, 4 = playmaker</param>
         /// <param name="serviceType">Defines which type of Photon-service is being requested. Options: "", "voice", "chat"</param>
         /// <returns>Uri to call.</returns>
-        private Uri RegistrationUri(string email, byte origin, string serviceType)
+        private string RegistrationUri(string email, byte origin, string serviceType)
         {
             if (serviceType == null)
             {
@@ -183,9 +109,7 @@ namespace Photon.Pun
             }
 
             string emailEncoded = Uri.EscapeDataString(email);
-            string uriString = string.Format("{0}?email={1}&origin={2}&serviceType={3}", ServiceUrl, emailEncoded, origin, serviceType);
-
-            return new Uri(uriString);
+            return string.Format("{0}?email={1}&origin={2}&serviceType={3}", ServiceUrl, emailEncoded, origin, serviceType);
         }
 
         /// <summary>
@@ -200,45 +124,45 @@ namespace Photon.Pun
                 return;
             }
 
-            Dictionary<string, string> values = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-            if (values == null)
+            try
             {
-                this.Message = "Service temporarily unavailable. Please register through account website.";
-                return;
-            }
-
-            int returnCodeInt = -1;
-            string returnCodeString = string.Empty;
-            string message;
-            string messageDetailed;
-
-            values.TryGetValue("ReturnCode", out returnCodeString);
-            values.TryGetValue("Message", out message);
-            values.TryGetValue("MessageDetailed", out messageDetailed);
-
-            int.TryParse(returnCodeString, out returnCodeInt);
-
-            this.ReturnCode = returnCodeInt;
-            if (returnCodeInt == 0)
-            {
-                // returnCode == 0 means: all ok. message is new AppId
-                this.AppId = message;
-                if (PhotonEditorUtils.HasVoice)
+                AccountServiceResponse res = UnityEngine.JsonUtility.FromJson<AccountServiceResponse>(result);
+                this.ReturnCode = res.ReturnCode;
+                this.Message = res.Message;
+                if (this.ReturnCode == 0)
                 {
-                    this.AppId2 = messageDetailed;
+                    // returnCode == 0 means: all ok. message is new AppId
+                    this.AppId = this.Message;
+                    if (PhotonEditorUtils.HasVoice)
+                    {
+                        this.AppId2 = res.MessageDetailed;
+                    }
+                }
+                else
+                {
+                    // any error gives returnCode != 0
+                    this.AppId = string.Empty;
+                    if (PhotonEditorUtils.HasVoice)
+                    {
+                        this.AppId2 = string.Empty;
+                    }
                 }
             }
-            else
+            catch (Exception ex) // probably JSON parsing exception, check if returned string is valid JSON
             {
-                // any error gives returnCode != 0
-                this.AppId = string.Empty;
-                if (PhotonEditorUtils.HasVoice)
-                {
-                    this.AppId2 = string.Empty;
-                }
-                this.Message = message;
+                this.ReturnCode = -1;
+                this.Message = ex.Message;
             }
         }
+
+    }
+
+    [Serializable]
+    public class AccountServiceResponse
+    {
+        public int ReturnCode;
+        public string Message;
+        public string MessageDetailed;
     }
 }
 

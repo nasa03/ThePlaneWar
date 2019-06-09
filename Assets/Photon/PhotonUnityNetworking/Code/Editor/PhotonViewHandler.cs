@@ -32,7 +32,7 @@ namespace Photon.Pun
 		{
 			// hierarchyWindowChanged is called on hierarchy changed and on save. It's even called when hierarchy-window is closed and if a prefab with instances is changed.
 			// this is not called when you edit a instance's value but: on save
-			#if UNITY_2018
+			#if (UNITY_2018 || UNITY_2018_1_OR_NEWER)
 				EditorApplication.hierarchyChanged += HierarchyChange;
 			#else
 				EditorApplication.hierarchyWindowChanged += HierarchyChange;

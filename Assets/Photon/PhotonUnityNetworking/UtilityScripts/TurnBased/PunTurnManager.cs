@@ -244,7 +244,7 @@ namespace Photon.Pun.UtilityScripts
 		/// <param name="photonEvent">Photon event.</param>
 		public void OnEvent(EventData photonEvent)
         {
-			ProcessOnEvent(photonEvent.Code, photonEvent.CustomData, photonEvent.Sender);
+			this.ProcessOnEvent(photonEvent.Code, photonEvent.CustomData, photonEvent.Sender);
         }
 
         /// <summary>

@@ -204,8 +204,6 @@ namespace Photon.Realtime
 
 
             int flags = 0;  // a new way to send the room options as bitwise-flags
-            flags = flags | (int)RoomOptionBit.BroadcastPropsChangeToAll;               // we want this as new default value. this avoids inconsistent properties
-
 
             if (roomOptions.CleanupCacheOnLeave)
             {
@@ -483,6 +481,15 @@ namespace Photon.Realtime
                 if (this.DebugOut >= DebugLevel.INFO)
                 {
                     this.Listener.DebugReturn(DebugLevel.INFO, "OpGetGameList not sent. LobbyType must be SqlLobby.");
+                }
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(queryData))
+            {
+                if (this.DebugOut >= DebugLevel.INFO)
+                {
+                    this.Listener.DebugReturn(DebugLevel.INFO, "OpGetGameList not sent. queryData must be not null and not empty.");
                 }
                 return false;
             }
@@ -1856,6 +1863,9 @@ namespace Photon.Realtime
 
         /// <summary>Authenticates users by their HTC Viveport Account and user token. Set AuthGetParameters to "userToken=[userToken]"</summary>
         Viveport = 10,
+
+        /// <summary>Authenticates users by their NSA ID.</summary>
+        NintendoSwitch = 11,
 
         /// <summary>Disables custom authentification. Same as not providing any AuthenticationValues for connect (more precisely for: OpAuthenticate).</summary>
         None = byte.MaxValue

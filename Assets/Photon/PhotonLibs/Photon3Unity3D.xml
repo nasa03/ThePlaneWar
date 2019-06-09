@@ -283,23 +283,24 @@
              Called whenever an event from the Photon Server is dispatched.
              </summary>
              <remarks>
-             Events are used for communication between clients and allow the server to update clients over time.
+             Events are used for communication between clients and allow the server to update clients anytime.
              The creation of an event is often triggered by an operation (called by this client or an other).
             
-             Each event carries its specific content in its Parameters. Your application knows which content to
-             expect by checking the event's 'type', given by the event's Code.
+             Each event carries a Code plus optional content in its Parameters.
+             Your application should identify which content to expect by the event's Code.
             
-             Events can be defined and extended server-side.
+             Events can be defined and modified server-side.
             
-             If you use the LoadBalancing application as base, several events like EvJoin and EvLeave are already defined.
-             For these events and their Parameters, the library provides constants, so check the EventCode and ParameterCode
-             classes.
+             If you use the LoadBalancing api as basis, several events like EvJoin and EvLeave are pre-defined.
+             The LoadBalancing api provides the EventCode and ParameterCode classes for pre-defined events.
             
-             Photon also allows you to come up with custom events on the fly, purely client-side. To do so, use
-             OpRaiseEvent.<para></para>
+             Photon also allows you to come up with custom events on the fly, purely client-side.
+             To do so, use OpRaiseEvent.<para></para>
             
-             Events are buffered on the client side and must be Dispatched. This way, OnEvent is always taking
-             place in the same thread as a <see cref="M:ExitGames.Client.Photon.PhotonPeer.DispatchIncomingCommands" /> call.
+             Events are incoming messages and as such buffered in the peer.
+             Calling PhotonPeer.DispatchIncomingCommands will call IPhotonPeerListener.OnEvent, to hand over received events.
+            
+             PhotonPeer.ReuseEventInstance is an option to optimize memory usage by reusing one EventData instance.
              </remarks>
              <param name="eventData">The event currently being dispatched.</param>
         </member>
@@ -487,6 +488,18 @@
             Can be used in derived classes for Listener.DebugReturn().
             </summary>
         </member>
+        <member name="P:ExitGames.Client.Photon.PhotonPeer.ReuseEventInstance">
+             <summary>
+             Option to make the PhotonPeer reuse a single EventData instance for all incoming events.
+             </summary>
+             <remarks>
+             This reduces memory garbage.
+             If enabled, the event provided via OnEvent(EventData photonEvent) is invalid once the callback finished.
+             That event's content will get modified. Typically this is not a problem as events are rarely cached.
+            
+             Changing this value acquires the same lock that DispatchIncomingCommands() uses.
+             </remarks>
+        </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.BytesIn">
             <summary>
             Gets count of all bytes coming in (including headers, excluding UDP/TCP overhead)
@@ -593,7 +606,7 @@
             Count of all commands currently queued as outgoing, including all channels and reliable, unreliable.
             </summary>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:ExitGames.Client.Photon.PhotonPeer.MessageBufferPoolTrim(System.Int32)" ignoriert -->
+        <!-- Badly formed XML comment ignored for member "M:ExitGames.Client.Photon.PhotonPeer.MessageBufferPoolTrim(System.Int32)" -->
         <member name="F:ExitGames.Client.Photon.PhotonPeer.ChannelCount">
             <summary>
             Gets / sets the number of channels available in UDP connections with Photon.
@@ -1451,8 +1464,8 @@
         <member name="P:ExitGames.Client.Photon.NCommand.SizeOfPayload">
             <summary>Size of the Payload, which may be null.</summary>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "P:ExitGames.Client.Photon.NCommand.IsFlaggedUnsequenced" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "P:ExitGames.Client.Photon.NCommand.IsFlaggedReliable" ignoriert -->
+        <!-- Badly formed XML comment ignored for member "P:ExitGames.Client.Photon.NCommand.IsFlaggedUnsequenced" -->
+        <!-- Badly formed XML comment ignored for member "P:ExitGames.Client.Photon.NCommand.IsFlaggedReliable" -->
         <member name="M:ExitGames.Client.Photon.NCommand.#ctor(ExitGames.Client.Photon.EnetPeer,System.Byte,ExitGames.Client.Photon.StreamBuffer,System.Byte)">
             <summary>this variant does only create outgoing commands and increments . incoming ones are created from a DataInputStream</summary>
         </member>
@@ -1595,16 +1608,13 @@
             <returns>To be used in debug situations only, as it returns a string for each value.</returns>
         </member>
         <member name="T:ExitGames.Client.Photon.EventData">
-             <summary>A Photon Event consists of a Code value and a Parameter Dictionary. In many cases, an Event also has a Sender (key: (byte)254).</summary>
+             <summary>A Photon Event consists of a Code value and a Parameters Dictionary with the event's content (if any).</summary>
              <remarks>
-             An event's code should define what it means and what content (Parameters) it has.
-             To simplify matters, the Sender (key: (byte)254) can be accessed via a property which caches the value.
+             The indexer of this class provides access to the values in Parameters.
+             It wraps the null check for Parameters and uses TryGetValue() for the provided key.
             
-             The indexer of this class provides access to the Parameters Dictionary. Most common are the events defined
-             by the Realtime layer for Photon (the default logic for the Photon Cloud).
-            
-             The operation RaiseEvent allows you to provide custom event content. Defined in Realtime, this
-             CustomContent will be made the value of key ParameterCode.CustomEventContent.
+             Photon servers use events to send information which is not triggered by a client's operation requests (those get responses).
+             The Realtime API allows you to send custom events with any Code and content via OpRaiseEvent.
              </remarks>
         </member>
         <member name="F:ExitGames.Client.Photon.EventData.Code">
@@ -1613,29 +1623,47 @@
         <member name="F:ExitGames.Client.Photon.EventData.Parameters">
             <summary>The Parameters of an event is a Dictionary&lt;byte, object&gt;.</summary>
         </member>
-        <member name="F:ExitGames.Client.Photon.EventData.SenderKey">
-            <summary>Defined in the "Realtime" layer but made available in EventData for convenience.</summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.EventData.sender">
-            <summary>Backing field Sender.</summary>
-        </member>
-        <member name="P:ExitGames.Client.Photon.EventData.Sender">
-            <summary>Accessor to the sender's actorNumber (key (byte)254). This fetches and caches Parameters[SenderKey] as int.</summary>
-            <remarks>Defined in the uppper layer ("Realtime") but made available in EventData for convenience. Default to 0, even if the key is not present.</remarks>
-        </member>
-        <member name="F:ExitGames.Client.Photon.EventData.CustomDataKey">
-            <summary>Defined in the "Realtime" layer but made available in EventData for convenience.</summary>
-        </member>
-        <member name="P:ExitGames.Client.Photon.EventData.CustomData">
-            <summary>Accessor to the sent custom event content (key (byte)245).</summary>
-            <remarks>Defined in the uppper layer ("Realtime") but made available in EventData for convenience. Null if the key is not present.</remarks>
-        </member>
         <member name="P:ExitGames.Client.Photon.EventData.Item(System.Byte)">
             <summary>
-            Alternative access to the Parameters.
+            Access to the Parameters of a Photon-defined event. Custom Events only use Code, Sender and CustomData.
             </summary>
-            <param name="key">The key byte-code of a event value.</param>
+            <param name="key">The key byte-code of a Photon event value.</param>
             <returns>The Parameters value, or null if the key does not exist in Parameters.</returns>
+        </member>
+        <member name="F:ExitGames.Client.Photon.EventData.SenderKey">
+            <summary>
+            Defines the event key containing the Sender of the event.
+            </summary>
+            <remarks>
+            Defaults to Sender key of Realtime API events (RaiseEvent): 254.
+            Can be set to Chat API's ChatParameterCode.Sender: 5.
+            </remarks>
+        </member>
+        <member name="P:ExitGames.Client.Photon.EventData.Sender">
+            <summary>
+            Accesses the Sender of the event via the indexer and SenderKey. The result is cached.
+            </summary>
+            <remarks>
+            Accesses this event's Parameters[CustomDataKey], which may be null.
+            In that case, this returns 0 (identifying the server as sender).
+            </remarks>
+        </member>
+        <member name="F:ExitGames.Client.Photon.EventData.CustomDataKey">
+            <summary>
+            Defines the event key containing the Custom Data of the event.
+            </summary>
+            <remarks>
+            Defaults to Data key of Realtime API events (RaiseEvent): 245.
+            Can be set to any other value on demand.
+            </remarks>
+        </member>
+        <member name="P:ExitGames.Client.Photon.EventData.CustomData">
+            <summary>
+            Accesses the Custom Data of the event via the indexer and CustomDataKey. The result is cached.
+            </summary>
+            <remarks>
+            Accesses this event's Parameters[CustomDataKey], which may be null.
+            </remarks>
         </member>
         <member name="M:ExitGames.Client.Photon.EventData.ToString">
             <summary>ToString() override.</summary>

@@ -64,7 +64,7 @@ namespace Photon.Pun
     public static partial class PhotonNetwork
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
-        public const string PunVersion = "2.9";
+        public const string PunVersion = "2.12";
 
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
@@ -195,7 +195,7 @@ namespace Photon.Pun
         /// This is the lower level connection state. Keep in mind that PUN uses more than one server,
         /// so the client may become Disconnected, even though it's just switching servers.
         ///
-        /// While OfflineMode is true, this is ClientState.Joined (after create/join) or ConnectedToMasterserver in all other cases.
+        /// While OfflineMode is true, this is ClientState.Joined (after create/join) or ConnectedToMasterServer in all other cases.
         /// </remarks>
         public static ClientState NetworkClientState
         {
@@ -203,7 +203,7 @@ namespace Photon.Pun
             {
                 if (OfflineMode)
                 {
-                    return (offlineModeRoom != null) ? ClientState.Joined : ClientState.ConnectedToMasterserver;
+                    return (offlineModeRoom != null) ? ClientState.Joined : ClientState.ConnectedToMasterServer;
                 }
 
                 if (NetworkingClient == null)
@@ -826,10 +826,6 @@ namespace Photon.Pun
         /// <summary>
         /// The count of rooms currently in use (available on MasterServer in 5sec intervals).
         /// </summary>
-        /// <remarks>
-        /// While inside the lobby you can also check the count of listed rooms as: PhotonNetwork.GetRoomList().Length.
-        /// Since PUN v1.25 this is only based on the statistic event Photon sends (counting all rooms).
-        /// </remarks>
         public static int CountOfRooms
         {
             get
@@ -998,13 +994,13 @@ namespace Photon.Pun
                                                     {
 														if ( 
 															(previousState == ClientState.Joined && state == ClientState.Disconnected) || 
-															(Server == ServerConnection.GameServer && (state == ClientState.Disconnecting || state == ClientState.DisconnectingFromGameserver))
+															(Server == ServerConnection.GameServer && (state == ClientState.Disconnecting || state == ClientState.DisconnectingFromGameServer))
 															)
 														{
 										                	LeftRoomCleanup();
 														}
 
-                                                        if (state == ClientState.ConnectedToMasterserver && _cachedRegionHandler != null)
+                                                        if (state == ClientState.ConnectedToMasterServer && _cachedRegionHandler != null)
                                                         {
                                                             BestRegionSummaryInPreferences = _cachedRegionHandler.SummaryToCache;
                                                             _cachedRegionHandler = null;
@@ -1042,7 +1038,7 @@ namespace Photon.Pun
         /// <summary>Connect to Photon as configured in the PhotonServerSettings file.</summary>
         /// <remarks>
         /// Implement IConnectionCallbacks, to make your game logic aware of state changes.
-        /// Especially, IConnectionCallbacks.ConnectedToMasterserver is useful to react when
+        /// Especially, IConnectionCallbacks.ConnectedToMasterServer is useful to react when
         /// the client can do matchmaking.
         ///
         /// This method will disable OfflineMode (which won't destroy any instantiated GOs) and it
@@ -1918,8 +1914,7 @@ namespace Photon.Pun
 
         /// <summary>On MasterServer this joins the default lobby which list rooms currently in use.</summary>
         /// <remarks>
-        /// The room list is sent and refreshed by the server. You can access this cached list by
-        /// PhotonNetwork.GetRoomList().
+        /// The room list is sent and refreshed by the server using <see cref="ILobbyCallbacks.OnRoomListUpdate"/>.
         ///
         /// Per room you should check if it's full or not before joining. Photon also lists rooms that are
         /// full, unless you close and hide them (room.open = false and room.visible = false).
@@ -1944,8 +1939,7 @@ namespace Photon.Pun
 
         /// <summary>On a Master Server you can join a lobby to get lists of available rooms.</summary>
         /// <remarks>
-        /// The room list is sent and refreshed by the server. You can access this cached list by
-        /// PhotonNetwork.GetRoomList().
+        /// The room list is sent and refreshed by the server using <see cref="ILobbyCallbacks.OnRoomListUpdate"/>.
         ///
         /// Any client can "make up" any lobby on the fly. Splitting rooms into multiple lobbies will
         /// keep each list shorter. However, having too many lists might ruin the matchmaking experience.
