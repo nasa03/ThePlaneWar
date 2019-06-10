@@ -41717,6 +41717,7 @@ GameObject:
   - component: {fileID: 7140810387379022199}
   - component: {fileID: 5814606610047072139}
   - component: {fileID: 8049266475787825959}
+  - component: {fileID: 1308863052201616953}
   m_Layer: 0
   m_Name: StarSparrow6
   m_TagString: Untagged
@@ -41731,7 +41732,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781775965045562}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7012654, w: 0.7129004}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
@@ -42655,6 +42656,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 1034806889848380149}
+--- !u!114 &1308863052201616953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781775965045562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0549fbba82b42faa625fb48ffcf824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radarMarkerImage: {fileID: 11441914, guid: 8aa22d1ef20bf4a6c8ec59a20d00790a, type: 3}
 --- !u!1 &1787490433798280
 GameObject:
   m_ObjectHideFlags: 0

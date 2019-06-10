@@ -10,6 +10,11 @@ public class CameraActive : MonoBehaviour {
     void Start()
     {
         if (GetComponent<PhotonView>().IsMine)
+        {
             camera.SetActive(true);
+
+            FindObjectOfType<BinnacleScript>().player = transform;
+            FindObjectOfType<BinnacleScript>().playerCamera = camera.transform;
+        }
     }
 }
