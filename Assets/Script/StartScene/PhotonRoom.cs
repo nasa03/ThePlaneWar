@@ -60,6 +60,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
     public void OpenToggleValueChanged()
     {
         PhotonNetwork.CurrentRoom.IsOpen = openToggle.value;
+        PhotonNetwork.CurrentRoom.IsVisible = openToggle.value;
     }
 
     public void LeftRoomButtonOnClick()
@@ -72,6 +73,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
 
     public void StartGameButtonOnClick()
     {
+        PhotonNetwork.CurrentRoom.IsOpen = false;
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+
         PhotonNetwork.LoadLevel(1);
         startGameButton.isEnabled = false;
     }

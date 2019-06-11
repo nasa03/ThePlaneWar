@@ -19,10 +19,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
         string roomName = nameInput.value;
 
         if (string.IsNullOrEmpty(roomName))
-        {
-            StartCoroutine(FindObjectOfType<MessageShow>().Show("房间名为空!"));
-            return;
-        }
+            roomName = "默认房间";
 
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = (byte)maxPlayersSlider.MaxPlayers;
@@ -30,27 +27,15 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
 
         PhotonNetwork.CreateRoom(roomName, options, PhotonNetwork.CurrentLobby);
     }
-    public void RefreshButtonOnClick()
+    public void JoinRandomButtonOnClick()
     {
-        if (PhotonNetwork.InLobby)
-        {
-            PhotonNetwork.GetCustomRoomList(PhotonNetwork.CurrentLobby, null);
-        }
+        PhotonNetwork.JoinRandomRoom();
     }
     public void DisconnectButtonOnClick()
     {
         PhotonNetwork.Disconnect();
     }
 
-    public override void OnJoinedLobby()
-    {
-        base.OnJoinedLobby();
-
-        if (PhotonNetwork.InLobby)
-        {
-            PhotonNetwork.GetCustomRoomList(PhotonNetwork.CurrentLobby, null);
-        }
-    }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
@@ -91,5 +76,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
         base.OnCreateRoomFailed(returnCode, message);
 
         StartCoroutine(FindObjectOfType<MessageShow>().Show("创建房间失败！"));
+    }
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        base.OnJoinRandomFailed(returnCode, message);
+
+        StartCoroutine(FindObjectOfType<MessageShow>().Show("随机加入房间失败"));
     }
 }

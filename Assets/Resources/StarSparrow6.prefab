@@ -41734,7 +41734,7 @@ Transform:
   m_GameObject: {fileID: 1781775965045562}
   m_LocalRotation: {x: -0, y: -0, z: -0.7012654, w: 0.7129004}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 8894632771235689080}
   - {fileID: 4372377560522064}
@@ -41834,12 +41834,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxEnginePower: 40
-  m_Lift: 0.002
+  m_Lift: 0.003
   m_ZeroLiftSpeed: 300
-  m_RollEffect: 1
-  m_PitchEffect: 1
+  m_RollEffect: 3
+  m_PitchEffect: 2
   m_YawEffect: 0.2
-  m_BankedTurnEffect: 0.5
+  m_BankedTurnEffect: 2
   m_AerodynamicEffect: 0.02
   m_AutoTurnPitch: 0.5
   m_AutoRollLevel: 0.2
