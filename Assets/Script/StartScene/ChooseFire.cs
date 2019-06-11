@@ -5,7 +5,6 @@ using UnityEngine;
 public class ChooseFire : MonoBehaviour {
     [SerializeField] UIPopupList fireList;
     [SerializeField] UIPopupList sizeList;
-    [HideInInspector] public int index = 0;
     int fireInt = 0;
     int sizeInt = 0;
 
@@ -41,14 +40,14 @@ public class ChooseFire : MonoBehaviour {
             if (sizeList.items.Count == 3)
                 sizeList.items.Add("Shotgun");
 
-            index = fireInt * 4 + sizeInt;
+            Global.totalFireInt = fireInt * 4 + sizeInt;
         }
         else
         {
             if (sizeList.items.Count == 4)
                 sizeList.items.Remove("Shotgun");
 
-            index = 8 + (fireInt - 2) * 3 + sizeInt;
+            Global.totalFireInt = 8 + (fireInt - 2) * 3 + sizeInt;
         }
     }
 }

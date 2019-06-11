@@ -3076,7 +3076,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireList: {fileID: 751725344}
   sizeList: {fileID: 1896199098}
-  index: 0
 --- !u!114 &954965988
 MonoBehaviour:
   m_ObjectHideFlags: 0
