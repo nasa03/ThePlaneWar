@@ -34,6 +34,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
     }
 
     public void InputValueChanged()
