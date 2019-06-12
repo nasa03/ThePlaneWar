@@ -19,7 +19,7 @@ MonoBehaviour:
   m_terrainWidth: 2048
   m_terrainDepth: 2048
   m_terrainHeight: 1000
-  m_seaLevel: 10
+  m_seaLevel: 50
   m_isLocked: 1
   m_defaults:
     m_name: Defaults
