@@ -110,7 +110,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         }
         else
         {
-            PhotonNetwork.CreateRoom("离线模式房间");
+            PhotonNetwork.CreateRoom("离线模式");
         }
     }
     public override void OnJoinedRoom()

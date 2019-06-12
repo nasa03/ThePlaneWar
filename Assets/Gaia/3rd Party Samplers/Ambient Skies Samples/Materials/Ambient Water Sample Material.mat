@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Ambient Water Sample Material
   m_Shader: {fileID: 4800000, guid: 763ccfb57a180a143a700ee04bbb2e2e, type: 3}
   m_ShaderKeywords: _ADDFAKESHADOWING_ON _ENABLEFOG_ON _ENABLEROTATION_ON _USESKYBOXRELFECTIONS_OFF
@@ -78,7 +79,7 @@ Material:
     - _FoamOpacity: 0.4
     - _FoamSmoothness: 1
     - _FoamSpecular: 1
-    - _GlobalTiling: 16384
+    - _GlobalTiling: 4096
     - _GlossyReflections: 1
     - _NormalScale: 0.2
     - _ReflectionAmount: 1

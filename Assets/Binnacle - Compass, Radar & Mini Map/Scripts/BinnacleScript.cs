@@ -161,8 +161,8 @@ public class BinnacleScript : MonoBehaviour {
 	
 	void MiniMapPositioning(){
 		if (player && miniMapCamera) {
-			miniMapCamera.transform.SetParent(player);
-			miniMapCamera.transform.position = new Vector3 (player.position.x, 10, player.position.z);
+			//miniMapCamera.transform.SetParent(player);
+			miniMapCamera.transform.position = new Vector3 (player.position.x, 1200, player.position.z);
 			miniMapCamera.orthographicSize = radarRadius;
 			
 			if ( markerCompassing == true ){

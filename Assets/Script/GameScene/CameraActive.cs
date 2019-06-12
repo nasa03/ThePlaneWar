@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class CameraActive : MonoBehaviour {
+public class CameraActive : MonoBehaviour
+{
     [SerializeField] GameObject camera;
 
     // Start is called before the first frame update

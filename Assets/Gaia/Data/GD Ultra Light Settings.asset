@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -31,11 +32,7 @@ MonoBehaviour:
   m_speed: 0
   m_size: 0.067
   m_bending: 0.2
-  m_grassTint:
-    r: 0.7058824
-    g: 0.7058824
-    b: 0.7058824
-    a: 1
+  m_grassTint: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}
   m_terrainSize: 512
   m_terrainHeight: 1000
   m_heightmapResolution: 33

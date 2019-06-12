@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12,16 +13,16 @@ MonoBehaviour:
   m_Name: GaiaSettings
   m_EditorClassIdentifier: 
   m_currentController: 1
-  m_currentSize: 7
-  m_currentEnvironment: 1
+  m_currentSize: 5
+  m_currentEnvironment: 2
   m_currentRenderer: 0
-  m_currentDefaults: {fileID: 11400000, guid: 523e7c864412c3144932b865df8adefa, type: 2}
-  m_currentResources: {fileID: 11400000, guid: 33c0b072fc8e85e43bf3f76a9bf8c955, type: 2}
-  m_currentGameObjectResources: {fileID: 11400000, guid: 33c0b072fc8e85e43bf3f76a9bf8c955,
+  m_currentDefaults: {fileID: 11400000, guid: 54f4fac3c7f0a1e44a45853d26c87b49, type: 2}
+  m_currentResources: {fileID: 11400000, guid: c98e02f9daf2eb944b96f40d0aaed8d4, type: 2}
+  m_currentGameObjectResources: {fileID: 11400000, guid: 2b779137b43e398459f18a8610b712de,
     type: 2}
   m_currentSizeDivisor: 1
   m_currentPlayerPrefabName: Flycam
-  m_currentWaterPrefabName: WaterBasicDaytime
+  m_currentWaterPrefabName: Water4Advanced
   m_publisherName: 
   m_fpsPlayerPrefabName: FPSController
   m_3pPlayerPrefabName: ThirdPersonController
@@ -49,7 +50,7 @@ MonoBehaviour:
     type: 2}
   m_powerDesktopGameObjectResources: {fileID: 11400000, guid: 2b779137b43e398459f18a8610b712de,
     type: 2}
-  m_lastWebUpdate: 636798924916244692
+  m_lastWebUpdate: 0
   m_hideHeroMessage: 0
   m_latestNewsTitle: 'Gaia 1.7: New Tutorials!'
   m_latestNewsBody: With the release of Gaia 1.7 we have revamped the entire tutorials
