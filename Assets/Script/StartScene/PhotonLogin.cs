@@ -90,6 +90,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         }
 
         ConnectButton.isEnabled = true;
+        FindObjectOfType<ChoosePlane>().Show(false);
 
         StartCoroutine(FindObjectOfType<MessageShow>().Show("已断开连接！"));
 

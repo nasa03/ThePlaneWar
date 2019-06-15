@@ -101,7 +101,6 @@ public class ExplodingProjectile : MonoBehaviour
                 thisRigidbody.velocity = Vector3.zero;
                 StartCoroutine(DestroyAfterTime(5));
             }
-
         }
     }
 
@@ -120,6 +119,9 @@ public class ExplodingProjectile : MonoBehaviour
             if (!explodeOnTimer && Missile == false)
             {
                 PhotonNetwork.Destroy(gameObject);
+
+                if (collision.gameObject.tag == "Plane")
+                    FindObjectOfType<PlaneController>().Attack(collision);
             }
             else if (Missile == true)
             {
