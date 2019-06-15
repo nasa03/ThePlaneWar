@@ -18566,6 +18566,7 @@ GameObject:
   - component: {fileID: 3382333215565001297}
   - component: {fileID: 3302985814982114415}
   - component: {fileID: 1394484203264688861}
+  - component: {fileID: 1314902829331851340}
   m_Layer: 0
   m_Name: StarSparrow5
   m_TagString: Plane
@@ -19515,6 +19516,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radarMarkerImage: {fileID: 11441914, guid: 8aa22d1ef20bf4a6c8ec59a20d00790a, type: 3}
+--- !u!135 &1314902829331851340
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450052689288694}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: -0.0000015497211, y: 0.06952076, z: 0.32428563}
 --- !u!1 &1527307004440226
 GameObject:
   m_ObjectHideFlags: 0

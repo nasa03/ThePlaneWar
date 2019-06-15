@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 54453457801900860}
   - component: {fileID: 5996455639131745064}
   - component: {fileID: 2401904296324146238}
+  - component: {fileID: 2843063410698885454}
   m_Layer: 0
   m_Name: Bullet_BlazingRed_Small_Projectile
   m_TagString: FX
@@ -4897,6 +4898,19 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!65 &2843063410698885454
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238843893459588}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1540588367011230
 GameObject:
   m_ObjectHideFlags: 0

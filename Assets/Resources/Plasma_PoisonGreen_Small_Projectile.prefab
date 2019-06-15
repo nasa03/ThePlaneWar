@@ -4570,6 +4570,7 @@ GameObject:
   - component: {fileID: 114364954352837428}
   - component: {fileID: 9218242800037305026}
   - component: {fileID: 5292569376587775661}
+  - component: {fileID: 3147242238099452353}
   m_Layer: 0
   m_Name: Plasma_PoisonGreen_Small_Projectile
   m_TagString: FX
@@ -9484,6 +9485,19 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!65 &3147242238099452353
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257873104036598}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1413889838209516
 GameObject:
   m_ObjectHideFlags: 0

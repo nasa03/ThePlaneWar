@@ -4583,6 +4583,7 @@ GameObject:
   - component: {fileID: 114591203083495332}
   - component: {fileID: 7945035869031984}
   - component: {fileID: 1739748358636881548}
+  - component: {fileID: 667072241959074754}
   m_Layer: 0
   m_Name: Plasma_RagingRed_Medium_Projectile
   m_TagString: FX
@@ -9497,6 +9498,19 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!65 &667072241959074754
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238843893459588}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1477706141410116
 GameObject:
   m_ObjectHideFlags: 0

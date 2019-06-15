@@ -73,13 +73,14 @@ public class ExplodingProjectile : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(thisRigidbody.velocity);
         }
 
-        CheckCollision(previousPosition);
+        //CheckCollision(previousPosition);
 
         previousPosition = transform.position;
     }
 
     void CheckCollision(Vector3 prevPos)
     {
+
         RaycastHit hit;
         Vector3 direction = transform.position - prevPos;
         Ray ray = new Ray(prevPos, direction);
@@ -106,7 +107,7 @@ public class ExplodingProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "FX")
+        if (collision.gameObject.tag != "FX" && collision.gameObject.tag != "Plane")
         {
             ContactPoint contact = collision.contacts[0];
             Quaternion rot = Quaternion.FromToRotation(Vector3.forward, contact.normal);
@@ -119,9 +120,6 @@ public class ExplodingProjectile : MonoBehaviour
             if (!explodeOnTimer && Missile == false)
             {
                 PhotonNetwork.Destroy(gameObject);
-
-                if (collision.gameObject.tag == "Plane")
-                    FindObjectOfType<PlaneController>().Attack(collision);
             }
             else if (Missile == true)
             {
@@ -134,6 +132,12 @@ public class ExplodingProjectile : MonoBehaviour
 
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Plane" && !other.gameObject.GetComponent<PhotonView>().IsMine)
+            FindObjectOfType<PlaneController>().Attack(other);
     }
 
     void Explode()

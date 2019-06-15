@@ -1,0 +1,13 @@
+Setup steps:
+
+1) Create a healthbar prefab (top panel - Window -> X-BARS -> New healthbar), or customize the default one (you can find it in Prefabs folder);
+2) Add a HealthBar script to the enemy;
+3) Drag and drop your Health script to the Health Link "Health Script" field.
+4) Enter your HealthScript's heath variable name to the "Health var name" field.
+5) Assign a HealthBar prefab.
+6) Setup other parameters to suit your needs.
+7) Done!
+--------------------------------------------------------------------------------
+Added HealthBarEventHandler script, so now you can use all the healthbar's changes as callbacks for your custom functions.
+
+Enjoy this simple and useful asset and dont forget to rate if you like it!

@@ -9438,6 +9438,7 @@ GameObject:
   - component: {fileID: 198816427586534772}
   - component: {fileID: 5058227891070187292}
   - component: {fileID: 2874333315811876994}
+  - component: {fileID: 1681260072543860829}
   m_Layer: 0
   m_Name: Bullet_BlazingRed_Medium_Projectile
   m_TagString: FX
@@ -14319,6 +14320,19 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!65 &1681260072543860829
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796749963149706}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1924905033165216
 GameObject:
   m_ObjectHideFlags: 0
