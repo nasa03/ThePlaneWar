@@ -22,8 +22,10 @@ public class PlaneController : MonoBehaviourPunCallbacks
     {
         Player player = collider.gameObject.GetComponent<PhotonView>().Controller;
 
+        int randomAttack = Random.Range(5, 15);
+
         int totalHP = (int)getProperties(player, "HP");
-        setProperties(player, "HP", totalHP - 20);
+        setProperties(player, "HP", totalHP - randomAttack);
 
         StartCoroutine(ShowSight());
     }
