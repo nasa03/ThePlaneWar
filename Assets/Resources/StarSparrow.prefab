@@ -4848,7 +4848,7 @@ MonoBehaviour:
   m_MaxEnginePower: 40
   m_Lift: 0.003
   m_ZeroLiftSpeed: 300
-  m_RollEffect: 5
+  m_RollEffect: 8
   m_PitchEffect: 2
   m_YawEffect: 0.2
   m_BankedTurnEffect: 2
