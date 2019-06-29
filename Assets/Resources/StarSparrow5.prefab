@@ -18691,7 +18691,7 @@ MonoBehaviour:
   m_AutoTurnPitch: 0.5
   m_AutoRollLevel: 0.2
   m_AutoPitchLevel: 0.2
-  m_AirBrakesEffect: 3
+  m_AirBrakesEffect: 10
   m_ThrottleChangeSpeed: 0.3
   m_DragIncreaseFactor: 0.001
 --- !u!114 &114838102592532466
