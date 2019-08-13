@@ -18,6 +18,7 @@ public static class Global {
     public static int totalPlaneInt = 0;
     public static int totalPlayerInt = 0;
     public static int totalFireInt = 0;
+    public static int totalMissleInt = 0;
     public static bool isOffline = false;
     public static bool inGame = false;
 }
