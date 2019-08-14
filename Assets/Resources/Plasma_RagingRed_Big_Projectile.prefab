@@ -4580,10 +4580,10 @@ GameObject:
   - component: {fileID: 199187720539646952}
   - component: {fileID: 198228151580939694}
   - component: {fileID: 54453457801900860}
-  - component: {fileID: 114591203083495332}
   - component: {fileID: 2295318953803053275}
   - component: {fileID: 5909638961745564646}
   - component: {fileID: 4694032818224098902}
+  - component: {fileID: 6261881526189803111}
   m_Layer: 0
   m_Name: Plasma_RagingRed_Big_Projectile
   m_TagString: FX
@@ -9467,32 +9467,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114591203083495332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238843893459588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 538d28f745155f34fba977c5c1026e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  impactPrefab: {fileID: 1228869523896316, guid: cfd26614dff7742469a59d19d1403e93,
-    type: 3}
-  explosionPrefab: {fileID: 0}
-  thrust: 0
-  thisRigidbody: {fileID: 54453457801900860}
-  particleKillGroup: {fileID: 0}
-  LookRotation: 1
-  Missile: 0
-  missileTarget: {fileID: 0}
-  projectileSpeed: 0
-  projectileSpeedMultiplier: 0
-  ignorePrevRotation: 0
-  explodeOnTimer: 0
-  explosionTimer: 0
 --- !u!114 &2295318953803053275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9544,6 +9518,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6261881526189803111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238843893459588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7439ea723d607478f8a580528e550b2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzlePrefab: {fileID: 1000012903210382, guid: 3735129208580034781b585da5229bda,
+    type: 3}
+  explosionPrefab: {fileID: 1228869523896316, guid: cfd26614dff7742469a59d19d1403e93,
+    type: 3}
+  speed: 800
+  explosionTimer: 6
 --- !u!1 &1331927736720676
 GameObject:
   m_ObjectHideFlags: 0

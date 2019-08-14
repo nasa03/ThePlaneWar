@@ -4571,6 +4571,7 @@ GameObject:
   - component: {fileID: 7209523450473485491}
   - component: {fileID: 5811306590922790829}
   - component: {fileID: 2026872767032420050}
+  - component: {fileID: 8286925727963939653}
   m_Layer: 0
   m_Name: PlasmaOceanBlue_Small_Projectile
   m_TagString: FX
@@ -9498,6 +9499,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8286925727963939653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257873104036598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7439ea723d607478f8a580528e550b2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzlePrefab: {fileID: 1000012903210382, guid: b662320d35110c4429923b52881f4828,
+    type: 3}
+  explosionPrefab: {fileID: 1879272669879180, guid: 5301e53676983a24b81ac07500d60ae5,
+    type: 3}
+  speed: 800
+  explosionTimer: 6
 --- !u!1 &1413889838209516
 GameObject:
   m_ObjectHideFlags: 0
