@@ -37,6 +37,7 @@ namespace Photon.Pun
             }
 
             EditorGUILayout.BeginHorizontal();
+
             // Owner
             if (isProjectPrefab)
             {
@@ -61,7 +62,7 @@ namespace Photon.Pun
 
             // ownership requests
             EditorGUI.BeginDisabledGroup(Application.isPlaying);
-            OwnershipOption own = (OwnershipOption) EditorGUILayout.EnumPopup(this.m_Target.OwnershipTransfer, GUILayout.Width(100));
+            OwnershipOption own = (OwnershipOption) EditorGUILayout.EnumPopup(this.m_Target.OwnershipTransfer, GUILayout.Width(100), GUILayout.MinWidth(75));
             if (own != this.m_Target.OwnershipTransfer)
             {
                 // jf: fixed 5 and up prefab not accepting changes if you quit Unity straight after change.
@@ -112,11 +113,8 @@ namespace Photon.Pun
 
             if (this.m_Target.Synchronization != ViewSynchronization.Off && this.m_Target.ObservedComponents.FindAll(item => item != null).Count == 0)
             {
-                GUILayout.BeginVertical(GUI.skin.box);
-                GUILayout.Label("Warning", EditorStyles.boldLabel);
-                GUILayout.Label("Setting the synchronization option only makes sense if you observe something.");
-                GUILayout.EndVertical();
-            }
+				EditorGUILayout.HelpBox("Setting the synchronization option only makes sense if you observe something.", MessageType.Warning);
+			}
 
             GUI.color = Color.white;
             this.DrawObservedComponentsList();
@@ -124,7 +122,7 @@ namespace Photon.Pun
             // Cleanup: save and fix look
             if (GUI.changed)
             {
-                PhotonViewHandler.HierarchyChange(); // TODO: check if needed
+                PhotonViewHandler.OnHierarchyChanged(); // TODO: check if needed
             }
 
             GUI.color = Color.white;

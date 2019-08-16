@@ -141,14 +141,10 @@ namespace Photon.Realtime
 
         /// <summary>OnStatusChanged: The server disconnected this client due to timing out (missing acknowledgement from the client).</summary>
         ServerTimeout,
-        /// <summary>OnStatusChanged: The server disconnected this client. Most likely the server's send buffer is full (receiving too much from other clients).</summary>
-        [Obsolete("Replace with: ServerTimeout (same value).")]
-        DisconnectByServer = ServerTimeout,
+
         /// <summary>OnStatusChanged: This client detected that the server's responses are not received in due time.</summary>
         ClientTimeout,
-        /// <summary>OnStatusChanged: This client detected that the server's responses are not received in due time.</summary>
-        [Obsolete("Replace with: ClientTimeout (same value).")]
-        TimeoutDisconnect = ClientTimeout,
+
         /// <summary>OnStatusChanged: The server disconnected this client from within the room's logic (the C# code).</summary>
         DisconnectByServerLogic,
         /// <summary>OnStatusChanged: The server disconnected this client for unknown reasons.</summary>
@@ -162,9 +158,7 @@ namespace Photon.Realtime
         AuthenticationTicketExpired,
         /// <summary>OnOperationResponse: Authenticate (temporarily) failed when using a Photon Cloud subscription without CCU Burst. Update your subscription.</summary>
         MaxCcuReached,
-        /// <summary>OnStatusChanged: The current CCUs exceed the CCUs of your subscription (or license). Get a suitable subscription (some include overage).</summary>
-        [Obsolete("Replace with: MaxCcuReached (same value).")]
-        DisconnectByServerUserLimit = MaxCcuReached,
+
         /// <summary>OnOperationResponse: Authenticate when the app's Photon Cloud subscription is locked to some (other) region(s). Update your subscription or master server address.</summary>
         InvalidRegion,
 
@@ -256,9 +250,6 @@ namespace Photon.Realtime
         /// <summary>User authentication values to be sent to the Photon server right after connecting.</summary>
         /// <remarks>Set this property or pass AuthenticationValues by Connect(..., authValues).</remarks>
         public AuthenticationValues AuthValues { get; set; }
-
-        /// <summary>Internally used to trigger OpAuthenticate when encryption was established after a connect.</summary>
-        private bool didAuthenticate;
 
         /// <summary>Enables the new Authentication workflow.</summary>
         public AuthModeOption AuthMode = AuthModeOption.Auth;
@@ -440,23 +431,23 @@ namespace Photon.Realtime
 
         /// <summary>Wraps up the target objects for a group of callbacks, so they can be called conveniently.</summary>
         /// <remarks>By using Add or Remove, objects can "subscribe" or "unsubscribe" for this group  of callbacks.</remarks>
-        public ConnectionCallbacksContainer ConnectionCallbackTargets = new ConnectionCallbacksContainer();
+        public ConnectionCallbacksContainer ConnectionCallbackTargets;
 
         /// <summary>Wraps up the target objects for a group of callbacks, so they can be called conveniently.</summary>
         /// <remarks>By using Add or Remove, objects can "subscribe" or "unsubscribe" for this group  of callbacks.</remarks>
-        public MatchMakingCallbacksContainer MatchMakingCallbackTargets = new MatchMakingCallbacksContainer();
+        public MatchMakingCallbacksContainer MatchMakingCallbackTargets;
 
         /// <summary>Wraps up the target objects for a group of callbacks, so they can be called conveniently.</summary>
         /// <remarks>By using Add or Remove, objects can "subscribe" or "unsubscribe" for this group  of callbacks.</remarks>
-        internal InRoomCallbacksContainer InRoomCallbackTargets = new InRoomCallbacksContainer();
+        internal InRoomCallbacksContainer InRoomCallbackTargets;
 
         /// <summary>Wraps up the target objects for a group of callbacks, so they can be called conveniently.</summary>
         /// <remarks>By using Add or Remove, objects can "subscribe" or "unsubscribe" for this group  of callbacks.</remarks>
-        internal LobbyCallbacksContainer LobbyCallbackTargets = new LobbyCallbacksContainer();
+        internal LobbyCallbacksContainer LobbyCallbackTargets;
 
         /// <summary>Wraps up the target objects for a group of callbacks, so they can be called conveniently.</summary>
         /// <remarks>By using Add or Remove, objects can "subscribe" or "unsubscribe" for this group  of callbacks.</remarks>
-        internal WebRpcCallbacksContainer WebRpcCallbackTargets = new WebRpcCallbacksContainer();
+        internal WebRpcCallbacksContainer WebRpcCallbackTargets;
 
 
         /// <summary>Summarizes (aggregates) the different causes for disconnects of a client.</summary>
@@ -613,12 +604,33 @@ namespace Photon.Realtime
         public RegionHandler RegionHandler;
 
 
+        private class CallbackTargetChange
+        {
+            public readonly object Target;
+            /// <summary>Add if true, remove if false.</summary>
+            public readonly bool AddTarget;
+
+            public CallbackTargetChange(object target, bool addTarget)
+            {
+                this.Target = target;
+                this.AddTarget = addTarget;
+            }
+        }
+
+        private readonly Queue<CallbackTargetChange> callbackTargetChanges = new Queue<CallbackTargetChange>();
+        private readonly HashSet<object> callbackTargets = new HashSet<object>();
 
 
         /// <summary>Creates a LoadBalancingClient with UDP protocol or the one specified.</summary>
         /// <param name="protocol">Specifies the network protocol to use for connections.</param>
         public LoadBalancingClient(ConnectionProtocol protocol = ConnectionProtocol.Udp)
         {
+            this.ConnectionCallbackTargets = new ConnectionCallbacksContainer(this);
+            this.MatchMakingCallbackTargets = new MatchMakingCallbacksContainer(this);
+            this.InRoomCallbackTargets = new InRoomCallbacksContainer(this);
+            this.LobbyCallbackTargets = new LobbyCallbacksContainer(this);
+            this.WebRpcCallbackTargets = new WebRpcCallbacksContainer(this);
+
             this.LoadBalancingPeer = new LoadBalancingPeer(this, protocol);
             this.LoadBalancingPeer.SerializationProtocolType = SerializationProtocol.GpBinaryV18;
             this.LocalPlayer = this.CreatePlayer(string.Empty, -1, true, null); //TODO: Check if we can do this later
@@ -704,12 +716,11 @@ namespace Photon.Realtime
         /// </remarks>
         public virtual bool Connect()
         {
-            this.DisconnectedCause = DisconnectCause.None;
-
             #if UNITY_WEBGL
             SocketWebTcp.SerializationProtocol = Enum.GetName(typeof(SerializationProtocol), this.LoadBalancingPeer.SerializationProtocolType);
             #endif
 
+            this.DisconnectedCause = DisconnectCause.None;
             if (this.LoadBalancingPeer.Connect(this.MasterServerAddress, this.AppId, this.TokenForInit))
             {
                 this.State = ClientState.ConnectingToMasterServer;
@@ -748,6 +759,7 @@ namespace Photon.Realtime
                 this.LoadBalancingPeer.TransportProtocol = ConnectionProtocol.WebSocketSecure;
             }
 
+            this.DisconnectedCause = DisconnectCause.None;
             if (!this.LoadBalancingPeer.Connect(this.NameServerAddress, "NameServer", this.TokenForInit))
             {
                 return false;
@@ -784,6 +796,7 @@ namespace Photon.Realtime
                 this.LoadBalancingPeer.TransportProtocol = ConnectionProtocol.WebSocketSecure;
             }
 
+            this.DisconnectedCause = DisconnectCause.None;
             if (!this.LoadBalancingPeer.Connect(this.NameServerAddress, "NameServer", null))
             {
                 return false;
@@ -809,6 +822,7 @@ namespace Photon.Realtime
 
 
             // connect might fail, if the DNS name can't be resolved or if no network connection is available
+            this.DisconnectedCause = DisconnectCause.None;
             bool connecting = this.LoadBalancingPeer.Connect(serverAddress, "", this.TokenForInit);
 
             if (connecting)
@@ -912,6 +926,7 @@ namespace Photon.Realtime
             if (this.State != ClientState.Disconnected)
             {
                 this.State = ClientState.Disconnecting;
+                this.DisconnectedCause = DisconnectCause.DisconnectByClientLogic;
                 this.LoadBalancingPeer.Disconnect();
 
                 //// we can set this high-level state if the low-level (connection)state is "disconnected"
@@ -944,6 +959,37 @@ namespace Photon.Realtime
             this.LoadBalancingPeer.Disconnect();
         }
 
+        /// <summary>
+        /// Useful to test loss of connection which will end in a client timeout. This modifies LoadBalancingPeer.NetworkSimulationSettings. Read remarks.
+        /// </summary>
+        /// <remarks>
+        /// Use with care as this sets LoadBalancingPeer.IsSimulationEnabled.<br/>
+        /// Read LoadBalancingPeer.IsSimulationEnabled to check if this is on or off, if needed.<br/>
+        ///
+        /// If simulateTimeout is true, LoadBalancingPeer.NetworkSimulationSettings.IncomingLossPercentage and
+        /// LoadBalancingPeer.NetworkSimulationSettings.OutgoingLossPercentage will be set to 100.<br/>
+        /// Obviously, this overrides any network simulation settings done before.<br/>
+        ///
+        /// If you want fine-grained network simulation control, use the NetworkSimulationSettings.<br/>
+        ///
+        /// The timeout will lead to a call to <see cref="IConnectionCallbacks.OnDisconnected"/>, as usual in a client timeout.
+        ///
+        /// You could modify this method (or use NetworkSimulationSettings) to deliberately run into a server timeout by
+        /// just setting the OutgoingLossPercentage = 100 and the IncomingLossPercentage = 0.
+        /// </remarks>
+        /// <param name="simulateTimeout">If true, a connection loss is simulated. If false, the simulation ends.</param>
+        public void SimulateConnectionLoss(bool simulateTimeout)
+        {
+            this.DebugReturn(DebugLevel.WARNING, "SimulateConnectionLoss() set to: "+simulateTimeout);
+
+            if (simulateTimeout)
+            {
+                this.LoadBalancingPeer.NetworkSimulationSettings.IncomingLossPercentage = 100;
+                this.LoadBalancingPeer.NetworkSimulationSettings.OutgoingLossPercentage = 100;
+            }
+
+            this.LoadBalancingPeer.IsSimulationEnabled = simulateTimeout;
+        }
 
         private bool CallAuthenticate()
         {
@@ -978,7 +1024,7 @@ namespace Photon.Realtime
         /// Sending packages and dispatching received messages are two separate tasks. Service combines them
         /// into one method at the cost of control. It calls DispatchIncomingCommands and SendOutgoingCommands.
         ///
-        /// Call this method regularly (2..20 times a second).
+        /// Call this method regularly (10..50 times a second).
         ///
         /// This will Dispatch ANY received commands (unless a reliable command in-order is still missing) and
         /// events AND will send queued outgoing commands. Fewer calls might be more effective if a device
@@ -1031,14 +1077,17 @@ namespace Photon.Realtime
         /// The list of usernames must be fetched from some other source (not provided by Photon).
         ///
         ///
-        /// Internal:
-        /// The server response includes 2 arrays of info (each index matching a friend from the request):
-        /// ParameterCode.FindFriendsResponseOnlineList = bool[] of online states
-        /// ParameterCode.FindFriendsResponseRoomIdList = string[] of room names (empty string if not in a room)
+        /// Internal:<br/>
+        /// The server response includes 2 arrays of info (each index matching a friend from the request):<br/>
+        /// ParameterCode.FindFriendsResponseOnlineList = bool[] of online states<br/>
+        /// ParameterCode.FindFriendsResponseRoomIdList = string[] of room names (empty string if not in a room)<br/>
+        /// <br/>
+        /// The options may be used to define which state a room must match to be returned.
         /// </remarks>
         /// <param name="friendsToFind">Array of friend's names (make sure they are unique).</param>
+        /// <param name="options">Options that affect the result of the FindFriends operation.</param>
         /// <returns>If the operation could be sent (requires connection).</returns>
-        public bool OpFindFriends(string[] friendsToFind)
+        public bool OpFindFriends(string[] friendsToFind, FindFriendsOptions options = null)
         {
             if (!this.CheckIfOpCanBeSent(OperationCode.FindFriends, this.Server, "FindFriends"))
             {
@@ -1103,7 +1152,7 @@ namespace Photon.Realtime
             }
 
             string[] filteredArray = friendsList.ToArray();
-            bool sent = this.LoadBalancingPeer.OpFindFriends(filteredArray);
+            bool sent = this.LoadBalancingPeer.OpFindFriends(filteredArray, options);
             this.friendListRequested = sent ? filteredArray : null;
 
             return sent;
@@ -2107,7 +2156,7 @@ namespace Photon.Realtime
                                     this.ConnectionCallbackTargets.OnDisconnected(DisconnectCause.AuthenticationTicketExpired);
                                     break;
                             }
-                            this.State = ClientState.Disconnecting;
+
                             this.Disconnect();
                             break;  // if auth didn't succeed, we disconnect (above) and exit this operation's handling
                         }
@@ -2218,7 +2267,6 @@ namespace Photon.Realtime
                         this.DebugReturn(DebugLevel.ERROR, string.Format("The appId this client sent is unknown on the server (Cloud). Check settings. If using the Cloud, check account."));
                         this.ConnectionCallbackTargets.OnCustomAuthenticationFailed("Invalid Authentication");
 
-                        this.State = ClientState.Disconnecting;
                         this.Disconnect();
                         break;
                     }
@@ -2420,41 +2468,38 @@ namespace Photon.Realtime
                     break;
 
                 case StatusCode.EncryptionEstablished:
-                    // on nameserver, the "process" is stopped here, so the developer/game can either get regions or authenticate with a specific region
                     if (this.Server == ServerConnection.NameServer)
                     {
                         this.State = ClientState.ConnectedToNameServer;
 
-                        if (!this.didAuthenticate && string.IsNullOrEmpty(this.CloudRegion))
+                        // if there is no specific region to connect to, get available regions from the Name Server. the result triggers next actions in workflow
+                        if (string.IsNullOrEmpty(this.CloudRegion))
                         {
-                            // this client is not setup to connect to a default region. find out which regions there are!
                             this.OpGetRegions();
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        // auth AuthOnce, no explicit authentication is needed on Master Server and Game Server. this is done via token, so: break
+                        if (this.AuthMode == AuthModeOption.AuthOnce || this.AuthMode == AuthModeOption.AuthOnceWss)
+                        {
+                            break;
                         }
                     }
 
-                    if (this.Server != ServerConnection.NameServer && (this.AuthMode == AuthModeOption.AuthOnce || this.AuthMode == AuthModeOption.AuthOnceWss))
+                    // authenticate in all other cases
+                    bool authenticating = this.CallAuthenticate();
+                    if (authenticating)
                     {
-                        // AuthMode "Once" means we only authenticate on the NameServer
-                        break;
+                        this.State = ClientState.Authenticating;
                     }
-
-
-                    // on any other server we might now have to authenticate still, so the client can do anything at all
-                    if (!this.didAuthenticate && (!this.IsUsingNameServer || !string.IsNullOrEmpty(this.CloudRegion)))
+                    else
                     {
-                        // once encryption is availble, the client should send one (secure) authenticate. it includes the AppId (which identifies your app on the Photon Cloud)
-                        this.didAuthenticate = this.CallAuthenticate();
-
-                        if (this.didAuthenticate)
-                        {
-                            this.State = ClientState.Authenticating;
-                        }
-                        else
-                        {
-                            this.DebugReturn(DebugLevel.ERROR, "Error calling OpAuthenticate! Did not work. Check log output, AuthValues and if you're connected. State: " + this.State);
-                        }
+                        this.DebugReturn(DebugLevel.ERROR, "OpAuthenticate failed. Check log output and AuthValues. State: " + this.State);
                     }
                     break;
+
 
                 case StatusCode.Disconnect:
                     // disconnect due to connection exception is handled below (don't connect to GS or master in that case)
@@ -2463,14 +2508,7 @@ namespace Photon.Realtime
                     this.friendListRequested = null;
 
                     bool wasInRoom = this.CurrentRoom != null;
-
-                    // if this is called on the gameserver, we clean the room we were in. on the master, we keep the room to get into it
-                    if (this.Server == ServerConnection.GameServer || this.State == ClientState.Disconnecting || this.State == ClientState.PeerCreated)
-                    {
-                        this.CurrentRoom = null;    // players get cleaned up inside this, too, except LocalPlayer (which we keep)
-                    }
-
-                    this.didAuthenticate = false;   // on connect, we know that we didn't
+                    this.CurrentRoom = null;    // players get cleaned up inside this, too, except LocalPlayer (which we keep)
 
                     if (this.Server == ServerConnection.GameServer && wasInRoom)
                     {
@@ -2486,7 +2524,7 @@ namespace Photon.Realtime
                                 this.AuthValues.Token = null; // when leaving the server, invalidate the secret (but not the auth values)
                             }
                             this.State = ClientState.Disconnected;
-                            this.ConnectionCallbackTargets.OnDisconnected(DisconnectCause.DisconnectByClientLogic);
+                            this.ConnectionCallbackTargets.OnDisconnected(this.DisconnectedCause);
                             break;
 
                         case ClientState.DisconnectingFromGameServer:
@@ -2521,70 +2559,35 @@ namespace Photon.Realtime
                     break;
 
                 case StatusCode.DisconnectByServerUserLimit:
-                    this.DebugReturn(DebugLevel.ERROR, "The Photon license's CCU Limit was reached. Server rejected this connection. Wait and re-try.");
-                    if (this.AuthValues != null)
-                    {
-                        this.AuthValues.Token = null; // when leaving the server, invalidate the secret (but not the auth values)
-                    }
+                    this.DebugReturn(DebugLevel.ERROR, "This connection was rejected due to the apps CCU limit.");
                     this.DisconnectedCause = DisconnectCause.MaxCcuReached;
-                    this.State = ClientState.Disconnected;
-                    this.ConnectionCallbackTargets.OnDisconnected(this.DisconnectedCause);
+                    this.State = ClientState.Disconnecting;
                     break;
                 case StatusCode.ExceptionOnConnect:
                 case StatusCode.SecurityExceptionOnConnect:
-                    if (this.AuthValues != null)
-                    {
-                        this.AuthValues.Token = null; // when leaving the server, invalidate the secret (but not the auth values)
-                    }
                     this.DisconnectedCause = DisconnectCause.ExceptionOnConnect;
-                    this.State = ClientState.Disconnected;
-                    this.ConnectionCallbackTargets.OnDisconnected(this.DisconnectedCause);
-                    break;
-                case StatusCode.DisconnectByServerTimeout:
-                    if (this.AuthValues != null)
-                    {
-                        this.AuthValues.Token = null; // when leaving the server, invalidate the secret (but not the auth values)
-                    }
-                    this.DisconnectedCause = DisconnectCause.ServerTimeout;
-                    this.State = ClientState.Disconnected;
-                    this.ConnectionCallbackTargets.OnDisconnected(this.DisconnectedCause);
-                    break;
-                case StatusCode.DisconnectByServerLogic:
-                    if (this.AuthValues != null)
-                    {
-                        this.AuthValues.Token = null; // when leaving the server, invalidate the secret (but not the auth values)
-                    }
-                    this.DisconnectedCause = DisconnectCause.DisconnectByServerLogic;
-                    this.State = ClientState.Disconnected;
-                    this.ConnectionCallbackTargets.OnDisconnected(this.DisconnectedCause);
-                    break;
-                case StatusCode.DisconnectByServerReasonUnknown:
-                    if (this.AuthValues != null)
-                    {
-                        this.AuthValues.Token = null; // when leaving the server, invalidate the secret (but not the auth values)
-                    }
-                    this.DisconnectedCause = DisconnectCause.DisconnectByServerReasonUnknown;
-                    this.State = ClientState.Disconnected;
-                    this.ConnectionCallbackTargets.OnDisconnected(this.DisconnectedCause);
-                    break;
-                case StatusCode.TimeoutDisconnect:
-                    if (this.AuthValues != null)
-                    {
-                        this.AuthValues.Token = null; // when leaving the server, invalidate the secret (but not the auth values)
-                    }
-                    this.DisconnectedCause = DisconnectCause.ClientTimeout;
-                    this.State = ClientState.Disconnected;
-                    this.ConnectionCallbackTargets.OnDisconnected(this.DisconnectedCause);
+                    this.State = ClientState.Disconnecting;
                     break;
                 case StatusCode.Exception:
                 case StatusCode.ExceptionOnReceive:
-                    if (this.AuthValues != null)
-                    {
-                        this.AuthValues.Token = null; // when leaving the server, invalidate the secret (but not the auth values)
-                    }
                     this.DisconnectedCause = DisconnectCause.Exception;
-                    this.State = ClientState.Disconnected;
-                    this.ConnectionCallbackTargets.OnDisconnected(this.DisconnectedCause);
+                    this.State = ClientState.Disconnecting;
+                    break;
+                case StatusCode.DisconnectByServerTimeout:
+                    this.DisconnectedCause = DisconnectCause.ServerTimeout;
+                    this.State = ClientState.Disconnecting;
+                    break;
+                case StatusCode.DisconnectByServerLogic:
+                    this.DisconnectedCause = DisconnectCause.DisconnectByServerLogic;
+                    this.State = ClientState.Disconnecting;
+                    break;
+                case StatusCode.DisconnectByServerReasonUnknown:
+                    this.DisconnectedCause = DisconnectCause.DisconnectByServerReasonUnknown;
+                    this.State = ClientState.Disconnecting;
+                    break;
+                case StatusCode.TimeoutDisconnect:
+                    this.DisconnectedCause = DisconnectCause.ClientTimeout;
+                    this.State = ClientState.Disconnecting;
                     break;
             }
         }
@@ -2745,6 +2748,7 @@ namespace Photon.Realtime
 
             }
 
+            this.UpdateCallbackTargets();
             if (this.EventReceived != null) this.EventReceived(photonEvent);
         }
 
@@ -2860,6 +2864,10 @@ namespace Photon.Realtime
         /// Registers an object for callbacks for the implemented callback-interfaces.
         /// </summary>
         /// <remarks>
+        /// Adding and removing callback targets is queued to not mess with callbacks in execution.
+        /// Internally, this means that the addition/removal is done before the LoadBalancingClient
+        /// calls the next callbacks. This detail should not affect a game's workflow.
+        /// 
         /// The covered callback interfaces are: IConnectionCallbacks, IMatchmakingCallbacks,
         /// ILobbyCallbacks, IInRoomCallbacks, IOnEventCallback and IWebRpcCallback.
         ///
@@ -2868,49 +2876,17 @@ namespace Photon.Realtime
         /// <param name="target">The object that registers to get callbacks from this client.</param>
         public void AddCallbackTarget(object target)
         {
-
-            IInRoomCallbacks inRoomCallback = target as IInRoomCallbacks;
-            if (inRoomCallback != null)
-            {
-                InRoomCallbackTargets.AddCallbackTarget(inRoomCallback);
-            }
-
-            IConnectionCallbacks connectionCallback = target as IConnectionCallbacks;
-            if (connectionCallback != null)
-            {
-                ConnectionCallbackTargets.AddCallbackTarget(connectionCallback);
-            }
-
-            IMatchmakingCallbacks matchmakingCallback = target as IMatchmakingCallbacks;
-            if (matchmakingCallback != null)
-            {
-                MatchMakingCallbackTargets.AddCallbackTarget(matchmakingCallback);
-            }
-
-            ILobbyCallbacks lobbyCallback = target as ILobbyCallbacks;
-            if (lobbyCallback != null)
-            {
-                LobbyCallbackTargets.AddCallbackTarget(lobbyCallback);
-            }
-
-            IOnEventCallback onEventCallback = target as IOnEventCallback;
-            if (onEventCallback != null)
-            {
-                EventReceived += onEventCallback.OnEvent;
-            }
-
-            IWebRpcCallback webRpcCallback = target as IWebRpcCallback;
-            if (webRpcCallback != null)
-            {
-                WebRpcCallbackTargets.AddCallbackTarget(webRpcCallback);
-            }
+            this.callbackTargetChanges.Enqueue(new CallbackTargetChange(target, true));
         }
-
 
         /// <summary>
         /// Unregisters an object from callbacks for the implemented callback-interfaces.
         /// </summary>
         /// <remarks>
+        /// Adding and removing callback targets is queued to not mess with callbacks in execution.
+        /// Internally, this means that the addition/removal is done before the LoadBalancingClient
+        /// calls the next callbacks. This detail should not affect a game's workflow.
+        /// 
         /// The covered callback interfaces are: IConnectionCallbacks, IMatchmakingCallbacks,
         /// ILobbyCallbacks, IInRoomCallbacks, IOnEventCallback and IWebRpcCallback.
         ///
@@ -2919,45 +2895,83 @@ namespace Photon.Realtime
         /// <param name="target">The object that unregisters from getting callbacks.</param>
         public void RemoveCallbackTarget(object target)
         {
-            IInRoomCallbacks inRoomCallback = target as IInRoomCallbacks;
-            if (inRoomCallback != null)
-            {
-                InRoomCallbackTargets.RemoveCallbackTarget(inRoomCallback);
-            }
-
-            IConnectionCallbacks connectionCallback = target as IConnectionCallbacks;
-            if (connectionCallback != null)
-            {
-                ConnectionCallbackTargets.RemoveCallbackTarget(connectionCallback);
-            }
-
-            IMatchmakingCallbacks matchmakingCallback = target as IMatchmakingCallbacks;
-            if (matchmakingCallback != null)
-            {
-                MatchMakingCallbackTargets.RemoveCallbackTarget(matchmakingCallback);
-            }
-
-            ILobbyCallbacks lobbyCallback = target as ILobbyCallbacks;
-            if (lobbyCallback != null)
-            {
-                LobbyCallbackTargets.RemoveCallbackTarget(lobbyCallback);
-            }
-
-            IOnEventCallback onEventCallback = target as IOnEventCallback;
-            if (onEventCallback != null)
-            {
-                EventReceived -= onEventCallback.OnEvent;
-            }
-
-            IWebRpcCallback webRpcCallback = target as IWebRpcCallback;
-            if (webRpcCallback != null)
-            {
-                WebRpcCallbackTargets.RemoveCallbackTarget(webRpcCallback);
-            }
-
-
+            this.callbackTargetChanges.Enqueue(new CallbackTargetChange(target, false));
         }
 
+
+        /// <summary>
+        /// Applies queued callback cahnges from a queue to the actual containers. Will cause exceptions if used while callbacks execute.
+        /// </summary>
+        /// <remarks>
+        /// There is no explicit check that this is not called during callbacks, however the implemented, private logic takes care of this.
+        /// </remarks>
+        protected internal void UpdateCallbackTargets()
+        {
+            while (this.callbackTargetChanges.Count > 0)
+            {
+                CallbackTargetChange change = this.callbackTargetChanges.Dequeue();
+
+                if (change.AddTarget)
+                {
+                    if (this.callbackTargets.Contains(change.Target))
+                    {
+                        //Debug.Log("UpdateCallbackTargets skipped adding a target, as the object is already registered. Target: " + change.Target);
+                        continue;
+                    }
+
+                    this.callbackTargets.Add(change.Target);
+                }
+                else
+                {
+                    if (!this.callbackTargets.Contains(change.Target))
+                    {
+                        //Debug.Log("UpdateCallbackTargets skipped removing a target, as the object is not registered. Target: " + change.Target);
+                        continue;
+                    }
+
+                    this.callbackTargets.Remove(change.Target);
+                }
+                
+                this.UpdateCallbackTarget<IInRoomCallbacks>(change, this.InRoomCallbackTargets);
+                this.UpdateCallbackTarget<IConnectionCallbacks>(change, this.ConnectionCallbackTargets);
+                this.UpdateCallbackTarget<IMatchmakingCallbacks>(change, this.MatchMakingCallbackTargets);
+                this.UpdateCallbackTarget<ILobbyCallbacks>(change, this.LobbyCallbackTargets);
+                this.UpdateCallbackTarget<IWebRpcCallback>(change, this.WebRpcCallbackTargets);
+
+                IOnEventCallback onEventCallback = change.Target as IOnEventCallback;
+                if (onEventCallback != null)
+                {
+                    if (change.AddTarget)
+                    {
+                        EventReceived += onEventCallback.OnEvent;
+                    }
+                    else
+                    {
+                        EventReceived -= onEventCallback.OnEvent;
+                    }
+                }
+            }
+        }
+        
+        /// <summary>Helper method to cast and apply a target per (interface) type.</summary>
+        /// <typeparam name="T">Either of the interfaces for callbacks.</typeparam>
+        /// <param name="change">The queued change to apply (add or remove) some target.</param>
+        /// <param name="container">The container that calls callbacks on it's list of targets.</param>
+        private void UpdateCallbackTarget<T>(CallbackTargetChange change, List<T> container) where T : class
+        {
+            T target = change.Target as T;
+            if (target != null)
+            {
+                if (change.AddTarget)
+                {
+                    container.Add(target);
+                }
+                else
+                {
+                    container.Remove(target);
+                }
+            }
+        }
     }
 
 
@@ -3347,51 +3361,16 @@ namespace Photon.Realtime
     /// </remarks>
     public class ConnectionCallbacksContainer : List<IConnectionCallbacks>, IConnectionCallbacks
     {
-        private HashSet<IConnectionCallbacks> targetsToAdd;
-        private HashSet<IConnectionCallbacks> targetsToRemove;
+        private readonly LoadBalancingClient client;
 
-        public ConnectionCallbacksContainer()
+        public ConnectionCallbacksContainer(LoadBalancingClient client)
         {
-            this.targetsToAdd = new HashSet<IConnectionCallbacks>();
-            this.targetsToRemove = new HashSet<IConnectionCallbacks>();
-        }
-
-        public void AddCallbackTarget(IConnectionCallbacks target)
-        {
-            this.targetsToAdd.Add(target);
-            this.targetsToRemove.Remove(target);
-        }
-
-        public void RemoveCallbackTarget(IConnectionCallbacks target)
-        {
-            this.targetsToRemove.Add(target);
-            this.targetsToAdd.Remove(target);
-        }
-
-        private void UpdateCallbackTargets()
-        {
-            if (this.targetsToAdd.Count != 0)
-            {
-                foreach (IConnectionCallbacks target in this.targetsToAdd)
-                {
-                    this.Add(target);
-                }
-            }
-            this.targetsToAdd.Clear();
-
-            if (this.targetsToRemove.Count != 0)
-            {
-                foreach (IConnectionCallbacks target in this.targetsToRemove)
-                {
-                    this.Remove(target);
-                }
-            }
-            this.targetsToRemove.Clear();
+            this.client = client;
         }
 
         public void OnConnected()
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IConnectionCallbacks target in this)
             {
@@ -3401,7 +3380,7 @@ namespace Photon.Realtime
 
         public void OnConnectedToMaster()
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IConnectionCallbacks target in this)
             {
@@ -3411,7 +3390,7 @@ namespace Photon.Realtime
 
         public void OnRegionListReceived(RegionHandler regionHandler)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IConnectionCallbacks target in this)
             {
@@ -3421,7 +3400,7 @@ namespace Photon.Realtime
 
         public void OnDisconnected(DisconnectCause cause)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IConnectionCallbacks target in this)
             {
@@ -3431,7 +3410,7 @@ namespace Photon.Realtime
 
         public void OnCustomAuthenticationResponse(Dictionary<string, object> data)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IConnectionCallbacks target in this)
             {
@@ -3441,14 +3420,13 @@ namespace Photon.Realtime
 
         public void OnCustomAuthenticationFailed(string debugMessage)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IConnectionCallbacks target in this)
             {
                 target.OnCustomAuthenticationFailed(debugMessage);
             }
         }
-
     }
 
     /// <summary>
@@ -3460,52 +3438,16 @@ namespace Photon.Realtime
     /// </remarks>
     public class MatchMakingCallbacksContainer : List<IMatchmakingCallbacks>, IMatchmakingCallbacks
     {
+        private readonly LoadBalancingClient client;
 
-        private HashSet<IMatchmakingCallbacks> targetsToAdd;
-        private HashSet<IMatchmakingCallbacks> targetsToRemove;
-
-        public MatchMakingCallbacksContainer()
+        public MatchMakingCallbacksContainer(LoadBalancingClient client)
         {
-            this.targetsToAdd = new HashSet<IMatchmakingCallbacks>();
-            this.targetsToRemove = new HashSet<IMatchmakingCallbacks>();
-        }
-
-        public void AddCallbackTarget(IMatchmakingCallbacks target)
-        {
-            this.targetsToAdd.Add(target);
-            this.targetsToRemove.Remove(target);
-        }
-
-        public void RemoveCallbackTarget(IMatchmakingCallbacks target)
-        {
-            this.targetsToRemove.Add(target);
-            this.targetsToAdd.Remove(target);
-        }
-
-        private void UpdateCallbackTargets()
-        {
-            if (this.targetsToAdd.Count != 0)
-            {
-                foreach (IMatchmakingCallbacks target in this.targetsToAdd)
-                {
-                    this.Add(target);
-                }
-            }
-            this.targetsToAdd.Clear();
-
-            if (this.targetsToRemove.Count != 0)
-            {
-                foreach (IMatchmakingCallbacks target in this.targetsToRemove)
-                {
-                    this.Remove(target);
-                }
-            }
-            this.targetsToRemove.Clear();
+            this.client = client;
         }
 
         public void OnCreatedRoom()
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IMatchmakingCallbacks target in this)
             {
@@ -3515,7 +3457,7 @@ namespace Photon.Realtime
 
         public void OnJoinedRoom()
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IMatchmakingCallbacks target in this)
             {
@@ -3525,7 +3467,7 @@ namespace Photon.Realtime
 
         public void OnCreateRoomFailed(short returnCode, string message)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IMatchmakingCallbacks target in this)
             {
@@ -3535,7 +3477,7 @@ namespace Photon.Realtime
 
         public void OnJoinRandomFailed(short returnCode, string message)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IMatchmakingCallbacks target in this)
             {
@@ -3545,7 +3487,7 @@ namespace Photon.Realtime
 
         public void OnJoinRoomFailed(short returnCode, string message)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IMatchmakingCallbacks target in this)
             {
@@ -3555,7 +3497,7 @@ namespace Photon.Realtime
 
         public void OnLeftRoom()
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IMatchmakingCallbacks target in this)
             {
@@ -3565,14 +3507,13 @@ namespace Photon.Realtime
 
         public void OnFriendListUpdate(List<FriendInfo> friendList)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IMatchmakingCallbacks target in this)
             {
                 target.OnFriendListUpdate(friendList);
             }
         }
-
     }
 
 
@@ -3585,53 +3526,16 @@ namespace Photon.Realtime
     /// </remarks>
     internal class InRoomCallbacksContainer : List<IInRoomCallbacks>, IInRoomCallbacks
     {
+        private readonly LoadBalancingClient client;
 
-        private HashSet<IInRoomCallbacks> targetsToAdd;
-        private HashSet<IInRoomCallbacks> targetsToRemove;
-
-        public InRoomCallbacksContainer()
+        public InRoomCallbacksContainer(LoadBalancingClient client)
         {
-            this.targetsToAdd = new HashSet<IInRoomCallbacks>();
-            this.targetsToRemove = new HashSet<IInRoomCallbacks>();
-        }
-
-        public void AddCallbackTarget(IInRoomCallbacks target)
-        {
-            this.targetsToAdd.Add(target);
-            this.targetsToRemove.Remove(target);
-        }
-
-        public void RemoveCallbackTarget(IInRoomCallbacks target)
-        {
-            this.targetsToRemove.Add(target);
-            this.targetsToAdd.Remove(target);
-        }
-
-        private void UpdateCallbackTargets()
-        {
-            if (this.targetsToAdd.Count != 0)
-            {
-                foreach (IInRoomCallbacks target in this.targetsToAdd)
-                {
-                    this.Add(target);
-                }
-            }
-            this.targetsToAdd.Clear();
-
-            if (this.targetsToRemove.Count != 0)
-            {
-                foreach (IInRoomCallbacks target in this.targetsToRemove)
-                {
-                    this.Remove(target);
-                }
-            }
-            this.targetsToRemove.Clear();
-
+            this.client = client;
         }
 
         public void OnPlayerEnteredRoom(Player newPlayer)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IInRoomCallbacks target in this)
             {
@@ -3641,7 +3545,7 @@ namespace Photon.Realtime
 
         public void OnPlayerLeftRoom(Player otherPlayer)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IInRoomCallbacks target in this)
             {
@@ -3651,7 +3555,7 @@ namespace Photon.Realtime
 
         public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IInRoomCallbacks target in this)
             {
@@ -3661,7 +3565,7 @@ namespace Photon.Realtime
 
         public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProp)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IInRoomCallbacks target in this)
             {
@@ -3671,7 +3575,7 @@ namespace Photon.Realtime
 
         public void OnMasterClientSwitched(Player newMasterClient)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (IInRoomCallbacks target in this)
             {
@@ -3689,52 +3593,16 @@ namespace Photon.Realtime
     /// </remarks>
     internal class LobbyCallbacksContainer : List<ILobbyCallbacks>, ILobbyCallbacks
     {
+        private readonly LoadBalancingClient client;
 
-        private HashSet<ILobbyCallbacks> targetsToAdd;
-        private HashSet<ILobbyCallbacks> targetsToRemove;
-
-        public LobbyCallbacksContainer()
+        public LobbyCallbacksContainer(LoadBalancingClient client)
         {
-            this.targetsToAdd = new HashSet<ILobbyCallbacks>();
-            this.targetsToRemove = new HashSet<ILobbyCallbacks>();
+            this.client = client;
         }
-
-        public void AddCallbackTarget(ILobbyCallbacks target)
-        {
-            this.targetsToAdd.Add(target);
-            this.targetsToRemove.Remove(target);
-        }
-
-        public void RemoveCallbackTarget(ILobbyCallbacks target)
-        {
-            this.targetsToRemove.Add(target);
-            this.targetsToAdd.Remove(target);
-        }
-
-        private void UpdateCallbackTargets()
-        {
-            if (this.targetsToAdd.Count != 0)
-            {
-                foreach (ILobbyCallbacks target in this.targetsToAdd)
-                {
-                    this.Add(target);
-                }
-            }
-            this.targetsToAdd.Clear();
-
-            if (this.targetsToRemove.Count != 0)
-            {
-                foreach (ILobbyCallbacks target in this.targetsToRemove)
-                {
-                    this.Remove(target);
-                }
-            }
-            this.targetsToRemove.Clear();
-        }
-
+        
         public void OnJoinedLobby()
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (ILobbyCallbacks target in this)
             {
@@ -3744,7 +3612,7 @@ namespace Photon.Realtime
 
         public void OnLeftLobby()
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (ILobbyCallbacks target in this)
             {
@@ -3754,7 +3622,7 @@ namespace Photon.Realtime
 
         public void OnRoomListUpdate(List<RoomInfo> roomList)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (ILobbyCallbacks target in this)
             {
@@ -3764,7 +3632,7 @@ namespace Photon.Realtime
 
         public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
         {
-            this.UpdateCallbackTargets();
+            this.client.UpdateCallbackTargets();
 
             foreach (ILobbyCallbacks target in this)
             {
@@ -3780,41 +3648,23 @@ namespace Photon.Realtime
     /// While the interfaces of callbacks wrap up the methods that will be called,
     /// the container classes implement a simple way to call a method on all registered objects.
     /// </remarks>
-    internal class WebRpcCallbacksContainer : IWebRpcCallback
+    internal class WebRpcCallbacksContainer : List<IWebRpcCallback>, IWebRpcCallback
     {
-        internal event Action<OperationResponse> OnWebRpcResponseActions;
+        private LoadBalancingClient client;
 
-        public void AddCallbackTarget(IWebRpcCallback target)
+        public WebRpcCallbacksContainer(LoadBalancingClient client)
         {
-            OnWebRpcResponseActions += target.OnWebRpcResponse;
-        }
-
-        public void RemoveCallbackTarget(IWebRpcCallback target)
-        {
-            OnWebRpcResponseActions -= target.OnWebRpcResponse;
+            this.client = client;
         }
 
         public void OnWebRpcResponse(OperationResponse response)
         {
-            if (OnWebRpcResponseActions != null)
+            this.client.UpdateCallbackTargets();
+
+            foreach (IWebRpcCallback target in this)
             {
-                OnWebRpcResponseActions(response);
+                target.OnWebRpcResponse(response);
             }
-        }
-    }
-
-
-    public static class EventExt
-    {
-        [Obsolete("This extension is replaced by EventData.Sender, which can be configured via SenderKey.")]
-        public static int Sender(this EventData ev)
-        {
-            return ev.Sender;
-        }
-        [Obsolete("This extension is replaced by EventData.CustomData, which can be configured via CustomDataKey.")]
-        public static object CustomData(this EventData ev)
-        {
-            return ev.CustomData;
         }
     }
 }

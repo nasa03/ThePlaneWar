@@ -507,21 +507,29 @@ namespace Photon.Realtime
         /// </summary>
         /// <remarks>
         /// Used on Master Server to find the rooms played by a selected list of users.
-        /// Users identify themselves by using OpAuthenticate with a unique username.
-        /// The list of usernames must be fetched from some other source (not provided by Photon).
+        /// Users identify themselves by using OpAuthenticate with a unique user ID.
+        /// The list of user IDs must be fetched from some other source (not provided by Photon).
         ///
-        /// The server response includes 2 arrays of info (each index matching a friend from the request):
-        /// ParameterCode.FindFriendsResponseOnlineList = bool[] of online states
-        /// ParameterCode.FindFriendsResponseRoomIdList = string[] of room names (empty string if not in a room)
+        /// The server response includes 2 arrays of info (each index matching a friend from the request):<br/>
+        /// ParameterCode.FindFriendsResponseOnlineList = bool[] of online states<br/>
+        /// ParameterCode.FindFriendsResponseRoomIdList = string[] of room names (empty string if not in a room)<br/>
+        /// <br/>
+        /// The options may be used to define which state a room must match to be returned.
         /// </remarks>
         /// <param name="friendsToFind">Array of friend's names (make sure they are unique).</param>
+        /// <param name="options">Options that affect the result of the FindFriends operation.</param>
         /// <returns>If the operation could be sent (requires connection).</returns>
-        public virtual bool OpFindFriends(string[] friendsToFind)
+        public virtual bool OpFindFriends(string[] friendsToFind, FindFriendsOptions options = null)
         {
             Dictionary<byte, object> opParameters = new Dictionary<byte, object>();
             if (friendsToFind != null && friendsToFind.Length > 0)
             {
                 opParameters[ParameterCode.FindFriendsRequestList] = friendsToFind;
+            }
+
+            if (options != null)
+            {
+                opParameters[ParameterCode.FindFriendsOptions] = options.ToIntFlags();
             }
 
             return this.SendOperation(OperationCode.FindFriends, opParameters, SendOptions.SendReliable);
@@ -900,6 +908,40 @@ namespace Photon.Realtime
             }
 
             return this.SendOperation(OperationCode.ServerSettings, this.opParameters, SendOptions.SendReliable);
+        }
+    }
+
+
+    /// <summary>
+    /// Options for OpFindFriends can be combined to filter which rooms of friends are returned.
+    /// </summary>
+    public class FindFriendsOptions
+    {
+        /// <summary>Include a friend's room only if it is created and confirmed by the game server.</summary>
+        public bool CreatedOnGs = false;    //flag: 0x01
+        /// <summary>Include a friend's room only if it is visible (using Room.IsVisible).</summary>
+        public bool Visible = false;        //flag: 0x02
+        /// <summary>Include a friend's room only if it is open (using Room.IsOpen).</summary>
+        public bool Open = false;           //flag: 0x04
+
+        /// <summary>Turns the bool options into an integer, which is sent as option flags for Op FindFriends.</summary>
+        /// <returns>The options applied to bits of an integer.</returns>
+        internal int ToIntFlags()
+        {
+            int optionFlags = 0;
+            if (this.CreatedOnGs)
+            {
+                optionFlags = optionFlags | 0x1;
+            }
+            if (this.Visible)
+            {
+                optionFlags = optionFlags | 0x2;
+            }
+            if (this.Open)
+            {
+                optionFlags = optionFlags | 0x4;
+            }
+            return optionFlags;
         }
     }
 
@@ -1363,6 +1405,9 @@ namespace Photon.Realtime
 
         /// <summary>(1) Used in Op FindFriends request. Value must be string[] of friends to look up.</summary>
         public const byte FindFriendsRequestList = (byte)1;
+
+        /// <summary>(2) Used in Op FindFriends request. An integer containing option-flags to filter the results.</summary>
+        public const byte FindFriendsOptions = (byte)2;
 
         /// <summary>(1) Used in Op FindFriends response. Contains bool[] list of online states (false if not online).</summary>
         public const byte FindFriendsResponseOnlineList = (byte)1;
@@ -1971,7 +2016,7 @@ namespace Photon.Realtime
 
         public override string ToString()
         {
-            return string.Format("AuthenticationValues UserId: {0}, GetParameters: {1} Token available: {2}", this.UserId, this.AuthGetParameters, this.Token != null);
+            return string.Format("AuthenticationValues Type: {3} UserId: {0}, GetParameters: {1} Token available: {2}", this.UserId, this.AuthGetParameters, !string.IsNullOrEmpty(this.Token), this.AuthType);
         }
     }
 }

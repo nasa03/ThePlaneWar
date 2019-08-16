@@ -247,7 +247,8 @@ namespace Photon.Pun
         protected internal bool didAwake;
 
         [SerializeField]
-        protected internal bool isRuntimeInstantiated;
+        [HideInInspector]
+        public bool isRuntimeInstantiated;
 
         protected internal bool removedFromLocalViewList;
 

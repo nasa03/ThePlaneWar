@@ -20,6 +20,7 @@
 namespace Photon.Realtime
 {
     using System;
+    using System.Text;
     using System.Net;
     using System.Collections;
     using System.Collections.Generic;
@@ -101,6 +102,21 @@ namespace Photon.Realtime
             }
         }
 
+        public string GetResults()
+        { 
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("Region Pinging Result: {0}\n", this.BestRegion.ToString());
+            if (this.pingerList != null)
+            {
+                foreach (RegionPinger region in this.pingerList)
+                {
+                    sb.AppendFormat(region.GetResults() + "\n");
+                }
+            }
+
+            sb.AppendFormat("Previous summary: {0}", this.previousSummaryProvided);
+            return sb.ToString();
+        }
 
         public void SetRegions(OperationResponse opGetRegions)
         {
@@ -144,7 +160,7 @@ namespace Photon.Realtime
         private Action<RegionHandler> onCompleteCall;
         private int previousPing;
         public bool IsPinging { get; private set; }
-
+        private string previousSummaryProvided;
 
         public bool PingMinimumOfRegions(Action<RegionHandler> onCompleteCallback, string previousSummary)
         {
@@ -164,6 +180,7 @@ namespace Photon.Realtime
 
             this.IsPinging = true;
             this.onCompleteCall = onCompleteCallback;
+            this.previousSummaryProvided = previousSummary;
 
             if (string.IsNullOrEmpty(previousSummary))
             {
@@ -280,6 +297,8 @@ namespace Photon.Realtime
 
         private PhotonPing ping;
 
+        private List<int> rttResults;
+
         #if PING_VIA_COROUTINE
         // for WebGL exports, a coroutine is used to run pings. this is done on a temporary game object/monobehaviour
         private MonoBehaviour coroutineMonoBehaviour;
@@ -344,6 +363,7 @@ namespace Photon.Realtime
 
             this.Done = false;
             this.CurrentAttempt = 0;
+            this.rttResults = new List<int>(Attempts);
 
             #if PING_VIA_COROUTINE
             GameObject go = new GameObject();
@@ -402,6 +422,7 @@ namespace Photon.Realtime
 
                 sw.Stop();
                 int rtt = (int)sw.ElapsedMilliseconds;
+                this.rttResults.Add(rtt);
 
                 if (IgnoreInitialAttempt && this.CurrentAttempt == 0)
                 {
@@ -419,6 +440,7 @@ namespace Photon.Realtime
                 #endif
             }
 
+            //Debug.Log("Done: "+ this.region.Code);
             this.Done = true;
             this.ping.Dispose();
 
@@ -471,6 +493,7 @@ namespace Photon.Realtime
 
                 sw.Stop();
                 int rtt = (int)sw.ElapsedMilliseconds;
+                this.rttResults.Add(rtt);
 
 
                 if (IgnoreInitialAttempt && this.CurrentAttempt == 0)
@@ -492,12 +515,17 @@ namespace Photon.Realtime
             GameObject.Destroy(this.coroutineMonoBehaviour.gameObject);   // this method runs as coroutine on a temp object, which gets destroyed now.
             #endif
 
+            //Debug.Log("Done: "+ this.region.Code);
             this.Done = true;
-            //Debug.Log(this.region.ToString());
             this.onDoneCall(this.region);
             yield return null;
         }
         #endif
+
+        public string GetResults()
+        {
+            return string.Format("{0}: {1} ({2})", this.region.Code, this.region.Ping, this.rttResults.ToStringFull());
+        }
 
         /// <summary>
         /// Attempts to resolve a hostname into an IP string or returns empty string if that fails.

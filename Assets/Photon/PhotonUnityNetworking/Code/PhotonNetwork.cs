@@ -64,7 +64,7 @@ namespace Photon.Pun
     public static partial class PhotonNetwork
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
-        public const string PunVersion = "2.12";
+        public const string PunVersion = "2.14";
 
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
@@ -97,9 +97,6 @@ namespace Photon.Pun
             get { return NetworkingClient.AppVersion; }
         }
 
-        /// <summary>This Monobehaviour allows Photon to run an Update loop.</summary>
-        private static readonly PhotonHandler photonMono;
-
         /// <summary>The LoadBalancingClient is part of Photon Realtime and wraps up multiple servers and states for PUN.</summary>
         public static LoadBalancingClient NetworkingClient;
 
@@ -110,10 +107,24 @@ namespace Photon.Pun
 
 
         /// <summary>Name of the PhotonServerSettings file (used to load and by PhotonEditor to save new files).</summary>
-        internal const string ServerSettingsFileName = "PhotonServerSettings";
+        public const string ServerSettingsFileName = "PhotonServerSettings";
+
+        private static ServerSettings photonServerSettings;
 
         /// <summary>Serialized server settings, written by the Setup Wizard for use in ConnectUsingSettings.</summary>
-        public static ServerSettings PhotonServerSettings = (ServerSettings)Resources.Load(PhotonNetwork.ServerSettingsFileName, typeof(ServerSettings));
+        public static ServerSettings PhotonServerSettings
+        {
+            get
+            {
+                if (photonServerSettings == null)
+                {
+                    photonServerSettings = (ServerSettings)Resources.Load(PhotonNetwork.ServerSettingsFileName, typeof(ServerSettings));
+                }
+
+                return photonServerSettings;
+            }
+            private set { photonServerSettings = value; }
+        }
 
         /// <summary>Currently used server address (no matter if master or game server).</summary>
         public static string ServerAddress { get { return (NetworkingClient != null) ? NetworkingClient.CurrentServerAddress : "<not connected>"; } }
@@ -126,6 +137,9 @@ namespace Photon.Pun
         private const string PlayerPrefsKey = "PUNCloudBestRegion";
 
         /// <summary>Used to store and access the "Best Region Summary" in the Player Preferences.</summary>
+        /// <remarks>
+        /// Set this value to null before you connect, to discard the previously selected Best Region for the client.
+        /// </remarks>
         public static string BestRegionSummaryInPreferences
         {
             get
@@ -444,7 +458,7 @@ namespace Photon.Pun
         /// notifies the other clients before starting to load the scene.
         /// If the Master Client loads a level directly via Unity's API, PUN will notify the other players after
         /// the scene loading completed (using SceneManager.sceneLoaded).
-        /// 
+        ///
         /// Internally, a Custom Room Property is set for the loaded scene. On change, clients use LoadLevel
         /// if they are not in the same scene.
         ///
@@ -530,9 +544,9 @@ namespace Photon.Pun
             set
             {
                 sendFrequency = 1000 / value;
-                if (photonMono != null)
+                if (PhotonHandler.Instance != null)
                 {
-                    photonMono.UpdateInterval = sendFrequency;
+                    PhotonHandler.Instance.UpdateInterval = sendFrequency;
                 }
 
                 if (value < SerializationRate)
@@ -543,7 +557,7 @@ namespace Photon.Pun
             }
         }
 
-        private static int sendFrequency = 50; // in miliseconds.
+        private static int sendFrequency = 50; // in milliseconds.
 
         /// <summary>
         /// Defines how many times per second OnPhotonSerialize should be called on PhotonViews.
@@ -568,17 +582,17 @@ namespace Photon.Pun
                 }
 
                 serializationFrequency = 1000 / value;
-                if (photonMono != null)
+                if (PhotonHandler.Instance != null)
                 {
-                    photonMono.UpdateIntervalOnSerialize = serializationFrequency;
+                    PhotonHandler.Instance.UpdateIntervalOnSerialize = serializationFrequency;
                 }
             }
         }
 
-        private static int serializationFrequency = 100; // in miliseconds. I.e. 100 = 100ms which makes 10 times/second
+        private static int serializationFrequency = 100; // in milliseconds. I.e. 100 = 100ms which makes 10 times/second
 
         /// <summary>
-        /// Can be used to pause dispatching of incoming evtents (RPCs, Instantiates and anything else incoming).
+        /// Can be used to pause dispatching of incoming events (RPCs, Instantiates and anything else incoming).
         /// </summary>
         /// <remarks>
         /// While IsMessageQueueRunning == false, the OnPhotonSerializeView calls are not done and nothing is sent by
@@ -712,12 +726,15 @@ namespace Photon.Pun
             get { return PhotonHandler.Instance != null ? Mathf.Round(PhotonHandler.Instance.KeepAliveInBackground / 1000.0f) : 60.0f; }
         }
 
-        [Obsolete("Use KeepAliveInBackground instead.")]
-        public static float BackgroundTimeout
-        {
-            set { KeepAliveInBackground = value; }
-            get { return KeepAliveInBackground; }
-        }
+
+        /// <summary>Configures the minimal Time.timeScale at which PUN (the PhotonHandler) will dispatch incoming messages within LateUpdate.</summary>
+        /// <remarks>
+        /// It may make sense to dispatch incoming messages, even if the timeScale is near 0.///
+        /// In some cases, stopping the game time makes sense, so this option defaults to -1f, which is "off".
+        /// 
+        /// Without dispatching messages, PUN won't change state and does not handle updates.
+        /// </remarks>
+        public static float MinimalTimeScaleToDispatchInFixedUpdate = -1f;
 
 
         /// <summary>
@@ -951,38 +968,11 @@ namespace Photon.Pun
         static PhotonNetwork()
         {
             #if UNITY_EDITOR
-
-            if (!EditorApplication.isPlaying && !EditorApplication.isPlayingOrWillChangePlaymode)
-            {
-                //Debug.Log(string.Format("PhotonNetwork.ctor() Not playing {0} {1}", UnityEditor.EditorApplication.isPlaying, UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode));
-                return;
-            }
-
-            // This can happen when you recompile a script IN play mode
-            // This helps to surpress some errors, but will not fix breaking
-            PhotonHandler[] photonHandlers = GameObject.FindObjectsOfType(typeof(PhotonHandler)) as PhotonHandler[];
-            if (photonHandlers != null && photonHandlers.Length > 0)
-            {
-                Debug.LogWarning("Unity recompiled. Connection gets closed and replaced. You can connect as 'new' client.");
-                foreach (PhotonHandler photonHandler in photonHandlers)
-                {
-                    //Debug.Log("Handler: " + photonHandler + " photonHandler.gameObject: " + photonHandler.gameObject);
-                    photonHandler.gameObject.hideFlags = 0;
-                    GameObject.DestroyImmediate(photonHandler.gameObject);
-                    Component.DestroyImmediate(photonHandler);
-                }
-            }
+            if (!EditorApplication.isPlaying) return;
             #endif
 
-            if (PhotonServerSettings != null)
-            {
-                Application.runInBackground = PhotonServerSettings.RunInBackground;
-            }
 
-            PrefabPool = new DefaultPool();
-
-
-            // Set up the NetworkingPeer and use protocol of PhotonServerSettings
+            // set up the NetworkingClient, protocol, etc
             ConnectionProtocol protocol = PhotonNetwork.PhotonServerSettings.AppSettings.Protocol;
             NetworkingClient = new LoadBalancingClient(protocol);
             NetworkingClient.LoadBalancingPeer.QuickResendAttempts = 2;
@@ -992,13 +982,13 @@ namespace Photon.Pun
             NetworkingClient.OpResponseReceived += OnOperation;
             NetworkingClient.StateChanged += (previousState, state) =>
                                                     {
-														if ( 
-															(previousState == ClientState.Joined && state == ClientState.Disconnected) || 
-															(Server == ServerConnection.GameServer && (state == ClientState.Disconnecting || state == ClientState.DisconnectingFromGameServer))
-															)
-														{
-										                	LeftRoomCleanup();
-														}
+                                                        if (
+                                                            (previousState == ClientState.Joined && state == ClientState.Disconnected) ||
+                                                            (Server == ServerConnection.GameServer && (state == ClientState.Disconnecting || state == ClientState.DisconnectingFromGameServer))
+                                                            )
+                                                        {
+                                                            LeftRoomCleanup();
+                                                        }
 
                                                         if (state == ClientState.ConnectedToMasterServer && _cachedRegionHandler != null)
                                                         {
@@ -1007,7 +997,16 @@ namespace Photon.Pun
                                                         }
                                                     };
 
+            StartupStopwatch = new Stopwatch();
+            StartupStopwatch.Start();
+            NetworkingClient.LoadBalancingPeer.LocalMsTimestampDelegate = () => (int)StartupStopwatch.ElapsedMilliseconds;
 
+            // using a singleton PhotonHandler to control the new client (which is also a singleton for PUN)
+            PhotonHandler.Instance.Client = NetworkingClient;
+
+
+            Application.runInBackground = PhotonServerSettings.RunInBackground;
+            PrefabPool = new DefaultPool();
 
             // RPC shortcut lookup creation (from list of RPCs, which is updated by Editor scripts)
             rpcShortcuts = new Dictionary<string, int>(PhotonNetwork.PhotonServerSettings.RpcList.Count);
@@ -1017,21 +1016,8 @@ namespace Photon.Pun
                 rpcShortcuts[name] = index;
             }
 
-
-            StartupStopwatch = new Stopwatch();
-            StartupStopwatch.Start();
-            NetworkingClient.LoadBalancingPeer.LocalMsTimestampDelegate = () => (int)StartupStopwatch.ElapsedMilliseconds;
-
-
             // PUN custom types (typical for Unity)
             CustomTypes.Register();
-
-
-            // Create a (hidden) GameObject to run Photon/PUN
-            GameObject photonGO = new GameObject();
-            photonMono = (PhotonHandler)photonGO.AddComponent<PhotonHandler>();
-            photonGO.name = "PhotonMono";
-            photonGO.hideFlags = HideFlags.HideInHierarchy;
         }
 
 
@@ -1067,6 +1053,11 @@ namespace Photon.Pun
             if (NetworkingClient.LoadBalancingPeer.PeerState != PeerStateValue.Disconnected)
             {
                 Debug.LogWarning("ConnectUsingSettings() failed. Can only connect while in state 'Disconnected'. Current state: " + NetworkingClient.LoadBalancingPeer.PeerState);
+                return false;
+            }
+            if (PhotonHandler.AppQuits)
+            {
+                Debug.LogWarning("Can't connect: Application is closing. Unity called OnApplicationQuit().");
                 return false;
             }
             if (PhotonServerSettings == null)
@@ -1165,6 +1156,11 @@ namespace Photon.Pun
                 Debug.LogWarning("ConnectToMaster() failed. Can only connect while in state 'Disconnected'. Current state: " + NetworkingClient.LoadBalancingPeer.PeerState);
                 return false;
             }
+            if (PhotonHandler.AppQuits)
+            {
+                Debug.LogWarning("Can't connect: Application is closing. Unity called OnApplicationQuit().");
+                return false;
+            }
 
             if (OfflineMode)
             {
@@ -1218,6 +1214,11 @@ namespace Photon.Pun
                 Debug.LogWarning("ConnectToBestCloudServer() failed. Can only connect while in state 'Disconnected'. Current state: " + NetworkingClient.LoadBalancingPeer.PeerState);
                 return false;
             }
+            if (PhotonHandler.AppQuits)
+            {
+                Debug.LogWarning("Can't connect: Application is closing. Unity called OnApplicationQuit().");
+                return false;
+            }
 
             SetupLogging();
             ConnectMethod = ConnectMethod.ConnectToBest;
@@ -1236,6 +1237,11 @@ namespace Photon.Pun
             if (NetworkingClient.LoadBalancingPeer.PeerState != PeerStateValue.Disconnected && NetworkingClient.Server != ServerConnection.NameServer)
             {
                 Debug.LogWarning("ConnectToRegion() failed. Can only connect while in state 'Disconnected'. Current state: " + NetworkingClient.LoadBalancingPeer.PeerState);
+                return false;
+            }
+            if (PhotonHandler.AppQuits)
+            {
+                Debug.LogWarning("Can't connect: Application is closing. Unity called OnApplicationQuit().");
                 return false;
             }
 
@@ -1783,7 +1789,7 @@ namespace Photon.Pun
         /// Use Custom Properties and RaiseEvent with event caching instead.
         ///
         /// Common use case: Press the Lock Button on a iOS device and you get disconnected immediately.
-        /// 
+        ///
         /// Rejoining room will not send any player properties. Instead client will receive up-to-date ones from server.
         /// If you want to set new player properties, do it once rejoined.
         /// </remarks>
@@ -1823,7 +1829,7 @@ namespace Photon.Pun
         /// If ReconnectAndRejoin returns false, you can still attempt a Reconnect and Rejoin.
         ///
         /// Similar to PhotonNetwork.RejoinRoom, this requires you to use unique IDs per player (the UserID).
-        /// 
+        ///
         /// Rejoining room will not send any player properties. Instead client will receive up-to-date ones from server.
         /// If you want to set new player properties, do it once rejoined.
         /// </remarks>
@@ -2194,7 +2200,7 @@ namespace Photon.Pun
         /// <summary>
         /// Allocates a viewID for the current/local player.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if a viewId was assigned. False if the PhotonView already had a non-zero viewID.</returns>
         public static bool AllocateViewID(PhotonView view)
         {
             if (view.ViewID != 0)
@@ -2208,11 +2214,10 @@ namespace Photon.Pun
             return true;
         }
 
-
         /// <summary>
-        /// Enables the Master Client to allocate a viewID that is valid for scene objects.
+        /// Enables the Master Client to allocate a viewID for scene objects.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if a viewId was assigned. False if the PhotonView already had a non-zero viewID or if this client is not the Master Client.</returns>
         public static bool AllocateSceneViewID(PhotonView view)
         {
             if (!PhotonNetwork.IsMasterClient)
@@ -2232,9 +2237,25 @@ namespace Photon.Pun
             return true;
         }
 
-        // use 0 for scene-targetPhotonView-ids
-        // returns viewID (combined owner and sub id)
-        private static int AllocateViewID(int ownerId)
+        /// <summary>Allocates a viewID for the current/local player or the scene.</summary>
+        /// <param name="sceneObject">Use true, to allocate a scene viewID and false to allocate a viewID for the local player.</param>
+        /// <returns>Returns a viewID (combined owner and sequential number) that can be assigend as PhotonView.ViewID.</returns>
+        public static int AllocateViewID(bool sceneObject)
+        {
+            if (sceneObject && !LocalPlayer.IsMasterClient)
+            {
+                Debug.LogError("Only a Master Client can AllocateViewID() for scene objects. This client/player is not a Master Client. Returning an invalid viewID: -1.");
+                return 0;
+            }
+
+            int ownerActorNumber = sceneObject ? 0 : LocalPlayer.ActorNumber;
+            return AllocateViewID(ownerActorNumber);
+        }
+
+        /// <summary>Allocates a viewID for the current/local player or the scene.</summary>
+        /// <param name="ownerId">ActorNumber to allocate a viewID for.</param>
+        /// <returns>Returns a viewID (combined owner and sequential number) that can be assigend as PhotonView.ViewID.</returns>
+        public static int AllocateViewID(int ownerId)
         {
             if (ownerId == 0)
             {
@@ -2372,7 +2393,7 @@ namespace Photon.Pun
             return NetworkInstantiate(netParams, false, true);
         }
 
-        
+
         private static readonly HashSet<string> PrefabsWithoutMagicCallback = new HashSet<string>();
 
         private static GameObject NetworkInstantiate(Pun.InstantiateParameters parameters, bool sceneObject = false, bool instantiateEvent = false)
@@ -2387,7 +2408,7 @@ namespace Photon.Pun
             PhotonView[] photonViews;
 
             go = prefabPool.Instantiate(parameters.prefabName, parameters.position, parameters.rotation);
-            
+
 
             if (go == null)
             {
@@ -2430,7 +2451,7 @@ namespace Photon.Pun
                 photonViews[i].ViewID = 0;
 
                 photonViews[i].Prefix = parameters.objLevelPrefix;
-                photonViews[i].InstantiationId = parameters.viewIDs[0];   
+                photonViews[i].InstantiationId = parameters.viewIDs[0];
                 photonViews[i].isRuntimeInstantiated = true;
                 photonViews[i].InstantiationData = parameters.data;
 
@@ -2597,7 +2618,7 @@ namespace Photon.Pun
         /// <returns>Nothing. Check error debug log for any issues.</returns>
         public static void DestroyPlayerObjects(Player targetPlayer)
         {
-            if (LocalPlayer == null)
+            if (targetPlayer == null)
             {
                 Debug.LogError("DestroyPlayerObjects() failed, cause parameter 'targetPlayer' was null.");
             }
@@ -2823,8 +2844,8 @@ namespace Photon.Pun
         /// <remarks>
         /// While loading levels in a networked game, it makes sense to not dispatch messages received by other players.
         /// LoadLevel takes care of that by setting PhotonNetwork.IsMessageQueueRunning = false until the scene loaded.
-        /// 
-        /// To sync the loaded level in a room, set PhotonNetwork.AutomaticallySyncScene to true. 
+        ///
+        /// To sync the loaded level in a room, set PhotonNetwork.AutomaticallySyncScene to true.
         /// The Master Client of a room will then sync the loaded level with every other player in the room.
         /// Note that this works only for a single active scene and that reloading the scene is not supported.
         /// The Master Client will actually reload a scene but other clients won't.
@@ -2835,7 +2856,7 @@ namespace Photon.Pun
         /// LoadLevel uses SceneManager.LoadSceneAsync().
         ///
         /// Check the progress of the LevelLoading using PhotonNetwork.LevelLoadingProgress.
-        /// 
+        ///
         /// Calling LoadLevel before the previous scene finished loading is not recommended.
         /// If AutomaticallySyncScene is enabled, PUN cancels the previous load (and prevent that from
         /// becoming the active scene). If AutomaticallySyncScene is off, the previous scene loading can finish.
@@ -2860,8 +2881,8 @@ namespace Photon.Pun
         /// <remarks>
         /// While loading levels in a networked game, it makes sense to not dispatch messages received by other players.
         /// LoadLevel takes care of that by setting PhotonNetwork.IsMessageQueueRunning = false until the scene loaded.
-        /// 
-        /// To sync the loaded level in a room, set PhotonNetwork.AutomaticallySyncScene to true. 
+        ///
+        /// To sync the loaded level in a room, set PhotonNetwork.AutomaticallySyncScene to true.
         /// The Master Client of a room will then sync the loaded level with every other player in the room.
         /// Note that this works only for a single active scene and that reloading the scene is not supported.
         /// The Master Client will actually reload a scene but other clients won't.
@@ -2872,7 +2893,7 @@ namespace Photon.Pun
         /// LoadLevel uses SceneManager.LoadSceneAsync().
         ///
         /// Check the progress of the LevelLoading using PhotonNetwork.LevelLoadingProgress.
-        /// 
+        ///
         /// Calling LoadLevel before the previous scene finished loading is not recommended.
         /// If AutomaticallySyncScene is enabled, PUN cancels the previous load (and prevent that from
         /// becoming the active scene). If AutomaticallySyncScene is off, the previous scene loading can finish.
@@ -3000,11 +3021,10 @@ namespace Photon.Pun
         }
 
 
-
-
         [Conditional("UNITY_EDITOR")]
         public static void CreateSettings()
         {
+            AssetDatabase.Refresh();
             PhotonNetwork.PhotonServerSettings = (ServerSettings)Resources.Load(PhotonNetwork.ServerSettingsFileName, typeof(ServerSettings));
             if (PhotonNetwork.PhotonServerSettings != null)
             {

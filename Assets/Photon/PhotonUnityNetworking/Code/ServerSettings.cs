@@ -29,9 +29,6 @@ namespace Photon.Pun
         [Tooltip("Core Photon Server/Cloud settings.")]
         public AppSettings AppSettings;
 
-        [Tooltip("Simulates an online connection.\nPUN can be used as usual.")]
-        public bool StartInOfflineMode;
-
         [Tooltip("Log output by PUN.")]
         public PunLogLevel PunLogging = PunLogLevel.ErrorsOnly;
 
@@ -40,6 +37,9 @@ namespace Photon.Pun
 
         [Tooltip("Enables apps to keep the connection without focus.")]
         public bool RunInBackground = true;
+
+        [Tooltip("Simulates an online connection.\nPUN can be used as usual.")]
+        public bool StartInOfflineMode;
 
         [Tooltip("RPC name list.\nUsed as shortcut when sending calls.")]
         public List<string> RpcList = new List<string>();   // set by scripts and or via Inspector

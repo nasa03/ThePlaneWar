@@ -822,6 +822,9 @@ namespace Photon.Chat
         /// </summary>
         /// <param name="userName">Remote user's name or UserId.</param>
         /// <returns>The (locally used) channel name for a private channel.</returns>
+        /// <remarks>Do not subscribe to this channel.
+        /// Private channels do not need to be explicitly subscribed to.
+        /// Use this for debugging purposes mainly.</remarks>
         public string GetPrivateChannelNameByUser(string userName)
         {
             return string.Format("{0}:{1}", this.UserId, userName);
@@ -834,6 +837,8 @@ namespace Photon.Chat
         /// <param name="isPrivate">Define if you expect a private or public channel.</param>
         /// <param name="channel">Out parameter gives you the found channel, if any.</param>
         /// <returns>True if the channel was found.</returns>
+        /// <remarks>Public channels exist only when subscribed to them.
+        /// Private channels exist only when at least one message is exchanged with the target user privately.</remarks>
         public bool TryGetChannel(string channelName, bool isPrivate, out ChatChannel channel)
         {
             if (!isPrivate)
@@ -852,6 +857,8 @@ namespace Photon.Chat
         /// <param name="channelName">Name of the channel to get.</param>
         /// <param name="channel">Out parameter gives you the found channel, if any.</param>
         /// <returns>True if the channel was found.</returns>
+        /// <remarks>Public channels exist only when subscribed to them.
+        /// Private channels exist only when at least one message is exchanged with the target user privately.</remarks>
         public bool TryGetChannel(string channelName, out ChatChannel channel)
         {
             bool found = false;
@@ -860,6 +867,23 @@ namespace Photon.Chat
 
             found = this.PrivateChannels.TryGetValue(channelName, out channel);
             return found;
+        }
+
+        /// <summary>
+        /// Simplified access to private channels by target user.
+        /// </summary>
+        /// <param name="userId">UserId of the target user in the private channel.</param>
+        /// <param name="channel">Out parameter gives you the found channel, if any.</param>
+        /// <returns>True if the channel was found.</returns>
+        public bool TryGetPrivateChannelByUser(string userId, out ChatChannel channel)
+        {
+            channel = null;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return false;
+            }
+            string channelName = this.GetPrivateChannelNameByUser(userId);
+            return this.TryGetChannel(channelName, true, out channel);
         }
 
         /// <summary>

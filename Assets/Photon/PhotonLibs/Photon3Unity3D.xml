@@ -49,23 +49,32 @@
             <summary>
             Creates a background thread that calls the passed function in intervals, as long as that returns true.
             </summary>
-            <param name="myThread">The function to call. Must return true, if it should be called again.</param>
+            <remarks>
+            With StopBackgroundCalls, you can stop threads started with this method.
+            The resulting ThreadAbortException is caught and discarded.
+            </remarks>
+            <param name="myThread">The function to call. Must return true, if it should be called again. Returning false ends the thread.</param>
             <param name="millisecondsInterval">Milliseconds to sleep between calls of myThread. Default: 100ms.</param>
-            <param name="taskName">An optional name for the task for eased debugging.</param>
+            <param name="taskName">An optional name for the task to help debugging. Null or empty won't set the thread.Name.</param>
         </member>
         <member name="M:ExitGames.Client.Photon.SupportClass.StopBackgroundCalls(System.Byte)">
             <summary>
-            Ends the thread with the given id (= index of the thread list).
+            Calls Abort on the thread with the given id (= index of the thread list)
             </summary>
+            <remarks>
+            The resulting ThreadAbortException is caught and discarded.
+            </remarks>
             <param name="id">The unique ID of the thread.</param>
             <returns>True if the thread is canceled and false otherwise, e.g. if the thread with the given ID does not exist.</returns>
         </member>
         <member name="M:ExitGames.Client.Photon.SupportClass.StopAllBackgroundCalls">
             <summary>
-            Ends the thread with the given id (= index of the thread list).
+            Calls Abort on all threads that were started via StartBackgroundCalls.
             </summary>
-            <param name="id">The unique ID of the thread.</param>
-            <returns>True if the thread is canceled and false otherwise, e.g. if the thread with the given ID does not exist.</returns>
+            <remarks>
+            The resulting ThreadAbortException is caught and discarded.
+            </remarks>
+            <returns>True if any thread got aborted.</returns>
         </member>
         <member name="M:ExitGames.Client.Photon.SupportClass.WriteStackTrace(System.Exception,System.IO.TextWriter)">
             <summary>
@@ -164,52 +173,33 @@
             <summary>the PhotonPeer encountered an exception and will disconnect, too.<br/>See {@link PhotonListener#OnStatusChanged}*</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.ExceptionOnConnect">
-            <summary>the PhotonPeer encountered an exception while opening the incoming connection to the server. The server could be down / not running or the client has no network or a misconfigured DNS.<br/>See {@link PhotonListener#OnStatusChanged}*</summary>
+            <summary>Exception while opening the incoming connection to the server. Followed by Disconnect.</summary>
+            <remarks>The server could be down / not running or the client has no network or a misconfigured DNS.<br/>See {@link PhotonListener#OnStatusChanged}*</remarks>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.SecurityExceptionOnConnect">
             <summary>Used on platforms that throw a security exception on connect. Unity3d does this, e.g., if a webplayer build could not fetch a policy-file from a remote server.</summary>
         </member>
-        <member name="F:ExitGames.Client.Photon.StatusCode.QueueOutgoingReliableWarning">
-            <summary>PhotonPeer outgoing queue is filling up. send more often.</summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.StatusCode.QueueOutgoingUnreliableWarning">
-            <summary>PhotonPeer outgoing queue is filling up. send more often.</summary>
-        </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.SendError">
             <summary>Sending command failed. Either not connected, or the requested channel is bigger than the number of initialized channels.</summary>
         </member>
-        <member name="F:ExitGames.Client.Photon.StatusCode.QueueOutgoingAcksWarning">
-            <summary>PhotonPeer outgoing queue is filling up. send more often.</summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.StatusCode.QueueIncomingReliableWarning">
-            <summary>PhotonPeer incoming queue is filling up. Dispatch more often.</summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.StatusCode.QueueIncomingUnreliableWarning">
-            <summary>PhotonPeer incoming queue is filling up. Dispatch more often.</summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.StatusCode.QueueSentWarning">
-            <summary>PhotonPeer incoming queue is filling up. Dispatch more often.</summary>
-        </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.ExceptionOnReceive">
-            <summary>Exception, if a server cannot be connected. Most likely, the server is not responding. Ask user to try again later.</summary>
+            <summary>Exception, if a server cannot be connected. Followed by Disconnect.</summary>
+            <remarks>Most likely, the server is not responding. Ask user to try again later.</remarks>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.TimeoutDisconnect">
-            <summary>Disconnection due to a timeout (client did no longer receive ACKs from server).</summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServer">
-            <summary>Timeout disconnect by server. The server didn't receive necessary ACKs in time.</summary>
+            <summary>Disconnection due to a timeout (client did no longer receive ACKs from server). Followed by Disconnect.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServerTimeout">
-            <summary>Timeout disconnect by server. The server didn't receive necessary ACKs in time.</summary>
+            <summary>Timeout disconnect by server. The server didn't receive necessary ACKs in time. Followed by Disconnect.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServerUserLimit">
             <summary>Disconnect by server due to concurrent user limit reached (received a disconnect command).</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServerLogic">
-            <summary>Disconnect by server due to server's logic.</summary>
+            <summary>(1043) Disconnect by server due to server's logic. Followed by Disconnect.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServerReasonUnknown">
-            <summary>Disconnect by server due to unspecified reason.</summary>
+            <summary>Disconnect by server due to unspecified reason. Followed by Disconnect.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.EncryptionEstablished">
             <summary>(1048) Value for OnStatusChanged()-call, when the encryption-setup for secure communication finished successfully.</summary>
@@ -606,7 +596,7 @@
             Count of all commands currently queued as outgoing, including all channels and reliable, unreliable.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:ExitGames.Client.Photon.PhotonPeer.MessageBufferPoolTrim(System.Int32)" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:ExitGames.Client.Photon.PhotonPeer.MessageBufferPoolTrim(System.Int32)" ignoriert -->
         <member name="F:ExitGames.Client.Photon.PhotonPeer.ChannelCount">
             <summary>
             Gets / sets the number of channels available in UDP connections with Photon.
@@ -652,25 +642,42 @@
         <member name="F:ExitGames.Client.Photon.PhotonPeer.SentCountAllowance">
              <summary>
              Number of send retries before a peer is considered lost/disconnected. Default: 7.
+             </summary>
+             <remarks>
              The initial timeout countdown of a command is calculated by the current roundTripTime + 4 * roundTripTimeVariance.
              Please note that the timeout span until a command will be resent is not constant, but based on
              the roundtrip time at the initial sending, which will be doubled with every failed retry.
             
              DisconnectTimeout and SentCountAllowance are competing settings: either might trigger a disconnect on the
              client first, depending on the values and Roundtrip Time.
+             </remarks>
+        </member>
+        <member name="F:ExitGames.Client.Photon.PhotonPeer.InitialResendTimeMax">
+             <summary>
+             Caps the initial timing for repeats of reliable commands. In milliseconds. Default: 400ms.
              </summary>
+             <remarks>
+             Unless acknowledged, reliable commands are repeated initially after: current roundTripTime + 4 * roundTripTimeVariance.
+            
+             As this value can be very high when there was exceptional lag, InitialResendTimeMax makes sure that commands
+             get repeated several times before they may trigger a timeout.
+             </remarks>
         </member>
         <member name="F:ExitGames.Client.Photon.PhotonPeer.TimePingInterval">
             <summary>
             Sets the milliseconds without reliable command before a ping command (reliable) will be sent (Default: 1000ms).
+            </summary>
+            <remarks>
             The ping command is used to keep track of the connection in case the client does not send reliable commands
             by itself.
             A ping (or reliable commands) will update the RoundTripTime calculation.
-            </summary>
+            </remarks>
         </member>
         <member name="F:ExitGames.Client.Photon.PhotonPeer.DisconnectTimeout">
              <summary>
              Milliseconds before an individual command must be ACKed by server - after this a timeout-disconnect is triggered.
+             </summary>
+             <remarks>
              DisconnectTimeout is not an exact value for a timeout. The exact timing of the timeout depends on the frequency
              of Service() calls and commands that are sent with long roundtrip-times and variance are checked less often for
              re-sending!
@@ -678,7 +685,7 @@
              DisconnectTimeout and SentCountAllowance are competing settings: either might trigger a disconnect on the
              client first, depending on the values and Roundtrip Time.
              Default: 10000 ms.
-             </summary>
+             </remarks>
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.ServerTimeInMilliSeconds">
              <summary>
@@ -704,6 +711,19 @@
              While connected, the value is an approximation of the server's current timestamp.
              </value>
         </member>
+        <member name="P:ExitGames.Client.Photon.PhotonPeer.LocalMsTimestampDelegate">
+            <summary>
+            This setter for the (local-) timestamp delegate replaces the default Environment.TickCount with any equal function.
+            </summary>
+            <remarks>
+            About Environment.TickCount:
+            The value of this property is derived from the system timer and is stored as a 32-bit signed integer.
+            Consequently, if the system runs continuously, TickCount will increment from zero to Int32..::.MaxValue
+            for approximately 24.9 days, then jump to Int32..::.MinValue, which is a negative number, then increment
+            back to zero during the next 24.9 days.
+            </remarks>
+            <exception cref="T:System.Exception">Exception is thrown peer.PeerState is not PS_DISCONNECTED.</exception>
+        </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.ConnectionTime">
             <summary>The internally used "per connection" time value, which is updated infrequently, when the library executes some connectio-related tasks.</summary>
             <remarks>
@@ -721,23 +741,12 @@
             <summary>The last ConnectionTime value, when SendOutgoingCommands actually checked outgoing queues to send them. Must be connected.</summary>
             <remarks>Available for UDP and TCP connections.</remarks>
         </member>
-        <member name="P:ExitGames.Client.Photon.PhotonPeer.LocalMsTimestampDelegate">
-            <summary>
-            This setter for the (local-) timestamp delegate replaces the default Environment.TickCount with any equal function.
-            </summary>
-            <remarks>
-            About Environment.TickCount:
-            The value of this property is derived from the system timer and is stored as a 32-bit signed integer.
-            Consequently, if the system runs continuously, TickCount will increment from zero to Int32..::.MaxValue
-            for approximately 24.9 days, then jump to Int32..::.MinValue, which is a negative number, then increment
-            back to zero during the next 24.9 days.
-            </remarks>
-            <exception cref="T:System.Exception">Exception is thrown peer.PeerState is not PS_DISCONNECTED.</exception>
+        <member name="P:ExitGames.Client.Photon.PhotonPeer.LongestSentCall">
+            <summary>Measures the maximum milliseconds spent in PhotonSocket.Send().</summary>
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.RoundTripTime">
-             <summary>
-             Time until a reliable command is acknowledged by the server.
-            
+             <summary>Time until a reliable command is acknowledged by the server.</summary>
+             <remarks>
              The value measures network latency and for UDP it includes the server's ACK-delay (setting in config).
              In TCP, there is no ACK-delay, so the value is slightly lower (if you use default settings for Photon).
             
@@ -745,12 +754,15 @@
             
              This is also the approximate time until a raised event reaches another client or until an operation
              result is available.
-             </summary>
+             </remarks>
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.RoundTripTimeVariance">
             <summary>
             Changes of the roundtriptime as variance value. Gives a hint about how much the time is changing.
             </summary>
+        </member>
+        <member name="P:ExitGames.Client.Photon.PhotonPeer.LastRoundTripTime">
+            <summary>The last measured rountrip time for this connection.</summary>
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.TimestampOfLastSocketReceive">
             <summary>
@@ -1464,8 +1476,8 @@
         <member name="P:ExitGames.Client.Photon.NCommand.SizeOfPayload">
             <summary>Size of the Payload, which may be null.</summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:ExitGames.Client.Photon.NCommand.IsFlaggedUnsequenced" -->
-        <!-- Badly formed XML comment ignored for member "P:ExitGames.Client.Photon.NCommand.IsFlaggedReliable" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "P:ExitGames.Client.Photon.NCommand.IsFlaggedUnsequenced" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "P:ExitGames.Client.Photon.NCommand.IsFlaggedReliable" ignoriert -->
         <member name="M:ExitGames.Client.Photon.NCommand.#ctor(ExitGames.Client.Photon.EnetPeer,System.Byte,ExitGames.Client.Photon.StreamBuffer,System.Byte)">
             <summary>this variant does only create outgoing commands and increments . incoming ones are created from a DataInputStream</summary>
         </member>

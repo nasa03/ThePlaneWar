@@ -33,6 +33,8 @@ namespace Photon.Realtime
 
         protected internal byte PingId;
 
+        private static readonly Random RandomIdProvider = new Random();
+
         public virtual bool StartPing(string ip)
         {
             throw new NotImplementedException();
@@ -48,11 +50,12 @@ namespace Photon.Realtime
             throw new NotImplementedException();
         }
 
+
         protected internal void Init()
         {
             this.GotResult = false;
             this.Successful = false;
-            this.PingId = (byte) (Environment.TickCount%255);
+            this.PingId = (byte)(RandomIdProvider.Next(255));
         }
     }
 
@@ -93,6 +96,7 @@ namespace Photon.Realtime
 
                 this.PingBytes[this.PingBytes.Length - 1] = this.PingId;
                 this.sock.Send(this.PingBytes);
+                this.PingBytes[this.PingBytes.Length - 1] = (byte)(this.PingId+1);  // invalidate the result, as we re-use the buffer
             }
             catch (Exception e)
             {

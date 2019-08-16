@@ -25,12 +25,7 @@ public class MissleActor : MonoBehaviour
         if (CrossPlatformInputManager.GetButtonDown("Fire2"))
         {
             GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
-            Fire();
+            PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
         }
-    }
-
-    void Fire()
-    {
-        PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
     }
 }

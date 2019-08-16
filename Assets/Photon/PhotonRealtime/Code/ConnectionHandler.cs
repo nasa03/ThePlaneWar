@@ -55,7 +55,20 @@ namespace Photon.Realtime
 
 
         #if SUPPORTED_UNITY
+
+        /// <summary>Keeps the ConnectionHandler, even if a new scene gets loaded.</summary>
         public bool ApplyDontDestroyOnLoad = true;
+        
+        /// <summary>Indicates that the app is closing. Set in OnApplicationQuit().</summary>
+        [NonSerialized]
+        public static bool AppQuits;
+
+        /// <summary>Called by Unity when the application gets closed. The UnityEngine will also call OnDisable, which disconnects.</summary>
+        protected void OnApplicationQuit()
+        {
+            AppQuits = true;
+        }
+
 
         /// <summary></summary>
         protected virtual void Awake()
@@ -66,25 +79,23 @@ namespace Photon.Realtime
             }
         }
 
-        /// <summary>Called by Unity when the play mode ends. Used to cleanup.</summary>
-        protected virtual void OnDestroy()
+        /// <summary>Called by Unity when the application gets closed. Disconnects if OnApplicationQuit() was called before.</summary>
+        protected virtual void OnDisable()
         {
-            //Debug.Log("OnDestroy on ConnectionHandler.");
             this.StopFallbackSendAckThread();
+
+            if (AppQuits)
+            {
+                if (this.Client != null && this.Client.IsConnected)
+                {
+                    this.Client.Disconnect();
+                    this.Client.LoadBalancingPeer.StopThread();
+                }
+
+                SupportClass.StopAllBackgroundCalls();
+            }
         }
 
-        /// <summary>Called by Unity when the application is closed. Disconnects.</summary>
-        protected virtual void OnApplicationQuit()
-        {
-            //Debug.Log("OnApplicationQuit");
-            this.StopFallbackSendAckThread();
-            if (this.Client != null && this.Client.IsConnected)
-            {
-                this.Client.Disconnect();
-                this.Client.LoadBalancingPeer.StopThread();
-            }
-            SupportClass.StopAllBackgroundCalls();
-        }
         #endif
 
 

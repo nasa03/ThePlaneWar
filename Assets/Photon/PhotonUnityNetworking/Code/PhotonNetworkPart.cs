@@ -1599,7 +1599,7 @@ namespace Photon.Pun
             PhotonView view = GetPhotonView(viewID);
             if (view == null)
             {
-                Debug.LogWarning("Received OnSerialization for view ID " + viewID + ". We have no such PhotonView! Ignored this if you're leaving a room. State: " + NetworkingClient.State);
+                Debug.LogWarning("Received OnSerialization for view ID " + viewID + ". We have no such PhotonView! Ignored this if you're joining or leaving a room. State: " + NetworkingClient.State);
                 return;
             }
 
@@ -2215,10 +2215,7 @@ namespace Photon.Pun
         {
             if (PhotonNetwork.LogLevel >= PunLogLevel.Informational)
             {
-                foreach (Region region in regionHandler.EnabledRegions)
-                {
-                    Debug.Log(region.ToString());
-                }
+                Debug.Log(regionHandler.GetResults());
             }
 
             _cachedRegionHandler = regionHandler;

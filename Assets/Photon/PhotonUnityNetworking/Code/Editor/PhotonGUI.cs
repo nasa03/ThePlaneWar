@@ -154,6 +154,23 @@ namespace Photon.Pun
 
         #endregion
 
+
+        internal static string GetIconPath(string iconFileName)
+        {
+            string _thisIconPath = PhotonNetwork.FindAssetPath ("PhotonGUI");
+
+            if (string.IsNullOrEmpty(_thisIconPath))
+            {
+                _thisIconPath = "Assets/Photon/PhotonUnityNetworking/Code/Editor/"+iconFileName;
+            }
+            else
+            {
+                _thisIconPath = _thisIconPath.Replace("PhotonGUI.cs", iconFileName);
+            }
+
+            return _thisIconPath;
+        }
+        
         static Texture2D m_HelpIcon;
 
         public static Texture2D HelpIcon
@@ -162,10 +179,38 @@ namespace Photon.Pun
             {
                 if (m_HelpIcon == null)
                 {
-                    m_HelpIcon = AssetDatabase.LoadAssetAtPath("Assets/Photon/PhotonUnityNetworking/Code/Editor/help.png", typeof(Texture2D)) as Texture2D;
+                    m_HelpIcon = AssetDatabase.LoadAssetAtPath(GetIconPath("help.png"), typeof(Texture2D)) as Texture2D;
                 }
 
+                
                 return m_HelpIcon;
+            }
+        }
+        
+        
+        static Texture2D m_CopyIcon;
+        static Texture2D m_CopyIconPro;
+        
+        public static Texture2D CopyIcon
+        {
+            get
+            {
+                if (EditorGUIUtility.isProSkin)
+                {
+                    if (m_CopyIconPro == null)
+                    {
+                        m_CopyIconPro = AssetDatabase.LoadAssetAtPath(GetIconPath("CopyIconPro.png"), typeof(Texture2D)) as Texture2D;
+                    }
+
+                    return m_CopyIconPro;
+                }
+                
+                if (m_CopyIcon == null)
+                {
+                    m_CopyIcon = AssetDatabase.LoadAssetAtPath(GetIconPath("CopyIcon.png"), typeof(Texture2D)) as Texture2D;
+                }
+
+                return m_CopyIcon;
             }
         }
 

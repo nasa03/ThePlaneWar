@@ -1,6 +1,55 @@
 PUN 2 Change Log
 
 
+v2.14 (9. August 2019)
+Updated: To using Unity 2017.4.7 as lowest supported version. The Asset Store no longer supports uploading packets for older Unity versions. A few variables are now public, as they were not accessible otherwise due to assembly definitions.
+Changed: The callbacks to OnDisconnected(reason). On timeout or exception, there is now only one callback which happens after the client/peer is actually disconnected. The peer's status changes (timeout, etc.) are used to identify the reason but don't cause a callback on their own. Previously, you could run into more than one OnDisconnected call and fail to reconnect in the first one.
+Changed: There are now fewer calls of OnDisconnected(). Example: A timeout disconnect caused two calls because signalled the timeout and the second signalled when the client locally finished disconnecting. Now, the DisconnectCause stores the reason and there is only one callback.
+Changed: Internal use of DisconnectCause. It's now set in LBC.Disconnect() and by errors from the Peer. It's reset to "None" before calls to Peer.Connect().
+Removed: DisconnectCause enum values that were obsolete already. DisconnectByServerUserLimit is now MaxCcuReached. TimeoutDisconnect is now ClientTimeout. DisconnectByServer is now ServerTimeout.
+Changed: SupportLogger. Traffic stats are enabled by default. The PhotonHandler no longer has to enable this.
+Added: Min/max ping to logged statistics. SupportLogger.TrackValues is invoked to keep track of min/max ping for each connection.
+Fixed: Statistics logging is started on Connect and stopped OnDisconnected().
+Added: AssemblyDefinition for the Editor scripts of Demos (which have been one big assembly, including the Editor scripts).
+Fixed: Basic Tutorial Player UI hiding system when player is not visible.
+Added: Check to Connect methods to not connect, if the app quits. This was freezing of the Editor in some cases.
+Changed: Callback registration.
+Changed: All callback target changes are now queued in one queue and executed in order. This avoids cases where our implementation defined if a callback got added or removed, when a target got added and removed.
+Changed: Duplicate addition and removal is now prevented.
+Changed: The callback containers now know and use the LoadBalancingClient to update the targets. This means they don't need lists for additions and removals anymore.
+Changed: Events will now also update the callback targets before executing the event callback.
+Changed: WebRpcCallbacksContainer is now also a List<i> like the other containers. This is simpler to maintain. The only "custom" callback implementation is that for events. This was an event delegate before and remains one. No change for this.
+Changed: PhotonViewIdHandler to keep assigned viewIDs if they don't clash. This avoids some issues when editing projects.The workflow now applies the minimum scene view ID for PhotonViews for multiple open scenes.
+Changed: Editor usage of PUN.
+Changed: PhotonEditor no longer uses the Editor update loop. It updates less frequently and more to the point with specific events.
+Changed: The PhotonEditor is not using PhotonNetwork.PhotonServerSettings anymore, which could cause a freeze of the Editor.
+Fixed: The PhotonEditor could fail to load the PhotonServerSettings when loading a project without "library" folder in Editor 2019. This showed as a lost app id, even though the project had one earlier.
+Fixed: UpdateRpcList failed to load any "user assemblies", due to now using AssemblyDefinitions. This means RPCs were sent as full name, which is wasteful (but not an error as such).
+Changed: UpdateRpcList with LINQ. This is less code, easier maintain and read.
+Changed: The "on compile" disconnect is done much faster now and hopefully avoids some issues.
+Internal: Removed PhotonNetwork.photonMono. As the Handler is supposed to be a singleton with Instance, PUN should use that.
+Fixed: Two layout issues in the PhotonView Inspector GUI (for very lean windows).
+Added: Option to dispatch incoming messages, even if Time.timeScale = 0: PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate. It defaults to not being used.
+Changed: Execution order for disconnect on quit. As OnApplicationQuit is followed by OnDisable, PUN now disconnects in OnDisable, if OnApplicationQuit was called previously. This means that you can now send a final message in OnApplicationQuit. It's not guaranteed to arrive anywhere, as the message won't be repeated on loss.
+Changed: WebRpcResponse.ReturnCode -> ResultCode and WebRpcResponse.DebugMessage -> Message.
+Added: Now showing current best region and its ping from Players' Prefs in ServerSettings.
+Added: ServerSettings now lets you edit Rpc List in Inspector, shows the rpc hash as Hex string and let ypu copy it in the OS Clipboard.
+Fixed: Textures needed for editor interfaces now search for the PUN folder instead of assuming a hardcoded path.
+Updated: To new library version v4.1.2.17.
+
+v2.13 (25. June 2019)
+Fixed: Typos and null checks in PhotonNetwork class.
+Fixed: SerializationProtocol selection for WebGL.
+Fixed: Missing IWebRpcCallback interface reference added to MonoBehaviourPunCallbacks.
+Added: PhotonNetwork.AllocateViewID(bool sceneObject), which can be used to just get a viewID that is then assigned manually.
+Updated: Improved wording for warning on missing photonViews during serialization.
+Changed: The library now has a changes-realtime.txt file instead of a release_history.txt. The plan is to separate library and Realtime API updates from those of PUN and other packages. Also check out changes-realtime.txt and changes-library.txt.
+Updated: PUN Cockpit. It will now rejoin instead of join if needed.
+Updated: To new library version 4.1.2.16.
+    This fixes an issue with a ThreadAbortException thrown on Android (with specific Unity build settings) and improves connection stability in cases where the ping goes up temporarily.
+Chat
+    Added: ChatClient.TryGetPrivateChannelByUser.
+
 v2.12 (6. May 2019)
 Fixed: Breaking change of EventData. The properties Sender and CustomData are back and they keys (in the event Parameters) can now be configured at runtime (if needed).
 Updated: To new library version 4.1.2.14 (6. May 2019 - rev5088).
@@ -10,7 +59,7 @@ Fixed: EventData usage. PUN v2.10 had a bug in Ownership Transfer calls and some
 Fixed: ClientState.ConnectedToMasterserver did not have the same value as ConnectedToMasterServer (and no longer got used at all). This affects only rare cases where the enum is directly used (PUN was updated).
 Changed: Account registration scripts to use Unity's built-in JSON parsing. Now, PUN no longer incldues the NewtonSoft Json dll (which should avoid the occasional clash of dlls).
 Updated: To new library version 4.1.2.13 (3. May 2019 - rev5086).
-    Changed: EventData was changed in the Photon3Unity3d.dll again. Now it does not have a Sender or CustomData property anymore as those were not workign for Chat (and misleading). Instead, those are fetched from the Parameters of an event (each API provides accessor extensions). 
+    Changed: EventData was changed in the Photon3Unity3d.dll again. Now it does not have a Sender or CustomData property anymore as those were not workign for Chat (and misleading). Instead, those are fetched from the Parameters of an event (each API provides accessor extensions).
     Added: PhotonPeer.ReuseEventInstance as option to use a single EventData instance for all incoming events. This reduces memory garbage. The drawback is: An event provided via OnEvent(EventData photonEvent) is invalidated right after the callback finished. That event's content will get modified. Typically this is not a problem as events are rarely cached.
 Chat
     Fixed: Properly add local client's UserId to public channels' Subscribers list when applicable.
@@ -67,7 +116,7 @@ Photon Chat:
     Added: Client API for Max Subscribers and Publish Subscribers features inside public channels.
 
 v2.6 (25th January 2019)
-Fixed: Offline custom properties are now set even if ExpectedProperties is set, as there is only one source for setting properties when in offline mode. 
+Fixed: Offline custom properties are now set even if ExpectedProperties is set, as there is only one source for setting properties when in offline mode.
 Fixed: Switching Offline mode off now properly cleans up room content.
 Fixed: Infinite for-loop when enabling all Interest Groups by using new byte[0] as parameter for the SetInterestGroups function.
 Fixed: The PhotonView attribute AddComponentMenu could not have a shortcut (in 2018.3) for unknown reasons. It was causing compile errors in some cases, so the shortcut (&v) is gone.

@@ -84,28 +84,28 @@ namespace Photon.Pun
         }
 
 
-        public static int MinViewIdForScene(string scene)
+        public static int MinViewIdForScene(string sceneName)
         {
-            if (string.IsNullOrEmpty(scene))
+            if (string.IsNullOrEmpty(sceneName))
             {
-                return 0;
+                return 1;
             }
 
             PunSceneSettings pss = Instance;
             if (pss == null)
             {
                 Debug.LogError("pss cant be null");
-                return 0;
+                return 1;
             }
 
             foreach (SceneSetting setting in pss.MinViewIdPerScene)
             {
-                if (setting.sceneName.Equals(scene))
+                if (setting.sceneName.Equals(sceneName))
                 {
                     return setting.minViewId;
                 }
             }
-            return 0;
+            return 1;
         }
     }
 }

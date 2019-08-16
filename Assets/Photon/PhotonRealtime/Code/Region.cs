@@ -32,7 +32,7 @@ namespace Photon.Realtime
 
         public string HostAndPort { get; protected internal set; }
 
-        public int Ping { get; protected internal set; }
+        public int Ping { get; set; }
 
         public bool WasPinged { get { return this.Ping != int.MaxValue; } }
 

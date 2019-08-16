@@ -8,6 +8,7 @@
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
 
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,6 +21,14 @@ public class ServerSettingsInspector : Editor
 {
     private string versionPhoton;
 
+    private string[] regionsPrefsList;
+
+    private string prefLabel;
+    private const string notAvailableLabel = "n/a";
+
+    private string rpcCrc;
+    private bool showRpcs;
+
     public void Awake()
     {
         this.versionPhoton = System.Reflection.Assembly.GetAssembly(typeof(PhotonPeer)).GetName().Version.ToString();
@@ -28,6 +37,9 @@ public class ServerSettingsInspector : Editor
 
     public override void OnInspectorGUI()
     {
+        SerializedObject sObj = new SerializedObject(this.target);
+        ServerSettings settings = this.target as ServerSettings;
+
 
         EditorGUI.BeginChangeCheck();
 
@@ -43,36 +55,29 @@ public class ServerSettingsInspector : Editor
 
 
 
-        SerializedProperty settingsSs = this.serializedObject.FindProperty("ShowSettings");
-
-      
-        ServerSettings settings = this.target as ServerSettings;
-
-        bool _newShowSettings = EditorGUILayout.Foldout(settingsSs.boolValue, new GUIContent("Settings", "Core Photon Server/Cloud settings."));
-        if (_newShowSettings != settings.ShowSettings)
+        SerializedProperty showSettingsProp = this.serializedObject.FindProperty("ShowSettings");
+        bool showSettings = EditorGUILayout.Foldout(showSettingsProp.boolValue, new GUIContent("Settings", "Core Photon Server/Cloud settings."));
+        if (showSettings != settings.ShowSettings)
         {
-            settingsSs.boolValue = _newShowSettings;
+            showSettingsProp.boolValue = showSettings;
         }
-
-       
-
-        if (settingsSs.boolValue)
+        
+        if (showSettingsProp.boolValue)
         {
             SerializedProperty settingsSp = this.serializedObject.FindProperty("AppSettings");
 
             EditorGUI.indentLevel++;
 
             //Realtime APP ID
-            BuildAppIdField(settingsSp.FindPropertyRelative("AppIdRealtime"));
-
-
+            this.BuildAppIdField(settingsSp.FindPropertyRelative("AppIdRealtime"));
+            
             if (PhotonEditorUtils.HasChat)
             {
-                BuildAppIdField(settingsSp.FindPropertyRelative("AppIdChat"));
+                this.BuildAppIdField(settingsSp.FindPropertyRelative("AppIdChat"));
             }
             if (PhotonEditorUtils.HasVoice)
             {
-                BuildAppIdField(settingsSp.FindPropertyRelative("AppIdVoice"));
+                this.BuildAppIdField(settingsSp.FindPropertyRelative("AppIdVoice"));
             }
 
             EditorGUILayout.PropertyField(settingsSp.FindPropertyRelative("AppVersion"));
@@ -86,19 +91,33 @@ public class ServerSettingsInspector : Editor
             EditorGUI.indentLevel--;
         }
 
-        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("StartInOfflineMode"), new GUIContent("Start In Offline Mode", "Simulates an online connection.\nPUN can be used as usual."));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("PunLogging"), new GUIContent("PUN Logging", "Log level for the PUN layer."));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("EnableSupportLogger"), new GUIContent("Enable Support Logger", "Logs additional info for debugging.\nUse this when you submit bugs to the Photon Team."));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("RunInBackground"), new GUIContent("Run In Background", "Enables apps to keep the connection without focus. Android and iOS ignore this."));
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("StartInOfflineMode"), new GUIContent("Start In Offline Mode", "Simulates an online connection.\nPUN can be used as usual."));
+
 
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.PrefixLabel(new GUIContent("Best Region Preference", "Clears the Best Region of the editor.\n.Best region is used if Fixed Region is empty."));
+        
+        if (!string.IsNullOrEmpty(PhotonNetwork.BestRegionSummaryInPreferences))
+        {
+            this.regionsPrefsList = PhotonNetwork.BestRegionSummaryInPreferences.Split(';');
+            this.prefLabel = string.Format("'{0}' ping:{1}ms ", this.regionsPrefsList[0], this.regionsPrefsList[1]);
+        }
+        else
+        {
+            this.prefLabel = notAvailableLabel;
+        }
+
+        GUILayout.Label(this.prefLabel, GUILayout.ExpandWidth(false));
+
         if (GUILayout.Button("Reset", EditorStyles.miniButton))
         {
             ServerSettings.ResetBestRegionCodeInPreferences();
         }
 
-        if (GUILayout.Button("Edit Regions WhiteList", EditorStyles.miniButton))
+        if (GUILayout.Button("Edit WhiteList", EditorStyles.miniButton))
         {
             Application.OpenURL("https://dashboard.photonengine.com/en-US/App/RegionsWhitelistEdit/" + PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime);
 
@@ -106,33 +125,69 @@ public class ServerSettingsInspector : Editor
 
         EditorGUILayout.EndHorizontal();
 
-        GUILayout.BeginHorizontal();
-        EditorGUILayout.PrefixLabel("Rpc Tools");
-        if (GUILayout.Button("Refresh RPCs",EditorStyles.miniButton))
+
+
+        this.showRpcs = EditorGUILayout.Foldout(this.showRpcs, new GUIContent("RPCs", "RPC shortcut list."));
+
+        if (this.showRpcs)
         {
-            PhotonEditor.UpdateRpcList();
-            this.Repaint();
-        }
-        if (GUILayout.Button("Clear RPCs",EditorStyles.miniButton))
-        {
-            PhotonEditor.ClearRpcList();
-        }
-        if (GUILayout.Button("Log HashCode",EditorStyles.miniButton))
-        {
-            Debug.Log("RPC-List HashCode: " + this.RpcListHashCode() + ". Make sure clients that send each other RPCs have the same RPC-List.");
+            // first time check to get the rpc has proper
+            if (string.IsNullOrEmpty(this.rpcCrc))
+            {
+                this.rpcCrc = this.RpcListHashCode().ToString("X");
+            }
+
+
+            EditorGUI.indentLevel++;
+
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("List CRC");
+
+            EditorGUI.indentLevel--;
+            if (GUILayout.Button(PhotonGUI.CopyIcon, GUIStyle.none,GUILayout.ExpandWidth(false)))
+            {
+                Debug.Log("RPC-List HashCode copied into your ClipBoard: " + this.rpcCrc + ". Make sure clients that send each other RPCs have the same RPC-List.");
+                EditorGUIUtility.systemCopyBuffer = this.rpcCrc;
+            }
+            EditorGUILayout.SelectableLabel(this.rpcCrc, GUILayout.MaxHeight(16),GUILayout.ExpandWidth(false));
+            
+            
+            EditorGUI.indentLevel++;
+            EditorGUILayout.EndHorizontal();
+
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("List Tools");
+            if (GUILayout.Button("Refresh RPCs", EditorStyles.miniButton))
+            {
+                PhotonEditor.UpdateRpcList();
+                this.Repaint();
+            }
+
+            if (GUILayout.Button("Clear RPCs", EditorStyles.miniButton))
+            {
+                PhotonEditor.ClearRpcList();
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+
+            SerializedProperty sRpcs = sObj.FindProperty("RpcList");
+            EditorGUILayout.PropertyField(sRpcs, true);
+
+            EditorGUI.indentLevel--;
         }
 
-        GUILayout.EndHorizontal();
-
-        SerializedObject sObj = new SerializedObject(target);
-        SerializedProperty sRpcs = sObj.FindProperty("RpcList");
-        EditorGUILayout.PropertyField(sRpcs, true);
 
         if (EditorGUI.EndChangeCheck())
         {
+            sObj.ApplyModifiedProperties();
             this.serializedObject.ApplyModifiedProperties();
-        }
 
+            // cache the rpc hash
+            this.rpcCrc = this.RpcListHashCode().ToString("X");
+        }
     }
 
 
