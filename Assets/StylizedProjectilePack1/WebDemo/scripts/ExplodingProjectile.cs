@@ -136,6 +136,9 @@ public class ExplodingProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!GetComponent<PhotonView>().IsMine)
+            return;
+
         if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
             FindObjectOfType<PlaneController>().Attack(other);
     }
