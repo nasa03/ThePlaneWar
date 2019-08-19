@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
-using Photon.Realtime;
 
 public class PhotonGame : MonoBehaviourPunCallbacks {
     [SerializeField] GameObject[] planePrefabs;
