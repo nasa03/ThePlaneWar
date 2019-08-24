@@ -26,13 +26,14 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
 
         if (localPlayer.IsMasterClient)
         {
-            startGameButton.isEnabled = true;
+            startGameButton.GetComponentInChildren<UILabel>().text = "开始游戏";
             usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.red;
         }
         else
         {
-            startGameButton.isEnabled = false;
+            startGameButton.GetComponentInChildren<UILabel>().text = "准备";
             usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.white;
+            CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "isReady", false);
         }
 
         FindObjectOfType<ChoosePlane>().SetPlayerInt(localPlayer);
@@ -53,7 +54,13 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
             if (player.IsMasterClient)
                 usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.red;
             else
-                usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.white;
+            {
+                if ((bool)CustomProperties.GetProperties(player, "isReady"))
+                    usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.yellow;
+                else
+                    usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.white;
+            }
+                
         }
     }
 
@@ -73,11 +80,46 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
 
     public void StartGameButtonOnClick()
     {
-        PhotonNetwork.CurrentRoom.IsOpen = false;
-        PhotonNetwork.CurrentRoom.IsVisible = false;
+        if (startGameButton.transform.Find("Label").GetComponent<UILabel>().text == "开始游戏")
+        {
+            bool isAllReady = true;
+            for(int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
+            {
+                if (!(bool)CustomProperties.GetProperties(PhotonNetwork.PlayerListOthers[i], "isReady"))
+                {
+                    isAllReady = false;
+                    break;
+                }
+            }
+            if (isAllReady)
+            {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsVisible = false;
 
-        PhotonNetwork.LoadLevel(1);
-        startGameButton.isEnabled = false;
+                PhotonNetwork.LoadLevel(1);
+                startGameButton.isEnabled = false;
+            }
+            else
+            {
+                StartCoroutine(FindObjectOfType<MessageShow>().Show("玩家还没准备好"));
+            }
+        }
+        else
+        {
+            if(startGameButton.transform.Find("Label").GetComponent<UILabel>().text == "准备")
+            {
+                startGameButton.GetComponentInChildren<UILabel>().text = "取消准备";
+                usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.yellow;
+                CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "isReady", true);
+            }
+            else
+            {
+                startGameButton.GetComponentInChildren<UILabel>().text = "准备";
+                usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.white;
+                CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "isReady", false);
+            }
+        }
+        
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -101,5 +143,21 @@ public class PhotonRoom : MonoBehaviourPunCallbacks {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
 
         openToggle.value = PhotonNetwork.CurrentRoom.IsOpen;
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(target, changedProps);
+
+        for(int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
+        {
+            if (target == PhotonNetwork.PlayerListOthers[i])
+            {
+                if ((bool)CustomProperties.GetProperties(target, "isReady"))
+                    usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.yellow;
+                else
+                    usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.white;
+            }
+        }
     }
 }

@@ -1,14 +1,12 @@
-﻿//using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using ExitGames.Client.Photon;
 
 public class ChoosePlane : MonoBehaviour {
     public GameObject[] planePrefabs;
     GameObject totalPlaneObject;
-    Hashtable keyValuePairs = new Hashtable();
 
     public void Show(bool isShow)
     {
@@ -17,12 +15,7 @@ public class ChoosePlane : MonoBehaviour {
             totalPlaneObject = Instantiate(planePrefabs[Global.totalPlaneInt], Global.planePositions[0], Quaternion.Euler(0, 180, 0));
             totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
 
-            if (keyValuePairs.ContainsKey("totalPlaneInt"))
-                keyValuePairs["totalPlaneInt"] = Global.totalPlaneInt;
-            else
-                keyValuePairs.Add("totalPlaneInt", Global.totalPlaneInt);
-
-            PhotonNetwork.LocalPlayer.SetCustomProperties(keyValuePairs);
+            CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "totalPlaneInt", Global.totalPlaneInt);
         }
         else
         {
@@ -54,12 +47,7 @@ public class ChoosePlane : MonoBehaviour {
         totalPlaneObject = Instantiate(planePrefabs[Global.totalPlaneInt], Global.planePositions[0], Quaternion.Euler(0, 180, 0));
         totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
 
-        if (keyValuePairs.ContainsKey("totalPlaneInt"))
-            keyValuePairs["totalPlaneInt"] = Global.totalPlaneInt;
-        else
-            keyValuePairs.Add("totalPlaneInt", Global.totalPlaneInt);
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(keyValuePairs);
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "totalPlaneInt", Global.totalPlaneInt);
     }
 
     public void SetPlayerInt(Player localPlayer)

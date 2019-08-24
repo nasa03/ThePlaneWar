@@ -1,10 +1,9 @@
-﻿//using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using ExitGames.Client.Photon;
 
 public class PlaneController : MonoBehaviourPunCallbacks
 {
@@ -15,7 +14,7 @@ public class PlaneController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        setProperties(PhotonNetwork.LocalPlayer, "HP", 100);
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
     }
 
     public void Attack(Collider collider)
@@ -24,41 +23,10 @@ public class PlaneController : MonoBehaviourPunCallbacks
 
         int randomAttack = Random.Range(5, 15);
 
-        int totalHP = (int)getProperties(player, "HP");
-        setProperties(player, "HP", totalHP - randomAttack);
+        int totalHP = (int)CustomProperties.GetProperties(player, "HP");
+        CustomProperties.SetProperties(player, "HP", totalHP - randomAttack);
 
         StartCoroutine(ShowSight());
-    }
-
-    void setProperties(Player player,string key,object value)
-    {
-        Hashtable keyValues = player.CustomProperties;
-
-        if (keyValues.ContainsKey(key))
-        {
-            keyValues[key] = value;
-        }
-        else
-        {
-            keyValues.Add(key, value);
-        }
-
-        player.SetCustomProperties(keyValues);
-        
-    }
-
-    object getProperties(Player player,string key)
-    {
-        Hashtable keyValues = player.CustomProperties;
-
-        if (keyValues.ContainsKey(key))
-        {
-            return keyValues[key];
-        }
-        else
-        {
-            return null;
-        }
     }
 
     System.Collections.IEnumerator ShowSight()
@@ -68,13 +36,13 @@ public class PlaneController : MonoBehaviourPunCallbacks
         sight_Image.sprite = sight_Sprites[0];
     }
 
-    public override void OnPlayerPropertiesUpdate(Player target, Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(target, changedProps);
 
         if (target == PhotonNetwork.LocalPlayer)
         {
-            HP_Image.fillAmount = (float)((int)getProperties(target, "HP") / 100.0);
+            HP_Image.fillAmount = (float)((int)CustomProperties.GetProperties(target, "HP") / 100.0);
         }
     }
 }

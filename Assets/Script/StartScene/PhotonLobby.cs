@@ -19,7 +19,10 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
         string roomName = nameInput.value;
 
         if (string.IsNullOrEmpty(roomName))
-            roomName = "默认房间";
+        {
+            StartCoroutine(FindObjectOfType<MessageShow>().Show("请填写房间名！"));
+            return;
+        }
 
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = (byte)maxPlayersSlider.MaxPlayers;
