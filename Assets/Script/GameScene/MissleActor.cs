@@ -26,6 +26,7 @@ public class MissleActor : MonoBehaviour
         {
             GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
             PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
+            StartCoroutine(FindObjectOfType<MissleActorButton>().Shoot());
         }
     }
 }
