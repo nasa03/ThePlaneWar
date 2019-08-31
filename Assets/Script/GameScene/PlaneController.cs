@@ -24,12 +24,23 @@ public class PlaneController : MonoBehaviourPunCallbacks
         int randomAttack = Random.Range(5, 15);
 
         int totalHP = (int)CustomProperties.GetProperties(player, "HP");
-        CustomProperties.SetProperties(player, "HP", totalHP - randomAttack);
+        totalHP -= randomAttack;
+        CustomProperties.SetProperties(player, "HP", totalHP);
 
         StartCoroutine(ShowSight());
+
+        if (totalHP <= 0)
+            Kill();
     }
 
-    System.Collections.IEnumerator ShowSight()
+    void Kill()
+    {
+        int kill = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill");
+        kill++;
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
+    }
+
+    IEnumerator ShowSight()
     {
         sight_Image.sprite = sight_Sprites[1];
         yield return new WaitForSeconds(0.5f);

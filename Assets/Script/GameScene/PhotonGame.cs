@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 
-public class PhotonGame : MonoBehaviourPunCallbacks {
+public class PhotonGame : MonoBehaviour {
     [SerializeField] GameObject[] planePrefabs;
     [SerializeField] Transform[] groundRunwayPosotion;
     GameObject localPlane;
@@ -12,9 +12,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks {
     // Start is called before the first frame update
     void Start()
     {
-        int planeInt = Global.totalPlaneInt;
-        int playerInt = Global.totalPlayerInt;
-        localPlane = PhotonNetwork.Instantiate(planePrefabs[planeInt].name, groundRunwayPosotion[playerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
+        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
 
         Global.inGame = true;
     }
@@ -23,5 +21,15 @@ public class PhotonGame : MonoBehaviourPunCallbacks {
     {
         PhotonNetwork.Destroy(localPlane);
         SceneManager.LoadScene("StartScene");
+    }
+
+    public void Dead()
+    {
+        PhotonNetwork.Destroy(localPlane);
+        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
+
+        int death = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death");
+        death++;
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "death", death);
     }
 }
