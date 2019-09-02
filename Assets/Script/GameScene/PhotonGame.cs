@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class PhotonGame : MonoBehaviour {
     [SerializeField] GameObject[] planePrefabs;
     [SerializeField] Transform[] groundRunwayPosotion;
+    [SerializeField] GameObject explosionParticleSystem;
     GameObject localPlane;
 
     // Start is called before the first frame update
@@ -26,11 +27,16 @@ public class PhotonGame : MonoBehaviour {
     [PunRPC]
     public void Dead()
     {
+        GameObject explosion = PhotonNetwork.Instantiate(explosionParticleSystem.name, localPlane.transform.position, Quaternion.identity);
+        explosion.GetComponent<ParticleSystem>().Play();
+
         PhotonNetwork.Destroy(localPlane);
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
 
         int death = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death", 0);
         death++;
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "death", death);
+
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
     }
 }

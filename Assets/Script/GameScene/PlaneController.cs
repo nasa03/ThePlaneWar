@@ -23,7 +23,11 @@ public class PlaneController : MonoBehaviourPunCallbacks
 
         int randomAttack = Random.Range(5, 15);
 
-        int totalHP = (int)CustomProperties.GetProperties(player, "HP", 0);
+        int totalHP = (int)CustomProperties.GetProperties(player, "HP", 100);
+
+        if (totalHP <= 0)
+            return;
+
         totalHP -= randomAttack;
         CustomProperties.SetProperties(player, "HP", totalHP);
 

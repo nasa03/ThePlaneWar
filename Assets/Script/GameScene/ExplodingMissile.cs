@@ -56,8 +56,6 @@ public class ExplodingMissile : MonoBehaviour
     {
         ArrayList missileTargets = new ArrayList();
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
-
-        Debug.LogWarning(targets.Length);
         
         for (int i = 0; i < targets.Length; i++)
         {

@@ -16,12 +16,14 @@ public class PlaneScore : MonoBehaviour
     }
 
     [SerializeField] Image[] panel = new Image[2];
+    [SerializeField] Text title;
     [SerializeField] Score[] scores = new Score[6];
 
     public void Show()
     {
         panel[0].enabled = true;
         panel[1].enabled = true;
+        title.enabled = true;
 
         int planeCount = PhotonNetwork.PlayerList.Length;
         for(int i = 0; i < 6; i++)
@@ -51,6 +53,8 @@ public class PlaneScore : MonoBehaviour
     {
         panel[0].enabled = false;
         panel[1].enabled = false;
+        title.enabled = false;
+
         for(int i = 0; i < 6; i++)
         {
             scores[i].scoreNameText.enabled = false;
