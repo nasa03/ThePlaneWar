@@ -23,21 +23,20 @@ public class PlaneController : MonoBehaviourPunCallbacks
 
         int randomAttack = Random.Range(5, 15);
 
-        int totalHP = (int)CustomProperties.GetProperties(player, "HP");
+        int totalHP = (int)CustomProperties.GetProperties(player, "HP", 0);
         totalHP -= randomAttack;
         CustomProperties.SetProperties(player, "HP", totalHP);
 
         StartCoroutine(ShowSight());
 
         if (totalHP <= 0)
-            Kill();
-    }
+        {
+            int kill = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
+            kill++;
+            CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
 
-    void Kill()
-    {
-        int kill = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill");
-        kill++;
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
+            GetComponent<PhotonView>().RPC("Dead", player);
+        }
     }
 
     IEnumerator ShowSight()
@@ -53,7 +52,7 @@ public class PlaneController : MonoBehaviourPunCallbacks
 
         if (target == PhotonNetwork.LocalPlayer)
         {
-            HP_Image.fillAmount = (float)((int)CustomProperties.GetProperties(target, "HP") / 100.0);
+            HP_Image.fillAmount = (float)((int)CustomProperties.GetProperties(target, "HP", 100) / 100.0);
         }
     }
 }

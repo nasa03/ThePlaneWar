@@ -35,8 +35,8 @@ public class PlaneScore : MonoBehaviour
                 if (PhotonNetwork.PlayerList[i].IsLocal)
                     scores[i].scoreNameText.color = Color.red;
 
-                scores[i].kill = (int)CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill");
-                scores[i].death = (int)CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death");
+                scores[i].kill = (int)CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0);
+                scores[i].death = (int)CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0);
                 scores[i].scoreText.text = string.Format("{0}/{1}", scores[i].kill, scores[i].death);
             }
             else

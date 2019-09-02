@@ -35,5 +35,6 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - Attack
+  - Dead
   DisableAutoOpenWizard: 1
   ShowSettings: 1

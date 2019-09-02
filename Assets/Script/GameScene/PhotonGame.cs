@@ -8,7 +8,7 @@ public class PhotonGame : MonoBehaviour {
     [SerializeField] GameObject[] planePrefabs;
     [SerializeField] Transform[] groundRunwayPosotion;
     GameObject localPlane;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,12 +23,13 @@ public class PhotonGame : MonoBehaviour {
         SceneManager.LoadScene("StartScene");
     }
 
+    [PunRPC]
     public void Dead()
     {
         PhotonNetwork.Destroy(localPlane);
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
 
-        int death = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death");
+        int death = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death", 0);
         death++;
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "death", death);
     }

@@ -23,7 +23,7 @@ public class CustomProperties : MonoBehaviour
 
     }
 
-    public static object GetProperties(Player player, string key)
+    public static object GetProperties(Player player, string key, object defaultValue = null)
     {
         Hashtable keyValues = player.CustomProperties;
 
@@ -33,7 +33,7 @@ public class CustomProperties : MonoBehaviour
         }
         else
         {
-            return null;
+            return defaultValue;
         }
     }
 }
