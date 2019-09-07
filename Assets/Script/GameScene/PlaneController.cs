@@ -9,7 +9,8 @@ public class PlaneController : MonoBehaviourPunCallbacks
 {
     [SerializeField] Image HP_Image;
     [SerializeField] Image sight_Image;
-    [SerializeField] Sprite[] sight_Sprites = new Sprite[2];
+    [SerializeField] Sprite[] sight_Sprites = new Sprite[3];
+    bool isKilled = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,19 +36,37 @@ public class PlaneController : MonoBehaviourPunCallbacks
 
         if (totalHP <= 0)
         {
+            StartCoroutine(ShowKillSight());
+
             int kill = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
             kill++;
             CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
 
+            GetComponent<AudioSource>().Play();
             GetComponent<PhotonView>().RPC("Dead", player);
         }
     }
 
     IEnumerator ShowSight()
     {
-        sight_Image.sprite = sight_Sprites[1];
+        if (!isKilled)
+            sight_Image.sprite = sight_Sprites[1];
+
         yield return new WaitForSeconds(0.5f);
+
+        if (!isKilled)
+            sight_Image.sprite = sight_Sprites[0];
+    }
+
+    IEnumerator ShowKillSight()
+    {
+        isKilled = true;
+
+        sight_Image.sprite = sight_Sprites[2];
+        yield return new WaitForSeconds(2.0f);
         sight_Image.sprite = sight_Sprites[0];
+
+        isKilled = false;
     }
 
     public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
