@@ -140,7 +140,7 @@ public class ExplodingProjectile : MonoBehaviour
             return;
 
         if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
-            FindObjectOfType<PlaneController>().Attack(other);
+            FindObjectOfType<PlaneAttack>().Attack(other);
     }
 
     void Explode()

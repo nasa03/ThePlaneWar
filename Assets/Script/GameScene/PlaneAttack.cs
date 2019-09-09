@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlaneController : MonoBehaviourPunCallbacks
+public class PlaneAttack : MonoBehaviourPunCallbacks
 {
     [SerializeField] Image HP_Image;
     [SerializeField] Image sight_Image;
@@ -43,7 +43,7 @@ public class PlaneController : MonoBehaviourPunCallbacks
             CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
 
             GetComponent<AudioSource>().Play();
-            GetComponent<PhotonView>().RPC("Dead", player);
+            photonView.RPC("Dead", player);
         }
     }
 
