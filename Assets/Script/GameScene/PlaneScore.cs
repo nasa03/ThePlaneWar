@@ -9,56 +9,57 @@ public class PlaneScore : MonoBehaviour
     [System.Serializable]
     class Score
     {
-        public Text scoreNameText;
-        public Text scoreText;
-        public int kill;
-        public int death;
+        public Text nameText;
+        public Text killText;
+        public Text deathText;
     }
 
-    [SerializeField] Image[] panel = new Image[2];
-    [SerializeField] Text title;
+    [SerializeField] Image panel;
+    [SerializeField] Text[] title;
     [SerializeField] Score[] scores = new Score[6];
 
     public void Show()
     {
-        panel[0].enabled = true;
-        panel[1].enabled = true;
-        title.enabled = true;
+        panel.enabled = true;
+        title[0].enabled = true;
+        title[1].enabled = true;
 
         int planeCount = PhotonNetwork.PlayerList.Length;
         for(int i = 0; i < 6; i++)
         {
             if (i < planeCount)
             {
-                scores[i].scoreNameText.enabled = true;
-                scores[i].scoreText.enabled = true;
+                scores[i].nameText.enabled = true;
+                scores[i].killText.enabled = true;
+                scores[i].deathText.enabled = true;
 
-                scores[i].scoreNameText.text = PhotonNetwork.PlayerList[i].NickName;
+                scores[i].nameText.text = PhotonNetwork.PlayerList[i].NickName;
                 if (PhotonNetwork.PlayerList[i].IsLocal)
-                    scores[i].scoreNameText.color = Color.red;
+                    scores[i].nameText.color = Color.red;
 
-                scores[i].kill = (int)CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0);
-                scores[i].death = (int)CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0);
-                scores[i].scoreText.text = string.Format("{0}/{1}", scores[i].kill, scores[i].death);
+                scores[i].killText.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
+                scores[i].deathText.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
             }
             else
             {
-                scores[i].scoreNameText.enabled = false;
-                scores[i].scoreText.enabled = false;
+                scores[i].nameText.enabled = false;
+                scores[i].killText.enabled = false;
+                scores[i].deathText.enabled = false;
             }
         }
     }
 
     public void Hide()
     {
-        panel[0].enabled = false;
-        panel[1].enabled = false;
-        title.enabled = false;
+        panel.enabled = false;
+        title[0].enabled = false;
+        title[1].enabled = false;
 
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
-            scores[i].scoreNameText.enabled = false;
-            scores[i].scoreText.enabled = false;
+            scores[i].nameText.enabled = false;
+            scores[i].killText.enabled = false;
+            scores[i].deathText.enabled = false;
         }
     }
 }
