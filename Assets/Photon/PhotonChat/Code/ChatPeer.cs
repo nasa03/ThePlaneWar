@@ -27,7 +27,7 @@ namespace Photon.Chat
     public class ChatPeer : PhotonPeer
     {
         /// <summary>Name Server Host Name for Photon Cloud. Without port and without any prefix.</summary>
-        public const string NameServerHost = "ns.exitgames.com";
+        public const string NameServerHost = "ns.photonengine.cn";
 
         /// <summary>Name Server for HTTP connections to the Photon Cloud. Includes prefix and port.</summary>
         public const string NameServerHttp = "http://ns.exitgamescloud.com:80/photon/n";

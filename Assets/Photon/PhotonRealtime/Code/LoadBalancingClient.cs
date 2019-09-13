@@ -287,7 +287,7 @@ namespace Photon.Realtime
         public bool IsUsingNameServer { get; set; }
 
         /// <summary>Name Server Host Name for Photon Cloud. Without port and without any prefix.</summary>
-        public string NameServerHost = "ns.exitgames.com";
+        public string NameServerHost = "ns.photonengine.cn";
 
         /// <summary>Name Server for HTTP connections to the Photon Cloud. Includes prefix and port.</summary>
         public string NameServerHttp = "http://ns.exitgames.com:80/photon/n";
