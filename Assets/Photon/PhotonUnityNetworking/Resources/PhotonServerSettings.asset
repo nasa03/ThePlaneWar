@@ -35,5 +35,6 @@ MonoBehaviour:
   - DestroyRpc
   - Dead
   - Fire
+  - AddAttackMessage
   DisableAutoOpenWizard: 1
   ShowSettings: 1

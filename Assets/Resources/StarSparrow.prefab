@@ -10121,7 +10121,6 @@ GameObject:
   - component: {fileID: 20468739936627014}
   - component: {fileID: 92428500651203594}
   - component: {fileID: 124440215756921850}
-  - component: {fileID: 81158037843051134}
   - component: {fileID: 3208812225605341295}
   - component: {fileID: 1544858438434056267}
   - component: {fileID: 5218497659089143374}
@@ -10198,14 +10197,6 @@ Behaviour:
   m_Enabled: 1
 --- !u!124 &124440215756921850
 Behaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1621187065502278}
-  m_Enabled: 1
---- !u!81 &81158037843051134
-AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}

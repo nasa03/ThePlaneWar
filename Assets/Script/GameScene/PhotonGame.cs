@@ -19,6 +19,8 @@ public class PhotonGame : MonoBehaviour {
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
 
         Global.inGame = true;
+
+        StartCoroutine(InvincibleState());
     }
 
     public void OnExitButtonClick()
@@ -59,5 +61,23 @@ public class PhotonGame : MonoBehaviour {
         RebornText.enabled = false;
 
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
+
+        StartCoroutine(InvincibleState());
+    }
+
+    IEnumerator InvincibleState()
+    {
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", true);
+        RebornText.enabled = true;
+        int time = 20;
+        do
+        {
+            RebornText.text = string.Format("无敌状态{0}秒", time);
+            yield return new WaitForSeconds(1.0f);
+            time--;
+        } while (time > 0);
+
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", false);
+        RebornText.enabled = false;
     }
 }

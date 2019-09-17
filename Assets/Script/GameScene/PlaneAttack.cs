@@ -20,13 +20,17 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
 
     public void Attack(Collider collider)
     {
+        if (!photonView.IsMine)
+            return;
+
         Player player = collider.gameObject.GetComponent<PhotonView>().Controller;
 
         int randomAttack = Random.Range(5, 15);
 
         int totalHP = (int)CustomProperties.GetProperties(player, "HP", 100);
+        bool invincible = (bool)CustomProperties.GetProperties(player, "invincible", false);
 
-        if (totalHP <= 0)
+        if (totalHP <= 0 || invincible)
             return;
 
         totalHP -= randomAttack;
@@ -44,6 +48,7 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
 
             GetComponent<AudioSource>().Play();
             photonView.RPC("Dead", player);
+            photonView.RPC("AddAttackMessage", RpcTarget.All, PhotonNetwork.LocalPlayer, player);
         }
     }
 
