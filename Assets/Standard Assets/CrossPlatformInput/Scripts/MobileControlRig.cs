@@ -77,7 +77,7 @@ namespace UnityStandardAssets.CrossPlatformInput
         private void CheckEnableControlRig()
         {
 #if MOBILE_INPUT
-		EnableControlRig(true);
+            EnableControlRig(true);
 #else
             EnableControlRig(false);
 #endif
@@ -86,7 +86,9 @@ namespace UnityStandardAssets.CrossPlatformInput
 
         private void EnableControlRig(bool enabled)
         {
-            foreach (Transform t in transform)
+            transform.Find("InputControll").gameObject.SetActive(enabled);
+
+            foreach (Transform t in transform.Find("InputControll"))
             {
                 t.gameObject.SetActive(enabled);
             }

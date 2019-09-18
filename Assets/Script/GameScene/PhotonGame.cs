@@ -9,9 +9,15 @@ public class PhotonGame : MonoBehaviour {
     [SerializeField] GameObject[] planePrefabs;
     [SerializeField] Transform[] groundRunwayPosotion;
     [SerializeField] GameObject explosionParticleSystem;
-    [SerializeField] Image RebornImage;
-    [SerializeField] Text RebornText;
+    [SerializeField] Image rebornImage;
+    [SerializeField] GameObject timeBar;
+    [SerializeField] Text timeText;
+    [SerializeField] Image timeImage;
     GameObject localPlane;
+    bool reborn = false;
+    bool invincible = false;
+    float time = 0.0f;
+    int maxTime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +26,39 @@ public class PhotonGame : MonoBehaviour {
 
         Global.inGame = true;
 
-        StartCoroutine(InvincibleState());
+        InvincibleState();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (time > 0)
+        {
+            timeImage.fillAmount = time / maxTime;
+            time -= Time.deltaTime;
+        }
+        else
+        {
+            if (reborn)
+            {
+                rebornImage.enabled = false;
+                timeBar.SetActive(false);
+
+                localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
+
+                reborn = false;
+
+                InvincibleState();
+            }
+
+            if (invincible)
+            {
+                CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", false);
+                timeBar.SetActive(false);
+
+                invincible = false;
+            }
+        }
     }
 
     public void OnExitButtonClick()
@@ -36,7 +74,7 @@ public class PhotonGame : MonoBehaviour {
         explosion.GetComponent<ParticleSystem>().Play();
 
         PhotonNetwork.Destroy(localPlane);
-        StartCoroutine(Reborn());
+        Reborn();
 
         int death = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death", 0);
         death++;
@@ -45,39 +83,23 @@ public class PhotonGame : MonoBehaviour {
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
     }
 
-    IEnumerator Reborn()
+    void Reborn()
     {
-        RebornImage.enabled = true;
-        RebornText.enabled = true;
-        int time = 10;
-        do
-        {
-            RebornText.text = string.Format("还有{0}秒重生", time);
-            yield return new WaitForSeconds(1.0f);
-            time--;
-        } while (time > 0);
-
-        RebornImage.enabled = false;
-        RebornText.enabled = false;
-
-        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
-
-        StartCoroutine(InvincibleState());
+        rebornImage.enabled = true;
+        timeBar.SetActive(true);
+        reborn = true;
+        time = 10.0f;
+        maxTime = 10;
+        timeText.text = "重生";
     }
 
-    IEnumerator InvincibleState()
+    void InvincibleState()
     {
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", true);
-        RebornText.enabled = true;
-        int time = 20;
-        do
-        {
-            RebornText.text = string.Format("无敌状态{0}秒", time);
-            yield return new WaitForSeconds(1.0f);
-            time--;
-        } while (time > 0);
-
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", false);
-        RebornText.enabled = false;
+        timeBar.SetActive(true);
+        invincible = true;
+        time = 20.0f;
+        maxTime = 20;
+        timeText.text = "无敌状态";
     }
 }

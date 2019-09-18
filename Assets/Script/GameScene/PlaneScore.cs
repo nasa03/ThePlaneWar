@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class PlaneScore : MonoBehaviour
 {
@@ -17,6 +18,20 @@ public class PlaneScore : MonoBehaviour
     [SerializeField] Image panel;
     [SerializeField] Text[] title;
     [SerializeField] Score[] scores = new Score[6];
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (CrossPlatformInputManager.GetButtonDown("Tab"))
+        {
+            Show();
+        }
+
+        if (CrossPlatformInputManager.GetButtonUp("Tab"))
+        {
+            Hide();
+        }
+    }
 
     public void Show()
     {
