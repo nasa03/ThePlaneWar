@@ -22,11 +22,11 @@ public class MissleActor : MonoBehaviour
         if (!GetComponent<PhotonView>().IsMine)
             return;
 
-        if (CrossPlatformInputManager.GetButtonDown("Fire2"))
+        if (CrossPlatformInputManager.GetButtonDown("Fire2") && FindObjectOfType<MissleActorButton>().Missle)
         {
             GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
             PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
-            StartCoroutine(FindObjectOfType<MissleActorButton>().Shoot());
+            FindObjectOfType<MissleActorButton>().ShootStart();
         }
     }
 }

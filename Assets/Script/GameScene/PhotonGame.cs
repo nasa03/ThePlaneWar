@@ -26,7 +26,7 @@ public class PhotonGame : MonoBehaviour {
 
         Global.inGame = true;
 
-        InvincibleState();
+        StartCoroutine(InvincibleStart());
     }
 
     // Update is called once per frame
@@ -41,22 +41,12 @@ public class PhotonGame : MonoBehaviour {
         {
             if (reborn)
             {
-                rebornImage.enabled = false;
-                timeBar.SetActive(false);
-
-                localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
-
-                reborn = false;
-
-                InvincibleState();
+                RebornEnd();
             }
 
             if (invincible)
             {
-                CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", false);
-                timeBar.SetActive(false);
-
-                invincible = false;
+                InvincibleEnd();
             }
         }
     }
@@ -74,7 +64,7 @@ public class PhotonGame : MonoBehaviour {
         explosion.GetComponent<ParticleSystem>().Play();
 
         PhotonNetwork.Destroy(localPlane);
-        Reborn();
+        StartCoroutine(RebornStart());
 
         int death = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death", 0);
         death++;
@@ -83,23 +73,47 @@ public class PhotonGame : MonoBehaviour {
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
     }
 
-    void Reborn()
+    IEnumerator RebornStart()
     {
         rebornImage.enabled = true;
         timeBar.SetActive(true);
-        reborn = true;
         time = 10.0f;
         maxTime = 10;
         timeText.text = "重生";
+
+        yield return new WaitForSeconds(1.0f);
+        reborn = true;
     }
 
-    void InvincibleState()
+    void RebornEnd()
+    {
+        rebornImage.enabled = false;
+        timeBar.SetActive(false);
+
+        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
+
+        reborn = false;
+
+        StartCoroutine(InvincibleStart());
+    }
+
+    IEnumerator InvincibleStart()
     {
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", true);
         timeBar.SetActive(true);
-        invincible = true;
         time = 20.0f;
         maxTime = 20;
         timeText.text = "无敌状态";
+
+        yield return new WaitForSeconds(1.0f);
+        invincible = true;
+    }
+
+    void InvincibleEnd()
+    {
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", false);
+        timeBar.SetActive(false);
+
+        invincible = false;
     }
 }

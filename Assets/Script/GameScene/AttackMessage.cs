@@ -16,7 +16,7 @@ public class AttackMessage : MonoBehaviour
         string attackPlayerNickName = attackPlayer.NickName;
         string deadPlayerNickName = deadPlayer.NickName;
 
-        queue.Enqueue(string.Format("{0} kill {1}", attackPlayerNickName, deadPlayerNickName));
+        queue.Enqueue(string.Format("{0} killed {1}", attackPlayerNickName, deadPlayerNickName));
 
         Show();
 
@@ -25,7 +25,7 @@ public class AttackMessage : MonoBehaviour
 
     IEnumerator RemoveLine()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(6.0f);
         queue.Dequeue();
         Show();
     }
