@@ -27,6 +27,9 @@ public class GameTime : MonoBehaviour
             int minutes = time / 60;
             int seconds = time % 60;
 
+            if (PhotonNetwork.IsMasterClient && time % 10 == 0)
+                CustomProperties.SetProperties(PhotonNetwork.MasterClient, "gametime", time);
+
             string secondsStr;
             if (seconds < 10)
                 secondsStr = "0" + seconds;
