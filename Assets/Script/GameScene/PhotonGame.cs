@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 
 public class PhotonGame : MonoBehaviour {
+    [SerializeField] Camera mainCamera;
     [SerializeField] GameObject[] planePrefabs;
     [SerializeField] Transform[] groundRunwayPosotion;
     [SerializeField] GameObject explosionParticleSystem;
-    [SerializeField] Image rebornImage;
     [SerializeField] GameObject timeBar;
+    [SerializeField] GameObject sightImage;
     [SerializeField] Text timeText;
     [SerializeField] Image timeImage;
     GameObject localPlane;
@@ -75,8 +76,10 @@ public class PhotonGame : MonoBehaviour {
 
     IEnumerator RebornStart()
     {
-        rebornImage.enabled = true;
+        mainCamera.enabled = true;
         timeBar.SetActive(true);
+        sightImage.SetActive(false);
+
         time = 10.0f;
         maxTime = 10;
         timeText.text = "重生";
@@ -87,8 +90,9 @@ public class PhotonGame : MonoBehaviour {
 
     void RebornEnd()
     {
-        rebornImage.enabled = false;
+        mainCamera.enabled = false;
         timeBar.SetActive(false);
+        sightImage.SetActive(true);
 
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
 

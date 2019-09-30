@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 7035793218796919859}
   - component: {fileID: 982572883022974335}
   - component: {fileID: 5576771689124080680}
+  - component: {fileID: 4029346107182003979}
   m_Layer: 0
   m_Name: StarSparrow2
   m_TagString: Plane
@@ -804,6 +805,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 5
   m_Center: {x: -0.0000015497211, y: 0.06952076, z: 0.32428563}
+--- !u!114 &4029346107182003979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073763574398454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcc7b10f621f45d1adeb0a70a0a9cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1426499096189330
 GameObject:
   m_ObjectHideFlags: 0

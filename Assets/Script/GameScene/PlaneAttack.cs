@@ -48,8 +48,17 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
 
             GetComponent<AudioSource>().Play();
             photonView.RPC("Dead", player);
-            photonView.RPC("AddAttackMessage", RpcTarget.All, PhotonNetwork.LocalPlayer, player);
+            photonView.RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}击杀了{1}", PhotonNetwork.LocalPlayer.NickName, player.NickName));
         }
+    }
+
+    public void Suiside()
+    {
+        if (!photonView.IsMine)
+            return;
+
+        photonView.RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", PhotonNetwork.LocalPlayer.NickName));
+        photonView.RPC("Dead", PhotonNetwork.LocalPlayer);
     }
 
     IEnumerator ShowSight()

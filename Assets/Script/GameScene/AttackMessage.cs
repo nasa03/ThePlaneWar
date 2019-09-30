@@ -11,12 +11,9 @@ public class AttackMessage : MonoBehaviour
     Queue<string> queue = new Queue<string>();
 
     [PunRPC]
-    public void AddAttackMessage(Player attackPlayer,Player deadPlayer)
+    public void AddAttackMessage(string message)
     {
-        string attackPlayerNickName = attackPlayer.NickName;
-        string deadPlayerNickName = deadPlayer.NickName;
-
-        queue.Enqueue(string.Format("{0} killed {1}", attackPlayerNickName, deadPlayerNickName));
+        queue.Enqueue(message);
 
         Show();
 
