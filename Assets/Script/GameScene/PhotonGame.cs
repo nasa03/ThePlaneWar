@@ -63,8 +63,10 @@ public class PhotonGame : MonoBehaviour {
     {
         GameObject explosion = PhotonNetwork.Instantiate(explosionParticleSystem.name, localPlane.transform.position, Quaternion.identity);
         explosion.GetComponent<ParticleSystem>().Play();
+        GetComponent<AudioSource>().Play();
 
-        PhotonNetwork.Destroy(localPlane);
+        invincible = false;
+
         StartCoroutine(RebornStart());
 
         int death = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death", 0);
@@ -76,6 +78,9 @@ public class PhotonGame : MonoBehaviour {
 
     IEnumerator RebornStart()
     {
+        yield return new WaitForSeconds(0.5f);
+        PhotonNetwork.Destroy(localPlane);
+
         mainCamera.enabled = true;
         timeBar.SetActive(true);
         sightImage.SetActive(false);
