@@ -12,16 +12,13 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
     [SerializeField] UISprite[] usernameSprides;
     [SerializeField] UIButton startGameButton;
 
-    public void EnterRoom()
+    public void EnterOrRefreshRoom()
     {
         roomLabel.text = string.Format("房间名：{0}", PhotonNetwork.CurrentRoom.Name);
         playersLabel.text = string.Format("人数：{0}/{1}", PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
         openToggle.value = PhotonNetwork.CurrentRoom.IsOpen;
         openToggle.GetComponent<UIButton>().isEnabled = PhotonNetwork.LocalPlayer.IsMasterClient;
-    }
 
-    public void Refresh()
-    {
         Player localPlayer = PhotonNetwork.LocalPlayer;
         usernameSprides[0].GetComponentInChildren<UILabel>().text = localPlayer.NickName;
 
@@ -61,7 +58,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
                 else
                     usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.white;
             }
-
         }
     }
 
@@ -127,16 +123,14 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
 
-        Refresh();
-        EnterRoom();
+        EnterOrRefreshRoom();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
 
-        Refresh();
-        EnterRoom();
+        EnterOrRefreshRoom();
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)

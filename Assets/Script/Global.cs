@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Realtime;
 
 public static class Global {
     public readonly static string path = string.Format("{0}/name", Application.persistentDataPath);
@@ -20,5 +21,6 @@ public static class Global {
     public static int totalFireInt = 0;
     public static int totalMissleInt = 0;
     public static bool isOffline = false;
-    public static bool inGame = false;
+    public static bool exitGame = false;
+    public static bool gameOver = false;
 }

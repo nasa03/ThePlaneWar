@@ -27,8 +27,16 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         reader.Close();
         stream.Close();
 
-        if (Global.inGame)
-            PhotonNetwork.Disconnect();
+        if (PhotonNetwork.NetworkClientState == ClientState.Joined)
+        {
+            if (Global.exitGame)
+            {
+                FindObjectOfType<PhotonRoom>().LeftRoomButtonOnClick();
+                Global.exitGame = false;
+            }
+            else OnJoinedRoom();
+        }
+            
     }
 
     private void Awake()
@@ -63,8 +71,6 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
             PhotonNetwork.ConnectUsingSettings();
         else
             PhotonNetwork.OfflineMode = true;
-
-        Global.inGame = false;
     }
 
     public override void OnConnected()
@@ -81,12 +87,6 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
-
-        if (Global.inGame)
-        {
-            Connect();
-            return;
-        }
 
         ConnectButton.isEnabled = true;
         FindObjectOfType<ChoosePlane>().Show(false);
@@ -122,8 +122,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         RoomUI.SetActive(true);
 
         FindObjectOfType<ChoosePlane>().Show(true);
-        FindObjectOfType<PhotonRoom>().Refresh();
-        FindObjectOfType<PhotonRoom>().EnterRoom();
+        FindObjectOfType<PhotonRoom>().EnterOrRefreshRoom();
     }
     public override void OnLeftRoom()
     {

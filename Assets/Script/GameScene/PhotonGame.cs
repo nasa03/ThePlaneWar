@@ -25,8 +25,6 @@ public class PhotonGame : MonoBehaviour {
     {
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
 
-        Global.inGame = true;
-
         StartCoroutine(InvincibleStart());
     }
 
@@ -54,6 +52,15 @@ public class PhotonGame : MonoBehaviour {
 
     public void OnExitButtonClick()
     {
+        Global.exitGame = true;
+        PhotonNetwork.Destroy(localPlane);
+        SceneManager.LoadScene("StartScene");
+    }
+
+    [PunRPC]
+    public void GameOver()
+    {
+        Global.gameOver = true;
         PhotonNetwork.Destroy(localPlane);
         SceneManager.LoadScene("StartScene");
     }

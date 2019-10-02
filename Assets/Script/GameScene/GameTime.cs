@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class GameTime : MonoBehaviour
+public class GameTime : MonoBehaviourPun
 {
     [SerializeField] Text text;
     int time;
@@ -18,7 +18,7 @@ public class GameTime : MonoBehaviour
         time = (int)CustomProperties.GetProperties(PhotonNetwork.MasterClient, "gametime", 600);
 
         StartCoroutine(ShowTime());
-    }
+    } 
 
     IEnumerator ShowTime()
     {
@@ -39,6 +39,11 @@ public class GameTime : MonoBehaviour
             text.text = string.Format("{0}:{1}", minutes, secondsStr);
             yield return new WaitForSeconds(1.0f);
             time--;
+
+            if (time == 0 && PhotonNetwork.IsMasterClient && photonView.IsMine)
+            {
+                photonView.RPC("GameOver", RpcTarget.All);
+            }
         }
     }
 }

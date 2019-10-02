@@ -36,5 +36,6 @@ MonoBehaviour:
   - Dead
   - Fire
   - AddAttackMessage
+  - GameOver
   DisableAutoOpenWizard: 1
   ShowSettings: 1
