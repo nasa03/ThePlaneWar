@@ -9,6 +9,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
     [SerializeField] GameObject LoginUI;
     [SerializeField] GameObject LobbyUI;
     [SerializeField] GameObject RoomUI;
+    [SerializeField] GameObject GameOverUI;
     [SerializeField] UIInput nameInput;
     [SerializeField] UIButton ConnectButton;
     [SerializeField] UILabel IDLabel;
@@ -36,7 +37,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
                 else
                     OnJoinedRoom();
             }
-            else OnJoinedRoom();
+            else GameOver();
 
             Global.returnState = Global.ReturnState.normal;
         }
@@ -77,6 +78,16 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
             PhotonNetwork.OfflineMode = true;
     }
 
+    public void GameOver()
+    {
+        LoginUI.SetActive(false);
+        LobbyUI.SetActive(false);
+        RoomUI.SetActive(false);
+        GameOverUI.SetActive(true);
+
+        FindObjectOfType<GameOver>().Show();
+    }
+
     public override void OnConnected()
     {
         base.OnConnected();
@@ -101,6 +112,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         LobbyUI.SetActive(false);
         RoomUI.SetActive(false);
     }
+
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
@@ -117,6 +129,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
             PhotonNetwork.CreateRoom("离线模式");
         }
     }
+
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
@@ -124,10 +137,12 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         LoginUI.SetActive(false);
         LobbyUI.SetActive(false);
         RoomUI.SetActive(true);
+        GameOverUI.SetActive(false);
 
         FindObjectOfType<ChoosePlane>().Show(true);
         FindObjectOfType<PhotonRoom>().EnterOrRefreshRoom();
     }
+
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
