@@ -52,7 +52,7 @@ public class PhotonGame : MonoBehaviour {
 
     public void OnExitButtonClick()
     {
-        Global.exitGame = true;
+        Global.returnState = Global.ReturnState.exitGame;
         PhotonNetwork.Destroy(localPlane);
         SceneManager.LoadScene("StartScene");
     }
@@ -60,7 +60,7 @@ public class PhotonGame : MonoBehaviour {
     [PunRPC]
     public void GameOver()
     {
-        Global.gameOver = true;
+        Global.returnState = Global.ReturnState.gameOver;
         PhotonNetwork.Destroy(localPlane);
         SceneManager.LoadScene("StartScene");
     }

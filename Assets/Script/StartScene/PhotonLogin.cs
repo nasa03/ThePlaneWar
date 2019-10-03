@@ -29,12 +29,16 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
 
         if (PhotonNetwork.NetworkClientState == ClientState.Joined)
         {
-            if (Global.exitGame)
+            if (Global.returnState == Global.ReturnState.exitGame)
             {
-                FindObjectOfType<PhotonRoom>().LeftRoomButtonOnClick();
-                Global.exitGame = false;
+                if (!Global.isOffline)
+                    FindObjectOfType<PhotonRoom>().LeftRoomButtonOnClick();
+                else
+                    OnJoinedRoom();
             }
             else OnJoinedRoom();
+
+            Global.returnState = Global.ReturnState.normal;
         }
             
     }

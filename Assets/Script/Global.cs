@@ -16,11 +16,15 @@ public static class Global {
         new Vector3 (0,5,5)
     };
 
+    public enum ReturnState
+    {
+        normal, exitGame, gameOver
+    };
+
     public static int totalPlaneInt = 0;
     public static int totalPlayerInt = 0;
     public static int totalFireInt = 0;
     public static int totalMissleInt = 0;
     public static bool isOffline = false;
-    public static bool exitGame = false;
-    public static bool gameOver = false;
+    public static ReturnState returnState = ReturnState.normal;
 }
