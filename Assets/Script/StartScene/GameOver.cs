@@ -31,15 +31,19 @@ public class GameOver : MonoBehaviour
 
                 planeInfomations[i].killLabel.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
                 planeInfomations[i].deathLabel.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
-
-                CustomProperties.SetProperties(PhotonNetwork.PlayerList[i], "kill", 0);
-                CustomProperties.SetProperties(PhotonNetwork.PlayerList[i], "death", 0);
             }
             else
             {
                 planeInfomations[i].obj.SetActive(false);
             }
         }
+
+        ResetInformation();
     }
 
+    public void ResetInformation()
+    {
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
+        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "death", 0);
+    }
 }

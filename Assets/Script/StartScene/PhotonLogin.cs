@@ -36,6 +36,8 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
                     FindObjectOfType<PhotonRoom>().LeftRoomButtonOnClick();
                 else
                     OnJoinedRoom();
+
+                FindObjectOfType<GameOver>().ResetInformation();
             }
             else GameOver();
 

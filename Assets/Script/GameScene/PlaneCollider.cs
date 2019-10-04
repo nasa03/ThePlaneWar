@@ -6,7 +6,7 @@ public class PlaneCollider : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "FX" || collision.collider.tag == "Plane")
+        if (collision.collider.tag == "FX")
         {
             FindObjectOfType<PlaneAttack>().Suiside();
         }

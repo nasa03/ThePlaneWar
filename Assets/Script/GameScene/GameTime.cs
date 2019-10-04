@@ -7,16 +7,11 @@ using Photon.Pun;
 public class GameTime : MonoBehaviourPun
 {
     [SerializeField] Text text;
-    int time;
+    int time = 600;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient)
-            CustomProperties.SetProperties(PhotonNetwork.MasterClient, "gametime", 600);
-
-        time = (int)CustomProperties.GetProperties(PhotonNetwork.MasterClient, "gametime", 600);
-
         StartCoroutine(ShowTime());
     } 
 
@@ -26,9 +21,6 @@ public class GameTime : MonoBehaviourPun
         {
             int minutes = time / 60;
             int seconds = time % 60;
-
-            if (PhotonNetwork.IsMasterClient && time % 10 == 0)
-                CustomProperties.SetProperties(PhotonNetwork.MasterClient, "gametime", time);
 
             string secondsStr;
             if (seconds < 10)
