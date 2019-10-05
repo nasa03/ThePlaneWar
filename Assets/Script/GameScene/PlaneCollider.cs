@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlaneCollider : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class PlaneCollider : MonoBehaviour
     {
         if (collision.collider.tag == "FX")
         {
-            FindObjectOfType<PlaneAttack>().Suiside();
+            FindObjectOfType<PlaneAttack>().Suiside(GetComponent<PhotonView>().Controller);
         }
     }
 }

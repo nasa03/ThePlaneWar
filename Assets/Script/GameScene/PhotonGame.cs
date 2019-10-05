@@ -100,7 +100,7 @@ public class PhotonGame : MonoBehaviour {
         reborn = true;
     }
 
-    void RebornEnd()
+    public void RebornEnd()
     {
         mainCamera.enabled = false;
         timeBar.SetActive(false);
@@ -131,5 +131,16 @@ public class PhotonGame : MonoBehaviour {
         timeBar.SetActive(false);
 
         invincible = false;
+    }
+
+    public void Disonnect()
+    {
+        mainCamera.enabled = true;
+        timeBar.SetActive(true);
+        sightImage.SetActive(false);
+
+        time = 0.0f;
+        maxTime = 0;
+        timeText.text = "正在重连";
     }
 }

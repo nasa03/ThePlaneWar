@@ -63,7 +63,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
 
     public void OpenToggleValueChanged()
     {
-        PhotonNetwork.CurrentRoom.IsOpen = openToggle.value;
         PhotonNetwork.CurrentRoom.IsVisible = openToggle.value;
     }
 
@@ -90,7 +89,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
             }
             if (isAllReady)
             {
-                PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
 
                 PhotonNetwork.LoadLevel(1);

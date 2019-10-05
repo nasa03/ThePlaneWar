@@ -17,7 +17,7 @@ public static class Global {
 
     public enum ReturnState
     {
-        normal, exitGame, gameOver
+        normal, exitGame, gameOver, disconnected
     };
 
     public static int totalPlaneInt = 0;

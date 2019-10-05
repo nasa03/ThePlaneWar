@@ -53,7 +53,7 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         }
     }
 
-    public void Suiside()
+    public void Suiside(Player player)
     {
         if (!photonView.IsMine)
             return;
@@ -63,8 +63,8 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
 
         isSuiside = true;
 
-        photonView.RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", PhotonNetwork.LocalPlayer.NickName));
-        photonView.RPC("Dead", PhotonNetwork.LocalPlayer);
+        photonView.RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", player.NickName));
+        photonView.RPC("Dead", player);
 
         StartCoroutine(WaitForSuiside());
     }

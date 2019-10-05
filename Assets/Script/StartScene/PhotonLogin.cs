@@ -28,6 +28,16 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         reader.Close();
         stream.Close();
 
+        ClientStateHandler();
+    }
+
+    private void Awake()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+    }
+
+    void ClientStateHandler()
+    {
         if (PhotonNetwork.NetworkClientState == ClientState.Joined)
         {
             if (Global.returnState == Global.ReturnState.exitGame)
@@ -40,15 +50,12 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
                 FindObjectOfType<GameOver>().ResetInformation();
             }
             else GameOver();
-
-            Global.returnState = Global.ReturnState.normal;
         }
-            
-    }
 
-    private void Awake()
-    {
-        PhotonNetwork.AutomaticallySyncScene = true;
+        if (Global.returnState == Global.ReturnState.disconnected)
+            StartCoroutine(FindObjectOfType<MessageShow>().Show("已断开连接！"));
+
+        Global.returnState = Global.ReturnState.normal;
     }
 
     public void InputValueChanged()
