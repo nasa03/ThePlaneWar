@@ -16,7 +16,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
     {
         roomLabel.text = string.Format("房间名：{0}", PhotonNetwork.CurrentRoom.Name);
         playersLabel.text = string.Format("人数：{0}/{1}", PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
-        openToggle.value = PhotonNetwork.CurrentRoom.IsOpen;
+        openToggle.value = PhotonNetwork.CurrentRoom.IsVisible;
         openToggle.GetComponent<UIButton>().isEnabled = PhotonNetwork.LocalPlayer.IsMasterClient;
 
         Player localPlayer = PhotonNetwork.LocalPlayer;

@@ -19,12 +19,10 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
     }
 
-    public void Attack(Collider collider)
+    public void Attack(Player player)
     {
         if (!photonView.IsMine)
             return;
-
-        Player player = collider.gameObject.GetComponent<PhotonView>().Controller;
 
         int randomAttack = Random.Range(5, 15);
 

@@ -7826,7 +7826,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: onChange.Array.size
@@ -7846,7 +7846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[3]
-      value: Shotgun
+      value: S
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: items.Array.data[0]
@@ -7859,6 +7859,10 @@ PrefabInstance:
     - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: onChange.Array.data[1].mMethodName
       value: Size
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 004eb8234dcbc3f4bb49009e57a6ed44, type: 3}
       propertyPath: m_Size.y
