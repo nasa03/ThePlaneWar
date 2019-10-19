@@ -43,7 +43,7 @@ public class ReConnected : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        FindObjectOfType<PhotonGame>().RebornEnd();
+        FindObjectOfType<PhotonGame>().RebornEndOrReconnect();
 
         Global.returnState = Global.ReturnState.normal;
     }

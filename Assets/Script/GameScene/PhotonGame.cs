@@ -17,6 +17,7 @@ public class PhotonGame : MonoBehaviour {
     GameObject localPlane;
     bool reborn = false;
     bool invincible = false;
+    bool reconnected = false;
     float time = 0.0f;
     int maxTime = 0;
 
@@ -40,12 +41,17 @@ public class PhotonGame : MonoBehaviour {
         {
             if (reborn)
             {
-                RebornEnd();
+                RebornEndOrReconnect();
             }
 
             if (invincible)
             {
                 InvincibleEnd();
+            }
+
+            if (reconnected)
+            {
+                SceneManager.LoadScene("StartScene");
             }
         }
     }
@@ -100,7 +106,7 @@ public class PhotonGame : MonoBehaviour {
         reborn = true;
     }
 
-    public void RebornEnd()
+    public void RebornEndOrReconnect()
     {
         mainCamera.enabled = false;
         timeBar.SetActive(false);
@@ -109,6 +115,7 @@ public class PhotonGame : MonoBehaviour {
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
 
         reborn = false;
+        reconnected = false;
 
         StartCoroutine(InvincibleStart());
     }
@@ -135,12 +142,17 @@ public class PhotonGame : MonoBehaviour {
 
     public void Disonnect()
     {
+        if (reconnected)
+            return;
+
         mainCamera.enabled = true;
         timeBar.SetActive(true);
         sightImage.SetActive(false);
 
-        time = 0.0f;
-        maxTime = 0;
+        time = 60.0f;
+        maxTime = 60;
         timeText.text = "正在重连";
+
+        reconnected = true;
     }
 }
