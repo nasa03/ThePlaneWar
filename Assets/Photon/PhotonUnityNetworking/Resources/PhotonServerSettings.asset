@@ -37,5 +37,7 @@ MonoBehaviour:
   - Fire
   - AddAttackMessage
   - GameOver
+  - KickPlayer
+  - EnterOrRefreshRoom
   DisableAutoOpenWizard: 1
   ShowSettings: 1

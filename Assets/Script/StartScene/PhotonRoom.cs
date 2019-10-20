@@ -12,6 +12,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
     [SerializeField] UISprite[] usernameSprides;
     [SerializeField] UIButton startGameButton;
 
+    [PunRPC]
     public void EnterOrRefreshRoom()
     {
         roomLabel.text = string.Format("房间名：{0}", PhotonNetwork.CurrentRoom.Name);
@@ -25,12 +26,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         if (localPlayer.IsMasterClient)
         {
             startGameButton.GetComponentInChildren<UILabel>().text = "开始游戏";
-            usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.red;
+            usernameSprides[0].transform.Find("Name Label").GetComponent<UILabel>().color = Color.red;
         }
         else
         {
             startGameButton.GetComponentInChildren<UILabel>().text = "准备";
-            usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.white;
+            usernameSprides[0].transform.Find("Name Label").GetComponent<UILabel>().color = Color.white;
             CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "isReady", false);
         }
 
@@ -47,16 +48,27 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
             usernameSprides[i + 1].gameObject.SetActive(true);
             usernameSprides[i + 1].GetComponentInChildren<UILabel>().text = player.NickName;
 
+            if (localPlayer.IsMasterClient)
+            {
+                usernameSprides[i + 1].transform.Find("Master Label").gameObject.SetActive(true);
+                usernameSprides[i + 1].transform.Find("Kick Label").gameObject.SetActive(true);
+            }
+            else
+            {
+                usernameSprides[i + 1].transform.Find("Master Label").gameObject.SetActive(false);
+                usernameSprides[i + 1].transform.Find("Kick Label").gameObject.SetActive(false);
+            }
+
             FindObjectOfType<ShowPlane>().Show(i);
 
             if (player.IsMasterClient)
-                usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.red;
+                usernameSprides[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.red;
             else
             {
                 if ((bool)CustomProperties.GetProperties(player, "isReady", false))
-                    usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.yellow;
+                    usernameSprides[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.yellow;
                 else
-                    usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.white;
+                    usernameSprides[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.white;
             }
         }
     }
@@ -66,10 +78,40 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.IsVisible = openToggle.value;
     }
 
+    public void KickLabelOnClick(UILabel name)
+    {
+        for(int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
+        {
+            if (PhotonNetwork.PlayerListOthers[i].NickName == name.text)
+            {
+                photonView.RPC("KickPlayer", PhotonNetwork.PlayerListOthers[i]);
+            }
+        }
+    }
+
+    public void MasterLabelOnClick(UILabel name)
+    {
+        for (int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
+        {
+            if (PhotonNetwork.PlayerListOthers[i].NickName == name.text)
+            {
+                PhotonNetwork.CurrentRoom.SetMasterClient(PhotonNetwork.PlayerListOthers[i]);
+                photonView.RPC("EnterOrRefreshRoom", RpcTarget.All);
+            }
+        }
+    }
+
+    [PunRPC]
+    public void KickPlayer()
+    {
+        PhotonNetwork.LeaveRoom();
+        StartCoroutine(FindObjectOfType<MessageShow>().Show("已被踢出！"));
+    }
+
     public void LeftRoomButtonOnClick()
     {
         if (!PhotonNetwork.OfflineMode)
-            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.LeaveRoom(); 
         else
             PhotonNetwork.Disconnect();
     }
@@ -135,7 +177,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
     {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
 
-        openToggle.value = PhotonNetwork.CurrentRoom.IsOpen;
+        openToggle.value = PhotonNetwork.CurrentRoom.IsVisible;
     }
 
     public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
