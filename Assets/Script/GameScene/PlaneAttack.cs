@@ -104,9 +104,4 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
             HP_Image.fillAmount = (float)((int)CustomProperties.GetProperties(target, "HP", 100) / 100.0);
         }
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        Suiside(PhotonNetwork.LocalPlayer);
-    }
 }
