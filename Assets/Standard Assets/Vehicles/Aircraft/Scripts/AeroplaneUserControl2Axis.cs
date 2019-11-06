@@ -37,7 +37,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
 #endif
             // Pass the input to the aeroplane
             m_Aeroplane.Move(roll, pitch, 0, throttle, airBrakes);
-            m_Aeroplane.m_MaxEnginePower = powerSpeed ? 200f : 40f;
+            m_Aeroplane.m_MaxEnginePower = powerSpeed ? 1200f : 40f;
         }
 
 

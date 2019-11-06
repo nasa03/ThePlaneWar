@@ -168,7 +168,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -988, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -206,14 +206,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 0.3432836, g: 0.3432836, b: 0.3432836, a: 0.36078432}
   mPivot: 4
-  mWidth: 34138
-  mHeight: 21800
+  mWidth: 1280
+  mHeight: 944
   mDepth: -2
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.3559322
+  aspectRatio: 1.5659633
   mType: 2
   mFillDirection: 4
   mFillAmount: 1
@@ -261,14 +261,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
-  mWidth: 34138
-  mHeight: 21800
+  mWidth: 1280
+  mHeight: 944
   mDepth: -3
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.3559322
+  aspectRatio: 1.5659633
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -849,6 +849,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Control - Offline Checkbox
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
+      propertyPath: onChange.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
+      propertyPath: startsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
+      propertyPath: onChange.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 954965995}
+    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
+      propertyPath: onChange.Array.data[0].mMethodName
+      value: OnValueChange
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 100
@@ -952,22 +968,6 @@ PrefabInstance:
     - target: {fileID: 11400010, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: mHeight
       value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
-      propertyPath: onChange.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
-      propertyPath: startsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
-      propertyPath: onChange.Array.data[0].mTarget
-      value: 
-      objectReference: {fileID: 954965995}
-    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
-      propertyPath: onChange.Array.data[0].mMethodName
-      value: OnValueChange
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: m_Size.x
@@ -3424,6 +3424,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
+      propertyPath: onChange.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
+      propertyPath: mValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
+      propertyPath: numberOfSteps
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
+      propertyPath: onChange.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 597818394}
+    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
+      propertyPath: onChange.Array.data[0].mMethodName
+      value: OnValueChange
+      objectReference: {fileID: 0}
     - target: {fileID: 11400006, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
       propertyPath: mWidth
       value: 260
@@ -3483,26 +3503,6 @@ PrefabInstance:
     - target: {fileID: 11400006, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
       propertyPath: leftAnchor.relative
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
-      propertyPath: onChange.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
-      propertyPath: mValue
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
-      propertyPath: numberOfSteps
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
-      propertyPath: onChange.Array.data[0].mTarget
-      value: 
-      objectReference: {fileID: 597818394}
-    - target: {fileID: 11400000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
-      propertyPath: onChange.Array.data[0].mMethodName
-      value: OnValueChange
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 43662805c0ee7b24abe17486ab2b2e42, type: 3}
       propertyPath: m_Size.x
@@ -6076,6 +6076,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Control - Create Button
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 954965990}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.data[0].mMethodName
+      value: CreateButtonOnclick
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_LocalPosition.x
       value: 415
@@ -6167,18 +6179,6 @@ PrefabInstance:
     - target: {fileID: 11400004, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: aspectRatio
       value: 3.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.data[0].mTarget
-      value: 
-      objectReference: {fileID: 954965990}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.data[0].mMethodName
-      value: CreateButtonOnclick
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_Size.y
@@ -6966,7 +6966,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332772372}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -832, z: 0}
+  m_LocalPosition: {x: -0, y: 156, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 739443967}
@@ -7315,6 +7315,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Control - Start Game Button
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 954965992}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.data[0].mMethodName
+      value: StartGameButtonOnClick
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16839
@@ -7406,18 +7418,6 @@ PrefabInstance:
     - target: {fileID: 11400004, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: aspectRatio
       value: 3.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.data[0].mTarget
-      value: 
-      objectReference: {fileID: 954965992}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.data[0].mMethodName
-      value: StartGameButtonOnClick
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_Size.y
@@ -7649,6 +7649,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Control - GameOver Button
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 954965988}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.data[0].mMethodName
+      value: OnJoinedRoom
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_LocalPosition.x
       value: 415
@@ -7748,18 +7760,6 @@ PrefabInstance:
     - target: {fileID: 11400004, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: rightAnchor.relative
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.data[0].mTarget
-      value: 
-      objectReference: {fileID: 954965988}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.data[0].mMethodName
-      value: OnJoinedRoom
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_Size.y
@@ -8208,6 +8208,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Control - Login Button
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 954965988}
+    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
+      propertyPath: onClick.Array.data[0].mMethodName
+      value: Connect
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -8251,18 +8263,6 @@ PrefabInstance:
     - target: {fileID: 400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.data[0].mTarget
-      value: 
-      objectReference: {fileID: 954965988}
-    - target: {fileID: 11400000, guid: fee46b827274e694aa251e2d36700135, type: 3}
-      propertyPath: onClick.Array.data[0].mMethodName
-      value: Connect
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: fee46b827274e694aa251e2d36700135, type: 3}
       propertyPath: mTrueTypeFont
@@ -10154,7 +10154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -932
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10191,6 +10191,18 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
+      propertyPath: onChange.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
+      propertyPath: onChange.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 954965988}
+    - target: {fileID: 11400006, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
+      propertyPath: onChange.Array.data[0].mMethodName
+      value: InputValueChanged
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: leftAnchor.target
@@ -10251,18 +10263,6 @@ PrefabInstance:
     - target: {fileID: 11400000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: mHeight
       value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400006, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
-      propertyPath: onChange.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400006, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
-      propertyPath: onChange.Array.data[0].mTarget
-      value: 
-      objectReference: {fileID: 954965988}
-    - target: {fileID: 11400006, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
-      propertyPath: onChange.Array.data[0].mMethodName
-      value: InputValueChanged
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 45edf347f9f51214dbfbab27b16fbf01, type: 3}
       propertyPath: m_Size.x
@@ -10968,6 +10968,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Control - Open Checkbox
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
+      propertyPath: onChange.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
+      propertyPath: onChange.Array.data[0].mTarget
+      value: 
+      objectReference: {fileID: 954965992}
+    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
+      propertyPath: onChange.Array.data[0].mMethodName
+      value: OpenToggleValueChanged
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: m_LocalPosition.x
       value: -137
@@ -11071,18 +11083,6 @@ PrefabInstance:
     - target: {fileID: 11400010, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: leftAnchor.relative
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
-      propertyPath: onChange.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
-      propertyPath: onChange.Array.data[0].mTarget
-      value: 
-      objectReference: {fileID: 954965992}
-    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
-      propertyPath: onChange.Array.data[0].mMethodName
-      value: OpenToggleValueChanged
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: m_Size.y

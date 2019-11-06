@@ -16,8 +16,14 @@ public class PowerSpeedButton : MonoBehaviour
     [SerializeField] GameObject button;
     SpeedType speedType = SpeedType.normal;
     float time = 0.0f;
-    const int powerSpeedMaxTime = 5;
+    const int powerSpeedMaxTime = 10;
     const int coolingMaxTime = 30;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        CoolingStart();
+    }
 
     // Update is called once per frame
     void Update()
