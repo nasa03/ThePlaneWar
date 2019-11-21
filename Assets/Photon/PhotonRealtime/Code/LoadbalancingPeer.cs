@@ -32,17 +32,17 @@ namespace Photon.Realtime
 
 
     /// <summary>
-    /// A LoadbalancingPeer provides the operations and enum definitions needed to use the loadbalancing server application which is also used in Photon Cloud.
+    /// A LoadBalancingPeer provides the operations and enum definitions needed to use the LoadBalancing server application which is also used in Photon Cloud.
     /// </summary>
     /// <remarks>
-    /// Internally used by PUN.
+    /// This class is internally used.
     /// The LoadBalancingPeer does not keep a state, instead this is done by a LoadBalancingClient.
     /// </remarks>
     public class LoadBalancingPeer : PhotonPeer
     {
         protected internal static Type PingImplementation = null;
 
-        private readonly Dictionary<byte, object> opParameters = new Dictionary<byte, object>(); // used in OpRaiseEvent() (avoids lots of new Dictionary() calls)
+        private readonly Dictionary<byte, object> opRaiseEventParameters = new Dictionary<byte, object>(); // used in OpRaiseEvent() (avoids lots of new Dictionary() calls)
 
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Photon.Realtime
             {
                 op[ParameterCode.RoomName] = opParams.RoomName;
             }
-            if (opParams.Lobby != null && !string.IsNullOrEmpty(opParams.Lobby.Name))
+            if (opParams.Lobby != null && !opParams.Lobby.IsDefault)
             {
                 op[ParameterCode.LobbyName] = opParams.Lobby.Name;
                 op[ParameterCode.LobbyType] = (byte)opParams.Lobby.Type;
@@ -341,7 +341,7 @@ namespace Photon.Realtime
             if (opParams.CreateIfNotExists)
             {
                 op[ParameterCode.JoinMode] = (byte)JoinMode.CreateIfNotExists;
-                if (opParams.Lobby != null)
+                if (opParams.Lobby != null && !opParams.Lobby.IsDefault)
                 {
                     op[ParameterCode.LobbyName] = opParams.Lobby.Name;
                     op[ParameterCode.LobbyType] = (byte)opParams.Lobby.Type;
@@ -409,7 +409,7 @@ namespace Photon.Realtime
                 opParameters[ParameterCode.MatchMakingType] = (byte)opJoinRandomRoomParams.MatchingType;
             }
 
-            if (opJoinRandomRoomParams.TypedLobby != null && !string.IsNullOrEmpty(opJoinRandomRoomParams.TypedLobby.Name))
+            if (opJoinRandomRoomParams.TypedLobby != null && !opJoinRandomRoomParams.TypedLobby.IsDefault)
             {
                 opParameters[ParameterCode.LobbyName] = opJoinRandomRoomParams.TypedLobby.Name;
                 opParameters[ParameterCode.LobbyType] = (byte)opJoinRandomRoomParams.TypedLobby.Type;
@@ -481,6 +481,15 @@ namespace Photon.Realtime
                 if (this.DebugOut >= DebugLevel.INFO)
                 {
                     this.Listener.DebugReturn(DebugLevel.INFO, "OpGetGameList not sent. LobbyType must be SqlLobby.");
+                }
+                return false;
+            }
+
+            if (lobby.IsDefault)
+            {
+                if (this.DebugOut >= DebugLevel.INFO)
+                {
+                    this.Listener.DebugReturn(DebugLevel.INFO, "OpGetGameList not sent. LobbyName must be not null and not empty.");
                 }
                 return false;
             }
@@ -720,7 +729,7 @@ namespace Photon.Realtime
         {
             if (this.DebugOut >= DebugLevel.INFO)
             {
-                this.Listener.DebugReturn(DebugLevel.INFO, "OpAuthenticate()");
+                this.Listener.DebugReturn(DebugLevel.INFO, "OpAuthenticateOnce()");
             }
 
 
@@ -827,12 +836,12 @@ namespace Photon.Realtime
         /// <returns>If operation could be enqueued for sending. Sent when calling: Service or SendOutgoingCommands.</returns>
         public virtual bool OpRaiseEvent(byte eventCode, object customEventContent, RaiseEventOptions raiseEventOptions, SendOptions sendOptions)
         {
-            this.opParameters.Clear(); // re-used private variable to avoid many new Dictionary() calls (garbage collection)
+            this.opRaiseEventParameters.Clear(); // re-used private variable to avoid many new Dictionary() calls (garbage collection)
             if (raiseEventOptions != null)
             {
                 if (raiseEventOptions.CachingOption != EventCaching.DoNotCache)
                 {
-                    this.opParameters[(byte)ParameterCode.Cache] = (byte)raiseEventOptions.CachingOption;
+                    this.opRaiseEventParameters[(byte)ParameterCode.Cache] = (byte)raiseEventOptions.CachingOption;
                 }
                 switch (raiseEventOptions.CachingOption)
                 {
@@ -841,42 +850,42 @@ namespace Photon.Realtime
                     case EventCaching.SlicePurgeUpToIndex:
                         //this.opParameters[(byte) ParameterCode.CacheSliceIndex] =
                         //    (byte) raiseEventOptions.CacheSliceIndex;
-                        return this.SendOperation(OperationCode.RaiseEvent, this.opParameters, sendOptions);
+                        return this.SendOperation(OperationCode.RaiseEvent, this.opRaiseEventParameters, sendOptions);
                     case EventCaching.SliceIncreaseIndex:
                     case EventCaching.RemoveFromRoomCacheForActorsLeft:
-                        return this.SendOperation(OperationCode.RaiseEvent, this.opParameters, sendOptions);
+                        return this.SendOperation(OperationCode.RaiseEvent, this.opRaiseEventParameters, sendOptions);
                     case EventCaching.RemoveFromRoomCache:
                         if (raiseEventOptions.TargetActors != null)
                         {
-                            this.opParameters[(byte)ParameterCode.ActorList] = raiseEventOptions.TargetActors;
+                            this.opRaiseEventParameters[(byte)ParameterCode.ActorList] = raiseEventOptions.TargetActors;
                         }
                         break;
                     default:
                         if (raiseEventOptions.TargetActors != null)
                         {
-                            this.opParameters[(byte)ParameterCode.ActorList] = raiseEventOptions.TargetActors;
+                            this.opRaiseEventParameters[(byte)ParameterCode.ActorList] = raiseEventOptions.TargetActors;
                         }
                         else if (raiseEventOptions.InterestGroup != 0)
                         {
-                            this.opParameters[(byte)ParameterCode.Group] = raiseEventOptions.InterestGroup;
+                            this.opRaiseEventParameters[(byte)ParameterCode.Group] = raiseEventOptions.InterestGroup;
                         }
                         else if (raiseEventOptions.Receivers != ReceiverGroup.Others)
                         {
-                            this.opParameters[(byte)ParameterCode.ReceiverGroup] = (byte)raiseEventOptions.Receivers;
+                            this.opRaiseEventParameters[(byte)ParameterCode.ReceiverGroup] = (byte)raiseEventOptions.Receivers;
                         }
                         if (raiseEventOptions.Flags.HttpForward)
                         {
-                            this.opParameters[(byte)ParameterCode.EventForward] = raiseEventOptions.Flags.WebhookFlags;
+                            this.opRaiseEventParameters[(byte)ParameterCode.EventForward] = raiseEventOptions.Flags.WebhookFlags;
                         }
                         break;
                 }
             }
-            this.opParameters[(byte)ParameterCode.Code] = (byte)eventCode;
+            this.opRaiseEventParameters[(byte)ParameterCode.Code] = (byte)eventCode;
             if (customEventContent != null)
             {
-                this.opParameters[(byte)ParameterCode.Data] = customEventContent;
+                this.opRaiseEventParameters[(byte)ParameterCode.Data] = customEventContent;
             }
-            return this.SendOperation(OperationCode.RaiseEvent, this.opParameters, sendOptions);
+            return this.SendOperation(OperationCode.RaiseEvent, this.opRaiseEventParameters, sendOptions);
         }
 
 
@@ -891,23 +900,22 @@ namespace Photon.Realtime
             {
                 this.Listener.DebugReturn(DebugLevel.ALL, "OpSettings()");
             }
-
-            // re-used private variable to avoid many new Dictionary() calls (garbage collection)
-            this.opParameters.Clear();
+            
+            Dictionary<byte, object> opParameters = new Dictionary<byte, object>();
 
             // implementation for Master Server:
             if (receiveLobbyStats)
             {
-                this.opParameters[(byte)0] = receiveLobbyStats;
+                opParameters[(byte)0] = receiveLobbyStats;
             }
 
-            if (this.opParameters.Count == 0)
+            if (opParameters.Count == 0)
             {
                 // no need to send op in case we set the default values
                 return true;
             }
 
-            return this.SendOperation(OperationCode.ServerSettings, this.opParameters, SendOptions.SendReliable);
+            return this.SendOperation(OperationCode.ServerSettings, opParameters, SendOptions.SendReliable);
         }
     }
 
@@ -985,7 +993,7 @@ namespace Photon.Realtime
         /// </summary>
         /// <remarks>
         /// Before you call any operations on the Cloud servers, the automated client workflow must complete its authorization.
-        /// In PUN, wait until State is: JoinedLobby or ConnectedToMasterserver
+        /// Wait until State is: JoinedLobby or ConnectedToMasterServer
         /// </remarks>
         public const int OperationNotAllowedInCurrentState = -3;
 
@@ -1006,7 +1014,7 @@ namespace Photon.Realtime
         /// <summary>(-1) Something went wrong in the server. Try to reproduce and contact Exit Games.</summary>
         public const int InternalServerError = -1;
 
-        // server - PhotonNetwork: 0x7FFF and down
+        // server - client: 0x7FFF and down
         // logic-level error codes start with short.max
 
         /// <summary>(32767) Authentication failed. Possible cause: AppId is unknown to Photon (in cloud service).</summary>
@@ -1024,7 +1032,13 @@ namespace Photon.Realtime
         [Obsolete("No longer used, cause random matchmaking is no longer a process.")]
         public const int AlreadyMatched = 0x7FFF - 4;
 
-        /// <summary>(32762) Not in use currently.</summary>
+        /// <summary>(32762) All servers are busy. This is a temporary issue and the game logic should try again after a brief wait time.</summary>
+        /// <remarks>
+        /// This error may happen for all operations that create rooms. The operation response will contain this error code.
+        /// 
+        /// This error is very unlikely to happen as we monitor load on all servers and add them on demand.
+        /// However, it's good to be prepared for a shortage of machines or surge in CCUs.
+        /// </remarks>
         public const int ServerFull = 0x7FFF - 5;
 
         /// <summary>(32761) Not in use currently.</summary>
@@ -1130,7 +1144,7 @@ namespace Photon.Realtime
     /// Class for constants. These (byte) values define "well known" properties for an Actor / Player.
     /// </summary>
     /// <remarks>
-    /// Pun uses these constants internally.
+    /// These constants are used internally.
     /// "Custom properties" have to use a string-type as key. They can be assigned at will.
     /// </remarks>
     public class ActorProperties
@@ -1148,10 +1162,10 @@ namespace Photon.Realtime
 
 
     /// <summary>
-    /// Class for constants. These (byte) values are for "well known" room/game properties used in Photon Loadbalancing.
+    /// Class for constants. These (byte) values are for "well known" room/game properties used in Photon LoadBalancing.
     /// </summary>
     /// <remarks>
-    /// Pun uses these constants internally.
+    /// These constants are used internally.
     /// "Custom properties" have to use a string-type as key. They can be assigned at will.
     /// </remarks>
     public class GamePropertyKey
@@ -1193,9 +1207,9 @@ namespace Photon.Realtime
 
 
     /// <summary>
-    /// Class for constants. These values are for events defined by Photon Loadbalancing.
+    /// Class for constants. These values are for events defined by Photon LoadBalancing.
     /// </summary>
-    /// <remarks>They start at 255 and go DOWN. Your own in-game events can start at 0. Pun uses these constants internally.</remarks>
+    /// <remarks>They start at 255 and go DOWN. Your own in-game events can start at 0. These constants are used internally.</remarks>
     public class EventCode
     {
         /// <summary>(230) Initial list of RoomInfos (in lobby on Master)</summary>
@@ -1249,7 +1263,7 @@ namespace Photon.Realtime
 
 
     /// <summary>Class for constants. Codes for parameters of Operations and Events.</summary>
-    /// <remarks>Pun uses these constants internally.</remarks>
+    /// <remarks>These constants are used internally.</remarks>
     public class ParameterCode
     {
         /// <summary>(237) A bool parameter for creating games. If set to true, no room events are sent to the clients on join and leave. Default: false (and not sent).</summary>
@@ -1421,7 +1435,7 @@ namespace Photon.Realtime
         /// <summary>(212) Used in matchmaking-related methods and when creating a room to define the type of a lobby. Combined with the lobby name this identifies the lobby.</summary>
         public const byte LobbyType = (byte)212;
 
-        /// <summary>(211) This (optional) parameter can be sent in Op Authenticate to turn on Lobby Stats (info about lobby names and their user- and game-counts). See: PhotonNetwork.Lobbies</summary>
+        /// <summary>(211) This (optional) parameter can be sent in Op Authenticate to turn on Lobby Stats (info about lobby names and their user- and game-counts).</summary>
         public const byte LobbyStats = (byte)211;
 
         /// <summary>(210) Used for region values in OpAuth and OpGetRegions.</summary>
@@ -1458,6 +1472,9 @@ namespace Photon.Realtime
 
         /// <summary>(200) Informs user about version of plugin load to game</summary>
         public const byte PluginVersion = 200;
+        
+        /// <summary>(196) Cluster info provided in OpAuthenticate/OpAuthenticateOnce responses.</summary>
+        public const byte Cluster = 196;
 
         /// <summary>(195) Protocol which will be used by client to connect master/game servers. Used for nameserver.</summary>
         public const byte ExpectedProtocol = 195;
@@ -1478,8 +1495,8 @@ namespace Photon.Realtime
 
     /// <summary>
     /// Class for constants. Contains operation codes.
-    /// Pun uses these constants internally.
     /// </summary>
+    /// <remarks>These constants are used internally.</remarks>
     public class OperationCode
     {
         [Obsolete("Exchanging encrpytion keys is done internally in the lib now. Don't expect this operation-result.")]
@@ -1751,7 +1768,7 @@ namespace Photon.Realtime
         /// <remarks>
         /// When you set this to true, Photon will publish the UserIds of the players in that room.
         /// In that case, you can use PhotonPlayer.userId, to access any player's userID.
-        /// This is useful for FindFriends and to set "expected users" to reserve slots in a room (see PhotonNetwork.JoinRoom e.g.).
+        /// This is useful for FindFriends and to set "expected users" to reserve slots in a room.
         /// </remarks>
         public bool PublishUserId { get; set; }
 
@@ -1831,37 +1848,94 @@ namespace Photon.Realtime
         AsyncRandomLobby = 3
     }
 
-    /// <summary>Refers to a specific lobby (and type) on the server.</summary>
+    /// <summary>Refers to a specific lobby on the server.</summary>
     /// <remarks>
     /// The name and type are the unique identifier for a lobby.<br/>
-    /// Join a lobby via PhotonNetwork.JoinLobby(TypedLobby lobby).<br/>
-    /// The current lobby is stored in PhotonNetwork.lobby.
+    /// A lobby with a null or empty name is considered the default lobby no matter the type set here.
     /// </remarks>
     public class TypedLobby
     {
-        /// <summary>Name of the lobby this game gets added to. Default: null, attached to default lobby. Lobbies are unique per lobbyName plus lobbyType, so the same name can be used when several types are existing.</summary>
-        public string Name;
-        /// <summary>Type of the (named)lobby this game gets added to</summary>
-        public LobbyType Type;
+        private string name;
 
+        /// <summary>
+        /// Name of the lobby this game gets added to.
+        /// Default: null, attached to default lobby (<see cref="TypedLobby.Default"/>).
+        /// </summary>
+        /// <remarks>
+        /// Lobbies are unique per Name plus Type, so the same name can be used when several types are existing.
+        /// If the Name is null or empty, it is always the default lobby.
+        /// </remarks>
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) || type == LobbyType.Default)
+                {
+                    name = value;
+                }
+            }
+        }
+
+        private LobbyType type;
+
+        /// <summary>
+        /// Type of the lobby this game gets added to.
+        /// Default: <see cref="LobbyType.Default"/>, attached to default lobby (<see cref="TypedLobby.Default"/>).
+        /// </summary>
+        /// <remarks>
+        /// If the Name is null or empty the Type can only be <see cref="LobbyType.Default"/>.
+        /// <see cref="LobbyType.Default"/> is not the same thing as the default lobby (<see cref="TypedLobby.Default"/>).
+        /// </remarks>
+        public LobbyType Type
+        {
+            get { return type; }
+            set
+            {
+                if (!IsDefault)
+                {
+                    type = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns a reference to the default lobby which is the unique lobby that has a null name and is of type <see cref="LobbyType.Default"/>.
+        /// </summary>
+        /// <remarks>
+        /// No other lobby can have a null or empty name.
+        /// <see cref="LobbyType.Default"/> is not the same thing as the default lobby.
+        /// On the other hand, this is a shortcut and reusable reference to the default lobby.
+        /// It is meant as a timer and allocation saver.
+        /// Do not change its Name or Type.
+        /// If you need a different lobby create another one.
+        /// </remarks>
         public static readonly TypedLobby Default = new TypedLobby();
-        public bool IsDefault { get { return this.Type == LobbyType.Default && string.IsNullOrEmpty(this.Name); } }
+        /// <summary>
+        /// Returns whether or not this lobby is considered default lobby (<see cref="TypedLobby.Default"/>).
+        /// </summary>
+        /// <remarks>
+        /// This comes up to checking if the Name is null or empty.
+        /// <see cref="LobbyType.Default"/> is not the same thing as the default lobby (<see cref="TypedLobby.Default"/>).
+        /// </remarks>
+        public bool IsDefault { get { return string.IsNullOrEmpty(this.Name); } }
 
         public TypedLobby()
         {
-            this.Name = string.Empty;
-            this.Type = LobbyType.Default;
         }
 
         public TypedLobby(string name, LobbyType type)
         {
-            this.Name = name;
-            this.Type = type;
+            if (!string.IsNullOrEmpty(name))
+            {
+                this.Name = name;
+                this.Type = type;
+            }
         }
 
         public override string ToString()
         {
-            return String.Format((string) "lobby '{0}'[{1}]", (object) this.Name, (object) this.Type);
+            return string.Format("lobby '{0}'[{1}]", this.Name, this.Type);
         }
     }
 
@@ -1924,15 +1998,14 @@ namespace Photon.Realtime
     /// On Photon, user authentication is optional but can be useful in many cases.
     /// If you want to FindFriends, a unique ID per user is very practical.
     ///
-    /// There are basically three options for user authentification: None at all, the client sets some UserId
+    /// There are basically three options for user authentication: None at all, the client sets some UserId
     /// or you can use some account web-service to authenticate a user (and set the UserId server-side).
     ///
     /// Custom Authentication lets you verify end-users by some kind of login or token. It sends those
     /// values to Photon which will verify them before granting access or disconnecting the client.
     ///
     /// The AuthValues are sent in OpAuthenticate when you connect, so they must be set before you connect.
-    /// Should you not set any AuthValues, PUN will create them and set the playerName as userId in them.
-    /// If the AuthValues.userId is null or empty when it's sent to the server, then the Photon Server assigns a userId!
+    /// If the AuthValues.UserId is null or empty when it's sent to the server, then the Photon Server assigns a UserId!
     ///
     /// The Photon Cloud Dashboard will let you enable this feature and set important server values for it.
     /// https://dashboard.photonengine.com

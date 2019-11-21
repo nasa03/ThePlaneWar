@@ -4,6 +4,13 @@ Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
 
+Version 4.1.2.18 (2019 - rev)
+    Fixed: The ExpectedProtocol is now also set for Authmode "AuthOnce" for ConnectToNameServer and ConnectToRegionMaster.
+    Changed: Player.ToString() to show ActorNumber and NickName. The PlayerProperties are included in ToStringFull().
+    Changed: Logging message for OpAuthenticateOnce (only logged at info level and up).
+    Changed: Avoiding a potential nullreference exception on leave of another player.
+
+
 Version 4.1.2.17 (9. August 2019 - rev5188)
     Changed: SupportLogger. Traffic stats are enabled by default. The PhotonHandler no longer has to enable this.
     Added: Min/max ping to logged statistics. SupportLogger.TrackValues is invoked to keep track of min/max ping for each connection.

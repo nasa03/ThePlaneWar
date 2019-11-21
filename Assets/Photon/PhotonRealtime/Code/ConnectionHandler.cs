@@ -129,7 +129,7 @@ namespace Photon.Realtime
         }
 
 
-        /// <summary>A thread which runs independent from the Update() calls. Keeps connections online while loading or in background. See PhotonNetwork.BackgroundTimeout.</summary>
+        /// <summary>A thread which runs independent from the Update() calls. Keeps connections online while loading or in background. See <see cref="KeepAliveInBackground"/>.</summary>
         public bool RealtimeFallbackThread()
         {
             if (this.Client != null)

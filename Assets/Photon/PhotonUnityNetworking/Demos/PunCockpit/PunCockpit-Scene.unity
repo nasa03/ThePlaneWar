@@ -42,7 +42,7 @@ RenderSettings:
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 11
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 8
+    serializedVersion: 9
     m_Resolution: 1
     m_BakeResolution: 50
     m_TextureWidth: 1024
@@ -88,8 +88,9 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_ShadowMaskMode: 2
+  m_UseShadowmask: 1
 --- !u!196 &5
 NavMeshSettings:
   serializedVersion: 2
@@ -109,6 +110,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    debug:
+      m_Flags: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &2173371
 GameObject:
@@ -164,6 +167,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2173374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +351,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &4083624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,6 +541,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &10174196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,7 +780,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00000023841858}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &13897159
@@ -975,6 +981,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &17618410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1086,7 +1093,7 @@ MonoBehaviour:
   OnTabChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Photon.Pun.UtilityScripts.TabViewManager+TabChangeEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.UtilityScripts.TabViewManager+TabChangeEvent, PhotonUnityNetworking.Utilities,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &18053702
 MonoBehaviour:
@@ -1232,6 +1239,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &27461876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1517,6 +1525,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &35408594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1612,6 +1621,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &36394907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1702,6 +1712,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &39615332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1888,6 +1899,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &42336221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2393,6 +2405,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &59674824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2590,6 +2603,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &66509984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2829,7 +2843,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: C0 = 'Hello
+  m_Text: C0 = 'Hell
 --- !u!222 &70353890
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2896,6 +2910,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &71186883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3400,6 +3415,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &93242486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3495,6 +3511,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &94108139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3756,6 +3773,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &101577502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3917,6 +3935,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &111250187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4237,6 +4256,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &125413986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4416,6 +4436,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &128534253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4509,6 +4530,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &133038172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4670,6 +4692,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &138018809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5195,6 +5218,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &151686567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5260,7 +5284,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000051374922, y: 0.000025687461}
+  m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &153676944
@@ -5365,6 +5389,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 100
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &154920699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5548,6 +5573,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &157933708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5642,6 +5668,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &158868033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5834,6 +5861,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &160598232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6063,6 +6091,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &164196074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6156,6 +6185,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &165186026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6245,6 +6275,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &165853852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6332,6 +6363,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &168193136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6421,6 +6453,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &168384792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6736,6 +6769,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &178390240
 GameObject:
   m_ObjectHideFlags: 0
@@ -6790,6 +6824,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &178390243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6889,6 +6924,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &186917053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7457,7 +7493,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MyLobby
+  m_Text: MyLobb
 --- !u!222 &199461722
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7587,6 +7623,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &206989809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7685,6 +7722,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &212692308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7842,7 +7880,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &217679866
@@ -7954,6 +7992,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &219320894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8233,6 +8272,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &226486756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8326,6 +8366,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &234562159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8496,6 +8537,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 100
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &238311863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8838,6 +8880,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &247629934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8927,6 +8970,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &260508404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9178,6 +9222,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &269218866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9545,7 +9590,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.6}
-  m_AnchoredPosition: {x: 0.0000038146973, y: 5}
+  m_AnchoredPosition: {x: 0, y: 5}
   m_SizeDelta: {x: -9.999992, y: -40}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &284794448
@@ -9736,6 +9781,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &293407284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9828,6 +9874,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &293523521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10107,6 +10154,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &297030927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10264,6 +10312,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &298776508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10353,6 +10402,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &308164904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10440,6 +10490,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &308762369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10795,8 +10846,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 341.5554, y: 0}
+  m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &318784626
 MonoBehaviour:
@@ -10851,6 +10902,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &318784629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10940,6 +10992,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &318876426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11027,6 +11080,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &327504260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11114,6 +11168,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &329642970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11207,6 +11262,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &330710527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11300,6 +11356,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &331776653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11393,6 +11450,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &332005170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11787,6 +11845,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &337318836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11874,6 +11933,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &339353470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12540,6 +12600,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &362709873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12635,6 +12696,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &363001831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13029,6 +13091,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &373027199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13129,7 +13192,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.StringInputField+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.StringInputField+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &375790547
 MonoBehaviour:
@@ -13171,6 +13234,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &375790549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13297,6 +13361,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &379061370
 GameObject:
   m_ObjectHideFlags: 0
@@ -13351,6 +13416,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &379061373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13556,6 +13622,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &386673680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13645,6 +13712,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &388872191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13822,6 +13890,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &390087686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14402,6 +14471,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &404251087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14494,6 +14564,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &406624800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14725,7 +14796,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000038146973}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &412193153
@@ -14746,6 +14817,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &412193154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15421,6 +15493,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &448484104
 GameObject:
   m_ObjectHideFlags: 0
@@ -15475,6 +15548,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &448484107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15668,6 +15742,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &465926685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15762,6 +15837,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &469948783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15957,7 +16033,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000020857344, y: -14.999958}
+  m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: -10, y: -39.99997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &477929600
@@ -16124,6 +16200,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &480073740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16211,6 +16288,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &480806143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16306,6 +16384,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &481853427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16467,7 +16546,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000019073486, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &482446711
@@ -16488,6 +16567,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &482446712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17174,6 +17254,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &493688050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17340,6 +17421,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &497947787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17549,7 +17631,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000019073486, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &512017056
@@ -17570,6 +17652,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &512017057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17637,9 +17720,9 @@ RectTransform:
   m_Father: {fileID: 1991693110}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 359.36407, y: -5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 341.5554, y: 0}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &513624918
@@ -17682,6 +17765,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &513624920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17797,6 +17881,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &514499209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17954,6 +18039,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 100
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &515937069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18156,6 +18242,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &518482197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18420,8 +18507,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2086052601}
   m_HandleRect: {fileID: 2086052600}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -18577,6 +18664,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &532970299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18724,6 +18812,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &539427398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18819,6 +18908,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &540970981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18887,7 +18977,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.5000038, y: -0.5}
+  m_AnchoredPosition: {x: -2.5, y: -0.5}
   m_SizeDelta: {x: -15.000008, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &542679401
@@ -19094,6 +19184,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!222 &545485074
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19177,6 +19268,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &548170195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19263,6 +19355,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!224 &553877783 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22451254, guid: cf998ac0cf60141c597aecb3a8ffad74,
@@ -19552,7 +19645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00013326743, y: -14.999964}
+  m_AnchoredPosition: {x: 0.00012207031, y: -15}
   m_SizeDelta: {x: -10, y: -39.99997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &572639784
@@ -19621,7 +19714,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!222 &572639787
 CanvasRenderer:
@@ -19755,6 +19848,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &576987148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20059,6 +20153,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &586739442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20719,6 +20814,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &621146140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20907,6 +21003,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &626672489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21337,7 +21434,7 @@ MonoBehaviour:
   OnTabChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Photon.Pun.UtilityScripts.TabViewManager+TabChangeEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.UtilityScripts.TabViewManager+TabChangeEvent, PhotonUnityNetworking.Utilities,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &641330181
 MonoBehaviour:
@@ -21415,6 +21512,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!222 &642755510
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21638,6 +21736,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &648074693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21835,6 +21934,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &651410397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21997,6 +22097,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &654491814
 GameObject:
   m_ObjectHideFlags: 0
@@ -22053,6 +22154,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &654491817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22142,6 +22244,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &663249804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22231,6 +22334,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &664797006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22398,6 +22502,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &673934498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22627,6 +22732,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &686031317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22725,6 +22831,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &687992782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22802,6 +22909,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &692176313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22970,6 +23078,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &697287470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23057,6 +23166,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &697647216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23152,6 +23262,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &704465182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23239,6 +23350,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &707347838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23332,6 +23444,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &708090744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23493,7 +23606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000038146973}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &715758495
@@ -23514,6 +23627,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &715758496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23603,6 +23717,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &716664029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23677,7 +23792,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &724065987
@@ -23865,6 +23980,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &728378429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24039,6 +24155,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &732294712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24127,6 +24244,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &733976258
 GameObject:
   m_ObjectHideFlags: 0
@@ -24258,6 +24376,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &735856385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24383,6 +24502,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &742235971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24643,7 +24763,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.IntInputField+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.IntInputField+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &753789716
 MonoBehaviour:
@@ -24923,7 +25043,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_AnchoredPosition: {x: -0.000015258789, y: -0.000032343647}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &756901562
@@ -25138,6 +25258,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &759024766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25522,6 +25643,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &764057583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25783,6 +25905,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &771632041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26092,6 +26215,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &781875124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26247,6 +26371,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &788665097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26564,7 +26689,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000009536743, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &795965560
@@ -26585,6 +26710,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &795965561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26672,6 +26798,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &799826710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27026,6 +27153,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &808937923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27198,6 +27326,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &810325574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27361,7 +27490,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.Forms.UserIdUiForm+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.Forms.UserIdUiForm+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &818049815
 GameObject:
@@ -27417,6 +27546,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &818049818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27599,6 +27729,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &826457835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27819,7 +27950,7 @@ MonoBehaviour:
   OnTabChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Photon.Pun.UtilityScripts.TabViewManager+TabChangeEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.UtilityScripts.TabViewManager+TabChangeEvent, PhotonUnityNetworking.Utilities,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &827116458
 MonoBehaviour:
@@ -27897,6 +28028,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &827232311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27984,6 +28116,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &830072423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28071,6 +28204,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &831780044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28167,6 +28301,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &832845254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28651,6 +28786,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &848796306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29089,7 +29225,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.IntInputField+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.IntInputField+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &858491129
 MonoBehaviour:
@@ -29221,8 +29357,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 297866388}
   m_HandleRect: {fileID: 297866387}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -29389,6 +29525,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &865536069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29490,7 +29627,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!222 &871473188
 CanvasRenderer:
@@ -29728,6 +29865,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &874162865
 GameObject:
   m_ObjectHideFlags: 0
@@ -30305,6 +30443,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &889512423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30392,6 +30531,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &889822032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30575,6 +30715,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &890948208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30988,7 +31129,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.UtilityScripts.TabViewManager+TabChangeEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.UtilityScripts.TabViewManager+TabChangeEvent, PhotonUnityNetworking.Utilities,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &897087982
 GameObject:
@@ -31023,7 +31164,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000104904175, y: 0}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &897087984
@@ -31044,6 +31185,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &897087985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32168,6 +32310,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
+  m_LayoutPriority: 1
 --- !u!1 &913074795
 GameObject:
   m_ObjectHideFlags: 0
@@ -32258,6 +32401,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &913171294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32517,6 +32661,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &924177965
 GameObject:
   m_ObjectHideFlags: 0
@@ -32571,6 +32716,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &924177968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32721,6 +32867,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &931634290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32815,6 +32962,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &933423617
 GameObject:
   m_ObjectHideFlags: 0
@@ -32939,6 +33087,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &933894931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33121,7 +33270,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: Photon.Pun.Demo.Cockpit.Forms.SetRoomCustomPropertyUIForm+OnSubmitEvent,
-      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      PhotonUnityNetworking.Demos, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &939499307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33303,7 +33452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000019073486, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &942191783
@@ -33324,6 +33473,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &942191784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33522,6 +33672,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 100
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!222 &946903739
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33614,6 +33765,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &947030071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33703,6 +33855,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &953323118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33795,6 +33948,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &954975741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33972,6 +34126,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &957296098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34063,6 +34218,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &957668583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34357,6 +34513,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &964136580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34530,6 +34687,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &969075402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35073,7 +35231,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000038146973}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &996497975
@@ -35094,6 +35252,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &996497976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35318,7 +35477,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.00005909091}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1012980125
@@ -35410,6 +35569,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1017027147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35571,6 +35731,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1022550652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35659,6 +35820,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1023634580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36358,7 +36520,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.Forms.LoadLevelUIForm+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.Forms.LoadLevelUIForm+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1048535650
 MonoBehaviour:
@@ -36545,6 +36707,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1054428454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36713,7 +36876,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_AnchoredPosition: {x: -0.000015258789, y: -0.0000055963824}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1059763517
@@ -37023,6 +37186,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1071311644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37170,6 +37334,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1075910024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37524,6 +37689,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1104976181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37619,6 +37785,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1105062514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37837,6 +38004,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1107126378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38018,6 +38186,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1113075172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38118,6 +38287,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1119716718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38207,6 +38377,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1124704606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38315,7 +38486,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 111274817}
   m_HandleRect: {fileID: 111274816}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -38511,6 +38682,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1130752020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38724,7 +38896,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: Photon.Pun.Demo.Cockpit.Forms.ConnectToRegionUIForm+OnSubmitEvent,
-      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      PhotonUnityNetworking.Demos, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1131812475
 GameObject:
   m_ObjectHideFlags: 0
@@ -38781,6 +38953,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1131812478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39306,6 +39479,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1139869384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39395,6 +39569,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1139953695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39484,6 +39659,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1140689148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39812,6 +39988,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1154929216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39906,6 +40083,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1157728823
 GameObject:
   m_ObjectHideFlags: 0
@@ -39960,6 +40138,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1157728826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40117,6 +40296,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1163566714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40204,6 +40384,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1168579154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40588,6 +40769,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1183367661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40730,7 +40912,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.RoomListView+OnJoinRoomEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.RoomListView+OnJoinRoomEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   CellPrototype: {fileID: 1488103025}
   UpdateStatusText: {fileID: 1862335833}
@@ -40825,6 +41007,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1196414345
 GameObject:
   m_ObjectHideFlags: 0
@@ -40950,6 +41133,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1196494910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41041,6 +41225,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!222 &1198893256
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -41183,6 +41368,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
+  m_LayoutPriority: 1
 --- !u!1 &1213586603
 GameObject:
   m_ObjectHideFlags: 0
@@ -41238,6 +41424,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1213586606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41333,6 +41520,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1226701035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41420,6 +41608,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1227333210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41509,6 +41698,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1230486945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41596,6 +41786,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1242128110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41691,6 +41882,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1242584959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41788,6 +41980,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1251170001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41963,6 +42156,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1255498545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42177,6 +42371,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1257526903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42265,6 +42460,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 100
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1257582897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42374,6 +42570,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1262242115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42621,7 +42818,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!222 &1268476945
 CanvasRenderer:
@@ -42743,7 +42940,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -0.000061035156, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1271804325
@@ -42811,6 +43008,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1272083585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42966,7 +43164,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1275121604
 MonoBehaviour:
@@ -43435,6 +43633,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1289883868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43530,6 +43729,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1290860505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43619,6 +43819,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1292781335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43706,6 +43907,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1294132717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43793,6 +43995,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1295027191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43886,6 +44089,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1296675459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44233,6 +44437,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1312668626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44321,6 +44526,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1313433043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44402,7 +44608,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_AnchoredPosition: {x: -0.000015258789, y: -0.00006282183}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1315370731
@@ -44667,7 +44873,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.BoolInputField+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!222 &1322381757
 CanvasRenderer:
@@ -44781,7 +44987,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00013326743, y: 0.000025687461}
+  m_AnchoredPosition: {x: 0.00012207031, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1323013540
@@ -45119,6 +45325,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1330725565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45261,6 +45468,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1332512637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45777,6 +45985,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1340239260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46624,6 +46833,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1376620545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46779,6 +46989,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1378685910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46868,6 +47079,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1385810520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47168,6 +47380,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1391582633
 GameObject:
   m_ObjectHideFlags: 0
@@ -47201,7 +47414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000009536743}
+  m_AnchoredPosition: {x: 0, y: 0.000048621438}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1391582635
@@ -47273,7 +47486,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -0.00006484985}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &1393176830
@@ -47587,7 +47800,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1673855195}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -47790,6 +48003,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1405078377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47878,6 +48092,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1407056753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47973,6 +48188,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1410799953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48066,6 +48282,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1412408433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48221,6 +48438,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1415810224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48312,6 +48530,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1420153588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48672,6 +48891,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1424983128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48777,6 +48997,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1425787756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48881,7 +49102,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.FriendListView+OnJoinRoomEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.FriendListView+OnJoinRoomEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1427448792
 MonoBehaviour:
@@ -48972,6 +49193,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1427949079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49059,6 +49281,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1428592960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49146,6 +49369,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1431930136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49295,6 +49519,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1432633570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49492,6 +49717,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1439351942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49587,6 +49813,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1448915899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49681,6 +49908,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1449374692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49790,6 +50018,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1450342911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49877,6 +50106,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1452807378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49970,6 +50200,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1454994544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50138,6 +50369,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1461638343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50234,6 +50466,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1463043373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50397,6 +50630,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1478354849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50486,6 +50720,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1480430291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50573,6 +50808,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1480731970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50799,6 +51035,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1483045330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50945,6 +51182,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1488103023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51049,6 +51287,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1492174564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51158,7 +51397,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1507802205}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -51352,6 +51591,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1501237584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51526,6 +51766,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1504020165
 GameObject:
   m_ObjectHideFlags: 0
@@ -51675,6 +51916,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1504730575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51748,7 +51990,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000051374922, y: -14.9999485}
+  m_AnchoredPosition: {x: 0.000061035156, y: -15}
   m_SizeDelta: {x: -10, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1507739837
@@ -51804,6 +52046,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1507802204
 GameObject:
   m_ObjectHideFlags: 0
@@ -51925,6 +52168,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1514520031
 GameObject:
   m_ObjectHideFlags: 0
@@ -51981,6 +52225,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1514520034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52323,6 +52568,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1522693985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52531,6 +52777,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1524126332
 GameObject:
   m_ObjectHideFlags: 0
@@ -53113,11 +53360,11 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!4 &1545657801
 Transform:
   m_ObjectHideFlags: 0
@@ -53372,6 +53619,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1555237823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53509,6 +53757,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1558620758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53732,6 +53981,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1571865493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53895,6 +54145,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1587512892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54222,6 +54473,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 100
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1590993447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54717,6 +54969,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1599641553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54975,6 +55228,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1607069798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55120,6 +55374,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1620409621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55300,6 +55555,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1625923036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55507,6 +55763,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1632136377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55682,6 +55939,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1637278662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55776,6 +56034,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1641001196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55968,6 +56227,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1649163702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56057,6 +56317,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1650821612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56223,6 +56484,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1658610723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56315,6 +56577,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1661864638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56558,6 +56821,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1664232121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56783,6 +57047,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1676122615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56960,7 +57225,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 76690123}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -57122,6 +57387,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1685606809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57331,6 +57597,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1686035480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57569,6 +57836,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1701081275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57671,6 +57939,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 100
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1705822254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57932,6 +58201,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1716856504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58035,7 +58305,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.Forms.CreateRoomUiForm+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.Forms.CreateRoomUiForm+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1720719708
 MonoBehaviour:
@@ -58746,6 +59016,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1741776097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58944,6 +59215,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1749634298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59140,6 +59412,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1756897374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59303,6 +59576,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1758240887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59405,6 +59679,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1759864893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59550,6 +59825,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1760911502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59798,6 +60074,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1775625739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59887,6 +60164,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1780892160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59976,6 +60254,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1789496937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60320,6 +60599,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1800755702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60409,6 +60689,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1803634956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60498,6 +60779,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1808339087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60591,6 +60873,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1816213409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60766,6 +61049,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1819840388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60861,6 +61145,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1824198928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60921,6 +61206,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1826495121
 GameObject:
   m_ObjectHideFlags: 0
@@ -60979,6 +61265,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1826495124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61119,7 +61406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 242}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1826707211
@@ -61428,6 +61715,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1838944745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61500,7 +61788,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000019073486, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1840495168
@@ -61521,6 +61809,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1840495169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61732,6 +62021,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1844217625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61874,6 +62164,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1845421414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61963,6 +62254,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1849166295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62055,6 +62347,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1849941472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62234,6 +62527,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1852708679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62464,6 +62758,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1861044838
 GameObject:
   m_ObjectHideFlags: 0
@@ -62519,6 +62814,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1862335831
 GameObject:
   m_ObjectHideFlags: 0
@@ -62749,6 +63045,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1868027905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62844,6 +63141,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1872347564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63115,6 +63413,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1883841411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63335,7 +63634,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Photon.Pun.Demo.Cockpit.IntInputField+OnSubmitEvent, Assembly-CSharp,
+    m_TypeName: Photon.Pun.Demo.Cockpit.IntInputField+OnSubmitEvent, PhotonUnityNetworking.Demos,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1889112034
 GameObject:
@@ -63427,6 +63726,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1890831762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63527,6 +63827,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1891786036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63785,6 +64086,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 100
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1895249359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64016,6 +64318,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1897058338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64197,6 +64500,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1901373158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64363,6 +64667,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1903829674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64452,6 +64757,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1903873832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64539,6 +64845,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1908952266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64700,6 +65007,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1913095907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64868,6 +65176,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1914203176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64963,6 +65272,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1928103822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65319,6 +65629,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1945585312
 GameObject:
   m_ObjectHideFlags: 0
@@ -65593,6 +65904,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1955414701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65680,6 +65992,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1955552946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65875,6 +66188,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1959226717
 GameObject:
   m_ObjectHideFlags: 0
@@ -65931,6 +66245,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1959226720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66138,6 +66453,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1967434525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66356,7 +66672,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000009536743}
+  m_AnchoredPosition: {x: 0, y: 0.000048621438}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1974050277
@@ -66449,6 +66765,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1978855245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66559,6 +66876,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1982705012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66702,6 +67020,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1983239851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66797,6 +67116,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1986460414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67017,6 +67337,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1988873746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67318,6 +67639,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1992088445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67753,6 +68075,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1998937355
 GameObject:
   m_ObjectHideFlags: 0
@@ -68253,6 +68576,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2023460382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68418,6 +68742,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2025242788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68580,6 +68905,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2028828231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68717,6 +69043,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2049045248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68952,6 +69279,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2056273793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69041,6 +69369,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2062521307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69324,6 +69653,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 1000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1001 &2064335843
 Prefab:
   m_ObjectHideFlags: 0
@@ -69571,6 +69901,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2068443893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69954,6 +70285,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2076058268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70125,6 +70457,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2079602705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70556,8 +70889,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 856205443}
   m_HandleRect: {fileID: 856205442}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -70651,6 +70984,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2095226230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70864,6 +71198,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2100579524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71600,6 +71935,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2119447832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71687,6 +72023,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2120896781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72105,6 +72442,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2129177459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72192,6 +72530,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2129492529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72286,6 +72625,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 100
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2138810963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72393,6 +72733,7 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 100000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2139010987
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -337,15 +337,15 @@ namespace Photon.Pun
             {
                 int viewOwnerId = netViewID / PhotonNetwork.MAX_VIEW_IDS;
                 bool owningPv = (viewOwnerId == NetworkingClient.LocalPlayer.ActorNumber);
-                bool ownerSent = (viewOwnerId == sender.ActorNumber);
+                bool ownerSent = sender != null && viewOwnerId == sender.ActorNumber;
 
                 if (owningPv)
                 {
-                    Debug.LogWarning("Received RPC \"" + inMethodName + "\" for viewID " + netViewID + " but this PhotonView does not exist! View was/is ours." + (ownerSent ? " Owner called." : " Remote called.") + " By: " + sender.ActorNumber);
+                    Debug.LogWarning("Received RPC \"" + inMethodName + "\" for viewID " + netViewID + " but this PhotonView does not exist! View was/is ours." + (ownerSent ? " Owner called." : " Remote called.") + " By: " + sender);
                 }
                 else
                 {
-                    Debug.LogWarning("Received RPC \"" + inMethodName + "\" for viewID " + netViewID + " but this PhotonView does not exist! Was remote PV." + (ownerSent ? " Owner called." : " Remote called.") + " By: " + sender.ActorNumber + " Maybe GO was destroyed but RPC not cleaned up.");
+                    Debug.LogWarning("Received RPC \"" + inMethodName + "\" for viewID " + netViewID + " but this PhotonView does not exist! Was remote PV." + (ownerSent ? " Owner called." : " Remote called.") + " By: " + sender + " Maybe GO was destroyed but RPC not cleaned up.");
                 }
                 return;
             }
@@ -503,39 +503,50 @@ namespace Photon.Pun
             if (receivers != 1)
             {
                 string argsString = string.Empty;
-                for (int index = 0; index < argumentsTypes.Length; index++)
+                int argsLength = 0;
+                if (argumentsTypes != null)
                 {
-                    Type ty = argumentsTypes[index];
-                    if (argsString != string.Empty)
+                    argsLength = argumentsTypes.Length;
+                    for (int index = 0; index < argumentsTypes.Length; index++)
                     {
-                        argsString += ", ";
-                    }
+                        Type ty = argumentsTypes[index];
+                        if (argsString != string.Empty)
+                        {
+                            argsString += ", ";
+                        }
 
-                    if (ty == null)
-                    {
-                        argsString += "null";
-                    }
-                    else
-                    {
-                        argsString += ty.Name;
+                        if (ty == null)
+                        {
+                            argsString += "null";
+                        }
+                        else
+                        {
+                            argsString += ty.Name;
+                        }
                     }
                 }
-
+                
                 if (receivers == 0)
                 {
                     if (foundMethods == 0)
                     {
-                        Debug.LogError("PhotonView with ID " + netViewID + " has no method \"" + inMethodName + "\" marked with the [PunRPC](C#) or @PunRPC(JS) property! Args: " + argsString);
+                        Debug.LogError("PhotonView with ID " + netViewID + " has no (non-static) method \"" + inMethodName +
+                                       "\" marked with the [PunRPC](C#) or @PunRPC(JS) property! Args: " +
+                                       argsString);
                     }
                     else
                     {
-                        Debug.LogError("PhotonView with ID " + netViewID + " has no method \"" + inMethodName + "\" that takes " + argumentsTypes.Length + " argument(s): " + argsString);
+                        Debug.LogError("PhotonView with ID " + netViewID + " has no (non-static) method \"" + inMethodName +
+                                       "\" that takes " + argsLength + " argument(s): " + argsString);
                     }
                 }
                 else
                 {
-                    Debug.LogError("PhotonView with ID " + netViewID + " has " + receivers + " methods \"" + inMethodName + "\" that takes " + argumentsTypes.Length + " argument(s): " + argsString + ". Should be just one?");
+                    Debug.LogError("PhotonView with ID " + netViewID + " has " + receivers + " methods \"" +
+                                   inMethodName + "\" that takes " + argsLength + " argument(s): " +
+                                   argsString + ". Should be just one?");
                 }
+                
             }
         }
 
@@ -2064,7 +2075,7 @@ namespace Photon.Pun
                 case EventCode.Leave:
 
                     // destroy objects & buffered messages
-                    if (CurrentRoom != null && CurrentRoom.AutoCleanUp && CurrentRoom.GetPlayer(actorNr) == null)
+                    if (CurrentRoom != null && CurrentRoom.AutoCleanUp)
                     {
                         DestroyPlayerObjects(actorNr, true);
                     }

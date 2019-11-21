@@ -1,5 +1,14 @@
 PUN 2 Change Log
 
+v2.15 (19. September 2019)
+Fixed: NullReferenceException when trying to log an error for a received RPC with a non existing method and zero arguments.
+Changed: Calling an RPC method with a null or empty method name will not be executed and error will be logged.
+Fixed: Callbacks deregistration and PlayersPerTeam clearing in PunTeams which caused KeyNotFoundException in some cases.
+Fixed: NullReferenceException in SupportLogger.TrackValues in Unity Editor after compilation by making sure only one instance of SupportLogger is in the scene and SupportLogger.TrackValues is properly stopped when the application stops or client disconnects.
+Changed: TypedLobby refactored to reflect the proper definition of the default lobby: a lobby that has a null or empty name, the provided type is ignored in this case and will be considered default type.
+Changed: RPC methods not found error logs explictily state that RPC methods search does not include static methods which are not supported as RPC methods.
+Updated: SceneSettings Inspector improved and SceneAsset field added to make reference to scenes easier.
+Updated: Code comments for documentation.
 
 v2.14 (9. August 2019)
 Updated: To using Unity 2017.4.7 as lowest supported version. The Asset Store no longer supports uploading packets for older Unity versions. A few variables are now public, as they were not accessible otherwise due to assembly definitions.
