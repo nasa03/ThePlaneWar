@@ -25,8 +25,7 @@ public class MobileInputController : MonoBehaviour {
             {
                 Vector2 position = touch.position;
 
-                if (position.x > Background.position.x - (Background.rect.width / 2) && position.x < Background.position.x + (Background.rect.width / 2)
-                && position.y > Background.position.y - (Background.rect.height / 2) && position.y < Background.position.y + (Background.rect.height / 2))
+                if (position.x < Screen.width / 2 && position.y < Screen.height / 2)
                 {
                     PointPosition = new Vector2((position.x - Background.position.x) / ((Background.rect.size.x - Knob.rect.size.x) / 2), (position.y - Background.position.y) / ((Background.rect.size.y - Knob.rect.size.y) / 2));
                     PointPosition = (PointPosition.magnitude > 1.0f) ? PointPosition.normalized : PointPosition;
