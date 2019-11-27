@@ -124,6 +124,8 @@ namespace Photon.Realtime
         JoinRoom,
         /// <summary>Done on Master Server and (if successful) followed by a Join on Game Server.</summary>
         JoinRandomRoom,
+        /// <summary>Done on Master Server and (if successful) followed by a Join or Create on Game Server.</summary>
+        JoinRandomOrCreateRoom,
         /// <summary>Client is either joining or creating a room. On Master- and Game-Server.</summary>
         JoinOrCreateRoom
     }
@@ -722,6 +724,12 @@ namespace Photon.Realtime
         /// </remarks>
         public virtual bool Connect()
         {
+            // we check if try to connect to a self-hosted Photon Server
+            if (string.IsNullOrEmpty(this.AppId) || !this.IsUsingNameServer)
+            {
+                // this is a workaround to use with version v4.0.29.11263 or lower, which doesn't support GpBinaryV18 yet.
+                this.LoadBalancingPeer.SerializationProtocolType = SerializationProtocol.GpBinaryV16;
+            }
             #if UNITY_WEBGL
             SocketWebTcp.SerializationProtocol = Enum.GetName(typeof(SerializationProtocol), this.LoadBalancingPeer.SerializationProtocolType);
             #endif
@@ -1282,6 +1290,39 @@ namespace Photon.Realtime
             }
             return sending;
         }
+
+
+        public bool OpJoinRandomOrCreateRoom(OpJoinRandomRoomParams opJoinRandomRoomParams, EnterRoomParams createRoomParams)
+        {
+            if (!this.CheckIfOpCanBeSent(OperationCode.JoinRandomGame, this.Server, "OpJoinRandomOrCreateRoom"))
+            {
+                return false;
+            }
+
+            if (opJoinRandomRoomParams == null)
+            {
+                opJoinRandomRoomParams = new OpJoinRandomRoomParams();
+            }
+            if (createRoomParams == null)
+            {
+                createRoomParams = new EnterRoomParams();
+            }
+
+            createRoomParams.CreateIfNotExists = true;
+            this.enterRoomParamsCache = createRoomParams;
+            this.enterRoomParamsCache.Lobby = opJoinRandomRoomParams.TypedLobby;
+            this.enterRoomParamsCache.ExpectedUsers = opJoinRandomRoomParams.ExpectedUsers;
+
+
+            bool sending = this.LoadBalancingPeer.OpJoinRandomOrCreateRoom(opJoinRandomRoomParams, createRoomParams);
+            if (sending)
+            {
+                this.lastJoinType = JoinType.JoinRandomOrCreateRoom;
+                this.State = ClientState.Joining;
+            }
+            return sending;
+        }
+
 
 
         /// <summary>
@@ -2269,7 +2310,7 @@ namespace Photon.Realtime
 
                             this.enterRoomParamsCache.OnGameServer = true;
 
-                            if (this.lastJoinType == JoinType.JoinRoom || this.lastJoinType == JoinType.JoinRandomRoom || this.lastJoinType == JoinType.JoinOrCreateRoom)
+                            if (this.lastJoinType == JoinType.JoinRoom || this.lastJoinType == JoinType.JoinRandomRoom  || this.lastJoinType == JoinType.JoinRandomOrCreateRoom || this.lastJoinType == JoinType.JoinOrCreateRoom)
                             {
                                 this.LoadBalancingPeer.OpJoinRoom(this.enterRoomParamsCache);
                             }
@@ -2900,7 +2941,7 @@ namespace Photon.Realtime
         /// Adding and removing callback targets is queued to not mess with callbacks in execution.
         /// Internally, this means that the addition/removal is done before the LoadBalancingClient
         /// calls the next callbacks. This detail should not affect a game's workflow.
-        /// 
+        ///
         /// The covered callback interfaces are: IConnectionCallbacks, IMatchmakingCallbacks,
         /// ILobbyCallbacks, IInRoomCallbacks, IOnEventCallback and IWebRpcCallback.
         ///
@@ -2919,7 +2960,7 @@ namespace Photon.Realtime
         /// Adding and removing callback targets is queued to not mess with callbacks in execution.
         /// Internally, this means that the addition/removal is done before the LoadBalancingClient
         /// calls the next callbacks. This detail should not affect a game's workflow.
-        /// 
+        ///
         /// The covered callback interfaces are: IConnectionCallbacks, IMatchmakingCallbacks,
         /// ILobbyCallbacks, IInRoomCallbacks, IOnEventCallback and IWebRpcCallback.
         ///
@@ -2964,7 +3005,7 @@ namespace Photon.Realtime
 
                     this.callbackTargets.Remove(change.Target);
                 }
-                
+
                 this.UpdateCallbackTarget<IInRoomCallbacks>(change, this.InRoomCallbackTargets);
                 this.UpdateCallbackTarget<IConnectionCallbacks>(change, this.ConnectionCallbackTargets);
                 this.UpdateCallbackTarget<IMatchmakingCallbacks>(change, this.MatchMakingCallbackTargets);
@@ -2985,7 +3026,7 @@ namespace Photon.Realtime
                 }
             }
         }
-        
+
         /// <summary>Helper method to cast and apply a target per (interface) type.</summary>
         /// <typeparam name="T">Either of the interfaces for callbacks.</typeparam>
         /// <param name="change">The queued change to apply (add or remove) some target.</param>
@@ -3630,7 +3671,7 @@ namespace Photon.Realtime
         {
             this.client = client;
         }
-        
+
         public void OnJoinedLobby()
         {
             this.client.UpdateCallbackTargets();

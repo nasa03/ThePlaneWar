@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Name: PunSceneSettingsFile
   m_EditorClassIdentifier: 
   SceneSettingsListFoldoutOpen: 1
-  MinViewIdPerScene: []
+  MinViewIdPerScene:
+  - sceneName: 123
+    minViewId: 47
+  - sceneName: 123
+    minViewId: 1
+  - sceneName: 456
+    minViewId: 1

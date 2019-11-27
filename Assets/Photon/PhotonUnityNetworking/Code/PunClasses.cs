@@ -452,7 +452,7 @@ namespace Photon.Pun
         ///
         /// <param name="targetPlayer">Contains Player that changed.</param>
         /// <param name="changedProps">Contains the properties that changed.</param>
-        public virtual void OnPlayerPropertiesUpdate(Player target, Hashtable changedProps)
+        public virtual void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
         }
 

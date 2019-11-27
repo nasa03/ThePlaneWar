@@ -1,5 +1,19 @@
 PUN 2 Change Log
 
+v2.16 (26. November 2019)
+Reverted: Some changes in the TypedLobby class. Setting Name and Type does not depend on some other state. Just make sure the Name is not null or empty or the TypedLobby will point to the "default lobby" with a fixed/defined behaviour.
+Fixed: Properly set the received interest group on the PhotonViews of the locally instantiated networked GameObject.
+Fixed: Issue in RegionHandler in WebGL which prevented connection to master server if a scene was loaded during best region ping/calculation.
+Fixed: A rare condition where a region preference can't be parsed into the region and ping values the inspector attempts to show. We check the result of the "split" now.
+Updated: The email check for registrations. Should be more accurate.
+Internal: Optimized Instantiation, RPC calling and sending with cached / reusable keys. This avoids some garbage creation.
+Added: Option to run RPCs as coroutines. Disable with PhotonNetwork.RunRpcCoroutines = false. This makes the upgrade from Pun Classic easier.
+Added: OpJoinRandomOrCreateRoom. When the random matchmaking does not find a suitable room, this operation creates one immediately.
+Added: The Scene Settings inspector now links to the online documentation for this topic. Click the "book" icon which Uniy uses to explain built in components. This works in other cases, too.
+Changed: LoadBalancingPeer and ChatPeer now look for SocketNativeSource instead of SocketWebTcpNativeDynamic when the target platform is XB One. A new Xbox addon is coming up on our SDK page.
+Updated: Photon3Unity3d.dll to v41.2.19.
+
+
 v2.15 (19. September 2019)
 Fixed: NullReferenceException when trying to log an error for a received RPC with a non existing method and zero arguments.
 Changed: Calling an RPC method with a null or empty method name will not be executed and error will be logged.

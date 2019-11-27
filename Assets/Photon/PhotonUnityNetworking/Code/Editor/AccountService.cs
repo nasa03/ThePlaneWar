@@ -28,9 +28,16 @@ namespace Photon.Pun
         private readonly Dictionary<string, string> RequestHeaders = new Dictionary<string, string>
         {
             { "Content-Type", "application/json" },
-            { "x-functions-key", "VQ920wVUieLHT9c3v1ZCbytaLXpXbktUztKb3iYLCdiRKjUagcl6eg==" }
+            { "x-functions-key", "" }
         };
 
+        private const string DefaultToken = "VQ920wVUieLHT9c3v1ZCbytaLXpXbktUztKb3iYLCdiRKjUagcl6eg==";
+        
+        /// <summary>
+        /// third parties custom token;
+        /// </summary>
+        public string CustomToken = null;
+        
         /// <summary>
         /// Attempts to create a Photon Cloud Account asynchronously.
         /// Once your callback is called, check ReturnCode, Message and AppId to get the result of this attempt.
@@ -75,6 +82,9 @@ namespace Photon.Pun
                 return false;
             }
             string fullUrl = GetUrlWithQueryStringEscaped(request);
+
+            RequestHeaders["x-functions-key"] = string.IsNullOrEmpty(CustomToken) ? DefaultToken : CustomToken;
+            
             //Debug.LogWarningFormat("Full URL {0}", fullUrl);
             PhotonEditorUtils.StartCoroutine(
                 PhotonEditorUtils.HttpPost(fullUrl,
@@ -182,21 +192,18 @@ namespace Photon.Pun
             return null;
         }
 
-        //https://github.com/rhyous/EmailRegEx
-        public static string ComplexEmailPattern = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*" // local-part
-                                                    + "@"
-                                                    + @"((([\w]+([-\w]*[\w]+)*\.)+[a-zA-Z]+)|" // domain
-                                                    + @"((([01]?[0-9]{1,2}|2[0-4][0-9]|25[0-5]).){3}[01]?[0-9]{1,2}|2[0-4][0-9]|25[0-5]))\z"; // or IP Address
-
-        public static bool IsValidEmail(string email)
+        // RFC2822 compliant matching 99.9% of all email addresses in actual use today
+        // according to http://www.regular-expressions.info/email.html [22.02.2012]
+        private static Regex reg = new Regex("^((?>[a-zA-Z\\d!#$%&'*+\\-/=?^_{|}~]+\\x20*|\"((?=[\\x01-\\x7f])[^\"\\]|\\[\\x01-\\x7f])*\"\\x20*)*(?<angle><))?((?!\\.)(?>\\.?[a-zA-Z\\d!#$%&'*+\\-/=?^_{|}~]+)+|\"((?=[\\x01-\\x7f])[^\"\\]|\\[\\x01-\\x7f])*\")@(((?!-)[a-zA-Z\\d\\-]+(?<!-)\\.)+[a-zA-Z]{2,}|\\[(((?(?<!\\[)\\.)(25[0-5]|2[0-4]\\d|[01]?\\d?\\d)){4}|[a-zA-Z\\d\\-]*[a-zA-Z\\d]:((?=[\\x01-\\x7f])[^\\\\[\\]]|\\[\\x01-\\x7f])+)\\])(?(angle)>)$",
+            RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+        public static bool IsValidEmail(string mailAddress)
         {
-            if (string.IsNullOrEmpty(email) || !email.Contains("@"))
+            if (string.IsNullOrEmpty(mailAddress))
             {
                 return false;
             }
-            return Regex.IsMatch(email, ComplexEmailPattern,
-                RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase |
-                RegexOptions.Singleline);
+            var result = reg.Match(mailAddress);
+            return result.Success;
         }
     }
 

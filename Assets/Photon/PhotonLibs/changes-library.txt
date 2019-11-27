@@ -4,12 +4,33 @@ Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
 
+Version 4.1.2.19 (13. November 2019 - rev5271)
+    Internal: Handling for DllNotFoundException in the SocketNative.DnsAndConnect().
+    Internal: Added support for setting the serialization protocol when using native websocket.
+    Internal: Added logging to native plugins for sockets and encryptor.
+    Internal: Changed the access level of PeerBase.debugOut from 'internal' to 'public'.
+    Changed: UDP socket classes now trigger a disconnect in the send methods, should the lower-level socket be disconnected. This gives us a quicker "disconnected" state in some error cases. So far, only reading-errors triggered disconnects in UDP.
+    Changed: Logging in case of send errors.
+	Added: Exception handling to deserialization. This adds a safety layer for receiving messages, which can be skipped. Important: It will be unknown, what message got discarded and if it's important or if it was fake / surplus.
+    Fixed: Internal class EncryptorNet, which was not thread safe, so DatagramEncryption was failing sooner or later. This affected only v4.1.2.18, which was an internal release.
+
+Version 4.1.2.18 (1. October 2019 - rev5229)
+    Removed: Surplus logging "Deserializing OpResponse Ping." for TCP/WebSocket connections.
+    Changed: Datagram Encryption to use an interface for the encryptor.
+    Changed: PhotonPeer.Encryptor is now public and can be set before connect. Applications can switch to new Datagram Encryption implementations. InitDatagramEncryption will create an instance and use that or falls back to the managed encryptor.
+    Note: PhotonPeer.Encryptor replaces DgramEncryptor. Setting the class before connect is likely what the LoadBalancingClient will do anyways.
+    Changed: The EncryptorNative class is for dynamic linked libs. It can be present in all Unity projects.
+    Changed: PhotonPeer.NativeDatagramEncrypt is obsolete, as it's always true now. On demand, an alternative Encryptor can be set.
+    Internal: ClientSdkIdShifted is simplified (because it was causing an error in another compiler / in Unity).
+    Changed: Reading Hashtables and Dictionaries will now check if the read key is null. If so, the key-value pair will be dropped silently. This applies to Protocol 1.6 and 1.8 alike.
+    Changed: All built-in socket implementations which are now more alike to one another.
+    Changed: When DNS resolution provides more than one IP, the socket will use the IPv6 ones first. If there is no route to the remote IP, the next in list is used. It does not resolve strings with IPv4 (e.g. a local address).
+
 Version 4.1.2.17 (9. August 2019 - rev5187)
     Removed: Obsolete StatusCode values: DisconnectByServer is now DisconnectByServerTimeout. Other values are simply removed.
     Updated: Used StatusCode.DisconnectByServer to DisconnectByServerTimeout. A follow up to renaming and removing the code. Some implementations of IPhotonSocket can be in existing projects and may still use the old naming. Simply rename.
     Changed: PeerBase.timeInt is now a property which calculates the current time: SupportClass.GetTickCount() - this.timeBase.
     Fixed: The change for timeInt fixes a problem with TCP connections which go entirely silent and would no longer update the PhotonPeer.ConnectionTime.
-
 
 Version 4.1.2.16 (28. June 2019 - rev5168)
     Changed: TrafficStats Stopwatch initialization. This keeps the Stopwatch but resets it. Also it's started on initialization, if trafficStatsEnabled.

@@ -128,9 +128,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
 
         if (!PhotonNetwork.OfflineMode)
         {
-            TypedLobby typedLobby = new TypedLobby();
-            typedLobby.Name = "MyLobby";
-            typedLobby.Type = LobbyType.SqlLobby;
+            TypedLobby typedLobby = new TypedLobby("MyLobby", LobbyType.SqlLobby);
             PhotonNetwork.JoinLobby(typedLobby);
         }
         else

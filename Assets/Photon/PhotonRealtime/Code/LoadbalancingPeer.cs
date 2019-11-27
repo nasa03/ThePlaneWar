@@ -84,18 +84,18 @@ namespace Photon.Realtime
 
             Type websocketType = null;
             #if UNITY_XBOXONE && !UNITY_EDITOR
-            websocketType = Type.GetType("ExitGames.Client.Photon.SocketWebTcpNativeDynamic, PhotonWebSocket", false);
+            websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, PhotonRealtime", false);
             if (websocketType == null)
             {
-                websocketType = Type.GetType("ExitGames.Client.Photon.SocketWebTcpNativeDynamic, Assembly-CSharp-firstpass", false);
+                websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, Assembly-CSharp-firstpass", false);
             }
             if (websocketType == null)
             {
-                websocketType = Type.GetType("ExitGames.Client.Photon.SocketWebTcpNativeDynamic, Assembly-CSharp", false);
+                websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, Assembly-CSharp", false);
             }
             if (websocketType == null)
             {
-                Debug.LogError("UNITY_XBOXONE is defined but peer could not find SocketWebTcpNativeDynamic. Check your project files to make sure the native WSS implementation is available. Won't connect.");
+                Debug.LogError("UNITY_XBOXONE is defined but peer could not find SocketNativeSource. Check your project files to make sure the native WSS implementation is available. Won't connect.");
             }
             #else
             // to support WebGL export in Unity, we find and assign the SocketWebTcp class (if it's in the project).
@@ -126,7 +126,7 @@ namespace Photon.Realtime
 
         public virtual bool OpGetRegions(string appId)
         {
-            Dictionary<byte, object> parameters = new Dictionary<byte, object>();
+            Dictionary<byte, object> parameters = new Dictionary<byte, object>(1);
             parameters[(byte)ParameterCode.ApplicationId] = appId;
 
             return this.SendOperation(OperationCode.GetRegions, parameters, new SendOptions() { Reliability = true, Encrypt = true });
@@ -184,7 +184,8 @@ namespace Photon.Realtime
             BroadcastPropsChangeToAll = 0x20,  // signals that we should send PropertyChanged event to all room players including initiator
         }
 
-        private void RoomOptionsToOpParameters(Dictionary<byte, object> op, RoomOptions roomOptions)
+        /// <summary>Used by OpJoinRoom and by OpCreateRoom alike.</summary>
+        private void RoomOptionsToOpParameters(Dictionary<byte, object> op, RoomOptions roomOptions, bool usePropertiesKey = false)
         {
             if (roomOptions == null)
             {
@@ -200,7 +201,15 @@ namespace Photon.Realtime
             {
                 gameProperties[GamePropertyKey.MaxPlayers] = roomOptions.MaxPlayers;
             }
-            op[ParameterCode.GameProperties] = gameProperties;
+
+            if (!usePropertiesKey)
+            {
+                op[ParameterCode.GameProperties] = gameProperties;  // typically, the key for game props is 248
+            }
+            else
+            {
+                op[ParameterCode.Properties] = gameProperties;      // when an op uses 248 as filter, the "create room" props can be set as 251
+            }
 
 
             int flags = 0;  // a new way to send the room options as bitwise-flags
@@ -309,7 +318,7 @@ namespace Photon.Realtime
                 this.RoomOptionsToOpParameters(op, opParams.RoomOptions);
             }
 
-            //this.Listener.DebugReturn(DebugLevel.INFO, "CreateGame: " + SupportClass.DictionaryToString(op));
+            //this.Listener.DebugReturn(DebugLevel.INFO, "OpCreateRoom: " + SupportClass.DictionaryToString(op));
             return this.SendOperation(OperationCode.CreateGame, op, SendOptions.SendReliable);
         }
 
@@ -372,7 +381,7 @@ namespace Photon.Realtime
                 }
             }
 
-            // UnityEngine.Debug.Log("JoinGame: " + SupportClass.DictionaryToString(op));
+            //this.Listener.DebugReturn(DebugLevel.INFO, "OpJoinRoom: " + SupportClass.DictionaryToString(op));
             return this.SendOperation(OperationCode.JoinGame, op, SendOptions.SendReliable);
         }
 
@@ -425,7 +434,74 @@ namespace Photon.Realtime
                 opParameters[ParameterCode.Add] = opJoinRandomRoomParams.ExpectedUsers;
             }
 
-            //this.Listener.DebugReturn(DebugLevel.INFO, "OpJoinRandom: " + SupportClass.DictionaryToString(opParameters));
+            //this.Listener.DebugReturn(DebugLevel.INFO, "OpJoinRandomRoom: " + SupportClass.DictionaryToString(opParameters));
+            return this.SendOperation(OperationCode.JoinRandomGame, opParameters, SendOptions.SendReliable);
+        }
+
+        /// <summary>
+        /// Only used on the Master Server. It will assign a game server and room to join-or-create.
+        /// On the Game Server, the OpJoin is used with option "create if not exists".
+        /// </summary>
+        public virtual bool OpJoinRandomOrCreateRoom(OpJoinRandomRoomParams opJoinRandomRoomParams, EnterRoomParams createRoomParams)
+        {
+            if (this.DebugOut >= DebugLevel.INFO)
+            {
+                this.Listener.DebugReturn(DebugLevel.INFO, "OpJoinRandomOrCreateRoom()");
+            }
+
+            // join random room parameters:
+
+            Hashtable expectedRoomProperties = new Hashtable();
+            expectedRoomProperties.MergeStringKeys(opJoinRandomRoomParams.ExpectedCustomRoomProperties);
+            if (opJoinRandomRoomParams.ExpectedMaxPlayers > 0)
+            {
+                expectedRoomProperties[GamePropertyKey.MaxPlayers] = opJoinRandomRoomParams.ExpectedMaxPlayers;
+            }
+
+            Dictionary<byte, object> opParameters = new Dictionary<byte, object>();
+            if (expectedRoomProperties.Count > 0)
+            {
+                opParameters[ParameterCode.GameProperties] = expectedRoomProperties;    // used as filter. below, RoomOptionsToOpParameters has usePropertiesKey = true
+            }
+
+            if (opJoinRandomRoomParams.MatchingType != MatchmakingMode.FillRoom)
+            {
+                opParameters[ParameterCode.MatchMakingType] = (byte)opJoinRandomRoomParams.MatchingType;
+            }
+
+            if (opJoinRandomRoomParams.TypedLobby != null && !opJoinRandomRoomParams.TypedLobby.IsDefault)
+            {
+                opParameters[ParameterCode.LobbyName] = opJoinRandomRoomParams.TypedLobby.Name;
+                opParameters[ParameterCode.LobbyType] = (byte)opJoinRandomRoomParams.TypedLobby.Type;
+            }
+
+            if (!string.IsNullOrEmpty(opJoinRandomRoomParams.SqlLobbyFilter))
+            {
+                opParameters[ParameterCode.Data] = opJoinRandomRoomParams.SqlLobbyFilter;
+            }
+
+            if (opJoinRandomRoomParams.ExpectedUsers != null && opJoinRandomRoomParams.ExpectedUsers.Length > 0)
+            {
+                opParameters[ParameterCode.Add] = opJoinRandomRoomParams.ExpectedUsers;
+            }
+
+
+            // parameters for creating a room if needed ("or create" part of the operation)
+            // partial copy of OpCreateRoom
+
+            opParameters[ParameterCode.JoinMode] = (byte)JoinMode.CreateIfNotExists;
+
+            if (createRoomParams != null)
+            {
+                if (!string.IsNullOrEmpty(createRoomParams.RoomName))
+                {
+                    opParameters[ParameterCode.RoomName] = createRoomParams.RoomName;
+                }
+
+                this.RoomOptionsToOpParameters(opParameters, createRoomParams.RoomOptions, true);
+            }
+
+            //this.Listener.DebugReturn(DebugLevel.INFO, "OpJoinRandomOrCreateRoom: " + SupportClass.DictionaryToString(opParameters, false));
             return this.SendOperation(OperationCode.JoinRandomGame, opParameters, SendOptions.SendReliable);
         }
 
@@ -900,7 +976,7 @@ namespace Photon.Realtime
             {
                 this.Listener.DebugReturn(DebugLevel.ALL, "OpSettings()");
             }
-            
+
             Dictionary<byte, object> opParameters = new Dictionary<byte, object>();
 
             // implementation for Master Server:
@@ -1035,7 +1111,7 @@ namespace Photon.Realtime
         /// <summary>(32762) All servers are busy. This is a temporary issue and the game logic should try again after a brief wait time.</summary>
         /// <remarks>
         /// This error may happen for all operations that create rooms. The operation response will contain this error code.
-        /// 
+        ///
         /// This error is very unlikely to happen as we monitor load on all servers and add them on demand.
         /// However, it's good to be prepared for a shortage of machines or surge in CCUs.
         /// </remarks>
@@ -1472,7 +1548,7 @@ namespace Photon.Realtime
 
         /// <summary>(200) Informs user about version of plugin load to game</summary>
         public const byte PluginVersion = 200;
-        
+
         /// <summary>(196) Cluster info provided in OpAuthenticate/OpAuthenticateOnce responses.</summary>
         public const byte Cluster = 196;
 
@@ -1835,12 +1911,11 @@ namespace Photon.Realtime
         //public int CacheSliceIndex;
     }
 
-    /// <summary>
-    /// Options of lobby types available. Lobby types might be implemented in certain Photon versions and won't be available on older servers.
-    /// </summary>
+    /// <summary>Types of lobbies define their behaviour and capabilities. Check each value for details.</summary>
+    /// <remarks>Values of this enum must be matched by the server.</remarks>
     public enum LobbyType :byte
     {
-        /// <summary>This lobby is used unless another is defined by game or JoinRandom. Room-lists will be sent and JoinRandomRoom can filter by matching properties.</summary>
+        /// <summary>Standard type and behaviour: While joined to this lobby clients get room-lists and JoinRandomRoom can use a simple filter to match properties (perfectly).</summary>
         Default = 0,
         /// <summary>This lobby type lists rooms like Default but JoinRandom has a parameter for SQL-like "where" clauses for filtering. This allows bigger, less, or and and combinations.</summary>
         SqlLobby = 2,
@@ -1850,87 +1925,64 @@ namespace Photon.Realtime
 
     /// <summary>Refers to a specific lobby on the server.</summary>
     /// <remarks>
-    /// The name and type are the unique identifier for a lobby.<br/>
-    /// A lobby with a null or empty name is considered the default lobby no matter the type set here.
+    /// Name and Type combined are the unique identifier for a lobby.<br/>
+    /// The server will create lobbies "on demand", so no registration or setup is required.<br/>
+    /// An empty or null Name always points to the "default lobby" as special case.
     /// </remarks>
     public class TypedLobby
     {
-        private string name;
-
         /// <summary>
-        /// Name of the lobby this game gets added to.
-        /// Default: null, attached to default lobby (<see cref="TypedLobby.Default"/>).
+        /// Name of the lobby. Default: null, pointing to the "default lobby".
         /// </summary>
         /// <remarks>
-        /// Lobbies are unique per Name plus Type, so the same name can be used when several types are existing.
-        /// If the Name is null or empty, it is always the default lobby.
+        /// If Name is null or empty, a TypedLobby will point to the "default lobby". This ignores the Type value and always acts as  <see cref="LobbyType.Default"/>.
         /// </remarks>
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) || type == LobbyType.Default)
-                {
-                    name = value;
-                }
-            }
-        }
-
-        private LobbyType type;
+        public string Name;
 
         /// <summary>
-        /// Type of the lobby this game gets added to.
-        /// Default: <see cref="LobbyType.Default"/>, attached to default lobby (<see cref="TypedLobby.Default"/>).
+        /// Type (and behaviour) of the lobby.
         /// </summary>
         /// <remarks>
-        /// If the Name is null or empty the Type can only be <see cref="LobbyType.Default"/>.
-        /// <see cref="LobbyType.Default"/> is not the same thing as the default lobby (<see cref="TypedLobby.Default"/>).
+        /// An empty or null Name always points to the "default lobby" as special case.
         /// </remarks>
-        public LobbyType Type
-        {
-            get { return type; }
-            set
-            {
-                if (!IsDefault)
-                {
-                    type = value;
-                }
-            }
-        }
+        public LobbyType Type;
 
         /// <summary>
-        /// Returns a reference to the default lobby which is the unique lobby that has a null name and is of type <see cref="LobbyType.Default"/>.
+        /// A reference to the default lobby which is the unique lobby that uses null as name and is of type <see cref="LobbyType.Default"/>.
         /// </summary>
         /// <remarks>
-        /// No other lobby can have a null or empty name.
-        /// <see cref="LobbyType.Default"/> is not the same thing as the default lobby.
-        /// On the other hand, this is a shortcut and reusable reference to the default lobby.
-        /// It is meant as a timer and allocation saver.
-        /// Do not change its Name or Type.
-        /// If you need a different lobby create another one.
+        /// There is only a single lobby with an empty name on the server. It is always of type  <see cref="LobbyType.Default"/>.<br/>
+        /// On the other hand, this is a shortcut and reusable reference to the default lobby.<br/>
+        /// Do not change Name or Type.<br/>
         /// </remarks>
         public static readonly TypedLobby Default = new TypedLobby();
+
         /// <summary>
-        /// Returns whether or not this lobby is considered default lobby (<see cref="TypedLobby.Default"/>).
+        /// Returns whether or not this instance points to the "default lobby" (<see cref="TypedLobby.Default"/>).
         /// </summary>
         /// <remarks>
         /// This comes up to checking if the Name is null or empty.
-        /// <see cref="LobbyType.Default"/> is not the same thing as the default lobby (<see cref="TypedLobby.Default"/>).
+        /// <see cref="LobbyType.Default"/> is not the same thing as the "default lobby" (<see cref="TypedLobby.Default"/>).
         /// </remarks>
         public bool IsDefault { get { return string.IsNullOrEmpty(this.Name); } }
 
-        public TypedLobby()
+
+        /// <summary>
+        /// Creates a TypedLobby instance. Unless Name is changed, this points to the "default lobby" (<see cref="TypedLobby.Default"/>).
+        /// </summary>
+        internal TypedLobby()
         {
         }
 
+        /// <summary>
+        /// Sets Name and Type of the new instance. Make sure name is not empty or null, as that always points to the "default lobby" (<see cref="TypedLobby.Default"/>).
+        /// </summary>
+        /// <param name="name">Some string to identify a lobby.</param>
+        /// <param name="type">The type of a lobby defines it's capabilities and behaviour.</param>
         public TypedLobby(string name, LobbyType type)
         {
-            if (!string.IsNullOrEmpty(name))
-            {
-                this.Name = name;
-                this.Type = type;
-            }
+            this.Name = name;
+            this.Type = type;
         }
 
         public override string ToString()
@@ -1939,9 +1991,16 @@ namespace Photon.Realtime
         }
     }
 
+
+    /// <summary>
+    /// Info for a lobby on the server. Used when <see cref="LoadBalancingClient.EnableLobbyStatistics"/> is true.
+    /// </summary>
     public class TypedLobbyInfo : TypedLobby
     {
+        /// <summary>Count of players that currently joined this lobby.</summary>
         public int PlayerCount;
+
+        /// <summary>Count of rooms currently associated with this lobby.</summary>
         public int RoomCount;
 
         public override string ToString()
