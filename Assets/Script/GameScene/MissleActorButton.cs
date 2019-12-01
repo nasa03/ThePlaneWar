@@ -7,45 +7,53 @@ public class MissleActorButton : MonoBehaviour
 {
     [SerializeField] Image image;
     [SerializeField] Button button;
-    float time = 0.0f;
-    bool isMissle = true;
+    [SerializeField] Text text;
+    float time = 10.0f;
+    int totalCount = 3;
+    const float maxTime = 10.0f;
+    const int maxCount = 3;
 
     public bool Missle
     {
         get
         {
-            return isMissle;
+            return totalCount > 0;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (time > 0)
+        if (time > 0 && totalCount < maxCount)
         {
-            image.fillAmount = time / 10;
+            image.fillAmount = time / maxTime;
             time -= Time.deltaTime;
+        }
+        else if (totalCount == maxCount)
+        {
+            image.fillAmount = 0.0f;
         }
         else
         {
-            if (!isMissle)
-            {
-                ShootEnd();
-            }
+            ShootEnd();
         }
     }
 
     public void ShootStart()
     {
-        button.enabled = false;
-        isMissle = false;
-        time = 10.0f;
-        image.fillAmount = 1.0f;
+        totalCount--;
+        button.enabled = Missle;
+        text.text = totalCount.ToString();
     }
 
     void ShootEnd()
     {
-        button.enabled = true;
-        isMissle = true;
+        if (totalCount < maxCount)
+            totalCount++;
+
+        time = maxTime;
+        image.fillAmount = 1.0f;
+        button.enabled = Missle;
+        text.text = totalCount.ToString();
     }
 }
