@@ -1,0 +1,256 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1000010449307874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4000011053019078}
+  - component: {fileID: 114000011677079490}
+  m_Layer: 0
+  m_Name: PF_DECAL_POOL_MANAGER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000011053019078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010449307874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114000011677079490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010449307874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8977faebe6286384d9aeb0b7eddd0196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PoolSize: 60
+  Materials:
+  - {fileID: 13400000, guid: 4461a0d71e6c5234eafbf02752aae7e6, type: 2}
+  - {fileID: 13400000, guid: 791135952c9e8cc4c80dd1753e4eb80f, type: 2}
+  - {fileID: 13400000, guid: c309d37c5df64324886bacd93e4432df, type: 2}
+  - {fileID: 13400000, guid: 804380ef047e74b44a784d7a9d1c4e53, type: 2}
+  - {fileID: 13400000, guid: 616d08a282b8f2e48a17cc541f8c417a, type: 2}
+  - {fileID: 13400000, guid: 83de94d3c5f7bd04ca0eb08dd202346e, type: 2}
+  - {fileID: 13400000, guid: 1c724865d847e9c42956d67d17bc11bd, type: 2}
+  - {fileID: 13400000, guid: 2bb548d02c1607d4bafc47b60e4700cb, type: 2}
+  - {fileID: 13400000, guid: b2f6563c26e7c644aa0037007e2a0a7c, type: 2}
+  - {fileID: 13400000, guid: e8a1e3a08bd725c4590eb8f3c2f59b8b, type: 2}
+  - {fileID: 13400000, guid: b4eb0ebedb8db3542a4132b5fa15f33d, type: 2}
+  - {fileID: 13400000, guid: 2a59ebda08f805a45acdc0f7fa25cccd, type: 2}
+  - {fileID: 13400000, guid: 0b61112ecad9af44bb1a7762bf2b099a, type: 2}
+  - {fileID: 13400000, guid: 3ffbc72e1a5558844b3c5ffcaf2c88f6, type: 2}
+  - {fileID: 13400000, guid: b82e5d4c5b9066f408826c68db4d89ea, type: 2}
+  - {fileID: 13400000, guid: 6c09042c841706d4cbe4829c26846e61, type: 2}
+  - {fileID: 13400000, guid: 6f35dc5de07dc0a40b7c86a382e8c7c5, type: 2}
+  - {fileID: 13400000, guid: 09450156bd59aec45a50b4a76769fd3c, type: 2}
+  m_DecalInfo:
+  - name: PHM_BrickWall
+    Material: {fileID: 13400000, guid: 4461a0d71e6c5234eafbf02752aae7e6, type: 2}
+    m_PFDecals:
+    - {fileID: 179232, guid: 80a05c6621985e948926b254db0e9a4d, type: 3}
+    - {fileID: 175902, guid: 1811be5d1915fe842997a627791bbbbc, type: 3}
+    - {fileID: 165746, guid: 5f82b0ad4e5918e4896e419c4ea8a5f6, type: 3}
+    - {fileID: 193160, guid: 45b7463fc33091548831215c6fb23fd4, type: 3}
+    - {fileID: 108790, guid: e014874fb2296704bb0c88e5bbe0c352, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.8, y: 2.2}
+    PS_HitEffects:
+    - {fileID: 155568, guid: 7d467234bf4716143bc2742e996922f4, type: 3}
+  - name: PHM_Concrete
+    Material: {fileID: 13400000, guid: 791135952c9e8cc4c80dd1753e4eb80f, type: 2}
+    m_PFDecals:
+    - {fileID: 124408, guid: ced2cc3241d279d4a8af553f6a6e6472, type: 3}
+    - {fileID: 124408, guid: 781780d3e3ffbfa448ec535b9da5f164, type: 3}
+    - {fileID: 124408, guid: 656bec9527d6dbb4bbedd16b8ea97c10, type: 3}
+    - {fileID: 124408, guid: 272e55b5a16a4664dbd6df4fb9d0ba61, type: 3}
+    - {fileID: 124408, guid: 88442cd6bc9cb7c4cad86125a88d31cb, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.3, y: 1.7}
+    PS_HitEffects:
+    - {fileID: 155568, guid: 9b3b67a40049cd1418a465c7001e2307, type: 3}
+  - name: PHM_ElectricDevices
+    Material: {fileID: 13400000, guid: c309d37c5df64324886bacd93e4432df, type: 2}
+    m_PFDecals:
+    - {fileID: 124408, guid: 8e623294b827ab844a420d6f4660530e, type: 3}
+    - {fileID: 124408, guid: 0b09dab50c4dda141bcdcb944f2337f3, type: 3}
+    - {fileID: 124408, guid: d1202f3acd4c09a4d965f7ad6ab98b1c, type: 3}
+    - {fileID: 124408, guid: 175893aecf0edb6498a4ce5884b3340c, type: 3}
+    - {fileID: 124408, guid: a3a038bf3e89a00419c6d193d1350151, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.35, y: 1.7}
+    PS_HitEffects:
+    - {fileID: 1000011812377774, guid: 78f5d75b48868d24398aae39f093d11f, type: 3}
+  - name: PHM_Fabric
+    Material: {fileID: 13400000, guid: 804380ef047e74b44a784d7a9d1c4e53, type: 2}
+    m_PFDecals:
+    - {fileID: 124408, guid: 369e3e20df925e2418bc12b7501f9fc2, type: 3}
+    - {fileID: 124408, guid: b7fdbc0ad4cbbd042805c5944bab3ab7, type: 3}
+    - {fileID: 124408, guid: 9025298e2c52d8d41ac421385ca9c493, type: 3}
+    - {fileID: 124408, guid: a0c07e8f36673c548bcbb57e3bdbc731, type: 3}
+    - {fileID: 124408, guid: 22d401ff8bd3abe4891a436c506a1ceb, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.2, y: 1.5}
+    PS_HitEffects:
+    - {fileID: 155568, guid: 7214aa56153b77447a803e29b602aadd, type: 3}
+  - name: PHM_Glass_BulletProff
+    Material: {fileID: 13400000, guid: 616d08a282b8f2e48a17cc541f8c417a, type: 2}
+    m_PFDecals:
+    - {fileID: 147260, guid: 9c7ce03405e567543b85966682cb507d, type: 3}
+    - {fileID: 137044, guid: 1ca904fb49ed06d4a880f87fc71ca336, type: 3}
+    - {fileID: 187740, guid: 33be65ffbb0a7a64fa8b151d9c0f384a, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.35, y: 1.7}
+    PS_HitEffects:
+    - {fileID: 1000011642097996, guid: 19cb374f47f581f448cc907c911966d7, type: 3}
+  - name: PHM_Glass_Common
+    Material: {fileID: 13400000, guid: 83de94d3c5f7bd04ca0eb08dd202346e, type: 2}
+    m_PFDecals:
+    - {fileID: 101246, guid: 55af3fd0a321571489a35f9e167cef14, type: 3}
+    - {fileID: 115012, guid: c8fb6652f9d28b6489d91cc45f427475, type: 3}
+    - {fileID: 145356, guid: 4867fa8356524884aae61d775664ee38, type: 3}
+    - {fileID: 193044, guid: 41cae3f35be92684c904ef59f133c8c9, type: 3}
+    - {fileID: 138270, guid: e9f6462ca17b1ef49b1489f33c5d6882, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.8, y: 2.4}
+    PS_HitEffects:
+    - {fileID: 155568, guid: 7396da7e452843c418caf37da13f6158, type: 3}
+  - name: PHM_Glass_Windshield
+    Material: {fileID: 13400000, guid: 1c724865d847e9c42956d67d17bc11bd, type: 2}
+    m_PFDecals:
+    - {fileID: 105510, guid: 9314dcc0c929f1a499258f10b4543d08, type: 3}
+    - {fileID: 178356, guid: b48bbd2647df70c41bed21b26100d07a, type: 3}
+    - {fileID: 142272, guid: 5e020076ca2410a4ebdbaee873604167, type: 3}
+    - {fileID: 185508, guid: 589af457e05bb8741b1014d60f8e720d, type: 3}
+    - {fileID: 144264, guid: 5ffc710c2daa77749acab2a3e96257b5, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.35, y: 1.7}
+    PS_HitEffects:
+    - {fileID: 155568, guid: fb45a9260cc072d4f835342de1874a86, type: 3}
+  - name: PHM_Ground
+    Material: {fileID: 13400000, guid: 2bb548d02c1607d4bafc47b60e4700cb, type: 2}
+    m_PFDecals: []
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 0.35, y: 0.7}
+    PS_HitEffects:
+    - {fileID: 155568, guid: 7bd9c7e4c56d6b2408642ad9d0d5b612, type: 3}
+  - name: PHM_Metal_Tinplate
+    Material: {fileID: 13400000, guid: b2f6563c26e7c644aa0037007e2a0a7c, type: 2}
+    m_PFDecals:
+    - {fileID: 164798, guid: 0649d43076530b64dbe5f550c12748fb, type: 3}
+    - {fileID: 164798, guid: c4fac65184bce184a91e601532ada3ad, type: 3}
+    - {fileID: 164798, guid: 2804fb06b5d616b4d8076c4dba32d5e0, type: 3}
+    - {fileID: 164798, guid: e94fe809eca21e1459afa7a17ba780a6, type: 3}
+    - {fileID: 164798, guid: 2e02b77e489d99043952b0d693e19b25, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.2, y: 1.25}
+    PS_HitEffects:
+    - {fileID: 155568, guid: ce325dac979c0384a9e312b646e56c44, type: 3}
+  - name: PHM_MetalSolid
+    Material: {fileID: 13400000, guid: e8a1e3a08bd725c4590eb8f3c2f59b8b, type: 2}
+    m_PFDecals:
+    - {fileID: 164798, guid: 850b0230139063e49a63a4b81cf16b6f, type: 3}
+    - {fileID: 164798, guid: 131e8f605882f0646899a51eac5dce55, type: 3}
+    - {fileID: 164798, guid: aef5bfa6134139a47958fcf8357aa690, type: 3}
+    - {fileID: 164798, guid: 6ef5513868fc53a4db771a82b3a0eee4, type: 3}
+    - {fileID: 164798, guid: 0ba21f7b00122b046933c966539c725f, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.2, y: 1.4}
+    PS_HitEffects:
+    - {fileID: 199158, guid: 22f5fc856424dc840ad1d208d6348783, type: 3}
+  - name: PHM_Rocks
+    Material: {fileID: 13400000, guid: b4eb0ebedb8db3542a4132b5fa15f33d, type: 2}
+    m_PFDecals: []
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.35, y: 1.7}
+    PS_HitEffects:
+    - {fileID: 199158, guid: 8373e0c2da781e546bc0dedd6122224e, type: 3}
+  - name: PHM_Rubber_Plastic
+    Material: {fileID: 13400000, guid: 2a59ebda08f805a45acdc0f7fa25cccd, type: 2}
+    m_PFDecals:
+    - {fileID: 164798, guid: 189867d23dc380243b9509b4daea9fbc, type: 3}
+    - {fileID: 164798, guid: 572afdc3710c113498b999b3a8faed45, type: 3}
+    - {fileID: 164798, guid: 99ef29d463d2d8746b630a5c14736d86, type: 3}
+    - {fileID: 164798, guid: 1822b0965bc0b95459e18ff8b6d08645, type: 3}
+    - {fileID: 164798, guid: 7388cc89647ba5b418426fc9af0517c4, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.2, y: 1.5}
+    PS_HitEffects:
+    - {fileID: 155568, guid: f1ff554c1181557499e04f02994974d0, type: 3}
+  - name: PHM_Sand
+    Material: {fileID: 13400000, guid: 0b61112ecad9af44bb1a7762bf2b099a, type: 2}
+    m_PFDecals: []
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.35, y: 1.7}
+    PS_HitEffects:
+    - {fileID: 155568, guid: 7cdbf540ba884fe4799b7f2247907b76, type: 3}
+  - name: PHM_Snd_Sandbags
+    Material: {fileID: 13400000, guid: 3ffbc72e1a5558844b3c5ffcaf2c88f6, type: 2}
+    m_PFDecals:
+    - {fileID: 124408, guid: 203a8ca2b3513ca41a5e82401821836d, type: 3}
+    - {fileID: 124408, guid: cac6d0e74f42fff46bb04097c57243b8, type: 3}
+    - {fileID: 124408, guid: b828f708f6743e04bafbeed5dd312e86, type: 3}
+    - {fileID: 124408, guid: dd6152cbdeafb2543ba615f101c01973, type: 3}
+    - {fileID: 124408, guid: d86c186de48b31140947af2589e2a597, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.2, y: 1.5}
+    PS_HitEffects:
+    - {fileID: 1000013956432306, guid: 23c06b4c59c4ea84eacbce55c164198b, type: 3}
+  - name: PHM_Sheetrock
+    Material: {fileID: 13400000, guid: b82e5d4c5b9066f408826c68db4d89ea, type: 2}
+    m_PFDecals:
+    - {fileID: 124408, guid: 20cc26378576d8b40a135fde664a32f3, type: 3}
+    - {fileID: 124408, guid: c9ce7c68ede0dc34ea7f2ec05f9a460b, type: 3}
+    - {fileID: 124408, guid: fde7ea191d3bf2241a61249a09c83abb, type: 3}
+    - {fileID: 124408, guid: db9824ade1f4a1e4cb49a055d458be66, type: 3}
+    - {fileID: 124408, guid: 60a0e9ef83c987640b3b9278f62e2f26, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.2, y: 1.5}
+    PS_HitEffects:
+    - {fileID: 155568, guid: 32bccc69c38ae3745928c61dd7327d87, type: 3}
+  - name: PHM_Snow
+    Material: {fileID: 13400000, guid: 6c09042c841706d4cbe4829c26846e61, type: 2}
+    m_PFDecals: []
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.35, y: 1.7}
+    PS_HitEffects:
+    - {fileID: 155568, guid: ec3124c7890ac4b4bbd3793d3895e7d6, type: 3}
+  - name: PHM_Water
+    Material: {fileID: 13400000, guid: 6f35dc5de07dc0a40b7c86a382e8c7c5, type: 2}
+    m_PFDecals: []
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.35, y: 1.7}
+    PS_HitEffects:
+    - {fileID: 155568, guid: 4492f9a92e606864cabf29beec6d33ac, type: 3}
+  - name: PHM_Wood
+    Material: {fileID: 13400000, guid: 09450156bd59aec45a50b4a76769fd3c, type: 2}
+    m_PFDecals:
+    - {fileID: 124408, guid: ec2106200093c7e458807f7638c4f893, type: 3}
+    - {fileID: 124408, guid: c84ca211a4399354192087e0caf0645d, type: 3}
+    - {fileID: 124408, guid: 3c4d3ca660e7b034a8660efcd3431e22, type: 3}
+    - {fileID: 124408, guid: 63118388221d2a44b9ae29d3f2e7dabd, type: 3}
+    - {fileID: 124408, guid: a4ee71edd8aa98b4bb40f65643b364f3, type: 3}
+    rotMinMax: {x: 10, y: 30}
+    scaleMinMax: {x: 1.35, y: 1.7}
+    PS_HitEffects:
+    - {fileID: 155568, guid: f23cc637372f13a4193cc1076b6bf3da, type: 3}
+  cDecalIndex: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

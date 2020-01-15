@@ -192,6 +192,8 @@ public class projectileActor : MonoBehaviour {
         {
             Major_RandomizeRotation();
         }
+
+        FindObjectOfType<AudioPlayer>().PlayAudio(0);
     }
 
 

@@ -41,8 +41,7 @@ public class AlphaButtonClickMask : MonoBehaviour, ICanvasRaycastFilter
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(_image.rectTransform, sp, eventCamera, out localPoint);
 
-		Vector2 pivot = _image.rectTransform.pivot;
-		Vector2 normalizedLocal = new Vector2(pivot.x + localPoint.x / _image.rectTransform.rect.width, pivot.y + localPoint.y / _image.rectTransform.rect.height);
+        Vector2 normalizedLocal = new Vector2(1.0f + localPoint.x / _image.rectTransform.rect.width, 1.0f + localPoint.y / _image.rectTransform.rect.height);
         Vector2 uv = new Vector2(
             _image.sprite.rect.x + normalizedLocal.x * _image.sprite.rect.width, 
             _image.sprite.rect.y + normalizedLocal.y * _image.sprite.rect.height );

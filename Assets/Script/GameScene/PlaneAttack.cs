@@ -37,6 +37,8 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
 
         StartCoroutine(ShowSight());
 
+        photonView.RPC("PlayAudio", player, 2);
+
         if (totalHP <= 0)
         {
             StartCoroutine(ShowKillSight());

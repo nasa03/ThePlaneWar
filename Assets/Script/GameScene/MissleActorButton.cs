@@ -44,6 +44,7 @@ public class MissleActorButton : MonoBehaviour
         totalCount--;
         button.enabled = Missle;
         text.text = totalCount.ToString();
+        GetComponent<AudioPlayer>().PlayAudio(1);
     }
 
     void ShootEnd()

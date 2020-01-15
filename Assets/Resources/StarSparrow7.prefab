@@ -139,7 +139,7 @@ MonoBehaviour:
   m_MaxEnginePower: 40
   m_Lift: 0.003
   m_ZeroLiftSpeed: 300
-  m_RollEffect: 8
+  m_RollEffect: 7
   m_PitchEffect: 2
   m_YawEffect: 0.2
   m_BankedTurnEffect: 2
@@ -852,7 +852,7 @@ Transform:
 --- !u!199 &199838613978779044
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5463,7 +5463,7 @@ Transform:
 --- !u!199 &199297507886584168
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

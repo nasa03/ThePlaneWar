@@ -39,5 +39,6 @@ MonoBehaviour:
   - GameOver
   - KickPlayer
   - EnterOrRefreshRoom
+  - PlayAudio
   DisableAutoOpenWizard: 1
   ShowSettings: 1

@@ -24,7 +24,7 @@ public class PhotonGame : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
-        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
+        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
         StartCoroutine(InvincibleStart());
     }
@@ -76,7 +76,7 @@ public class PhotonGame : MonoBehaviour {
     {
         GameObject explosion = PhotonNetwork.Instantiate(explosionParticleSystem.name, localPlane.transform.position, Quaternion.identity);
         explosion.GetComponent<ParticleSystem>().Play();
-        GetComponent<AudioSource>().Play();
+        GetComponent<AudioPlayer>().PlayAudio(3);
 
         invincible = false;
 
@@ -112,7 +112,7 @@ public class PhotonGame : MonoBehaviour {
         timeBar.SetActive(false);
         sightImage.SetActive(true);
 
-        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 10, 0), Quaternion.identity);
+        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
         reborn = false;
         reconnected = false;
