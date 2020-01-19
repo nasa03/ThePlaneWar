@@ -69,6 +69,11 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         StartCoroutine(WaitForSuiside());
     }
 
+    public void SuisideButtonClick()
+    {
+        Suiside(PhotonNetwork.LocalPlayer);
+    }
+
     IEnumerator ShowSight()
     {
         if (!isKilled)
