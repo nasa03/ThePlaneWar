@@ -36,8 +36,10 @@ public class PlaneScore : MonoBehaviour
     public void Show()
     {
         panel.enabled = true;
-        title[0].enabled = true;
-        title[1].enabled = true;
+        foreach(Text titleText in title)
+        {
+            titleText.enabled = true;
+        }
 
         int planeCount = PhotonNetwork.PlayerList.Length;
         for(int i = 0; i < 6; i++)
@@ -67,8 +69,10 @@ public class PlaneScore : MonoBehaviour
     public void Hide()
     {
         panel.enabled = false;
-        title[0].enabled = false;
-        title[1].enabled = false;
+        foreach(Text titleText in title)
+        {
+            titleText.enabled = false;
+        }
 
         for (int i = 0; i < 6; i++)
         {
