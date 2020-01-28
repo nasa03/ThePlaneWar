@@ -15,7 +15,7 @@ public class PhotonGame : MonoBehaviour {
     [SerializeField] Text timeText;
     [SerializeField] Image timeImage;
     GameObject localPlane;
-    bool reborn = false;
+    [HideInInspector] public bool reborn = false;
     bool invincible = false;
     bool reconnected = false;
     float time = 0.0f;

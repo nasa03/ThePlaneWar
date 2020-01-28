@@ -11,7 +11,6 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
     [SerializeField] Image sight_Image;
     [SerializeField] Sprite[] sight_Sprites = new Sprite[3];
     bool isKilled = false;
-    bool isSuiside = false;
 
     // Start is called before the first frame update
     void Start()
@@ -58,19 +57,15 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
             return;
 
-        if (isSuiside)
-            return;
-
-        isSuiside = true;
-
         photonView.RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", player.NickName));
         photonView.RPC("Dead", player);
-
-        StartCoroutine(WaitForSuiside());
     }
 
     public void SuisideButtonClick()
     {
+        if (GetComponent<PhotonGame>().reborn)
+            return;
+
         Suiside(PhotonNetwork.LocalPlayer);
     }
 
@@ -94,12 +89,6 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         sight_Image.sprite = sight_Sprites[0];
 
         isKilled = false;
-    }
-
-    IEnumerator WaitForSuiside()
-    {
-        yield return new WaitForSeconds(1.0f);
-        isSuiside = false;
     }
 
     public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)

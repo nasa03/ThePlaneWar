@@ -3,82 +3,72 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using UnityStandardAssets.CrossPlatformInput;
+using Photon.Realtime;
 
-public class PlaneScore : MonoBehaviour
+public class PlaneScore : MonoBehaviourPunCallbacks
 {
     [System.Serializable]
     class Score
     {
-        public Text nameText;
-        public Text killText;
-        public Text deathText;
+        public Image scoreImage;
+        public Text scoreText;
     }
 
-    [SerializeField] Image panel;
-    [SerializeField] Text[] title;
+    [SerializeField] Score title;
     [SerializeField] Score[] scores = new Score[6];
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    void Start()
     {
-        if (CrossPlatformInputManager.GetButtonDown("Tab"))
-        {
-            Show();
-        }
-
-        if (CrossPlatformInputManager.GetButtonUp("Tab"))
-        {
-            Hide();
-        }
+        Show();
     }
 
-    public void Show()
+    void Show()
     {
-        panel.enabled = true;
-        foreach(Text titleText in title)
-        {
-            titleText.enabled = true;
-        }
+        title.scoreImage.enabled = true;
+        title.scoreText.enabled = true;
 
         int planeCount = PhotonNetwork.PlayerList.Length;
         for(int i = 0; i < 6; i++)
         {
             if (i < planeCount)
             {
-                scores[i].nameText.enabled = true;
-                scores[i].killText.enabled = true;
-                scores[i].deathText.enabled = true;
+                scores[i].scoreImage.enabled = true;
+                scores[i].scoreText.enabled = true;
 
-                scores[i].nameText.text = PhotonNetwork.PlayerList[i].NickName;
+                string name = PhotonNetwork.PlayerList[i].NickName;
+                string kill= CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
+                string dead= CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
+                scores[i].scoreText.text = string.Format("{0} {1}/{2}", name, kill, dead);
                 if (PhotonNetwork.PlayerList[i].IsLocal)
-                    scores[i].nameText.color = Color.red;
-
-                scores[i].killText.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
-                scores[i].deathText.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
+                    scores[i].scoreText.color = Color.red;
             }
             else
             {
-                scores[i].nameText.enabled = false;
-                scores[i].killText.enabled = false;
-                scores[i].deathText.enabled = false;
+                scores[i].scoreImage.enabled = false;
+                scores[i].scoreText.enabled = false;
             }
         }
     }
 
-    public void Hide()
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        panel.enabled = false;
-        foreach(Text titleText in title)
-        {
-            titleText.enabled = false;
-        }
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
 
-        for (int i = 0; i < 6; i++)
-        {
-            scores[i].nameText.enabled = false;
-            scores[i].killText.enabled = false;
-            scores[i].deathText.enabled = false;
-        }
+        Show();
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        Show();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+
+        Show();
     }
 }
