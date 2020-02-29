@@ -25,14 +25,5 @@ namespace GaiaCommon1.Internal
         {
             Application.OpenURL(PWConst.ASSETS_LINK);
         }
-
-        /// <summary>
-        /// Show review option
-        /// </summary>
-        [MenuItem("Window/" + PWConst.COMMON_MENU + "/Show Procedural Worlds(SECTR) Assets...", false, 122)]
-        public static void ShowAssetStoreSectr()
-        {
-            Application.OpenURL(PWConst.SECTR_ASSETS_LINK);
-        }
     }
 }

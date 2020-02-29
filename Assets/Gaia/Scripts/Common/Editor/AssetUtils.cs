@@ -35,7 +35,7 @@ namespace GaiaCommon1
                 {
                     if (!silent)
                     {
-                        Debug.LogError("Files are missing or corrupt. Please reimport your Procedural Worlds products.");
+                        Debug.LogError("Files are missing or corrupt. Was the import completed? Please reimport your Procedural Worlds products if this message persist.");
                     }
                     return null;
                 }
@@ -269,9 +269,13 @@ namespace GaiaCommon1
         public static string WrapGameObjectAsPrefab(GameObject go)
         {
 #if UNITY_EDITOR
-            string name = go.name;
-            UnityEngine.Object prefab = PrefabUtility.CreateEmptyPrefab("Assets/" + name + ".prefab");
+
+#if UNITY_2018_3_OR_NEWER
+            UnityEngine.Object prefab = PrefabUtility.SaveAsPrefabAsset(go, "Assets/" + go.name + ".prefab");
+#else
+            UnityEngine.Object prefab = PrefabUtility.CreateEmptyPrefab("Assets/" + go.name + ".prefab");
             PrefabUtility.ReplacePrefab(go, prefab);
+#endif
             AssetDatabase.Refresh();
             return AssetDatabase.GetAssetPath(prefab);
 #else

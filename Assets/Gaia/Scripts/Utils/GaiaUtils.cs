@@ -295,7 +295,7 @@ namespace Gaia
         public static string WrapGameObjectAsPrefab(GameObject go)
         {
 #if UNITY_EDITOR
-#if UNITY_2018_4_OR_NEWER
+#if UNITY_2018_3_OR_NEWER
             string name = go.name;
             UnityEngine.Object prefab = PrefabUtility.SaveAsPrefabAsset(new GameObject(), "Assets/" + name + ".prefab");
             PrefabUtility.SavePrefabAsset(go);

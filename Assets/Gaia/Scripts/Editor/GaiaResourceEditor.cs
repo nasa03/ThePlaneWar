@@ -236,7 +236,7 @@ namespace Gaia {
                     {
                         DragAndDrop.AcceptDrag();
 
-#if UNITY_2018_4_OR_NEWER
+#if UNITY_2018_3_OR_NEWER
                         //Work out if we have prefab instances or prefab objects
                         bool havePrefabInstances = false;
                         foreach (UnityEngine.Object dragged_object in DragAndDrop.objectReferences)

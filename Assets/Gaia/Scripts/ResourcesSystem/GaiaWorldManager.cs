@@ -349,9 +349,9 @@ namespace Gaia
                 {
                     terrainCheck.Append(string.Format("\nTerrain {0} - {1} detailPrototypes.Length does not match {2} {3}", terrain.name, firstTerrain.name, terrain.terrainData.detailPrototypes.Length, firstTerrain.terrainData.detailPrototypes.Length));
                 }
-                if (terrain.terrainData.splatPrototypes.Length != firstTerrain.terrainData.splatPrototypes.Length)
+                if (GaiaSplatPrototype.GetGaiaSplatPrototypes(terrain).Length != GaiaSplatPrototype.GetGaiaSplatPrototypes(firstTerrain).Length)
                 {
-                    terrainCheck.Append(string.Format("\nTerrain {0} - {1} splatPrototypes.Length does not match {2} {3}", terrain.name, firstTerrain.name, terrain.terrainData.splatPrototypes.Length, firstTerrain.terrainData.splatPrototypes.Length));
+                    terrainCheck.Append(string.Format("\nTerrain {0} - {1} splatPrototypes.Length does not match {2} {3}", terrain.name, firstTerrain.name, GaiaSplatPrototype.GetGaiaSplatPrototypes(terrain).Length, GaiaSplatPrototype.GetGaiaSplatPrototypes(firstTerrain).Length));
                 }
                 if (terrain.terrainData.treePrototypes.Length != firstTerrain.terrainData.treePrototypes.Length)
                 {

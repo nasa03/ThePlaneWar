@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3325242}
   - component: {fileID: 2383444}
   - component: {fileID: 6585954}
+  - component: {fileID: 205017325546277232}
   m_Layer: 0
   m_Name: fi_vil_GaiaFenseCrossingHalf
   m_TagString: Untagged
@@ -91,3 +92,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2000122, y: 1.1999989, z: 2.6334994}
   m_Center: {x: 0.0000045485795, y: 0.5999994, z: -0.03321767}
+--- !u!205 &205017325546277232
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128142}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.000004544854, y: 0.5999994, z: -0.03321767}
+  m_Size: 2.6334994
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.03161709
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2383444}
+  m_Enabled: 1

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de82eef1d1f4fe64bb00feb5caaadbd7, type: 3}
   m_Name: GD Mobile Settings
   m_EditorClassIdentifier: 
+  m_Name: GD Mobile Settings
+  m_EditorClassIdentifier: 
   m_defaultsID: 43d3c9da-e521-49e3-961f-fcfc4ba338c7
   m_seaLevel: 50
   m_beachHeight: 5
@@ -32,7 +34,11 @@ MonoBehaviour:
   m_speed: 0
   m_size: 0.067
   m_bending: 0.2
-  m_grassTint: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}
+  m_grassTint:
+    r: 0.7058824
+    g: 0.7058824
+    b: 0.7058824
+    a: 1
   m_terrainSize: 1024
   m_terrainHeight: 1000
   m_heightmapResolution: 257

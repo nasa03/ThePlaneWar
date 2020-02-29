@@ -2,7 +2,10 @@
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 using GaiaCommon1.Localization;
 
 namespace GaiaCommon1
@@ -10,11 +13,11 @@ namespace GaiaCommon1
     /// <summary>
     /// Handy editor utils
     /// </summary>
-    public partial class EditorUtils
+    public partial class EditorUtils : IDisposable
     {
         #region Protected Data
 
-        protected bool m_initedGUI = false;
+        protected static readonly HashSet<string> ACCEPTED_BRUSH_EXTENSIONS = new HashSet<string>() { ".png", ".jpg" };
 
         protected AppConfig m_appConfig;
         protected IPWEditor m_parentEditor;
@@ -22,7 +25,13 @@ namespace GaiaCommon1
         protected LanguagePack m_langPack;
         protected PWNews m_news;
 
-        protected IDictionary<Action<bool>, bool[]> m_panelStatus = new Dictionary<Action<bool>, bool[]> ();
+        protected IDictionary<Action<bool>, bool[]> m_panelStatus = new Dictionary<Action<bool>, bool[]>();
+
+        protected Texture2D[] m_BrushTextures;
+        protected List<Texture2D> m_customBrushes;
+
+        //Used to extract links from help text
+        private const string LINK_REGEX_PATTERN = "([\\w\\W]*?)(<a href\\=\"([\\w\\W]+?)\">([\\w\\W]*?)<\\/a>\r{0,1}\n{0,1}|\\Z)";
 
         #endregion
 
@@ -73,8 +82,21 @@ namespace GaiaCommon1
             OnLocalizationUpdate -= editorObj.Repaint;
             OnLocalizationUpdate += editorObj.Repaint;
 
-            // Initialize news
-            m_news = new PWNews(m_appConfig == null ? "" : m_appConfig.NewsURL);
+            // Initialize news - Don't see a reason to allow AppConfig = null; Open a convo on Discord if you have a reason.
+            //m_news = new PWNews(m_appConfig == null ? "" : m_appConfig.NewsURL);
+            m_news = new PWNews(m_appConfig);
+            if (m_news.ExistOnDisc)
+            {
+                // Load
+                m_news = m_news.Load();
+            }
+            m_news.Update();
+
+            // Load brush icons
+            if (m_BrushTextures == null)
+            {
+                LoadBrushIcons();
+            }
         }
 
         /// <summary>
@@ -100,18 +122,15 @@ namespace GaiaCommon1
         }
 
         /// <summary>
-        /// Tidy things up
-        /// </summary>
-        ~EditorUtils()
-        {
-            Dispose();
-        }
-
-        /// <summary>
         /// Dispose of things
         /// </summary>
         public void Dispose()
         {
+            if (Styles != null)
+            {
+                Styles.Dispose();
+            }
+
             if (m_langPack != null)
             {
                 m_langPack.RemoveOnChangeAction(LoadLocalizationData);
@@ -173,9 +192,14 @@ namespace GaiaCommon1
         /// </summary>
         public void Initialize()
         {
-            if (m_initedGUI)
+            if (Styles != null && Styles.Inited)
             {
                 return;
+            }
+
+            if (Styles != null)
+            {
+                Styles.Dispose();
             }
 
             Styles = new CommonStyles();
@@ -219,6 +243,182 @@ namespace GaiaCommon1
                 m_parentEditor.PositionChecked = true;
             }
             return position;
+        }
+
+        /// <summary>
+        /// Loads textures for brush icons.
+        /// </summary>
+        private void LoadBrushIcons()
+        {
+            ArrayList arrayList = new ArrayList();
+            int builtinBrushNum = 1;
+            Texture builtinTexture;
+            do
+            {
+                string fname = "pwub_builtin_" + builtinBrushNum.ToString() + PWConst.VERSION_IN_FILENAMES;
+                builtinTexture = Resources.Load(fname) as Texture;
+                if ((bool)((UnityEngine.Object)builtinTexture))
+                {
+                    arrayList.Add((object)builtinTexture);
+                }
+                ++builtinBrushNum;
+            }
+            while ((bool)((UnityEngine.Object)builtinTexture));
+            int customBrushNum = 0;
+            Texture customTexture;
+            do
+            {
+                string fname = "brush_" + customBrushNum.ToString() + ".png";
+                customTexture = (Texture)EditorGUIUtility.FindTexture(fname);
+                if ((bool)((UnityEngine.Object)customTexture))
+                {
+                    arrayList.Add((object)customTexture);
+                }
+                ++customBrushNum;
+            }
+            while ((bool)((UnityEngine.Object)customTexture));
+            m_BrushTextures = arrayList.ToArray(typeof(Texture2D)) as Texture2D[];
+        }
+
+        /// <summary>
+        /// Adds the custom brushes to the brush icons.
+        /// </summary>
+        protected void SyncCustomBrushes()
+        {
+            if (m_customBrushes == null || m_customBrushes.Count < 1)
+            {
+                return;
+            }
+
+            List<Texture2D> brushList;
+            if (m_BrushTextures != null)
+            {
+                brushList = new List<Texture2D>(m_BrushTextures);
+            }
+            else
+            {
+                brushList = new List<Texture2D>();
+            }
+
+            for (int i = 0; i < m_customBrushes.Count; i++)
+            {
+                brushList.Add(m_customBrushes[i]);
+            }
+            m_BrushTextures = brushList.ToArray();
+        }
+
+        /// <summary>
+        /// Loads texture to add a custom brush icon and update the custom list.
+        /// </summary>
+        /// <param name="path">Path of the texture.</param>
+        protected void AddCustomBrush(string path)
+        {
+            ArrayList arrayList;
+            if (m_BrushTextures != null)
+            {
+                arrayList = new ArrayList(m_BrushTextures);
+            }
+            else
+            {
+                arrayList = new ArrayList();
+            }
+
+            EnsureReadableTexture(path);
+            Texture texture = (Texture)AssetDatabase.LoadAssetAtPath<Texture>(path);
+            if ((bool)((UnityEngine.Object)texture))
+            {
+                arrayList.Add((object)texture);
+                m_customBrushes.Add(texture as Texture2D);
+                m_BrushTextures = arrayList.ToArray(typeof(Texture2D)) as Texture2D[];
+
+                //Signal Unity that the custom brush list has changed.
+                GUI.changed = true;
+            }
+            else
+            {
+                Debug.LogWarningFormat("[{0}] Unable to load brush texture with path: '{1}'", m_appConfig.Name, path);
+            }
+        }
+
+        /// <summary>
+        /// Checks if texture is readable and makes it readable if not.
+        /// </summary>
+        protected void EnsureReadableTexture(string path)
+        {
+            TextureImporter importer = (TextureImporter)AssetImporter.GetAtPath(path);
+            if (importer.isReadable == false)
+            {
+                importer.isReadable = true;
+                AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+                Debug.LogFormat("[{0}] Brush textures need to be readable. Read/write was enabled on texture '{1}' because it was not readable.", m_appConfig.Name, Path.GetFileName(path));
+            }
+        }
+
+        /// <summary>
+        /// Removes a custom brush icon from both the custom list and the brushes.
+        /// </summary>
+        /// <param name="index">Index of the brush to be removed in the custom brush list.</param>
+        protected void RemoveCustomBrush(int index)
+        {
+            if (index < 0 || index > m_customBrushes.Count - 1)
+            {
+                return;
+            }
+
+            List<Texture2D> brushList;
+            if (m_BrushTextures != null)
+            {
+                brushList = new List<Texture2D>(m_BrushTextures);
+            }
+            else
+            {
+                brushList = new List<Texture2D>();
+            }
+
+            if (brushList.Remove(m_customBrushes[index]))
+            {
+                m_BrushTextures = brushList.ToArray();
+            }
+            else
+            {
+                Debug.LogWarningFormat("[{0}] Custom brush to be removed ('{1}') was not found amongst the brushes. Removing from the custom list...", m_appConfig.Name, m_customBrushes[index].name);
+            }
+
+            m_customBrushes.RemoveAt(index);
+            //Signal Unity that the custom brush list has changed.
+            GUI.changed = true;
+        }
+
+        /// <summary>
+        /// Removes all the custom brush icons from both the custom list and the brushes.
+        /// </summary>
+        protected void ClearCustomBrushes()
+        {
+            List<Texture2D> brushList;
+            if (m_BrushTextures != null)
+            {
+                brushList = new List<Texture2D>(m_BrushTextures);
+            }
+            else
+            {
+                brushList = new List<Texture2D>();
+            }
+
+            for (int i = 0; i < m_customBrushes.Count; i++)
+            {
+                if (brushList.Remove(m_customBrushes[i]))
+                {
+                    m_BrushTextures = brushList.ToArray();
+                }
+                else
+                {
+                    Debug.LogWarningFormat("[{0}] Custom brush to be removed ('{1}') was not found amongst the brushes. Removing from the custom list...", m_appConfig.Name, m_customBrushes[i].name);
+                }
+            }
+
+            m_customBrushes.Clear();
+            //Signal Unity that the custom brush list has changed.
+            GUI.changed = true;
         }
 
         #endregion
@@ -398,7 +598,7 @@ namespace GaiaCommon1
                     if (GUILayout.Button(labels[i], (i == selected) ? selectedStyle : style, options))
                     {
                         selected = i;
-                    }                    
+                    }
                 }
             }
             GUILayout.EndHorizontal();
@@ -514,31 +714,35 @@ namespace GaiaCommon1
         }
 
         /// <summary>
-        /// Create a Panel
+        /// Create a Panel and return its status (true = open, false = closed)
         /// </summary>
-        /// <param name="nameKey">Language pack key of the text to be displayed</param>
+        /// <param name="nameKey">Language pack key of the text label and help text of the panel.</param>
         /// <param name="contentMethod">Pass in the method that draws the content of this tab</param>
         /// <param name="defaultStatus">Should the panel be opened or closed by default?</param>
         /// <param name="options">An option list of layout options that specify extra layouting properties of the panel.
         /// Any values passed in here will override settings defined by the sytle.
         /// See Aslo: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth,
         /// GUILayout.MinHeight, GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight</param>
-        public void Panel(string nameKey, Action<bool> contentMethod, bool defaultStatus = false, params GUILayoutOption[] options)
+        /// <returns>Panel status (true = open, false = closed).</returns>
+        public bool Panel(string nameKey, Action<bool> contentMethod, bool defaultStatus = false, params GUILayoutOption[] options)
         {
-            Panel(GetContent(nameKey), contentMethod, defaultStatus, options);
+            return Panel(GetContent(nameKey), nameKey, contentMethod, defaultStatus, options);
         }
 
         /// <summary>
-        /// Create a Panel with custom label (not localized text, texture, etc)
+        /// Create a Panel with custom label (not localized text, texture, etc) and return its status (true = open, false = closed)
         /// </summary>
-        /// <param name="key">Language pack key of the text to be displayed</param>
+        /// <param name="key">Language pack key of the text to be displayed as the panel's label.</param>
+        /// <param name="panelLabel">Label content to be displayed for the panel.</param>
+        /// <param name="helpKey">Language pack key of the help text to be displayed for the panel (when help is active).</param>
         /// <param name="contentMethod">Pass in the method that draws the content of this tab</param>
         /// <param name="defaultStatus">Should the panel be opened or closed by default?</param>
         /// <param name="options">An option list of layout options that specify extra layouting properties of the panel.
         /// Any values passed in here will override settings defined by the sytle.
         /// See Aslo: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth,
         /// GUILayout.MinHeight, GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight</param>
-        public void Panel(GUIContent panelLabel, Action<bool> contentMethod, bool defaultStatus = false, params GUILayoutOption[] options)
+        /// <returns>Panel status (true = open, false = closed).</returns>
+        public bool Panel(GUIContent panelLabel, string helpKey, Action<bool> contentMethod, bool defaultStatus = false, params GUILayoutOption[] options)
         {
             if (!m_panelStatus.ContainsKey(contentMethod))
             {
@@ -546,20 +750,82 @@ namespace GaiaCommon1
                 {
                     defaultStatus,
                     false,
-                };       
+                };
             }
 
             bool status = m_panelStatus[contentMethod][0];
             bool helpActive = m_panelStatus[contentMethod][1];
 
             GUILayout.BeginVertical(Styles.panelFrame, options);
-            {                
+            {
                 GUILayout.BeginHorizontal();
                 {
-                    status = GUILayout.Toggle(status, status ? "- " : "+ ", Styles.panelLabel);
+                    status = GUILayout.Toggle(status, status ? "-" : "+", Styles.panelLabel);
+                    GUILayout.Space(-5f);
                     status = GUILayout.Toggle(status, panelLabel, Styles.panelLabel);
                     GUILayout.FlexibleSpace();
-                    ToggleButtonNonLocalized("?", ref helpActive);
+                    HelpToggle(ref helpActive);
+                }
+                GUILayout.EndHorizontal();
+
+                if (helpActive)
+                {
+                    GUILayout.Space(2f);
+                    InlineHelp(helpKey, helpActive);
+                }
+
+                if (status)
+                {
+                    GUILayout.BeginVertical(Styles.panel);
+                    {
+                        contentMethod.Invoke(helpActive);
+                    }
+                    GUILayout.EndVertical();
+                }
+            }
+            GUILayout.EndVertical();
+
+            m_panelStatus[contentMethod][0] = status;
+            m_panelStatus[contentMethod][1] = helpActive;
+            return status;
+        }
+
+        /// <summary>
+        /// Create a Panel with custom label (not localized text, texture, etc) and return its status (true = open, false = closed)
+        /// </summary>
+        /// <param name="key">Language pack key of the text to be displayed as the panel's label.</param>
+        /// <param name="panelLabel">Label content to be displayed for the panel.</param>
+        /// <param name="helpKey">Language pack key of the help text to be displayed for the panel (when help is active).</param>
+        /// <param name="contentMethod">Pass in the method that draws the content of this tab</param>
+        /// <param name="defaultStatus">Should the panel be opened or closed by default?</param>
+        /// <param name="options">An option list of layout options that specify extra layouting properties of the panel.
+        /// Any values passed in here will override settings defined by the sytle.
+        /// See Aslo: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth,
+        /// GUILayout.MinHeight, GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight</param>
+        /// <returns>Panel status (true = open, false = closed).</returns>
+        public bool Panel(GUIContent panelLabel, Action<bool> contentMethod, bool defaultStatus = false, params GUILayoutOption[] options)
+        {
+            if (!m_panelStatus.ContainsKey(contentMethod))
+            {
+                m_panelStatus[contentMethod] = new bool[]
+                {
+                    defaultStatus,
+                    false,
+                };
+            }
+
+            bool status = m_panelStatus[contentMethod][0];
+            bool helpActive = m_panelStatus[contentMethod][1];
+
+            GUILayout.BeginVertical(Styles.panelFrame, options);
+            {
+                GUILayout.BeginHorizontal();
+                {
+                    status = GUILayout.Toggle(status, status ? "-" : "+", Styles.panelLabel);
+                    GUILayout.Space(-5f);
+                    status = GUILayout.Toggle(status, panelLabel, Styles.panelLabel);
+                    GUILayout.FlexibleSpace();
+                    HelpToggle(ref helpActive);
                 }
                 GUILayout.EndHorizontal();
 
@@ -576,11 +842,12 @@ namespace GaiaCommon1
 
             m_panelStatus[contentMethod][0] = status;
             m_panelStatus[contentMethod][1] = helpActive;
+            return status;
         }
 
-#endregion
+        #endregion
 
-#region Images
+        #region Images
 
         /// <summary>
         /// Display an image - the image must be of type editor & legacy gui to display
@@ -606,9 +873,9 @@ namespace GaiaCommon1
             GUILayout.Label(image, options);
         }
 
-#endregion
+        #endregion
 
-#region Titles, Headings, Text
+        #region Titles, Headings, Text
 
         /// <summary>
         /// Title text
@@ -692,9 +959,9 @@ namespace GaiaCommon1
             GUILayout.Label(text, Styles.body, options);
         }
 
-#endregion
+        #endregion
 
-#region Links and clickables
+        #region Links and clickables
 
         /// <summary>
         /// Heading text as a clickable object
@@ -900,7 +1167,7 @@ namespace GaiaCommon1
                     BottomBorder(r, Styles.link.normal.textColor, false);
                 }
             }
-            else if(Dev.Present)
+            else if (Dev.Present)
             {
                 Debug.LogError(string.Format("Could not find link with the key '{0}' in localization data for '{1}' language '{2}'", key, m_className, Culture.Language));
             }
@@ -927,9 +1194,9 @@ namespace GaiaCommon1
             }
         }
 
-#endregion
+        #endregion
 
-#region Borders
+        #region Borders
 
         /// <summary>
         /// Draw bottom border for the last GUI element
@@ -1022,9 +1289,9 @@ namespace GaiaCommon1
             Handles.EndGUI();
         }
 
-#endregion
+        #endregion
 
-#region Buttons
+        #region Buttons
 
         /// <summary>
         /// Draw a button - not localized (left aligned)
@@ -1192,6 +1459,7 @@ namespace GaiaCommon1
         {
             return ButtonAutoIndent(GetContent(key));
         }
+
         /// <summary>
         /// Draw a button (left aligned)
         /// </summary>
@@ -1203,7 +1471,23 @@ namespace GaiaCommon1
         /// <returns>True if clicked</returns>
         public void ToggleButton(string key, ref bool value, params GUILayoutOption[] options)
         {
-            value = GUILayout.Toggle(value, GetContent(key), value ? Styles.toggleButtonDown : Styles.toggleButton, options);
+            ToggleButton(key, ref value, Styles.toggleButton, Styles.toggleButtonDown, options);
+        }
+
+        /// <summary>
+        /// Draw a button (left aligned)
+        /// </summary>
+        /// <param name="key">Language pack key of the text to display on the button</param>
+        /// <param name="style">Optional GUIStyle to use for the label.</param>
+        /// <param name="styleDown">Optional GUIStyle to use for the label when the toggle is activated.</param>
+        /// <param name="options">An option list of layout options that specify extra layouting properties.
+        /// Any values passed in here will override settings defined by the sytle.
+        /// See Aslo: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth,
+        /// GUILayout.MinHeight, GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight</param>
+        /// <returns>True if clicked</returns>
+        public void ToggleButton(string key, ref bool value, GUIStyle style, GUIStyle styleDown, params GUILayoutOption[] options)
+        {
+            value = GUILayout.Toggle(value, GetContent(key), value ? styleDown : style, options);
         }
 
         /// <summary>
@@ -1235,6 +1519,20 @@ namespace GaiaCommon1
         }
 
         /// <summary>
+        /// Draw the help toggle
+        /// </summary>
+        /// <param name="value">A reference to the bool value (on/off).</param>
+        /// <param name="options">An option list of layout options that specify extra layouting properties.
+        /// Any values passed in here will override settings defined by the sytle.
+        /// See Aslo: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth,
+        /// GUILayout.MinHeight, GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight</param>
+        /// <returns>True if clicked</returns>
+        public void HelpToggle(ref bool value, params GUILayoutOption[] options)
+        {
+            value = GUILayout.Toggle(value, value ? Styles.helpOn : Styles.helpOff, Styles.helpToggle, options);
+        }
+
+        /// <summary>
         /// Display a button that takes editor indentation into account
         /// </summary>
         /// <param name="content">Text, image and tooltip for this button</param>
@@ -1254,9 +1552,25 @@ namespace GaiaCommon1
             return result;
         }
 
-#endregion
+        /// <summary>
+        /// Draw a delete button
+        /// </summary>
+        public bool DeleteButton()
+        {
+            return GUILayout.Button("\u00D7", Styles.deleteButton);
+        }
 
-#region Checkboxes
+        /// <summary>
+        /// Draw a delete button
+        /// </summary>
+        public bool DeleteButton(Rect rect)
+        {
+            return GUI.Button(rect, "\u00D7", Styles.deleteButton);
+        }
+
+        #endregion
+
+        #region Checkboxes
 
         /// <summary>
         /// Draw a checkbox (Same as <seealso cref="Checkbox(string, ref bool, GUILayoutOption[])"/>)
@@ -1301,9 +1615,182 @@ namespace GaiaCommon1
             GUILayout.Label(GetContent(labelKey), options);
         }
 
-#endregion
+        #endregion
 
-#region Localized content getters
+        #region Selection Grids
+
+        /// <summary>
+        /// Create a brush Selection Grid. Use <see cref="GetBrush(int, int)"/>(int index, int size) with the returned index to retrieve the brush.
+        /// </summary>
+        /// <param name="key">Language pack key of the label of the checkbox (optional)</param>
+        /// <param name="selected">Index of the selected brush.</param>
+        /// <param name="doubleClick">Will be true if the selected item was douple clicked.</param>
+        /// <param name="customBrushes">The list that tracks/stores custom brushes.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <returns>Index of the selected brush.</returns>
+        public int BrushSelectionGrid(string key, int selected, out bool doubleClick, ref List<Texture2D> customBrushes)
+        {
+            return BrushSelectionGrid(GetContent(key), selected, out doubleClick, ref customBrushes);
+        }
+
+        /// <summary>
+        /// Create a brush Selection Grid. Use <see cref="GetBrush(int, int)"/>(int index, int size) with the returned index to retrieve the brush.
+        /// </summary>
+        /// <param name="key">Language pack key of the label of the checkbox (optional)</param>
+        /// <param name="selected">Index of the selected brush.</param>
+        /// <param name="doubleClick">Will be true if the selected item was douple clicked.</param>
+        /// <param name="customBrushes">The list that tracks/stores custom brushes.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <returns>Index of the selected brush.</returns>
+        public int BrushSelectionGrid(string key, int selected, out bool doubleClick, ref List<Texture2D> customBrushes, bool helpSwitch)
+        {
+            selected = BrushSelectionGrid(GetContent(key), selected, out doubleClick, ref customBrushes);
+            InlineHelp(key, helpSwitch);
+            return selected;
+        }
+
+        /// <summary>
+        /// Create a brush Selection Grid. Use <see cref="GetBrush(int, int)"/>(int index, int size) with the returned index to retrieve the brush.
+        /// </summary>
+        /// <param name="content">Non localized label for the selection grid (optional).</param>
+        /// <param name="selected">Index of the selected brush.</param>
+        /// <param name="doubleClick">Will be true if the selected item was douple clicked.</param>
+        /// <param name="customBrushes">The list that tracks/stores custom brushes.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <returns>Index of the selected brush.</returns>
+        public int BrushSelectionGrid(GUIContent content, int selected, out bool doubleClick, ref List<Texture2D> customBrushes)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Label(content, EditorStyles.boldLabel, new GUILayoutOption[0]);
+                GUILayout.FlexibleSpace();
+                GUILayout.BeginHorizontal((GUIStyle)"box");
+                {
+                    GUILayout.Label("Drag and drop custom brushes");
+                    if (GUILayout.Button("Reset", EditorStyles.miniButtonRight))
+                    {
+                        ClearCustomBrushes();
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(-5f);
+
+            return BrushSelectionGrid(selected, out doubleClick, ref customBrushes);
+        }
+
+        /// <summary>
+        /// Create a brush Selection Grid. Use <see cref="GetBrush(int, int)"/>(int index, int size) with the returned index to retrieve the brush.
+        /// </summary>
+        /// <param name="selected">Index of the selected brush.</param>
+        /// <param name="doubleClick">Will be true if the selected item was douple clicked.</param>
+        /// <param name="customBrushes">The list that tracks/stores custom brushes.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <returns>Index of the selected brush.</returns>
+        public int BrushSelectionGrid(int selected, out bool doubleClick, ref List<Texture2D> customBrushes)
+        {
+            // Init the custom stuff if it has not been yet
+            if (m_customBrushes == null)
+            {
+                if (customBrushes == null)
+                {
+                    customBrushes = new List<Texture2D>();
+                }
+                m_customBrushes = customBrushes;
+                SyncCustomBrushes();
+            }
+
+            Event evt = Event.current;
+            selected = SelectionGrid(selected, (Texture[])m_BrushTextures, 32, Styles.gridList, "No brushes defined.", out doubleClick);
+            Rect rect = GUILayoutUtility.GetLastRect();
+
+            if (evt.type == EventType.DragPerform || evt.type == EventType.DragUpdated)
+            {
+                if (!rect.Contains(evt.mousePosition))
+                    return selected;
+
+                DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+
+                if (evt.type == EventType.DragPerform)
+                {
+                    DragAndDrop.AcceptDrag();
+
+                    //Handle paths
+                    foreach (var path in DragAndDrop.paths)
+                    {
+                        if (!path.StartsWith("Assets"))
+                        {
+                            Debug.LogWarningFormat("[{0}] Dragged item does not seem to be part of the Unity project. Path: '{1}'", m_appConfig.Name, path);
+                            continue;
+                        }
+
+                        //Check file type
+                        string fileType = Path.GetExtension(path).ToLower();
+                        if (ACCEPTED_BRUSH_EXTENSIONS.Contains(fileType) == false)
+                        {
+                            Debug.LogWarningFormat("[{0}] Extension of dragged item ({1}) is not an accepted brush extension (accepted extensions: {2}). Item path: '{3}'",
+                                m_appConfig.Name, fileType, string.Join(", ", new List<string>(ACCEPTED_BRUSH_EXTENSIONS).ToArray()), path); //Need this odd solution because string.Join doesn't handle IEnumerables in older versions
+                            continue;
+                        }
+
+                        AddCustomBrush(path);
+                    }
+                }
+            }
+            return selected;
+        }
+
+        /// <summary>
+        /// Get a new brush with <paramref name="index"/> at the given <paramref name="size"/>.
+        /// </summary>
+        public UBrush GetBrush(int index, int size)
+        {
+            UBrush brush = new UBrush();
+            brush.Load(m_BrushTextures[index], size);
+            return brush;
+        }
+
+        /// <summary>
+        /// Create a Selection Grid.
+        /// </summary>
+        /// <param name="selected">Index of the selected item.</param>
+        /// <param name="textures">An array of selectable textures to display in the grid.</param>
+        /// <param name="approxSize">Approximate grid size.</param>
+        /// <param name="style">Style of the Selection Grid.</param>
+        /// <param name="emptyString">String to display if the grid is empty.</param>
+        /// <param name="doubleClick">Will be true if the selected item was douple clicked.</param>
+        /// <returns>Index of the selected item.</returns>
+        public int SelectionGrid(int selected, Texture[] textures, int approxSize, GUIStyle style, string emptyString, out bool doubleClick)
+        {
+            GUILayout.BeginVertical((GUIStyle)"box", GUILayout.MinHeight(10f));
+            {
+                doubleClick = false;
+                if (textures.Length != 0)
+                {
+                    float num2 = (EditorGUIUtility.currentViewWidth - 20f) / (float)approxSize;
+                    int num3 = (int)Mathf.Ceil((float)textures.Length / num2);
+                    Rect aspectRect = GUILayoutUtility.GetAspectRect(num2 / (float)num3);
+                    Event current = Event.current;
+                    if (current.type == EventType.MouseDown && current.clickCount == 2 && aspectRect.Contains(current.mousePosition))
+                    {
+                        doubleClick = true;
+                        current.Use();
+                    }
+                    selected = GUI.SelectionGrid(aspectRect, Math.Min(selected, textures.Length - 1), textures, Mathf.RoundToInt(EditorGUIUtility.currentViewWidth - 20f) / approxSize, style);
+                }
+                else
+                {
+                    GUILayout.Label(emptyString);
+                }
+            }
+            GUILayout.EndVertical();
+            return selected;
+        }
+
+        #endregion
+
+        #region Localized content getters
 
         /// <summary>
         /// Get content by key from localization package, or the key if not found
@@ -1444,7 +1931,37 @@ namespace GaiaCommon1
             {
                 if (!string.IsNullOrEmpty(content.Help))
                 {
-                    GUILayout.Label(content.Help, Styles.help);
+                    //GUILayout.Label(content.Help, Styles.help);
+                    GUILayout.BeginVertical(Styles.helpBox);
+                    {
+                        // Link regex goups
+                        // 0: The whole match
+                        // 1: Preceding or following text
+                        // 2: >helper - ignore this<
+                        // 3: Link (if there)
+                        // 4: Link text (if there)
+                        MatchCollection matches = Regex.Matches(content.Help, LINK_REGEX_PATTERN);
+                        foreach (Match m in matches)
+                        {
+                            if (m.Groups.Count > 1 && m.Groups[1].Success && m.Groups[1].Length > 0)
+                            {
+                                GUILayout.Label(m.Groups[1].Value, Styles.help);
+                            }
+
+                            if (m.Groups.Count > 3 && m.Groups[3].Success)
+                            {
+                                if (m.Groups.Count > 4 && m.Groups[4].Success && m.Groups[4].Length > 0)
+                                {
+                                    LinkNonLocalized(m.Groups[4].Value, m.Groups[3].Value);
+                                }
+                                else
+                                {
+                                    LinkNonLocalized(m.Groups[3].Value, m.Groups[3].Value);
+                                }
+                            }
+                        }
+                    }
+                    GUILayout.EndVertical();
                 }
             }
             else
@@ -1488,16 +2005,24 @@ namespace GaiaCommon1
                 }
             }
 
-            GUILayout.Label(string.Join("\n\n", helpTexts.ToArray()), Styles.help);
+            if (helpTexts.Count > 0)
+            {
+                GUILayout.BeginVertical(Styles.helpBox);
+                {
+                    GUILayout.Label(string.Join("\n\n", helpTexts.ToArray()), Styles.help);
+                }
+                GUILayout.EndVertical();
+            }
         }
 
-#endregion
-        
-        public class CommonStyles
+        #endregion
+
+        public class CommonStyles : IDisposable
         {
             public GUIStyle header;
             public GUIStyle headerText;
             public GUIStyle box;
+            public GUIStyle darkBox;
 
             public GUIStyle tabBar;
             public GUIStyle tab;
@@ -1515,6 +2040,8 @@ namespace GaiaCommon1
 
             public GUIStyle toggleButton;
             public GUIStyle toggleButtonDown;
+            public GUIStyle helpToggle;
+            public GUIStyle deleteButton;
             public GUIStyle foldoutBold;
 
             public GUIStyle body;
@@ -1525,16 +2052,27 @@ namespace GaiaCommon1
             public GUIStyle wrap;
             public GUIStyle editWrap;
 
+            public GUIStyle helpBox;
             public GUIStyle help;
 
             public GUIStyle link;
             public GUIStyle clickImg;
 
+            public Texture2D helpOff;
+            public Texture2D helpOn;
+
+            private List<Texture2D> m_texturesInMemory = new List<Texture2D>();
+
             // Temp
-            public GUIStyle proBG;
+            //public GUIStyle proInspectorBG;
+
+            public bool Inited { get { return panel.normal.background != null; } }
 
             public CommonStyles()
             {
+                //proInspectorBG = new GUIStyle();
+                //proInspectorBG.normal.background = GetBGTexture(new Color(0.282f, 0.282f, 0.282f));
+
                 // GUI Header
                 header = new GUIStyle("Box");
                 header.name = "GUI Header";
@@ -1558,6 +2096,9 @@ namespace GaiaCommon1
                 box.fontStyle = FontStyle.Bold;
                 box.alignment = TextAnchor.UpperLeft;
 
+                darkBox = new GUIStyle(box);
+                darkBox.fontStyle = FontStyle.Normal;
+
                 // Tabs
                 tabBar = new GUIStyle(GUI.skin.box);
                 tabBar.margin = new RectOffset(4, 4, 0, 0);
@@ -1572,7 +2113,7 @@ namespace GaiaCommon1
                     padding = new RectOffset(30, 30, 2, 2),
                     fixedHeight = 20f,
                     stretchWidth = true,
-                    wordWrap = false,                    
+                    wordWrap = false,
                 };
 
                 tab = new GUIStyle(tabSelected);
@@ -1600,6 +2141,8 @@ namespace GaiaCommon1
                 panelLabel.fontStyle = FontStyle.Bold;
                 panelLabel.normal.background = GUI.skin.label.normal.background;
 
+                //panelLabel.normal.textColor = new Color(0.773f, 0.773f, 0.773f);
+
                 // Panel Frame
                 panelFrame = new GUIStyle(GUI.skin.box);
                 panelFrame.normal.textColor = GUI.skin.label.normal.textColor;
@@ -1616,6 +2159,26 @@ namespace GaiaCommon1
                 toggleButtonDown = new GUIStyle(toggleButton);
                 toggleButtonDown.normal.background = toggleButton.active.background;
 
+                // Help Toggle Button
+                helpToggle = new GUIStyle(GUI.skin.label);
+                helpToggle.margin = new RectOffset(0, 6, 3, 0);
+                helpToggle.padding = new RectOffset(0, 0, 0, 0);
+                helpToggle.contentOffset = new Vector2(0f, -1f);
+                //helpToggle.fixedHeight = 16f;
+
+                // Delete button
+                deleteButton = new GUIStyle("button");
+                deleteButton.padding = new RectOffset(0, 0, 0, 0);
+                deleteButton.margin = new RectOffset(3, 3, 2, 2);
+                deleteButton.fontStyle = FontStyle.Bold;
+                deleteButton.fixedWidth = 17f;
+                deleteButton.fixedHeight = 17f;
+                deleteButton.normal.textColor = Color.red;
+                deleteButton.active.textColor = new Color(1f, 0.6f, 0.1f);
+                deleteButton.contentOffset = new Vector2(0f, 1f);
+                deleteButton.alignment = TextAnchor.LowerRight;
+                deleteButton.fontSize = 18;
+
                 // Foldout
                 foldoutBold = new GUIStyle(EditorStyles.foldout);
                 foldoutBold.normal.textColor = GUI.skin.label.normal.textColor;
@@ -1625,6 +2188,7 @@ namespace GaiaCommon1
                 body = new GUIStyle(GUI.skin.label);
                 body.fontStyle = FontStyle.Normal;
                 body.wordWrap = true;
+                body.richText = true;
 
                 // Body Centered
                 centeredBody = new GUIStyle(body);
@@ -1663,10 +2227,15 @@ namespace GaiaCommon1
                 clickImg = new GUIStyle(body);
 
                 // Help
-                help = new GUIStyle(GUI.skin.box);
-                help.margin = new RectOffset(0, 0, 0, 0);
-                help.padding = new RectOffset(5, 5, 5, 5);
+                helpBox = new GUIStyle(GUI.skin.box);
+                helpBox.margin = new RectOffset(0, 0, 0, 0);
+                helpBox.padding = new RectOffset(5, 5, 5, 5);
+                helpBox.alignment = TextAnchor.UpperLeft;
+                helpBox.stretchWidth = true;
+                //helpBox.wordWrap = true;
+                help = new GUIStyle(GUI.skin.label);
                 help.alignment = TextAnchor.UpperLeft;
+                help.stretchWidth = true;
                 help.richText = true;
                 help.wordWrap = true;
 
@@ -1685,20 +2254,27 @@ namespace GaiaCommon1
                     tabSelected.normal.textColor = GetColorFromHTML("#cfcfcfdc");
 
                     // Panel
-                    panelFrame.normal.background = GetEmbossedBGTexture(GetColorFromHTML("38383800"), GetColorFromHTML("5A5A5AFF"), false);
-                    panel.normal.background = GetEmbossedBGTexture(GetColorFromHTML("38383800"), GetColorFromHTML("5A5A5AFF"));
+                    panelFrame.normal.background = GetBGTexture(new Color(0.267f, 0.267f, 0.267f), new Color(0.219f, 0.219f, 0.219f));
+                    panel.normal.background = GetBGTexture(new Color(0.267f, 0.267f, 0.267f));
+
+                    // Box
+                    darkBox.normal.background = Resources.Load("pwdarkBoxp" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
 
                     // Link
                     link.normal.textColor = new Color(0.251f, 0.392f, 1f);
 
                     // Help
                     //m_helpBG = GetEmbossedBGTexture(new Color(0.26f, 0.26f, 0.3f), new Color(0.635f, 0.635f, 0.635f));
-                    help.normal.background = GetEmbossedBGTexture(GetColorFromHTML("38383800"), GetColorFromHTML("5A5A5A00"));
-                    help.normal.textColor = new Color(0.7f, 0.7f, 0.7f);
+                    helpBox.normal.background = GetEmbossedBGTexture(GetColorFromHTML("313138ff"), GetColorFromHTML("5A5A5Aff"));
+                    helpBox.normal.textColor = new Color(0.7f, 0.7f, 0.7f);
 
                     // Click images
-                    clickImg.normal.background = GetEmbossedBGTexture(GetColorFromHTML("38383800"), GetColorFromHTML("5A5A5A00"));
-                    clickImg.hover.background = GetEmbossedBGTexture(GetColorFromHTML("3838aa00"), GetColorFromHTML("5A5A5A00"), false);
+                    clickImg.normal.background = GetEmbossedBGTexture(GetColorFromHTML("383838ff"), GetColorFromHTML("5A5A5Aff"));
+                    clickImg.hover.background = GetEmbossedBGTexture(GetColorFromHTML("3838aaff"), GetColorFromHTML("3838aaff"), false);
+
+                    // Help Toggle
+                    helpOff = Resources.Load("helpBtnOffp" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
+                    helpOn = Resources.Load("helpBtnOnp" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
                 }
                 // or Unity Personal
                 else
@@ -1710,19 +2286,39 @@ namespace GaiaCommon1
                     tabSelected.normal.background = Resources.Load("pwtaba" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
 
                     // Panel
-                    panelFrame.normal.background = GetEmbossedBGTexture(new Color(0.66f, 0.66f, 0.66f), new Color(0.761f, 0.761f, 0.761f), false);
-                    panel.normal.background = GetEmbossedBGTexture(new Color(0.761f, 0.761f, 0.761f), new Color(0.635f, 0.635f, 0.635f));
-                    
+                    panelFrame.normal.background = GetBGTexture(new Color(0.80f, 0.805f, 0.81f), new Color(0f, 0f, 0f));
+                    panel.normal.background = GetBGTexture(new Color(0.80f, 0.805f, 0.81f));
+                    //panelFrame.normal.background = GetBGTexture(new Color(0.73f, 0.73f, 0.73f), new Color(0f, 0f, 0f));
+                    //panel.normal.background = GetBGTexture(new Color(0.73f, 0.73f, 0.73f));
+
+                    // Box
+                    darkBox.normal.background = Resources.Load("pwdarkBox" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
+
                     // Link
                     link.normal.textColor = new Color(0.114f, 0.259f, 0.859f);
 
                     // Help
-                    help.normal.background = GetEmbossedBGTexture(new Color(0.71f, 0.71f, 0.76f), new Color(0.635f, 0.635f, 0.635f));
-                    help.normal.textColor = new Color(0.3f, 0.3f, 0.3f);
+                    helpBox.normal.background = GetEmbossedBGTexture(new Color(0.71f, 0.71f, 0.76f), new Color(0.635f, 0.635f, 0.635f));
+                    helpBox.normal.textColor = new Color(0.3f, 0.3f, 0.3f);
 
                     // Click images
                     clickImg.normal.background = GetEmbossedBGTexture(new Color(0.761f, 0.761f, 0.761f), new Color(0.635f, 0.635f, 0.635f));
                     clickImg.hover.background = GetEmbossedBGTexture(new Color(0.3f, 0.3f, 0.761f), new Color(0.3f, 0.3f, 0.761f), false);
+
+                    // Help Toggle
+                    helpOff = Resources.Load("helpBtnOff" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
+                    helpOn = Resources.Load("helpBtnOn" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
+                }
+            }
+
+            /// <summary>
+            /// Tidy things up
+            /// </summary>
+            public void Dispose()
+            {
+                for (int i = 0; i < m_texturesInMemory.Count; i++)
+                {
+                    UnityEngine.Object.DestroyImmediate(m_texturesInMemory[i]);
                 }
             }
 
@@ -1759,6 +2355,7 @@ namespace GaiaCommon1
                 Texture2D tex = new Texture2D(res, res);
                 tex.SetPixels(colors);
                 tex.Apply(true);
+                m_texturesInMemory.Add(tex);
 
                 return tex;
             }
@@ -1791,6 +2388,7 @@ namespace GaiaCommon1
                 Texture2D tex = new Texture2D(res, res);
                 tex.SetPixels(colors);
                 tex.Apply(true);
+                m_texturesInMemory.Add(tex);
 
                 return tex;
             }
@@ -1872,6 +2470,7 @@ namespace GaiaCommon1
                 Texture2D tex = new Texture2D(res, res);
                 tex.SetPixels(colors);
                 tex.Apply(true);
+                m_texturesInMemory.Add(tex);
 
                 return tex;
             }

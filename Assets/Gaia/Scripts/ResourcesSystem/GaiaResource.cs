@@ -255,7 +255,7 @@ namespace Gaia
                     }
 #else
                     ResourceProtoTexture splat = m_texturePrototypes[resourceIdx];
-                    foreach (SplatPrototype proto in terrain.terrainData.splatPrototypes)
+                    foreach (GaiaSplatPrototype proto in GaiaSplatPrototype.GetGaiaSplatPrototypes(terrain))
                     {
                         if (GaiaCommon1.Utils.IsSameTexture(splat.m_texture, proto.texture, false) == true)
                         {
@@ -404,144 +404,22 @@ namespace Gaia
             //Create some useful defaults
             m_terrainHeight = terrain.terrainData.size.y;
 
-            //Alpha splats (textures)
-#if UNITY_2018_4_OR_NEWER
+
             int idx;
             SpawnCritera criteria;
-            TerrainLayer terrainTextureProto;
+            GaiaSplatPrototype terrainTextureProto;
             ResourceProtoTexture resourceTextureProto;
             List<ResourceProtoTexture> resourceTexturePrototypes = new List<ResourceProtoTexture>(m_texturePrototypes);
-            while (resourceTexturePrototypes.Count > terrain.terrainData.terrainLayers.Length)
+
+            var splatPrototypes = GaiaSplatPrototype.GetGaiaSplatPrototypes(terrain);
+
+            while (resourceTexturePrototypes.Count > splatPrototypes.Length)
             {
                 resourceTexturePrototypes.RemoveAt(resourceTexturePrototypes.Count - 1);
             }
-            for (idx = 0; idx < terrain.terrainData.terrainLayers.Length; idx++ )
+            for (idx = 0; idx < splatPrototypes.Length; idx++)
             {
-                terrainTextureProto = terrain.terrainData.terrainLayers[idx];
-                if (idx < resourceTexturePrototypes.Count)
-                {
-                    resourceTextureProto = resourceTexturePrototypes[idx];
-                }
-                else
-                {
-                    resourceTextureProto = new ResourceProtoTexture();
-                    resourceTexturePrototypes.Add(resourceTextureProto);
-                }
-                resourceTextureProto.m_name = GetUniqueName(terrainTextureProto.diffuseTexture.name, ref names);
-                resourceTextureProto.m_texture = terrainTextureProto.diffuseTexture;
-                resourceTextureProto.m_normal = terrainTextureProto.normalMapTexture;
-                resourceTextureProto.m_offsetX = terrainTextureProto.tileOffset.x;
-                resourceTextureProto.m_offsetY = terrainTextureProto.tileOffset.y;
-                resourceTextureProto.m_sizeX = terrainTextureProto.tileSize.x;
-                resourceTextureProto.m_sizeY = terrainTextureProto.tileSize.y;
-                resourceTextureProto.m_metalic = terrainTextureProto.metallic;
-                resourceTextureProto.m_smoothness = terrainTextureProto.smoothness;
-
-                //Handle empty spawn criteria
-                if (resourceTextureProto.m_spawnCriteria.Length == 0)
-                {
-                    resourceTextureProto.m_spawnCriteria = new SpawnCritera[1];
-                    criteria = new SpawnCritera();
-                    criteria.m_isActive = true;
-                    criteria.m_virginTerrain = false;
-                    criteria.m_checkType = Gaia.GaiaConstants.SpawnerLocationCheckType.PointCheck;
-
-                    //Create some reasonable terrain based starting points
-                    switch (idx)
-                    {
-                        case 0: //Base
-                            {
-                                criteria.m_checkHeight = true;
-                                criteria.m_minHeight = m_seaLevel * -1f;
-                                criteria.m_maxHeight = m_terrainHeight - m_seaLevel;
-                                criteria.m_heightFitness = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 1f));
-                                criteria.m_checkSlope = false;
-                                criteria.m_minSlope = 0f;
-                                criteria.m_maxSlope = 90f;
-                                criteria.m_slopeFitness = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
-                                criteria.m_checkProximity = false;
-                                criteria.m_checkTexture = false;
-                                break;
-                            }
-
-                        case 1: //Grass1
-                            {
-                                criteria.m_checkHeight = true;
-                                criteria.m_minHeight = 1f;
-                                criteria.m_maxHeight = m_terrainHeight - m_seaLevel;
-                                criteria.m_heightFitness = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.01f, 1f), new Keyframe(1f, 1f));
-                                criteria.m_checkSlope = false;
-                                criteria.m_minSlope = 0f;
-                                criteria.m_maxSlope = 90;
-                                criteria.m_slopeFitness = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
-                                criteria.m_checkProximity = false;
-                                criteria.m_checkTexture = false;
-                                break;
-                            }
-
-                        case 2: //Grass2
-                            {
-                                criteria.m_checkHeight = true;
-                                criteria.m_minHeight = 2f;
-                                criteria.m_maxHeight = m_terrainHeight - m_seaLevel;
-                                criteria.m_heightFitness = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.02f, 1f), new Keyframe(1f, 1f));
-                                criteria.m_checkSlope = true;
-                                criteria.m_minSlope = 0f;
-                                criteria.m_maxSlope = 90f;
-                                criteria.m_slopeFitness = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.1f, 1f), new Keyframe(1f, 1f));
-                                criteria.m_checkProximity = false;
-                                criteria.m_checkTexture = false;
-                                break;
-                            }
-
-                        case 3: //Cliffs
-                            {
-                                criteria.m_checkHeight = false;
-                                criteria.m_minHeight = m_seaLevel * -1f;
-                                criteria.m_maxHeight = m_terrainHeight - m_seaLevel;
-                                criteria.m_heightFitness = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 1f));
-                                criteria.m_checkSlope = true;
-                                criteria.m_minSlope = 15f;
-                                criteria.m_maxSlope = 90f;
-                                criteria.m_slopeFitness = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.2f, 1f), new Keyframe(1f, 1f));
-                                criteria.m_checkProximity = false;
-                                criteria.m_checkTexture = false;
-                                break;
-                            }
-
-                        default:
-                            {
-                                criteria.m_isActive = false;
-                                criteria.m_checkHeight = false;
-                                criteria.m_minHeight = UnityEngine.Random.Range(m_beachHeight - (m_beachHeight / 4f), m_beachHeight * 2f);
-                                criteria.m_maxHeight = m_terrainHeight - m_seaLevel;
-                                criteria.m_heightFitness = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 1f));
-                                criteria.m_checkSlope = false;
-                                criteria.m_minSlope = 0f;
-                                criteria.m_maxSlope = 90f;
-                                criteria.m_slopeFitness = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
-                                criteria.m_checkProximity = false;
-                                criteria.m_checkTexture = false;
-                                break;
-                            }
-                    }
-                    resourceTextureProto.m_spawnCriteria[0] = criteria;
-                }
-            }
-            m_texturePrototypes = resourceTexturePrototypes.ToArray();
-#else
-            int idx;
-            SpawnCritera criteria;
-            SplatPrototype terrainTextureProto;
-            ResourceProtoTexture resourceTextureProto;
-            List<ResourceProtoTexture> resourceTexturePrototypes = new List<ResourceProtoTexture>(m_texturePrototypes);
-            while (resourceTexturePrototypes.Count > terrain.terrainData.splatPrototypes.Length)
-            {
-                resourceTexturePrototypes.RemoveAt(resourceTexturePrototypes.Count - 1);
-            }
-            for (idx = 0; idx < terrain.terrainData.splatPrototypes.Length; idx++)
-            {
-                terrainTextureProto = terrain.terrainData.splatPrototypes[idx];
+                terrainTextureProto = splatPrototypes[idx];
                 if (idx < resourceTexturePrototypes.Count)
                 {
                     resourceTextureProto = resourceTexturePrototypes[idx];
@@ -653,7 +531,7 @@ namespace Gaia
                 }
             }
             m_texturePrototypes = resourceTexturePrototypes.ToArray();
-#endif
+
 
             //Detail prototypes
             idx = 0;
@@ -1079,34 +957,13 @@ namespace Gaia
             }
 
             //Alpha splats
-#if UNITY_2018_4_OR_NEWER
-            TerrainLayer newSplat;
-            List<TerrainLayer> terrainSplats = new List<TerrainLayer>();
+            GaiaSplatPrototype newSplat;
+            List<GaiaSplatPrototype> terrainSplats = new List<GaiaSplatPrototype>();
             foreach (ResourceProtoTexture splat in m_texturePrototypes)
             {
                 if (splat.m_texture != null)
                 {
-                    newSplat = new TerrainLayer();
-                    newSplat.normalMapTexture = splat.m_normal;
-                    newSplat.tileOffset = new Vector2(splat.m_offsetX, splat.m_offsetY);
-                    newSplat.tileSize = new Vector2(splat.m_sizeX, splat.m_sizeY);
-                    newSplat.diffuseTexture = splat.m_texture;
-                    terrainSplats.Add(newSplat);
-                }
-                else
-                {
-                    Debug.LogWarning("Unable to find resource for " + splat.m_name + "... ignoring.");
-                }
-            }
-            terrain.terrainData.terrainLayers = terrainSplats.ToArray();
-#else
-            SplatPrototype newSplat;
-            List<SplatPrototype> terrainSplats = new List<SplatPrototype>();
-            foreach (ResourceProtoTexture splat in m_texturePrototypes)
-            {
-                if (splat.m_texture != null)
-                {
-                    newSplat = new SplatPrototype();
+                    newSplat = new GaiaSplatPrototype();
                     newSplat.normalMap = splat.m_normal;
                     newSplat.tileOffset = new Vector2(splat.m_offsetX, splat.m_offsetY);
                     newSplat.tileSize = new Vector2(splat.m_sizeX, splat.m_sizeY);
@@ -1118,8 +975,9 @@ namespace Gaia
                     Debug.LogWarning("Unable to find resource for " + splat.m_name + "... ignoring.");
                 }
             }
-            terrain.terrainData.splatPrototypes = terrainSplats.ToArray();
-#endif
+
+            GaiaSplatPrototype.SetGaiaSplatPrototypes(terrain, terrainSplats.ToArray(),terrain.name);
+
 
             //Detail prototypes
             DetailPrototype newDetail;
@@ -1205,43 +1063,15 @@ namespace Gaia
             }
 
             //Alpha splats
-#if UNITY_2018_4_OR_NEWER
-            bool found = false;
-            TerrainLayer newSplat;
-            List<TerrainLayer> terrainSplats = new List<TerrainLayer>(terrain.terrainData.terrainLayers);
-            foreach (ResourceProtoTexture splat in m_texturePrototypes)
-            {
-                //See if we can locate it already
-                found = false;
-                foreach (TerrainLayer sp in terrainSplats)
-                {
-                    if (GaiaCommon1.Utils.IsSameTexture(sp.diffuseTexture, splat.m_texture, false))
-                    {
-                        found = true;
-                    }
-                }
-                //Add if necessary
-                if (!found)
-                {
-                    newSplat = new TerrainLayer();
-                    newSplat.normalMapTexture = splat.m_normal;
-                    newSplat.tileOffset = new Vector2(splat.m_offsetX, splat.m_offsetY);
-                    newSplat.tileSize = new Vector2(splat.m_sizeX, splat.m_sizeY);
-                    newSplat.diffuseTexture = splat.m_texture;
-                    terrainSplats.Add(newSplat);
-                }
-            }
-            terrain.terrainData.terrainLayers = terrainSplats.ToArray();
 
-#else
             bool found = false;
-            SplatPrototype newSplat;
-            List<SplatPrototype> terrainSplats = new List<SplatPrototype>(terrain.terrainData.splatPrototypes);
+            GaiaSplatPrototype newSplat;
+            List<GaiaSplatPrototype> terrainSplats = new List<GaiaSplatPrototype>(GaiaSplatPrototype.GetGaiaSplatPrototypes(terrain));
             foreach (ResourceProtoTexture splat in m_texturePrototypes)
             {
                 //See if we can locate it already
                 found = false;
-                foreach (SplatPrototype sp in terrainSplats)
+                foreach (GaiaSplatPrototype sp in terrainSplats)
                 {
                     if (GaiaCommon1.Utils.IsSameTexture(sp.texture, splat.m_texture, false))
                     {
@@ -1251,7 +1081,7 @@ namespace Gaia
                 //Add if necessary
                 if (!found)
                 {
-                    newSplat = new SplatPrototype();
+                    newSplat = new GaiaSplatPrototype();
                     newSplat.normalMap = splat.m_normal;
                     newSplat.tileOffset = new Vector2(splat.m_offsetX, splat.m_offsetY);
                     newSplat.tileSize = new Vector2(splat.m_sizeX, splat.m_sizeY);
@@ -1259,8 +1089,8 @@ namespace Gaia
                     terrainSplats.Add(newSplat);
                 }
             }
-            terrain.terrainData.splatPrototypes = terrainSplats.ToArray();
-#endif
+
+            GaiaSplatPrototype.SetGaiaSplatPrototypes(terrain, terrainSplats.ToArray(), terrain.name);
 
             //Detail prototypes
             DetailPrototype newDetail;
@@ -1375,31 +1205,17 @@ namespace Gaia
             //Now see if the resource exists within that terrain
             switch (resourceType)
             {
-#if UNITY_2018_4_OR_NEWER
                 case GaiaConstants.SpawnerResourceType.TerrainTexture:
                     ResourceProtoTexture splat = m_texturePrototypes[resourceIdx];
-                    List<TerrainLayer> terrainSplats = new List<TerrainLayer>(terrain.terrainData.terrainLayers);
-                    TerrainLayer newSplat = new TerrainLayer();
-                    newSplat.normalMapTexture = splat.m_normal;
-                    newSplat.tileOffset = new Vector2(splat.m_offsetX, splat.m_offsetY);
-                    newSplat.tileSize = new Vector2(splat.m_sizeX, splat.m_sizeY);
-                    newSplat.diffuseTexture = splat.m_texture;
-                    terrainSplats.Add(newSplat);
-                    terrain.terrainData.terrainLayers = terrainSplats.ToArray();
-                    break;
-#else
-                case GaiaConstants.SpawnerResourceType.TerrainTexture:
-                    ResourceProtoTexture splat = m_texturePrototypes[resourceIdx];
-                    List<SplatPrototype> terrainSplats = new List<SplatPrototype>(terrain.terrainData.splatPrototypes);
-                    SplatPrototype newSplat = new SplatPrototype();
+                    List<GaiaSplatPrototype> terrainSplats = new List<GaiaSplatPrototype>(GaiaSplatPrototype.GetGaiaSplatPrototypes(terrain));
+                    GaiaSplatPrototype newSplat = new GaiaSplatPrototype();
                     newSplat.normalMap = splat.m_normal;
                     newSplat.tileOffset = new Vector2(splat.m_offsetX, splat.m_offsetY);
                     newSplat.tileSize = new Vector2(splat.m_sizeX, splat.m_sizeY);
                     newSplat.texture = splat.m_texture;
                     terrainSplats.Add(newSplat);
-                    terrain.terrainData.splatPrototypes = terrainSplats.ToArray();
+                    GaiaSplatPrototype.SetGaiaSplatPrototypes(terrain,terrainSplats.ToArray(),terrain.name);
                     break;
-#endif
                 case GaiaConstants.SpawnerResourceType.TerrainDetail:
                     ResourceProtoDetail detail = m_detailPrototypes[resourceIdx];
                     List<DetailPrototype> terrainDetails = new List<DetailPrototype>(terrain.terrainData.detailPrototypes);
@@ -1630,7 +1446,7 @@ namespace Gaia
                 Debug.LogWarning("Can't add null game object");
             }
 
-#if UNITY_2018_4_OR_NEWER && UNITY_EDITOR
+#if UNITY_2018_3_OR_NEWER && UNITY_EDITOR
             if (PrefabUtility.GetPrefabAssetType(prefab) != PrefabAssetType.NotAPrefab)
             {
                 //Create names array
@@ -1688,7 +1504,7 @@ namespace Gaia
                 m_gameObjectPrototypes = pgos;
             }
 #endif
-#if !UNITY_2018_4_OR_NEWER && UNITY_EDITOR
+#if !UNITY_2018_3_OR_NEWER && UNITY_EDITOR
             if (PrefabUtility.GetPrefabType(prefab) != PrefabType.None)
             {
                 //Create names array
@@ -1810,7 +1626,9 @@ namespace Gaia
             foreach (GameObject currentInstance in prototypes)
             {
                 //Get the prefab
-#if UNITY_2018_2_OR_NEWER
+#if UNITY_2018_3_OR_NEWER
+                prefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(currentInstance) as GameObject;
+#elif UNITY_2018_2_OR_NEWER
                 prefab = PrefabUtility.GetCorrespondingObjectFromSource(currentInstance) as GameObject;
 #else
                 prefab = PrefabUtility.GetPrefabParent(currentInstance) as GameObject;
@@ -2525,7 +2343,7 @@ namespace Gaia
                 rule.m_name = m_gameObjectPrototypes[resIdx].m_name;
                 rule.m_resourceType = GaiaConstants.SpawnerResourceType.GameObject;
                 rule.m_resourceIdx = resIdx;
-                rule.m_minViableFitness = 0.25f;
+                rule.m_minViableFitness = 0f;
                 rule.m_failureRate = 0f;
                 rule.m_maxInstances = (ulong)((range * range) / 5f);
                 rule.m_isActive = !m_gameObjectPrototypes[resIdx].m_canSpawnAsTree;
@@ -2667,6 +2485,7 @@ namespace Gaia
             spawner.m_spawnCollisionLayers = Gaia.TerrainHelper.GetActiveTerrainLayer();
             spawner.m_locationChecksPerInt = 2000;
             spawner.m_maxRandomClusterSize = 20;
+            spawner.m_locationIncrement = 45;
 
             //Iterate thru all the trees and add them.
             SpawnRule rule;
@@ -2676,7 +2495,7 @@ namespace Gaia
                 rule.m_name = m_gameObjectPrototypes[resIdx].m_name;
                 rule.m_resourceType = GaiaConstants.SpawnerResourceType.GameObject;
                 rule.m_resourceIdx = resIdx;
-                rule.m_minViableFitness = 0.25f;
+                rule.m_minViableFitness = 0f;
                 rule.m_failureRate = 0f;
                 rule.m_maxInstances = (ulong)range * 2;
                 rule.m_isActive = true;

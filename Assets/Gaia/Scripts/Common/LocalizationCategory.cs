@@ -13,5 +13,13 @@ namespace GaiaCommon1.Localization
             Name = name;
             Items = new List<LocalizationItem>();
         }
+
+        /// <summary>
+        /// To String method that returns the name
+        /// </summary>
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

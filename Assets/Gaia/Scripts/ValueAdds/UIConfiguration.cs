@@ -36,7 +36,11 @@ namespace Gaia
         {
             if (m_textContent == null)
             {
-                m_textContent = GameObject.Find("Control Text").GetComponent<Text>();
+                GameObject controlTextGO = GameObject.Find("Control Text");
+                if (controlTextGO != null)
+                {
+                    m_textContent = controlTextGO.GetComponent<Text>();
+                }
             }
         }
 

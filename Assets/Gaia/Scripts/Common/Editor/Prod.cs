@@ -34,7 +34,17 @@ namespace GaiaCommon1
             Debug.Log("[C.Prod-" + appConfig.NameSpace + "]: " + appConfig.Name + " just Checked in.");
 #endif
             AppsConfigs.Add(appConfig);
-            CreateCommonMenu(appConfig);
+
+            if (AppsConfigs.Count > 0)
+            {
+                // This was essentially triggered by the last app checking in
+                CreateCommonMenu(AppsConfigs[AppsConfigs.Count - 1]);
+            }
+            else
+            {
+                // How did we get here?
+                Debug.LogError("Lost the apps that checked in.");
+            }
         }
 
         /// <summary>
@@ -95,9 +105,9 @@ namespace GaiaCommon1
             if (fullNameBits[fullNameBits.Length - 2].StartsWith("PWCommon"))
             {
                 // This is a quick solution we may improve later.
-                // Looks up a resource file in order to get the path for a Common Editor folder
-                // It will target Custom Common folders in the project as well, but we don't mind that for now.
-                string resourceFile = "pwtabap" + PWConst.VERSION_IN_FILENAMES + ".png";
+                // Looks up the resource file in order to get the path for a Common Editor folder
+                // It will target Custom Common folders embedded in the projects as well but we don't mind that for now.
+                string resourceFile = "CommonMenu" + PWConst.VERSION_IN_FILENAMES + ".txt";
                 path = AssetUtils.GetAssetPath(resourceFile);
 #if PW_DEBUG
                 Debug.LogFormat("[C.Prod-{0}]: Looked for the Common({1}) Resources folder and found: '{2}'", appConfig.NameSpace, PWConst.VERSION, path.Replace(resourceFile, ""));
@@ -105,7 +115,7 @@ namespace GaiaCommon1
                 if (string.IsNullOrEmpty(path))
                 {
 #if PW_DEBUG
-                    Debug.LogError("Unable to locate path for core component generation. Were any Procedural Worlds files removed renamed?");
+                    Debug.LogError("Unable to locate path for core component generation. Were any Procedural Worlds files removed renamed, or did we not wait enough for the import?");
 #endif
                     return;
                 }
@@ -120,7 +130,7 @@ namespace GaiaCommon1
             // or custom Common embedded into a legacy product
             else
             {
-                path = GetEditorScriptsPath(appConfig);
+                path = Utils.GetEditorScriptsPath(appConfig);
 #if PW_DEBUG
                 Debug.Log("[C.Prod-" + appConfig.NameSpace + "]: Looked for the Editor scripts folder and found: '" + path + "'");
 #endif
@@ -155,54 +165,6 @@ namespace GaiaCommon1
             Debug.Log("[C.Prod-" + appConfig.NameSpace + "]: Refreshing the Asset Database...");
 #endif
             AssetDatabase.Refresh();
-        }
-
-        private static string GetEditorScriptsPath(AppConfig appConfig)
-        {
-            return GetProjectSubfolder(appConfig.Folder, appConfig.EditorScriptsFolder);
-        }
-
-        private static string GetProjectSubfolder(string appFolder, string subfolderPath)
-        {
-#if PW_DEBUG
-            Debug.Log("Looking for subfolder '" + subfolderPath + "' in app folder '"+ appFolder + "', root: 'Assets'");
-#endif
-            DirectoryInfo searchRoot = new DirectoryInfo("Assets");
-            if (!searchRoot.Exists)
-            {
-                Debug.LogWarning("Search root does not exist: Assets");
-                return null;
-            }
-
-            List<DirectoryInfo> dirsAtLevel = new List<DirectoryInfo>(searchRoot.GetDirectories());
-
-            while (dirsAtLevel.Count > 0)
-            {
-                List<DirectoryInfo> nextLevel = new List<DirectoryInfo>();
-
-                for (int i = 0; i < dirsAtLevel.Count; i++)
-                {
-                    if (dirsAtLevel[i].Name == appFolder)
-                    {
-                        string path = Path.Combine(dirsAtLevel[i].FullName, subfolderPath);
-#if PW_DEBUG
-                        Debug.Log("Found a match for project folder: '" + dirsAtLevel[i].FullName + "'; Checking existence of '" + path + "'");
-#endif
-                        if (Directory.Exists(path))
-                        {
-                            // Returning project relative path with slashes
-                            path = path.Replace(searchRoot.FullName, "Assets");
-                            return path.Replace(@"\", "/");
-                        }
-                    }
-                    nextLevel.AddRange(dirsAtLevel[i].GetDirectories());
-                }
-
-                dirsAtLevel = nextLevel;
-            }
-
-            Debug.LogWarning("Unable to locate directory: '" + appFolder + "/" + subfolderPath + "'");
-            return null;
         }
 
         /// <summary>

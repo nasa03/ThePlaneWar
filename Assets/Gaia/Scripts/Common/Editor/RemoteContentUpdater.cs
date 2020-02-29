@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Networking;
 
 namespace GaiaCommon1
 {
@@ -28,6 +29,12 @@ namespace GaiaCommon1
                 m_updateCoroutine = GetRemoteUpdate();
                 EditorApplication.update += EditorUpdateDelegate;
             }
+#if PW_DEBUG
+            else
+            {
+                Debug.LogFormat("[RemoteContentUpdater]: Fetching content cancelled due to active play mode.");
+            } 
+#endif
         }
 
         /// <summary>
@@ -69,6 +76,21 @@ namespace GaiaCommon1
         /// <returns>Enumerator</returns>
         IEnumerator GetRemoteUpdate()
         {
+#if UNITY_2018_3_OR_NEWER
+            using (UnityWebRequest www = UnityWebRequest.Get(URL))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    try
+                    {
+                        string result = www.downloadHandler.text;
+#else
             using (WWW www = new WWW(URL))
             {
                 while (!www.isDone)
@@ -85,6 +107,7 @@ namespace GaiaCommon1
                     try
                     {
                         string result = www.text;
+#endif
                         int first = result.IndexOf("####");
                         if (first > 0)
                         {
@@ -98,7 +121,7 @@ namespace GaiaCommon1
                                 result = result.Replace("&#8220;", "\"");
                                 m_downloadCompleteCallback(JsonUtility.FromJson<PWMessage>(result));
 
-                                Debug.Log(result);
+                                //Debug.Log(result);
                             }
                         }
                     }

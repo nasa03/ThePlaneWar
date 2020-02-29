@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System;
 using System.Text;
 using Gaia.FullSerializer;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -38,8 +36,13 @@ namespace Gaia
         [Tooltip("The maximum distance at which terrain textures will be displayed at full resolution. Beyond this distance, a lower resolution composite image will be used for efficiency.")]
         [Range(0, 2000)]
         public int m_baseMapDist = 1024;
+#if UNITY_2019_1_OR_NEWER
+        [Tooltip("The shadow casting mode for the terrain.")]
+        public UnityEngine.Rendering.ShadowCastingMode m_shaodwCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+#else
         [Tooltip("Whether or not the terrain casts shadows.")]
         public bool m_castShadows = true;
+#endif
         [Tooltip("The material used to render the terrain. This should use a suitable shader, for example Nature/Terrain/Diffuse. The default terrain shader is used if no material is supplied.")]
         public Material m_material;
         [Tooltip("The Physic Material used for the terrain surface to specify its friction and bounce.")]
@@ -160,7 +163,12 @@ namespace Gaia
             }
 
             m_baseMapDist = (int)terrain.basemapDistance;
+
+#if UNITY_2019_1_OR_NEWER
+            m_shaodwCastingMode = terrain.shadowCastingMode;
+#else
             m_castShadows = terrain.castShadows;
+#endif
             m_detailDensity = terrain.detailObjectDensity;
             m_detailDistance = (int)terrain.detailObjectDistance;
             m_pixelError = (int)terrain.heightmapPixelError;
@@ -258,7 +266,7 @@ namespace Gaia
             op.m_isActive = true;
             op.m_operationDateTime = DateTime.Now.ToString();
             op.m_operationType = GaiaOperation.OperationType.CreateTerrain;
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             op.m_operationDataJson = new string[2];
             string ap = AssetDatabase.GetAssetPath(this);
             if (string.IsNullOrEmpty(ap))
@@ -278,7 +286,7 @@ namespace Gaia
             {
                 op.m_operationDataJson[1] = AssetDatabase.GetAssetPath(resources);
             }
-            #endif
+#endif
 
             return op;
         }
@@ -376,7 +384,11 @@ namespace Gaia
             terrain.transform.position =
                 new Vector3(m_terrainSize * tx + m_offset.x, 0, m_terrainSize * tz + m_offset.y);
             terrain.basemapDistance = m_baseMapDist;
+#if UNITY_2019_1_OR_NEWER
+            terrain.shadowCastingMode = m_shaodwCastingMode;
+#else
             terrain.castShadows = m_castShadows;
+#endif
             terrain.detailObjectDensity = m_detailDensity;
             terrain.detailObjectDistance = m_detailDistance;
             terrain.heightmapPixelError = m_pixelError;
@@ -401,17 +413,18 @@ namespace Gaia
             if (gaiaSettings != null)
             {
                 rendererType = gaiaSettings.m_currentRenderer;
-                #if !UNITY_2018_1_OR_NEWER
+#if !UNITY_2018_1_OR_NEWER
                 rendererType = GaiaConstants.EnvironmentRenderer.BuiltIn;
-                #endif
+#endif
             }
 
             if (rendererType == GaiaConstants.EnvironmentRenderer.BuiltIn)
             {
                 if (m_material != null)
                 {
-                    terrain.materialType = Terrain.MaterialType.Custom;
-                    terrain.materialTemplate = m_material;
+#if UNITY_EDITOR
+                    GaiaPipelineUtils.SetupPipeline(rendererType, null, null, null, "Procedural Worlds/Simple Water", false);
+#endif
                 }
             }
             else
@@ -419,17 +432,19 @@ namespace Gaia
                 terrain.materialType = Terrain.MaterialType.Custom;
                 if (rendererType == GaiaConstants.EnvironmentRenderer.LightWeight2018x)
                 {
-                    Shader terrainShader = Shader.Find("LightweightPipeline/Terrain/Standard Terrain");
-                    Material terrainMaterial = new Material(terrainShader);
-                    terrainMaterial.name = "Lightweight-DefaultTerrain";
-                    terrain.materialTemplate = terrainMaterial;
+#if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
+                    GaiaPipelineUtils.SetupPipeline(rendererType, "Procedural Worlds Lightweight Pipeline Profile", "Pipeline Terrain Material", "Lightweight Render Pipeline/Terrain/Lit", "Procedural Worlds/Simple Water LW", false);
+#else
+                    Debug.LogWarning("Lightweight Pipeline is only supposted in 2018.3 or newer");
+#endif
                 }
                 else
                 {
-                    Shader terrainShader = Shader.Find("HDRenderPipeline/Terrain/Standard Terrain");
-                    Material terrainMaterial = new Material(terrainShader);
-                    terrainMaterial.name = "HDRender-DefaultTerrain";
-                    terrain.materialTemplate = terrainMaterial;
+#if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
+                    GaiaPipelineUtils.SetupPipeline(rendererType, "Procedural Worlds HDRenderPipelineAsset", "Pipeline Terrain Material", "HDRP/TerrainLit", "Procedural Worlds/Simple Water HD", false);
+#else
+                    Debug.LogWarning("Lightweight Pipeline is only supposted in 2018.3 or newer");
+#endif
                 }
             }
 

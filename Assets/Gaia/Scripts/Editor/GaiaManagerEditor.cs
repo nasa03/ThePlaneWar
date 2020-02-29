@@ -18,6 +18,7 @@ using UnityEngine.Experimental.Rendering;
 #if UNITY_2018_3_OR_NEWER
 using UnityEngine.Networking;
 #endif
+using UnityEditor.SceneManagement;
 
 namespace Gaia
 {
@@ -56,8 +57,13 @@ namespace Gaia
         private Texture2D m_moreIcon;
 
         [SerializeField]
+#if !UNITY_2018_1_OR_NEWER
         private string m_dependsInstalled;
-
+#endif
+        private string m_standardAssets;
+        private string m_speedTreesB;
+        private string m_speedTreesC;
+        private string m_speedTreesP;
         public bool PositionChecked { get; set; }
         #endregion
 
@@ -69,7 +75,11 @@ namespace Gaia
         public static void ShowGaiaManager()
         {
             var manager = EditorWindow.GetWindow<Gaia.GaiaManagerEditor>(false, "Gaia Manager");
-            manager.Show();
+            //Manager can be null if the dependency package installation is started upon opening the manager window.
+            if (manager != null)
+            {
+                manager.Show();
+            }
         }
 
         ///// <summary>
@@ -94,6 +104,9 @@ namespace Gaia
 
         #region Constructors destructors and related delegates
 
+        /// <summary>
+        /// Setup on destroy
+        /// </summary>
         private void OnDestroy()
         {
             if (m_editorUtils != null)
@@ -166,11 +179,6 @@ namespace Gaia
             m_mainTabs = new TabSet(m_editorUtils, mainTabs);
             m_moreTabs = new TabSet(m_editorUtils, moreTabs);
 
-            if (string.IsNullOrEmpty(m_dependsInstalled))
-            {
-                ImportDependsOnGaiaStartUp();
-            }
-
             //Signal we need a scan
             m_needsScan = true;
 
@@ -213,8 +221,64 @@ namespace Gaia
                 StartEditorUpdates();
                 m_updateCoroutine = GetNewsUpdate();
             }
+
+            GaiaSettings m_gaiaSettings = GaiaUtils.GetGaiaSettings();
+            if (m_gaiaSettings == null)
+            {
+                Debug.Log("Gaia Settings are missing from our project, please make sure Gaia settings is in your project.");
+                return;
+            }
+
+            //Sets up the render to the correct pipeline
+            if (GraphicsSettings.renderPipelineAsset == null)
+            {
+                m_gaiaSettings.m_currentRenderer = GaiaConstants.EnvironmentRenderer.BuiltIn;
+            }
+            else if (GraphicsSettings.renderPipelineAsset.GetType().ToString().Contains("HDRenderPipelineAsset"))
+            {
+                m_gaiaSettings.m_currentRenderer = GaiaConstants.EnvironmentRenderer.HighDefinition2018x;
+            }
+            else
+            {
+                m_gaiaSettings.m_currentRenderer = GaiaConstants.EnvironmentRenderer.LightWeight2018x;
+            }
+
+#if !UNITY_POST_PROCESSING_STACK_V2 && UNITY_2018_1_OR_NEWER
+            if (EditorUtility.DisplayDialog("Missing Post Processing V2", "We're about to import post processing v2 from the package manager. This process may take a few minutes and will setup your current scenes environment.", "OK"))
+            {
+                GaiaPipelineUtilsEditor.ShowGaiaPipelineUtilsEditor(m_gaiaSettings.m_currentRenderer, m_gaiaSettings.m_currentRenderer, false, this, false);               
+
+                return;
+            }
+#endif
+
+#if UNITY_POST_PROCESSING_STACK_V2 && !UNITY_2018_1_OR_NEWER
+            m_dependsInstalled = "PostProcessing-2";
+#endif
+
+#if !UNITY_2018_1_OR_NEWER
+            if (string.IsNullOrEmpty(m_dependsInstalled))
+            {
+                ImportDependsOnGaiaStartUp();    
+                return;
+            }
+#else
+            m_standardAssets = GetAssetPath("Characters");
+            m_speedTreesB = GetAssetPath("Broadleaf");
+            m_speedTreesC = GetAssetPath("Conifer");
+            m_speedTreesP = GetAssetPath("Palm");
+
+            if (string.IsNullOrEmpty(m_standardAssets) || string.IsNullOrEmpty(m_speedTreesB) || string.IsNullOrEmpty(m_speedTreesC) || string.IsNullOrEmpty(m_speedTreesP))
+            {
+                ImportDependsOnGaiaStartUp();
+                return;
+            }
+#endif
         }
 
+        /// <summary>
+        /// Settings up settings on disable
+        /// </summary>
         void OnDisable()
         {
             StopEditorUpdates();
@@ -259,7 +323,7 @@ namespace Gaia
                 {
                     if (m_editorUtils.ButtonAutoIndent("0. Set Linear Deferred"))
                     {
-                        var manager = EditorWindow.GetWindow<Gaia.GaiaManagerEditor>(false, "Gaia Manager");
+                        var manager = GetWindow<GaiaManagerEditor>();
 
                         if (EditorUtility.DisplayDialog(
                         m_editorUtils.GetTextValue("SettingLinearDeferred"),
@@ -279,8 +343,13 @@ namespace Gaia
                             tier3.renderingPath = RenderingPath.DeferredShading;
                             EditorGraphicsSettings.SetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier3, tier3);
 
-                            #if UNITY_2018_1_OR_NEWER
+#if UNITY_2018_1_OR_NEWER && !UNITY_2019_1_OR_NEWER
                             LightmapEditorSettings.lightmapper = LightmapEditorSettings.Lightmapper.ProgressiveCPU;
+#elif UNITY_2019_1_OR_NEWER
+                            LightmapEditorSettings.lightmapper = LightmapEditorSettings.Lightmapper.ProgressiveGPU;
+#endif
+
+#if UNITY_2018_1_OR_NEWER
                             Lightmapping.realtimeGI = true;
                             Lightmapping.bakedGI = true;
                             LightmapEditorSettings.realtimeResolution = 2f;
@@ -291,12 +360,12 @@ namespace Gaia
                             {
                                 QualitySettings.shadowDistance = 350f;
                             }
-                            #else
+#else
                             if (QualitySettings.shadowDistance < 250f)
                             {
                                 QualitySettings.shadowDistance = 250f;
                             }
-                            #endif
+#endif
                             if (Lightmapping.giWorkflowMode == Lightmapping.GIWorkflowMode.Iterative)
                             {
                                 Lightmapping.giWorkflowMode = Lightmapping.GIWorkflowMode.OnDemand;
@@ -306,6 +375,10 @@ namespace Gaia
                             {
                                 RenderSettings.sun = GameObject.Find("Directional light").GetComponent<Light>();
                             }
+                            else if (GameObject.Find("Directional Light") != null)
+                            {
+                                RenderSettings.sun = GameObject.Find("Directional Light").GetComponent<Light>();
+                            }
                         }
                     }
                 }
@@ -313,133 +386,9 @@ namespace Gaia
 
             if (m_editorUtils.ButtonAutoIndent("1. Create Terrain & Show Stamper"))
             {
-                //Check Settings if pipeline is null and apply
-                if (GraphicsSettings.renderPipelineAsset == null)
-                {
-                    if(m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.BuiltIn)
-                    {
-                        ShowSessionManager();
-                        CreateTerrain();
-                        ShowStamper();
-                    }
-
-                    else if(m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.LightWeight2018x)
-                    {
-                        if (EditorUtility.DisplayDialog(
-                            m_editorUtils.GetTextValue("LightweightNotFound"),
-                            m_editorUtils.GetTextValue("LightweightNotFound Description"),
-                            m_editorUtils.GetTextValue("Switch"), m_editorUtils.GetTextValue("Ignore")))
-                        {
-                            m_settings.m_currentRenderer = GaiaConstants.EnvironmentRenderer.LightWeight2018x;
-                            LightweightPipeline();
-                        }                        
-                    }
-
-                    else if (m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.HighDefinition2018x)
-                    {
-                        if (EditorUtility.DisplayDialog(
-                            m_editorUtils.GetTextValue("HighDefinitionNotFound"),
-                            m_editorUtils.GetTextValue("HighDefinitionNotFound Description"),
-                            m_editorUtils.GetTextValue("Switch"), m_editorUtils.GetTextValue("Ignore")))
-                        {
-                            m_settings.m_currentRenderer = GaiaConstants.EnvironmentRenderer.HighDefinition2018x;
-                            HighDefinitionPipeline();
-                        }
-                    }
-                }
-
-                //Check settings if pipeline isn't null and apply
-                else if(GraphicsSettings.renderPipelineAsset != null)
-                {
-                    if (GraphicsSettings.renderPipelineAsset.name == "LWRP-HighQuality" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.LightWeight2018x || GraphicsSettings.renderPipelineAsset.name == "LWRP-MediumQuality" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.LightWeight2018x || GraphicsSettings.renderPipelineAsset.name == "LWRP-LowQuality" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.LightWeight2018x)
-                    {
-                        if (Shader.Find("LightweightPipeline/Standard (Physically Based)"))
-                        {
-                            ShowSessionManager();
-                            CreateTerrain();
-                            ShowStamper();
-                        }                           
-                    }
-
-                    if (GraphicsSettings.renderPipelineAsset.name == "HDRenderPipelineAsset" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.HighDefinition2018x)
-                    {
-                        if (Shader.Find("HDRenderPipeline/Lit") != null)
-                        {
-                            ShowSessionManager();
-                            CreateTerrain();
-                            ShowStamper();
-                        }
-                    }
-
-                    if (GraphicsSettings.renderPipelineAsset.name == "LWRP-HighQuality" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.BuiltIn || GraphicsSettings.renderPipelineAsset.name == "LWRP-MediumQuality" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.BuiltIn || GraphicsSettings.renderPipelineAsset.name == "LWRP-LowQuality" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.BuiltIn)
-                    {
-                        if (EditorUtility.DisplayDialog(
-                            m_editorUtils.GetTextValue("OopsBuiltIn"),
-                            m_editorUtils.GetTextValue("BuildInDescription"),
-                            m_editorUtils.GetTextValue("Switch"), m_editorUtils.GetTextValue("Cancel")))
-                        {
-                            m_settings.m_currentRenderer = GaiaConstants.EnvironmentRenderer.BuiltIn;
-                            GraphicsSettings.renderPipelineAsset = null;
-                        }
-                    }
-
-                    if (GraphicsSettings.renderPipelineAsset.name == "LWRP-HighQuality" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.HighDefinition2018x || GraphicsSettings.renderPipelineAsset.name == "LWRP-MediumQuality" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.HighDefinition2018x || GraphicsSettings.renderPipelineAsset.name == "LWRP-LowQuality" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.HighDefinition2018x)
-                    {
-                        if (EditorUtility.DisplayDialog(
-                            m_editorUtils.GetTextValue("OopsHighDefinition"),
-                            m_editorUtils.GetTextValue("HighDefinitionDescription"),
-                            m_editorUtils.GetTextValue("Switch"), m_editorUtils.GetTextValue("Cancel")))
-                        {
-                            if(Shader.Find("HDRenderPipeline/Lit") != null)
-                            {
-                                m_settings.m_currentRenderer = GaiaConstants.EnvironmentRenderer.HighDefinition2018x;
-                                HighDefinitionPipeline();
-                            }
-
-                            else if (Shader.Find("HDRenderPipeline/Lit") == null)
-                            {
-                                EditorUtility.DisplayDialog(m_editorUtils.GetTextValue("PipeLineErrorTitle"), m_editorUtils.GetTextValue("PipelineErrorMessage"), m_editorUtils.GetTextValue("OK"));
-                            }
-                        }
-                    }
-
-                    if (GraphicsSettings.renderPipelineAsset.name == "HDRenderPipelineAsset" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.BuiltIn)
-                    {
-                        if (EditorUtility.DisplayDialog(
-                            m_editorUtils.GetTextValue("OopsBuiltIn"),
-                            m_editorUtils.GetTextValue("BuildInDescription"),
-                            m_editorUtils.GetTextValue("Switch"), m_editorUtils.GetTextValue("Cancel")))
-                        {
-                            m_settings.m_currentRenderer = GaiaConstants.EnvironmentRenderer.BuiltIn;
-                        }
-                    }
-
-                    if (GraphicsSettings.renderPipelineAsset.name == "HDRenderPipelineAsset" && m_settings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.LightWeight2018x)
-                    {
-                        if (EditorUtility.DisplayDialog(
-                            m_editorUtils.GetTextValue("OopsLightweight"),
-                            m_editorUtils.GetTextValue("LightweightDescription"),
-                            m_editorUtils.GetTextValue("Switch"), m_editorUtils.GetTextValue("Cancel")))
-                        {
-                            if (Shader.Find("LightweightPipeline/Standard (Physically Based)") != null)
-                            {
-                                m_settings.m_currentRenderer = GaiaConstants.EnvironmentRenderer.LightWeight2018x;
-                                LightweightPipeline();
-                                /*
-                                if (EditorUtility.DisplayDialog(
-                                    m_editorUtils.GetTextValue("OOPSMISSING!"),
-                                    m_editorUtils.GetTextValue("Missing Depends"),
-                                    m_editorUtils.GetTextValue("Install"), m_editorUtils.GetTextValue("Ignore")))
-                                    */
-                            }
-
-                            else if (Shader.Find("LightweightPipeline/Standard (Physically Based)") == null)
-                            {
-                                EditorUtility.DisplayDialog(m_editorUtils.GetTextValue("PipeLineErrorTitle"), m_editorUtils.GetTextValue("PipelineErrorMessage"), m_editorUtils.GetTextValue("OK"));
-                            }
-                        }
-                    }
-                }
+                ShowSessionManager();
+                CreateTerrain();
+                ShowStamper();
             }
 
             EditorGUI.indentLevel++;
@@ -512,42 +461,67 @@ namespace Gaia
                     return;
                 }
 
-                CreatePlayer();
+                if (EditorUtility.DisplayDialog("Adding Ambient Skies Samples", "You're about to add HDRI sky, Post Processing, Ambient Skies Sample Water and Player. Would you like to proceed?", "Yes", "No"))
+                {
 
-                if (m_settings.m_currentEnvironment != GaiaConstants.EnvironmentTarget.UltraLight && m_settings.m_currentEnvironment != GaiaConstants.EnvironmentTarget.MobileAndVR)
-                {
-                    CreateSky();
-                    CreateWater();
-                    CreateScreenShotter();
-                    CreateWindZone();
-                }
-                else
-                {
-                    CreateSky();
-                    CreateWater();
-                    CreateScreenShotter();
-                }                
-            }
+                    CreatePlayer();
 
-            if (m_editorUtils.ButtonAutoIndent("4. Bake Lighting"))
-            {
-                if(!DisplayErrorIfInvalidTerrainCount(1))
-                {
-                    if (EditorUtility.DisplayDialog(
-                    m_editorUtils.GetTextValue("BakingLightmaps!"),
-                    m_editorUtils.GetTextValue("BakingLightmapsInfo"),
-                    m_editorUtils.GetTextValue("Bake"), m_editorUtils.GetTextValue("Cancel")))
+                    if (m_settings.m_currentEnvironment != GaiaConstants.EnvironmentTarget.UltraLight && m_settings.m_currentEnvironment != GaiaConstants.EnvironmentTarget.MobileAndVR)
                     {
-                        Lightmapping.BakeAsync();
-                        if (RenderSettings.ambientMode != AmbientMode.Skybox)
-                        {
-                            RenderSettings.ambientMode = AmbientMode.Skybox;
-                        }
+                        CreateSky();
+                        CreateWater();
+                        CreateScreenShotter();
+                        CreateWindZone();
                     }
                     else
-                        Lightmapping.Cancel();
+                    {
+                        CreateSky();
+                        CreateWater();
+                        CreateScreenShotter();
+                    }
                 }
             }
+
+            if (Lightmapping.isRunning)
+            {
+                if (m_editorUtils.ButtonAutoIndent("4. Cancel Bake"))
+                {
+                    Lightmapping.Cancel();
+                    Lightmapping.giWorkflowMode = Lightmapping.GIWorkflowMode.OnDemand;
+                }
+            }
+            else
+            {
+                if (m_editorUtils.ButtonAutoIndent("4. Bake Lighting"))
+                {
+                    if (EditorUtility.DisplayDialog(
+                        m_editorUtils.GetTextValue("BakingLightmaps!"),
+                        m_editorUtils.GetTextValue("BakingLightmapsInfo"),
+                        m_editorUtils.GetTextValue("Bake"), m_editorUtils.GetTextValue("Cancel")))
+                    {
+                        RenderSettings.ambientMode = AmbientMode.Skybox;
+                        Lightmapping.bakedGI = true;
+                        Lightmapping.realtimeGI = true;
+#if UNITY_2018_2_OR_NEWER
+                        LightmapEditorSettings.directSampleCount = 32;
+                        LightmapEditorSettings.indirectSampleCount = 500;
+                        LightmapEditorSettings.bounces = 3;
+                        LightmapEditorSettings.filteringMode = LightmapEditorSettings.FilterMode.Auto;
+                        LightmapEditorSettings.lightmapsMode = LightmapsMode.CombinedDirectional;
+#endif
+                        LightmapEditorSettings.realtimeResolution = 2;
+                        LightmapEditorSettings.bakeResolution = 16;
+                        LightmapEditorSettings.padding = 2;
+                        LightmapEditorSettings.textureCompression = false;
+                        LightmapEditorSettings.enableAmbientOcclusion = true;
+                        LightmapEditorSettings.aoMaxDistance = 1f;
+                        LightmapEditorSettings.aoExponentIndirect = 1f;
+                        LightmapEditorSettings.aoExponentDirect = 1f;
+                        Lightmapping.BakeAsync();
+                    }
+                }
+            }
+
             EditorGUILayout.Space();
             EditorGUI.indentLevel--;
         }
@@ -647,23 +621,26 @@ namespace Gaia
                 EditorGUILayout.Space();
                 EditorGUI.indentLevel--;
             }
+
             if (m_foldoutCharacters = m_editorUtils.Foldout(m_foldoutCharacters, "4. Add common Game Objects..."))
             {
                 EditorGUI.indentLevel++;
                 if (m_editorUtils.ButtonAutoIndent("Add Character"))
                 {
-                    Selection.activeGameObject = CreatePlayer();
-#if GAIA_PRESENT
-                    GameObject underwaterFX = GameObject.Find("Directional Light");
-                    GaiaReflectionProbeUpdate theProbeUpdater = FindObjectOfType<GaiaReflectionProbeUpdate>();
-                    GaiaUnderWaterEffects effectsSettings = underwaterFX.GetComponent<GaiaUnderWaterEffects>();
-                    if (theProbeUpdater != null && effectsSettings != null)
-                    {
-#if UNITY_EDITOR
-                        effectsSettings.player = effectsSettings.GetThePlayer();
-#endif
-                    }
-#endif
+                    
+                        Selection.activeGameObject = CreatePlayer();
+
+//#if GAIA_PRESENT
+//                    GameObject underwaterFX = GameObject.Find("Directional Light");
+//                    GaiaReflectionProbeUpdate theProbeUpdater = FindObjectOfType<GaiaReflectionProbeUpdate>();
+//                    GaiaUnderWaterEffects effectsSettings = underwaterFX.GetComponent<GaiaUnderWaterEffects>();
+//                    if (theProbeUpdater != null && effectsSettings != null)
+//                    {
+//#if UNITY_EDITOR
+//                        effectsSettings.player = effectsSettings.GetThePlayer();
+//#endif
+//                    }
+//#endif
                 }
                 if (m_editorUtils.ButtonAutoIndent("Add Wind Zone"))
                 {
@@ -719,7 +696,6 @@ namespace Gaia
                 EditorGUILayout.Space();
                 EditorGUI.indentLevel--;
             }
-
 
             m_editorUtils.LabelField(m_editorUtils.GetTextValue("Celebrate!"), m_wrapStyle);
             EditorGUI.indentLevel--;
@@ -1051,12 +1027,10 @@ namespace Gaia
                 GUILayout.Space(5f);
             }
             EditorGUI.indentLevel--;
-
-
         }
 #endregion
 
-        #region On GUI
+#region On GUI
         void OnGUI()
         {
             m_editorUtils.Initialize(); // Do not remove this!
@@ -1080,11 +1054,9 @@ namespace Gaia
 
             if (m_bodyStyle == null)
             {
-                //m_bodyStyle = new GUIStyle(EditorStyles.label);
                 m_bodyStyle = new GUIStyle(GUI.skin.label);
                 m_bodyStyle.fontStyle = FontStyle.Normal;
                 m_bodyStyle.wordWrap = true;
-                //m_bodyStyle.fontSize = 14;
             }
 
             if (m_titleStyle == null)
@@ -1098,7 +1070,6 @@ namespace Gaia
             {
                 m_headingStyle = new GUIStyle(m_bodyStyle);
                 m_headingStyle.fontStyle = FontStyle.Bold;
-                //m_headingStyle.fontSize = 16;
             }
 
             if (m_linkStyle == null)
@@ -1123,6 +1094,54 @@ namespace Gaia
             GaiaConstants.EnvironmentTarget targetEnv = (GaiaConstants.EnvironmentTarget)m_editorUtils.EnumPopup("Environment", m_settings.m_currentEnvironment);
             GaiaConstants.EnvironmentRenderer targetRenderer = (GaiaConstants.EnvironmentRenderer)m_editorUtils.EnumPopup("Renderer", m_settings.m_currentRenderer);
             GaiaConstants.EnvironmentSize targetSize = (GaiaConstants.EnvironmentSize)m_editorUtils.EnumPopup("Terrain Size", m_settings.m_currentSize);
+
+            if (targetRenderer != m_settings.m_currentRenderer)
+            {
+                if (Application.isPlaying)
+                {
+                    Debug.LogWarning("Can't switch render pipelines in play mode.");
+                    targetRenderer = m_settings.m_currentRenderer;
+                }
+                else
+                {
+#if !UNITY_2018_3_OR_NEWER
+                    EditorUtility.DisplayDialog("Pipeline change not supported", "Lightweight and High Definition is only supported in 2018.3 or higher. To use Gaia selected pipeline, please install and upgrade your project to 2018.3.x. Switching back to Built-In Pipeline.", "OK");
+                    targetRenderer = GaiaConstants.EnvironmentRenderer.BuiltIn;
+#else
+                    if (EditorUtility.DisplayDialog("CHANGE RENDER PIPELINE",
+                                "You are about to install a new render pipeline!" +
+                                "\nPlease BACKUP your project first!" +
+                                "\nAre you sure?",
+                                "Yes", "No"))
+                    {
+
+                        bool upgradeMaterials = false;
+                        if (EditorUtility.DisplayDialog("UPGRADE MATERIALS",
+                            "Upgrade materials to the " + targetRenderer.ToString() + " pipeline?" +
+                            "\nWARNING: THIS PROCESS CAN NOT BE UNDONE!" +
+                            "\nSay NO and change pipeline back if unsure!",
+                            "Yes", "No"))
+                        {
+                            upgradeMaterials = true;
+                        }
+
+                        /*
+                        bool finalizeEnvironment = false;
+                        if (EditorUtility.DisplayDialog("FINALIZE ENVIRONMENT",
+                            "Finalizing the environment will configure your scenes lighting and setup post processing. This will overwrite your current lighting and skybox settings. Would you like to finalize your environment?",
+                            "Yes", "No"))
+                        {
+                            finalizeEnvironment = true;
+                        }
+                        */
+
+                        GaiaPipelineUtilsEditor.ShowGaiaPipelineUtilsEditor(m_settings.m_currentRenderer, targetRenderer, upgradeMaterials, this, true);
+
+                       
+                    }
+#endif
+                }
+            }
 
             bool needsUpdate = false;
             if (targetEnv != m_settings.m_currentEnvironment)
@@ -1162,7 +1181,6 @@ namespace Gaia
                 needsUpdate = true;
             }
 
-
             if (targetControllerType != m_settings.m_currentController)
             {
                 m_settings.m_currentController = targetControllerType;
@@ -1175,8 +1193,8 @@ namespace Gaia
                         m_settings.m_currentPlayerPrefabName = m_settings.m_3pPlayerPrefabName;
                         break;
                     //case GaiaConstants.EnvironmentControllerType.Rollerball:
-                        //m_settings.m_currentPlayerPrefabName = m_settings.m_rbPlayerPrefabName;
-                        //break;
+                    //m_settings.m_currentPlayerPrefabName = m_settings.m_rbPlayerPrefabName;
+                    //break;
                     case GaiaConstants.EnvironmentControllerType.FlyingCamera:
                         m_settings.m_currentPlayerPrefabName = "Flycam";
                         break;
@@ -1187,31 +1205,6 @@ namespace Gaia
             if (targetEnv != m_settings.m_currentEnvironment)
             {
                 m_settings.m_currentEnvironment = targetEnv;
-                EditorUtility.SetDirty(m_settings);
-            }
-
-            if (targetRenderer != m_settings.m_currentRenderer)
-            {
-#if !UNITY_2018_1_OR_NEWER
-                targetRenderer = GaiaConstants.EnvironmentRenderer.BuiltIn;
-#endif
-
-                if (targetRenderer == GaiaConstants.EnvironmentRenderer.BuiltIn)
-                {
-                    BuiltInPipeline();
-                }
-
-                if(targetRenderer == GaiaConstants.EnvironmentRenderer.LightWeight2018x)
-                {
-                    LightweightPipeline();
-                }
-
-                if(targetRenderer == GaiaConstants.EnvironmentRenderer.HighDefinition2018x)
-                {
-                    HighDefinitionPipeline();
-                }
-
-                m_settings.m_currentRenderer = targetRenderer;
                 EditorUtility.SetDirty(m_settings);
             }
 
@@ -1356,7 +1349,7 @@ namespace Gaia
         }
 #endregion
 
-        #region Gaia Main Function Calls
+#region Gaia Main Function Calls
         /// <summary>
         /// Create and returns a defaults asset
         /// </summary>
@@ -1713,7 +1706,7 @@ namespace Gaia
                             m_editorUtils.GetTextValue("OK"));
                     }
                 }
-                
+
                 return true;
             }
             return false;
@@ -1790,7 +1783,7 @@ namespace Gaia
             {
                 return null;
             }
-            
+
             return m_settings.m_currentResources.CreateClusteredTreeSpawner(GetRangeFromTerrain());
         }
 
@@ -1870,18 +1863,28 @@ namespace Gaia
         }
 #endregion
 
-        #region Create Step 3 (Player, water, sky etc)
+#region Create Step 3 (Player, water, sky etc)
         /// <summary>
         /// Create a player
         /// </summary>
         GameObject CreatePlayer()
         {
+            //Gaia Settings to check pipeline selected
+            GaiaSettings m_gaiaSettings = GaiaUtils.GetGaiaSettings();
+            if (m_gaiaSettings == null)
+            {
+                Debug.LogWarning("Gaia Settings are missing from your project, please make sure Gaia settings is in your project.");
+                return null;
+            }
+
             //Only do this if we have 1 terrain
             if (DisplayErrorIfInvalidTerrainCount(1))
             {
                 return null;
             }
 
+            GameObject playerObj = null;
+           
             //If nothing selected then make the default the fly cam
             string playerPrefabName = m_settings.m_currentPlayerPrefabName;
             if (string.IsNullOrEmpty(playerPrefabName))
@@ -1928,7 +1931,6 @@ namespace Gaia
             float cameraDistance = Mathf.Clamp(terrain.terrainData.size.x, 250f, 2048) + 200f;
 
             //Create the player
-            GameObject playerObj = null;
             if (playerPrefabName == "Flycam")
             {
                 playerObj = new GameObject();
@@ -1943,8 +1945,27 @@ namespace Gaia
 
                 Camera cameraComponent = playerObj.GetComponent<Camera>();
                 cameraComponent.farClipPlane = cameraDistance;
-                cameraComponent.allowHDR = true;
-                cameraComponent.allowMSAA = false;
+                if (m_gaiaSettings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.LightWeight2018x)
+                {
+                    cameraComponent.allowHDR = false;
+                    cameraComponent.allowMSAA = true;
+                }
+                else
+                {
+                    cameraComponent.allowHDR = true;
+
+                    var tier1 = EditorGraphicsSettings.GetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier1);
+                    var tier2 = EditorGraphicsSettings.GetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier2);
+                    var tier3 = EditorGraphicsSettings.GetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier3);
+                    if (tier1.renderingPath == RenderingPath.DeferredShading || tier2.renderingPath == RenderingPath.DeferredShading || tier3.renderingPath == RenderingPath.DeferredShading)
+                    {
+                        cameraComponent.allowMSAA = false;
+                    }
+                    else
+                    {
+                        cameraComponent.allowMSAA = true;
+                    }
+                }
 
                 //Lift it to about eye height above terrain
                 location.y += 1.8f;
@@ -1978,8 +1999,27 @@ namespace Gaia
                     if (cameraComponent != null)
                     {
                         cameraComponent.farClipPlane = cameraDistance;
-                        cameraComponent.allowHDR = true;
-                        cameraComponent.allowMSAA = false;
+                        if (m_gaiaSettings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.LightWeight2018x)
+                        {
+                            cameraComponent.allowHDR = false;
+                            cameraComponent.allowMSAA = true;
+                        }
+                        else
+                        {
+                            cameraComponent.allowHDR = true;
+
+                            var tier1 = EditorGraphicsSettings.GetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier1);
+                            var tier2 = EditorGraphicsSettings.GetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier2);
+                            var tier3 = EditorGraphicsSettings.GetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier3);
+                            if (tier1.renderingPath == RenderingPath.DeferredShading || tier2.renderingPath == RenderingPath.DeferredShading || tier3.renderingPath == RenderingPath.DeferredShading)
+                            {
+                                cameraComponent.allowMSAA = false;
+                            }
+                            else
+                            {
+                                cameraComponent.allowMSAA = true;
+                            }
+                        }
                     }
                 }
             }
@@ -2001,8 +2041,27 @@ namespace Gaia
                 mainCam.transform.position = location;
                 Camera cameraComponent = mainCam.AddComponent<Camera>();
                 cameraComponent.farClipPlane = cameraDistance;
-                cameraComponent.allowHDR = true;
-                cameraComponent.allowMSAA = false;
+                if (m_gaiaSettings.m_currentRenderer == GaiaConstants.EnvironmentRenderer.LightWeight2018x)
+                {
+                    cameraComponent.allowHDR = false;
+                    cameraComponent.allowMSAA = true;
+                }
+                else
+                {
+                    cameraComponent.allowHDR = true;
+
+                    var tier1 = EditorGraphicsSettings.GetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier1);
+                    var tier2 = EditorGraphicsSettings.GetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier2);
+                    var tier3 = EditorGraphicsSettings.GetTierSettings(EditorUserBuildSettings.selectedBuildTargetGroup, GraphicsTier.Tier3);
+                    if (tier1.renderingPath == RenderingPath.DeferredShading || tier2.renderingPath == RenderingPath.DeferredShading || tier3.renderingPath == RenderingPath.DeferredShading)
+                    {
+                        cameraComponent.allowMSAA = false;
+                    }
+                    else
+                    {
+                        cameraComponent.allowMSAA = true;
+                    }
+                }
 
 #if !UNITY_2017_1_OR_NEWER
                 mainCam.AddComponent<GUILayer>();
@@ -2022,7 +2081,7 @@ namespace Gaia
             if (playerObj != null)
             {
                 //Set time of day
-#if UNITY_POST_PROCESSING_STACK_V2 && GAIA_PRESENT
+#if UNITY_POST_PROCESSING_STACK_V2 && GAIA_PRESENT && !AMBIENT_SKIES
                 Gaia.GX.ProceduralWorlds.AmbientSkiesSamples.GX_PostProcessing_DefaultDay();
 #endif
 
@@ -2033,6 +2092,7 @@ namespace Gaia
                     Repaint();
                 }
             }
+                       
 
             return playerObj;
         }
@@ -2067,12 +2127,6 @@ namespace Gaia
         /// </summary>
         GameObject CreateWindZone()
         {
-            //Only do this if we have 1 terrain
-            if (DisplayErrorIfInvalidTerrainCount(1))
-            {
-                return null;
-            }
-
             GameObject windZoneObj = GameObject.Find("Wind Zone");
             if (windZoneObj == null)
             {
@@ -2103,8 +2157,8 @@ namespace Gaia
             {
                 return null;
             }
-#if GAIA_PRESENT
-            Gaia.GX.ProceduralWorlds.AmbientSkiesSamples.GX_Water_AddWater();
+#if GAIA_PRESENT && !AMBIENT_WATER
+            Gaia.GX.ProceduralWorlds.AmbientWaterSamples.GX_Water_AddWater();
 #endif
 
             return GameObject.Find("Ambient Water Sample");
@@ -2115,14 +2169,11 @@ namespace Gaia
         /// </summary>
         void CreateSky()
         {
-            //Only do this if we have 1 terrain
-            if (DisplayErrorIfInvalidTerrainCount(1))
-            {
-                return;
-            }
-#if GAIA_PRESENT
+#if GAIA_PRESENT && !AMBIENT_SKIES
             Gaia.GX.ProceduralWorlds.AmbientSkiesSamples.GX_Skies_Day();
             Gaia.GX.ProceduralWorlds.AmbientSkiesSamples.GX_Skies_AddGlobalReflectionProbe();
+#else
+            Debug.Log("Lighting could not be created because Ambient Skies exists in this project! Please use Ambinet Skies to set up lighting in your scene!");
 #endif
         }
 
@@ -2132,11 +2183,6 @@ namespace Gaia
         /// <returns></returns>
         GameObject CreateScreenShotter()
         {
-            //Only do this if we have 1 terrain
-            if (DisplayErrorIfInvalidTerrainCount(1))
-            {
-                return null;
-            }
             GameObject shotterObj = GameObject.Find("Screen Shotter");
             if (shotterObj == null)
             {
@@ -2157,7 +2203,7 @@ namespace Gaia
         }
 #endregion
 
-        #region System Helpers
+#region System Helpers
         /// <summary>
         /// Get a clamped size value
         /// </summary>
@@ -2168,219 +2214,62 @@ namespace Gaia
             return Mathf.Clamp(newSize, 32f, m_settings.m_currentDefaults.m_size);
         }
 
+        /// <summary>
+        /// Checks and imports depends packages
+        /// </summary>
         public void ImportDependsOnGaiaStartUp()
         {
             //If not unity 2018.1 and post processing missing from defines
-            #if !UNITY_POST_PROCESSING_STACK_V2 && !UNITY_2018_1_OR_NEWER
+            //Note that in Unity 2018_1 and newer post processing will be installed anyways from the package manager
+#if !UNITY_POST_PROCESSING_STACK_V2 && !UNITY_2018_1_OR_NEWER
             if (string.IsNullOrEmpty(m_dependsInstalled))
             {
+                var manager = GetWindow<GaiaManagerEditor>("Gaia Manager");
+                if (manager != null)
+                {
+                    manager.Close();
+                }
+
                 if (EditorUtility.DisplayDialog(
                     m_editorUtils.GetTextValue("OOPSMISSING!"),
                     m_editorUtils.GetTextValue("Missing Depends"),
-                    m_editorUtils.GetTextValue("Install"), m_editorUtils.GetTextValue("Ignore")))
-                {
-                    ImportPackage("Gaia Dependencies.unitypackage");
+                    m_editorUtils.GetTextValue("OK")))
+                {                  
+                    ImportPackage("Gaia Dependencies 2017.unitypackage");
                     m_dependsInstalled = "PostProcessing-2";
                 }
-                else
-                    m_dependsInstalled = "PostProcessing-2";
+                
                 return;
-            }            
-            #else
+            }
+#else
             //If post processing defined but other path checks are missing
-            string standardAssets = GetAssetPath("Characters");
-            string speedTreesB = GetAssetPath("Broadleaf");
-            string speedTreesC = GetAssetPath("Conifer");
-            string speedTreesP = GetAssetPath("Palm");
+            m_standardAssets = GetAssetPath("Characters");
+            m_speedTreesB = GetAssetPath("Broadleaf");
+            m_speedTreesC = GetAssetPath("Conifer");
+            m_speedTreesP = GetAssetPath("Palm");
 
-            //If Unity 2018.1 or newer check for post processing defined but other path checks are missing
-            if (string.IsNullOrEmpty(standardAssets) || string.IsNullOrEmpty(speedTreesB) || string.IsNullOrEmpty(speedTreesC) || string.IsNullOrEmpty(speedTreesP))
+            if (string.IsNullOrEmpty(m_standardAssets) || string.IsNullOrEmpty(m_speedTreesB) || string.IsNullOrEmpty(m_speedTreesC) || string.IsNullOrEmpty(m_speedTreesP))
             {
                 if (EditorUtility.DisplayDialog(
                     m_editorUtils.GetTextValue("OOPSMISSING!"),
                     m_editorUtils.GetTextValue("Missing Depends"),
-                    m_editorUtils.GetTextValue("Install"), m_editorUtils.GetTextValue("Ignore")))
+                    m_editorUtils.GetTextValue("OK")))
                 {
+#if UNITY_2018_1_OR_NEWER
+                    ImportPackage("Gaia Dependencies 2018.unitypackage");
+#else
+                    ImportPackage("Gaia Dependencies 2017.unitypackage");
+#endif
+#if !UNITY_2018_1_OR_NEWER
                     m_dependsInstalled = "PostProcessing-2";
-                    ImportPackage("Gaia Dependencies.unitypackage");
+#endif
                 }
-                else
-                    m_dependsInstalled = "PostProcessing-2";
+
                 return;
             }
-            #endif
-            //If Unity 2018.1 or newer and post processing is not defined
-            #if !UNITY_POST_PROCESSING_STACK_V2 && UNITY_2018_1_OR_NEWER
-            Type postProcessingBehaviourType = GaiaCommon1.Utils.GetType("UnityEngine.Rendering.PostProcessing.PostProcessVolume");
-            if (postProcessingBehaviourType == null)
-            {               
-                if (EditorUtility.DisplayDialog(
-                m_editorUtils.GetTextValue("OOPSMISSING!"),
-                m_editorUtils.GetTextValue("Missing Depends"),
-                m_editorUtils.GetTextValue("Install"), m_editorUtils.GetTextValue("Ignore")))
-                {
-                    m_dependsInstalled = "PostProcessing-2";
-                    ImportPackage("Gaia Dependencies.unitypackage");
-                }
-                else
-                    m_dependsInstalled = "PostProcessing-2";
-                return;
-            }
-            #endif
+#endif
         }
 
-        /// <summary>
-        /// Sets materials to built-in pipeline
-        /// </summary>
-        public static void BuiltInPipeline()
-        {
-            string gaiaScannerMaterial = GetAssetPath("GaiaScannerMaterial");
-            string gaiaStamperMaterial = GetAssetPath("GaiaStamperMaterial");
-            Material gaiaScannerMat;
-            Material gaiaStamperMat;
-            Terrain theTerrain = GetActiveTerrain();
-
-            if (Shader.Find("Standard") != null && Shader.Find("LightweightPipeline/Standard (Physically Based)") == null || Shader.Find("Standard") != null && Shader.Find("HDRenderPipeline/Lit") == null)
-            {
-                if (!string.IsNullOrEmpty(gaiaScannerMaterial))
-                {
-                    gaiaScannerMat = AssetDatabase.LoadAssetAtPath<Material>(gaiaScannerMaterial);
-                    gaiaScannerMat.shader = Shader.Find("Standard");
-                }
-
-                if (!string.IsNullOrEmpty(gaiaStamperMaterial))
-                {
-                    gaiaStamperMat = AssetDatabase.LoadAssetAtPath<Material>(gaiaStamperMaterial);
-                    gaiaStamperMat.shader = Shader.Find("Standard");
-                }
-
-                if (theTerrain != null)
-                {
-                    theTerrain.materialType = Terrain.MaterialType.BuiltInStandard;
-                }
-            }
-
-            if(GraphicsSettings.renderPipelineAsset != null)
-            {
-                GraphicsSettings.renderPipelineAsset = null;
-            }
-        }
-
-        /// <summary>
-        /// Sets materials to lightweight pipeline
-        /// </summary>
-        public static void LightweightPipeline()
-        {
-            string gaiaScannerMaterial = GetAssetPath("GaiaScannerMaterial");
-            string gaiaStamperMaterial = GetAssetPath("GaiaStamperMaterial");
-            string gaiaLightWeightTerrainMaterial = GetAssetPath("Gaia Lightweight Terrain Shader");
-            string lightweightPipelineAsset = GetAssetPath("LWRP-HighQuality");
-            Material gaiaScannerMat;
-            Material gaiaStamperMat;
-            Terrain theTerrain = GetActiveTerrain();
-
-            if (Shader.Find("LightweightPipeline/Standard (Physically Based)"))
-            {
-                if (!string.IsNullOrEmpty(gaiaScannerMaterial))
-                {
-                    gaiaScannerMat = AssetDatabase.LoadAssetAtPath<Material>(gaiaScannerMaterial);
-                    gaiaScannerMat.shader = Shader.Find("LightweightPipeline/Standard (Physically Based)");
-                }
-
-                if (!string.IsNullOrEmpty(gaiaStamperMaterial))
-                {
-                    gaiaStamperMat = AssetDatabase.LoadAssetAtPath<Material>(gaiaStamperMaterial);
-                    gaiaStamperMat.shader = Shader.Find("LightweightPipeline/Standard (Physically Based)");
-                }
-
-                if (theTerrain != null)
-                {
-                    theTerrain.materialType = Terrain.MaterialType.Custom;
-                    if (!string.IsNullOrEmpty(gaiaLightWeightTerrainMaterial))
-                    {
-                        theTerrain.materialTemplate = AssetDatabase.LoadAssetAtPath<Material>(gaiaLightWeightTerrainMaterial);
-                    }
-                }
-
-                if (GraphicsSettings.renderPipelineAsset == null)
-                {
-                    if (!string.IsNullOrEmpty(lightweightPipelineAsset))
-                    {
-#if UNITY_2018_1_OR_NEWER
-                        GraphicsSettings.renderPipelineAsset = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(lightweightPipelineAsset);
-#endif
-                    }
-                }
-
-                if (GraphicsSettings.renderPipelineAsset != null && GraphicsSettings.renderPipelineAsset.name == "HDRenderPipelineAsset")
-                {
-                    if (!string.IsNullOrEmpty(lightweightPipelineAsset))
-                    {
-#if UNITY_2018_1_OR_NEWER
-                        GraphicsSettings.renderPipelineAsset = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(lightweightPipelineAsset);
-#endif
-                    }             
-                }
-            }
-        }
-
-        /// <summary>
-        /// Sets materials to lightweight pipeline
-        /// </summary>
-        public static void HighDefinitionPipeline()
-        {
-            string gaiaScannerMaterial = GetAssetPath("GaiaScannerMaterial");
-            string gaiaStamperMaterial = GetAssetPath("GaiaStamperMaterial");
-            string gaiaHighDefinitionTerrainMaterial = GetAssetPath("Gaia High Definition Terrain Shader");
-            string highDefinitionPipelineAsset = GetAssetPath("HDRenderPipelineAsset");
-            Material gaiaScannerMat;
-            Material gaiaStamperMat;
-            Terrain theTerrain = GetActiveTerrain();
-
-            if (Shader.Find("HDRenderPipeline/Lit"))
-            {
-                if (!string.IsNullOrEmpty(gaiaScannerMaterial))
-                {
-                    gaiaScannerMat = AssetDatabase.LoadAssetAtPath<Material>(gaiaScannerMaterial);
-                    gaiaScannerMat.shader = Shader.Find("HDRenderPipeline/Lit");
-                }
-
-                if (!string.IsNullOrEmpty(gaiaStamperMaterial))
-                {
-                    gaiaStamperMat = AssetDatabase.LoadAssetAtPath<Material>(gaiaStamperMaterial);
-                    gaiaStamperMat.shader = Shader.Find("HDRenderPipeline/Lit");
-                }
-
-                if (theTerrain != null)
-                {
-                    theTerrain.materialType = Terrain.MaterialType.Custom;
-                    if (!string.IsNullOrEmpty(gaiaHighDefinitionTerrainMaterial))
-                    {
-                        theTerrain.materialTemplate = AssetDatabase.LoadAssetAtPath<Material>(gaiaHighDefinitionTerrainMaterial);
-                    }
-                }
-
-                if (GraphicsSettings.renderPipelineAsset == null)
-                {
-                    if (!string.IsNullOrEmpty(highDefinitionPipelineAsset))
-                    {
-#if UNITY_2018_1_OR_NEWER
-                        GraphicsSettings.renderPipelineAsset = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(highDefinitionPipelineAsset);
-#endif
-                    }
-                }
-
-                if (GraphicsSettings.renderPipelineAsset != null && GraphicsSettings.renderPipelineAsset.name != "HDRenderPipelineAsset")
-                {
-                    if (!string.IsNullOrEmpty(highDefinitionPipelineAsset))
-                    {
-#if UNITY_2018_1_OR_NEWER
-                        GraphicsSettings.renderPipelineAsset = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(highDefinitionPipelineAsset);
-#endif
-                    }
-                }
-            }
-        }
 
 #region Helper methods
 
@@ -2396,7 +2285,7 @@ namespace Gaia
             if (assets.Length > 0)
             {
                 return AssetDatabase.GUIDToAssetPath(assets[0]);
-            }          
+            }
 #endif
             return null;
         }
@@ -2441,93 +2330,97 @@ namespace Gaia
             }
             else
             {
+                if (PWApp.CONF != null)
+                {
 #if UNITY_2018_3_OR_NEWER
-                using (UnityWebRequest www = new UnityWebRequest("http://www.procedural-worlds.com/gaiajson.php?gv=gaia-" + PWApp.CONF.Version))
-                {
-                    while (!www.isDone)
+                    using (UnityWebRequest www = new UnityWebRequest("http://www.procedural-worlds.com/gaiajson.php?gv=gaia-" + PWApp.CONF.Version))
                     {
-                        yield return www;
-                    }
-
-                    if (!string.IsNullOrEmpty(www.error))
-                    {
-                        //Debug.Log(www.error);
-                    }
-                    else
-                    {
-                        try
+                        while (!www.isDone)
                         {
-                            string result = www.url;
-                            int first = result.IndexOf("####");
-                            if (first > 0)
+                            yield return www;
+                        }
+
+                        if (!string.IsNullOrEmpty(www.error))
+                        {
+                            //Debug.Log(www.error);
+                        }
+                        else
+                        {
+                            try
                             {
-                                result = result.Substring(first + 10);
-                                first = result.IndexOf("####");
+                                string result = www.url;
+                                int first = result.IndexOf("####");
                                 if (first > 0)
                                 {
-                                    result = result.Substring(0, first);
-                                    result = result.Replace("<br />", "");
-                                    result = result.Replace("&#8221;", "\"");
-                                    result = result.Replace("&#8220;", "\"");
-                                    var message = JsonUtility.FromJson<GaiaMessages>(result);
-                                    m_settings.m_latestNewsTitle = message.title;
-                                    m_settings.m_latestNewsBody = message.bodyContent;
-                                    m_settings.m_latestNewsUrl = message.url;
-                                    m_settings.m_lastWebUpdate = DateTime.Now.Ticks;
-                                    EditorUtility.SetDirty(m_settings);
+                                    result = result.Substring(first + 10);
+                                    first = result.IndexOf("####");
+                                    if (first > 0)
+                                    {
+                                        result = result.Substring(0, first);
+                                        result = result.Replace("<br />", "");
+                                        result = result.Replace("&#8221;", "\"");
+                                        result = result.Replace("&#8220;", "\"");
+                                        var message = JsonUtility.FromJson<GaiaMessages>(result);
+                                        m_settings.m_latestNewsTitle = message.title;
+                                        m_settings.m_latestNewsBody = message.bodyContent;
+                                        m_settings.m_latestNewsUrl = message.url;
+                                        m_settings.m_lastWebUpdate = DateTime.Now.Ticks;
+                                        EditorUtility.SetDirty(m_settings);
+                                    }
                                 }
                             }
-                        }
-                        catch (Exception)
-                        {
-                            //Debug.Log(e.Message);
+                            catch (Exception)
+                            {
+                                //Debug.Log(e.Message);
+                            }
                         }
                     }
-                }
 #else
-                using (WWW www = new WWW("http://www.procedural-worlds.com/gaiajson.php?gv=gaia-" + PWApp.CONF.Version))
-                {
-                    while (!www.isDone)
+                    using (WWW www = new WWW("http://www.procedural-worlds.com/gaiajson.php?gv=gaia-" + PWApp.CONF.Version))
                     {
-                        yield return www;
-                    }
-
-                    if (!string.IsNullOrEmpty(www.error))
-                    {
-                        //Debug.Log(www.error);
-                    }
-                    else
-                    {
-                        try
+                        while (!www.isDone)
                         {
-                            string result = www.text;
-                            int first = result.IndexOf("####");
-                            if (first > 0)
+                            yield return www;
+                        }
+
+                        if (!string.IsNullOrEmpty(www.error))
+                        {
+                            //Debug.Log(www.error);
+                        }
+                        else
+                        {
+                            try
                             {
-                                result = result.Substring(first + 10);
-                                first = result.IndexOf("####");
+                                string result = www.text;
+                                int first = result.IndexOf("####");
                                 if (first > 0)
                                 {
-                                    result = result.Substring(0, first);
-                                    result = result.Replace("<br />", "");
-                                    result = result.Replace("&#8221;", "\"");
-                                    result = result.Replace("&#8220;", "\"");
-                                    var message = JsonUtility.FromJson<GaiaMessages>(result);
-                                    m_settings.m_latestNewsTitle = message.title;
-                                    m_settings.m_latestNewsBody = message.bodyContent;
-                                    m_settings.m_latestNewsUrl = message.url;
-                                    m_settings.m_lastWebUpdate = DateTime.Now.Ticks;
-                                    EditorUtility.SetDirty(m_settings);
+                                    result = result.Substring(first + 10);
+                                    first = result.IndexOf("####");
+                                    if (first > 0)
+                                    {
+                                        result = result.Substring(0, first);
+                                        result = result.Replace("<br />", "");
+                                        result = result.Replace("&#8221;", "\"");
+                                        result = result.Replace("&#8220;", "\"");
+                                        var message = JsonUtility.FromJson<GaiaMessages>(result);
+                                        m_settings.m_latestNewsTitle = message.title;
+                                        m_settings.m_latestNewsBody = message.bodyContent;
+                                        m_settings.m_latestNewsUrl = message.url;
+                                        m_settings.m_lastWebUpdate = DateTime.Now.Ticks;
+                                        EditorUtility.SetDirty(m_settings);
+                                    }
                                 }
                             }
-                        }
-                        catch (Exception)
-                        {
-                            //Debug.Log(e.Message);
+                            catch (Exception)
+                            {
+                                //Debug.Log(e.Message);
+                            }
                         }
                     }
-                }
+                
 #endif
+                }
             }
             StopEditorUpdates();
         }
@@ -2577,7 +2470,7 @@ namespace Gaia
         }
 #endregion
 
-        #region GAIA eXtensions GX
+#region GAIA eXtensions GX
         public static List<Type> GetTypesInNamespace(string nameSpace)
         {
             List<Type> gaiaTypes = new List<Type>();
@@ -2590,7 +2483,7 @@ namespace Gaia
                 if (assemblies[assyIdx].FullName.StartsWith("Assembly"))
                 {
                     types = assemblies[assyIdx].GetTypes();
-                    for (typeIdx = 0; typeIdx < types.Length; typeIdx++ )
+                    for (typeIdx = 0; typeIdx < types.Length; typeIdx++)
                     {
                         if (!string.IsNullOrEmpty(types[typeIdx].Namespace))
                         {
@@ -2624,7 +2517,7 @@ namespace Gaia
 
 #endregion
 
-        #region Commented out tooltips
+#region Commented out tooltips
         ///// <summary>
         ///// The tooltips
         ///// </summary>

@@ -1554,12 +1554,15 @@ namespace Gaia
                     return false;
                 }
 
-#if UNITY_2018_4_OR_NEWER
+
                 Terrain t = Terrain.activeTerrain;
+                var splatPrototypes = GaiaSplatPrototype.GetGaiaSplatPrototypes(t);
+
+
                 switch (m_areaMaskMode)
                 {
                     case GaiaConstants.ImageFitnessFilterMode.TerrainTexture0:
-                        if (t.terrainData.terrainLayers.Length < 1)
+                        if (splatPrototypes.Length < 1)
                         {
                             Debug.LogError("You requested an terrain texture mask 0 but there is no active texture in slot 0.");
                             return false;
@@ -1567,7 +1570,7 @@ namespace Gaia
                         m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 0);
                         break;
                     case GaiaConstants.ImageFitnessFilterMode.TerrainTexture1:
-                        if (t.terrainData.terrainLayers.Length < 2)
+                        if (splatPrototypes.Length < 2)
                         {
                             Debug.LogError("You requested an terrain texture mask 1 but there is no active texture in slot 1.");
                             return false;
@@ -1575,7 +1578,7 @@ namespace Gaia
                         m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 1);
                         break;
                     case GaiaConstants.ImageFitnessFilterMode.TerrainTexture2:
-                        if (t.terrainData.terrainLayers.Length < 3)
+                        if (splatPrototypes.Length < 3)
                         {
                             Debug.LogError("You requested an terrain texture mask 2 but there is no active texture in slot 2.");
                             return false;
@@ -1583,7 +1586,7 @@ namespace Gaia
                         m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 2);
                         break;
                     case GaiaConstants.ImageFitnessFilterMode.TerrainTexture3:
-                        if (t.terrainData.terrainLayers.Length < 4)
+                        if (splatPrototypes.Length < 4)
                         {
                             Debug.LogError("You requested an terrain texture mask 3 but there is no active texture in slot 3.");
                             return false;
@@ -1591,7 +1594,7 @@ namespace Gaia
                         m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 3);
                         break;
                     case GaiaConstants.ImageFitnessFilterMode.TerrainTexture4:
-                        if (t.terrainData.terrainLayers.Length < 5)
+                        if (splatPrototypes.Length < 5)
                         {
                             Debug.LogError("You requested an terrain texture mask 4 but there is no active texture in slot 4.");
                             return false;
@@ -1599,7 +1602,7 @@ namespace Gaia
                         m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 4);
                         break;
                     case GaiaConstants.ImageFitnessFilterMode.TerrainTexture5:
-                        if (t.terrainData.terrainLayers.Length < 6)
+                        if (splatPrototypes.Length < 6)
                         {
                             Debug.LogError("You requested an terrain texture mask 5 but there is no active texture in slot 5.");
                             return false;
@@ -1607,7 +1610,7 @@ namespace Gaia
                         m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 5);
                         break;
                     case GaiaConstants.ImageFitnessFilterMode.TerrainTexture6:
-                        if (t.terrainData.terrainLayers.Length < 7)
+                        if (splatPrototypes.Length < 7)
                         {
                             Debug.LogError("You requested an terrain texture mask 6 but there is no active texture in slot 6.");
                             return false;
@@ -1615,7 +1618,7 @@ namespace Gaia
                         m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 6);
                         break;
                     case GaiaConstants.ImageFitnessFilterMode.TerrainTexture7:
-                        if (t.terrainData.terrainLayers.Length < 8)
+                        if (splatPrototypes.Length < 8)
                         {
                             Debug.LogError("You requested an terrain texture mask 7 but there is no active texture in slot 7.");
                             return false;
@@ -1623,76 +1626,6 @@ namespace Gaia
                         m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 7);
                         break;
                 }
-#else
-                Terrain t = Terrain.activeTerrain;
-                switch (m_areaMaskMode)
-                {
-                    case GaiaConstants.ImageFitnessFilterMode.TerrainTexture0:
-                        if (t.terrainData.splatPrototypes.Length < 1)
-                        {
-                            Debug.LogError("You requested an terrain texture mask 0 but there is no active texture in slot 0.");
-                            return false;
-                        }
-                        m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 0);
-                        break;
-                    case GaiaConstants.ImageFitnessFilterMode.TerrainTexture1:
-                        if (t.terrainData.splatPrototypes.Length < 2)
-                        {
-                            Debug.LogError("You requested an terrain texture mask 1 but there is no active texture in slot 1.");
-                            return false;
-                        }
-                        m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 1);
-                        break;
-                    case GaiaConstants.ImageFitnessFilterMode.TerrainTexture2:
-                        if (t.terrainData.splatPrototypes.Length < 3)
-                        {
-                            Debug.LogError("You requested an terrain texture mask 2 but there is no active texture in slot 2.");
-                            return false;
-                        }
-                        m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 2);
-                        break;
-                    case GaiaConstants.ImageFitnessFilterMode.TerrainTexture3:
-                        if (t.terrainData.splatPrototypes.Length < 4)
-                        {
-                            Debug.LogError("You requested an terrain texture mask 3 but there is no active texture in slot 3.");
-                            return false;
-                        }
-                        m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 3);
-                        break;
-                    case GaiaConstants.ImageFitnessFilterMode.TerrainTexture4:
-                        if (t.terrainData.splatPrototypes.Length < 5)
-                        {
-                            Debug.LogError("You requested an terrain texture mask 4 but there is no active texture in slot 4.");
-                            return false;
-                        }
-                        m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 4);
-                        break;
-                    case GaiaConstants.ImageFitnessFilterMode.TerrainTexture5:
-                        if (t.terrainData.splatPrototypes.Length < 6)
-                        {
-                            Debug.LogError("You requested an terrain texture mask 5 but there is no active texture in slot 5.");
-                            return false;
-                        }
-                        m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 5);
-                        break;
-                    case GaiaConstants.ImageFitnessFilterMode.TerrainTexture6:
-                        if (t.terrainData.splatPrototypes.Length < 7)
-                        {
-                            Debug.LogError("You requested an terrain texture mask 6 but there is no active texture in slot 6.");
-                            return false;
-                        }
-                        m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 6);
-                        break;
-                    case GaiaConstants.ImageFitnessFilterMode.TerrainTexture7:
-                        if (t.terrainData.splatPrototypes.Length < 8)
-                        {
-                            Debug.LogError("You requested an terrain texture mask 7 but there is no active texture in slot 7.");
-                            return false;
-                        }
-                        m_imageMaskHM = new HeightMap(t.terrainData.GetAlphamaps(0, 0, t.terrainData.alphamapWidth, t.terrainData.alphamapHeight), 7);
-                        break;
-                }
-#endif
 
                 //It came from terrain so flip it
                 m_imageMaskHM.Flip();

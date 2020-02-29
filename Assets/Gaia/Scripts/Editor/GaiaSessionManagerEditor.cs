@@ -398,24 +398,20 @@ namespace Gaia
             GUILayout.EndVertical();
 
 
-            //Check for changes, make undo record, make changes and let editor know we are dirty
-            if (EditorGUI.EndChangeCheck())
-            {
-                Undo.RecordObject(m_manager, "Made changes");
-                m_manager.m_session.m_name = name;
-                m_manager.m_session.m_description = description;
-                m_manager.m_session.m_isLocked = locked;
-                m_manager.m_session.m_previewImage = previewImage;
-                EditorUtility.SetDirty(m_manager.m_session);
-                EditorUtility.SetDirty(m_manager);
-            }
+          
 
             GUILayout.BeginVertical("Session Controller", m_boxStyle);
             GUILayout.Space(20);
-
+            GUILayout.BeginHorizontal();
+            bool focusSceneView = EditorGUILayout.Toggle(GetLabel("Focus Scene View"), m_manager.m_focusSceneView);
+            GUILayout.EndHorizontal();
+            GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             if (m_manager.m_updateSessionCoroutine == null && m_manager.m_updateOperationCoroutine == null)
             {
+               
+
+
                 if (GUILayout.Button(GetLabel("Play Session")))
                 {
                     if (EditorUtility.DisplayDialog("Playback Session ?", "Are you sure you want to playback your session - this can not be undone ?", "Yes", "No"))
@@ -439,6 +435,19 @@ namespace Gaia
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
+
+            //Check for changes, make undo record, make changes and let editor know we are dirty
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(m_manager, "Made changes");
+                m_manager.m_session.m_name = name;
+                m_manager.m_session.m_description = description;
+                m_manager.m_session.m_isLocked = locked;
+                m_manager.m_session.m_previewImage = previewImage;
+                m_manager.m_focusSceneView = focusSceneView;
+                EditorUtility.SetDirty(m_manager.m_session);
+                EditorUtility.SetDirty(m_manager);
+            }
 
             //Debug.Log(m_manager.m_lastUpdateDateTime);
 
@@ -515,6 +524,7 @@ namespace Gaia
             { "Clear Details", "Clear details on all terrains." },
 
             { "Terrain Helper", "Show the terrain helper controls." },
+            { "Focus Scene View", "Focus the scene view on the terrain during session Playback." },
             { "Play Session", "Play the session from end to end." },
             { "Export Resources", "Export the embedded session resources to the Assest\\Gaia Sessions\\SessionName directory." },
             { "Session", "The way this spawner runs. Design time : At design time only. Runtime Interval : At run time on a timed interval. Runtime Triggered Interval : At run time on a timed interval, and only when the tagged game object is closer than the trigger range from the center of the spawner." },

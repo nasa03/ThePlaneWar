@@ -1,0 +1,649 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: HD Volume Profile
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 114259784155990258}
+  - {fileID: 114369445541307930}
+  - {fileID: 114721276873653350}
+  - {fileID: 114471737410181332}
+  - {fileID: 114852835767149650}
+  - {fileID: 114975035042445370}
+  - {fileID: 114714089080298582}
+  - {fileID: 114202592395038636}
+  - {fileID: 114670963145123402}
+  - {fileID: 114707743294146932}
+  - {fileID: 114697022254883044}
+  - {fileID: 114324342612528150}
+  - {fileID: 114410573302311386}
+  - {fileID: 114094052881629842}
+--- !u!114 &114094052881629842
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e17fad69ea181b4483974138b566975, type: 3}
+  m_Name: ScreenSpaceRefraction
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  screenFadeDistance:
+    m_OverrideState: 1
+    m_Value: 0.1
+    min: 0.001
+    max: 1
+--- !u!114 &114202592395038636
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddcec8a8eb2d684d833ac8f5d26aebd, type: 3}
+  m_Name: HDShadowSettings
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  maxShadowDistance:
+    m_OverrideState: 1
+    m_Value: 700
+    min: 0
+  cascadeShadowSplitCount:
+    m_OverrideState: 1
+    m_Value: 4
+    min: 1
+    max: 4
+  cascadeShadowSplit0:
+    m_OverrideState: 1
+    m_Value: 0.05
+  cascadeShadowSplit1:
+    m_OverrideState: 1
+    m_Value: 0.15
+  cascadeShadowSplit2:
+    m_OverrideState: 1
+    m_Value: 0.3
+  cascadeShadowBorder0:
+    m_OverrideState: 0
+    m_Value: 0
+  cascadeShadowBorder1:
+    m_OverrideState: 0
+    m_Value: 0
+  cascadeShadowBorder2:
+    m_OverrideState: 0
+    m_Value: 0
+  cascadeShadowBorder3:
+    m_OverrideState: 0
+    m_Value: 0
+--- !u!114 &114259784155990258
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7593b3a9277ac4696b20006c21dde2, type: 3}
+  m_Name: VisualEnvironment
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  skyType:
+    m_OverrideState: 1
+    m_Value: 1
+  skyAmbientMode:
+    m_OverrideState: 0
+    m_Value: 0
+  fogType:
+    m_OverrideState: 1
+    m_Value: 3
+--- !u!114 &114324342612528150
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4910d90e50201484ba448b791a192696, type: 3}
+  m_Name: VolumetricLightingController
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  depthExtent:
+    m_OverrideState: 1
+    m_Value: 200
+    min: 0.1
+  sliceDistributionUniformity:
+    m_OverrideState: 1
+    m_Value: 0.5
+    min: 0
+    max: 1
+--- !u!114 &114369445541307930
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59b6606ef2548734bb6d11b9d160bc7e, type: 3}
+  m_Name: HDRISky
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  rotation:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+    max: 360
+  skyIntensityMode:
+    m_OverrideState: 1
+    m_Value: 0
+  exposure:
+    m_OverrideState: 1
+    m_Value: 0.75
+  multiplier:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxValue:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  desiredLuxValue:
+    m_OverrideState: 0
+    m_Value: 20000
+  updateMode:
+    m_OverrideState: 1
+    m_Value: 0
+  updatePeriod:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  includeSunInBaking:
+    m_OverrideState: 0
+    m_Value: 0
+  hdriSky:
+    m_OverrideState: 1
+    m_Value: {fileID: 8900000, guid: 60995c357a320a4488263256076c8893, type: 3}
+--- !u!114 &114410573302311386
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 384c4d03a551c44448145f4093304119, type: 3}
+  m_Name: ScreenSpaceReflection
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  depthBufferThickness:
+    m_OverrideState: 1
+    m_Value: 0.01
+    min: 0
+    max: 1
+  screenFadeDistance:
+    m_OverrideState: 1
+    m_Value: 0.1
+    min: 0
+    max: 1
+  minSmoothness:
+    m_OverrideState: 1
+    m_Value: 0.9
+    min: 0
+    max: 1
+  smoothnessFadeStart:
+    m_OverrideState: 1
+    m_Value: 0.9
+    min: 0
+    max: 1
+  reflectSky:
+    m_OverrideState: 1
+    m_Value: 1
+  rayMaxIterations:
+    m_OverrideState: 1
+    m_Value: 32
+--- !u!114 &114471737410181332
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df29e7cc05fbec4aa43e06ea875565d, type: 3}
+  m_Name: ProceduralSky
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  rotation:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 360
+  skyIntensityMode:
+    m_OverrideState: 0
+    m_Value: 0
+  exposure:
+    m_OverrideState: 1
+    m_Value: 2.5
+  multiplier:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxValue:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  desiredLuxValue:
+    m_OverrideState: 0
+    m_Value: 20000
+  updateMode:
+    m_OverrideState: 1
+    m_Value: 0
+  updatePeriod:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  includeSunInBaking:
+    m_OverrideState: 1
+    m_Value: 0
+  sunSize:
+    m_OverrideState: 1
+    m_Value: 0.01
+    min: 0
+    max: 1
+  sunSizeConvergence:
+    m_OverrideState: 1
+    m_Value: 10
+    min: 1
+    max: 10
+  atmosphereThickness:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+    max: 5
+  skyTint:
+    m_OverrideState: 1
+    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    hdr: 0
+    showAlpha: 1
+    showEyeDropper: 1
+  groundColor:
+    m_OverrideState: 1
+    m_Value: {r: 0.369, g: 0.349, b: 0.341, a: 1}
+    hdr: 0
+    showAlpha: 1
+    showEyeDropper: 1
+  enableSunDisk:
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &114670963145123402
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b145d2b9ee1ac4f846968484e7485a, type: 3}
+  m_Name: ContactShadows
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
+  length:
+    m_OverrideState: 1
+    m_Value: 0.15
+    min: 0
+    max: 1
+  opacity:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+    max: 1
+  distanceScaleFactor:
+    m_OverrideState: 1
+    m_Value: 0.5
+    min: 0
+    max: 1
+  maxDistance:
+    m_OverrideState: 1
+    m_Value: 50
+    min: 0
+  fadeDistance:
+    m_OverrideState: 1
+    m_Value: 5
+    min: 0
+  sampleCount:
+    m_OverrideState: 1
+    m_Value: 8
+    min: 4
+    max: 64
+--- !u!114 &114697022254883044
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f034cba68ab55e046ae1445a42f18c0e, type: 3}
+  m_Name: IndirectLightingController
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  indirectSpecularIntensity:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+  indirectDiffuseIntensity:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+--- !u!114 &114707743294146932
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32b6af8f7ad32324cb6941c3290e5895, type: 3}
+  m_Name: MicroShadowing
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
+  opacity:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+    max: 1
+--- !u!114 &114714089080298582
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b00527f85bb3346a4d2cb710971587, type: 3}
+  m_Name: VolumetricFog
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  colorMode:
+    m_OverrideState: 0
+    m_Value: 1
+  color:
+    m_OverrideState: 0
+    m_Value: {r: 0.5921569, g: 0.65882355, b: 0.7254902, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  density:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
+  maxFogDistance:
+    m_OverrideState: 1
+    m_Value: 1500
+    min: 0
+  mipFogMaxMip:
+    m_OverrideState: 0
+    m_Value: 0.5
+    min: 0
+    max: 1
+  mipFogNear:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  mipFogFar:
+    m_OverrideState: 0
+    m_Value: 1000
+    min: 0
+  albedo:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 0
+    showAlpha: 1
+    showEyeDropper: 1
+  meanFreePath:
+    m_OverrideState: 1
+    m_Value: 444.44443
+    min: 1
+  baseHeight:
+    m_OverrideState: 1
+    m_Value: 40
+  meanHeight:
+    m_OverrideState: 1
+    m_Value: 100
+  anisotropy:
+    m_OverrideState: 1
+    m_Value: 0.75
+    min: -1
+    max: 1
+  globalLightProbeDimmer:
+    m_OverrideState: 1
+    m_Value: 0.8
+    min: 0
+    max: 1
+  enableDistantFog:
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &114721276873653350
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a81bcacc415a1f743bfdf703afc52027, type: 3}
+  m_Name: GradientSky
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  rotation:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 360
+  skyIntensityMode:
+    m_OverrideState: 0
+    m_Value: 0
+  exposure:
+    m_OverrideState: 0
+    m_Value: 0
+  multiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxValue:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  desiredLuxValue:
+    m_OverrideState: 0
+    m_Value: 20000
+  updateMode:
+    m_OverrideState: 1
+    m_Value: 0
+  updatePeriod:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  includeSunInBaking:
+    m_OverrideState: 0
+    m_Value: 0
+  top:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  middle:
+    m_OverrideState: 1
+    m_Value: {r: 0.3, g: 0.7, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  bottom:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  gradientDiffusion:
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &114852835767149650
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2150ee00179b2f4418ea8b21a7e98eea, type: 3}
+  m_Name: ExponentialFog
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  colorMode:
+    m_OverrideState: 1
+    m_Value: 1
+  color:
+    m_OverrideState: 0
+    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  density:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+    max: 1
+  maxFogDistance:
+    m_OverrideState: 1
+    m_Value: 5000
+    min: 0
+  mipFogMaxMip:
+    m_OverrideState: 1
+    m_Value: 0.5
+    min: 0
+    max: 1
+  mipFogNear:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+  mipFogFar:
+    m_OverrideState: 1
+    m_Value: 1000
+    min: 0
+  fogDistance:
+    m_OverrideState: 1
+    m_Value: 200
+    min: 0
+  fogBaseHeight:
+    m_OverrideState: 1
+    m_Value: 0
+  fogHeightAttenuation:
+    m_OverrideState: 1
+    m_Value: 0.2
+    min: 0
+    max: 1
+--- !u!114 &114975035042445370
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb673446a9a2dfa408924fe9a56322e0, type: 3}
+  m_Name: LinearFog
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  colorMode:
+    m_OverrideState: 1
+    m_Value: 1
+  color:
+    m_OverrideState: 0
+    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  density:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+    max: 1
+  maxFogDistance:
+    m_OverrideState: 1
+    m_Value: 500
+    min: 0
+  mipFogMaxMip:
+    m_OverrideState: 1
+    m_Value: 0.5
+    min: 0
+    max: 1
+  mipFogNear:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+  mipFogFar:
+    m_OverrideState: 1
+    m_Value: 1000
+    min: 0
+  fogStart:
+    m_OverrideState: 1
+    m_Value: 5
+    min: 0
+  fogEnd:
+    m_OverrideState: 1
+    m_Value: 1200
+    min: 0
+  fogHeightStart:
+    m_OverrideState: 1
+    m_Value: 100
+  fogHeightEnd:
+    m_OverrideState: 1
+    m_Value: 800

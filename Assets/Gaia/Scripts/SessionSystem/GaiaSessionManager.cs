@@ -38,6 +38,11 @@ namespace Gaia
         public GaiaSession m_session;
 
         /// <summary>
+        /// Controls if the scene view will be focused on the terrain when playing back a session.
+        /// </summary>
+        public bool m_focusSceneView = true;
+
+        /// <summary>
         /// Public variables used by the terrain generator
         /// </summary>
         public bool m_genShowRandomGenerator = false;
@@ -1298,12 +1303,15 @@ namespace Gaia
             //Disable automatic light baking - this kills perf on most systems
             Lightmapping.giWorkflowMode = Lightmapping.GIWorkflowMode.OnDemand;
 
-            //Adjust the scene view so you can see the terrain
-            if (SceneView.lastActiveSceneView != null)
+            if (m_focusSceneView)
             {
-                if (m_session != null)
+                //Adjust the scene view so you can see the terrain
+                if (SceneView.lastActiveSceneView != null)
                 {
-                    SceneView.lastActiveSceneView.LookAtDirect(new Vector3(0f, (float)m_session.m_terrainDepth * 0.13f, -1f * (m_session.m_terrainDepth / 2f)), Quaternion.Euler(30f, 0f, 0f));
+                    if (m_session != null)
+                    {
+                        SceneView.lastActiveSceneView.LookAtDirect(new Vector3(0f, (float)m_session.m_terrainDepth * 0.13f, -1f * (m_session.m_terrainDepth / 2f)), Quaternion.Euler(30f, 0f, 0f));
+                    }
                 }
             }
 #endif
@@ -1634,7 +1642,7 @@ namespace Gaia
             }
 
             //Export the defaults if they exist
-            if (m_session.m_defaults != null && m_session.m_defaults.m_content.GetLength(0) > 0)
+            if (m_session!=null && m_session.m_defaults != null && m_session.m_defaults.m_content != null && m_session.m_defaults.m_content.GetLength(0) > 0)
             {
                 string exportName = Path.Combine(path, Gaia.ScriptableObjectWrapper.GetSessionedFileName(m_session.m_name, m_session.m_defaults.m_fileName));
                 GaiaCommon1.Utils.WriteAllBytes(exportName, m_session.m_defaults.m_content);
@@ -1673,7 +1681,7 @@ namespace Gaia
             }
 
             //Export the defaults if they exist
-            if (m_session.m_defaults != null && m_session.m_defaults.m_content.GetLength(0) > 0)
+            if (m_session!=null && m_session.m_defaults != null && m_session.m_defaults.m_content!=null && m_session.m_defaults.m_content.GetLength(0) > 0)
             {
                 string exportName = Path.Combine(path, Gaia.ScriptableObjectWrapper.GetSessionedFileName(m_session.m_name, m_session.m_defaults.m_fileName));
                 GaiaCommon1.Utils.WriteAllBytes(exportName, m_session.m_defaults.m_content);

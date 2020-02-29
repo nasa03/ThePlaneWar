@@ -1484,9 +1484,9 @@ MonoBehaviour:
     m_spawnExtensions: []
   m_treePrototypes:
   - m_name: Broadleaf_Desktop
-    m_desktopPrefab: {fileID: 100000, guid: c91c1eb85782d5748ace27eb4d7415bb, type: 3}
+    m_desktopPrefab: {fileID: 0}
     m_desktopPrefabFileName: Broadleaf_Desktop.spm
-    m_mobilePrefab: {fileID: 100000, guid: c91c1eb85782d5748ace27eb4d7415bb, type: 3}
+    m_mobilePrefab: {fileID: 0}
     m_mobilePrefabFileName: Broadleaf_Desktop.spm
     m_bendFactor: 0
     m_healthyColour: {r: 1, g: 1, b: 1, a: 1}
@@ -1601,9 +1601,9 @@ MonoBehaviour:
       m_isActive: 1
     m_spawnExtensions: []
   - m_name: Conifer_Desktop
-    m_desktopPrefab: {fileID: 100016, guid: 469edab27ab6d004d84af2c4a851bd7f, type: 3}
+    m_desktopPrefab: {fileID: 0}
     m_desktopPrefabFileName: Conifer_Desktop.spm
-    m_mobilePrefab: {fileID: 100016, guid: 469edab27ab6d004d84af2c4a851bd7f, type: 3}
+    m_mobilePrefab: {fileID: 0}
     m_mobilePrefabFileName: Conifer_Desktop.spm
     m_bendFactor: 0
     m_healthyColour: {r: 1, g: 1, b: 1, a: 1}

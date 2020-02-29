@@ -4506,8 +4506,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Small Farm 2
     m_instances:
@@ -6099,8 +6099,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Small Farm 3
     m_instances:
@@ -8151,8 +8151,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Small Farm 4
     m_instances:
@@ -10509,8 +10509,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Small Farm 5
     m_instances:
@@ -13581,8 +13581,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Small Farm 6
     m_instances:
@@ -15939,8 +15939,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Medium Farm 1
     m_instances:
@@ -20082,8 +20082,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Medium Farm 2
     m_instances:
@@ -24480,8 +24480,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Small Village 1
     m_instances:
@@ -31785,8 +31785,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Small Village 2
     m_instances:
@@ -37713,8 +37713,8 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0
   - m_name: Copse
     m_instances:
@@ -38388,6 +38388,6 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions:
-    - {fileID: 11458244, guid: dca06ed5385cd2548b4fb2386f16cf92, type: 3}
-    - {fileID: 11480470, guid: f2bae38de5d688b46836e4e69dd923e8, type: 3}
+    - {fileID: 11458244, guid: 03e05fa3910c7c44fb6f4ed786130eaa, type: 3}
+    - {fileID: 11480470, guid: 97d7b8631a2db3e4eb948da1b821f7db, type: 3}
     m_canSpawnAsTree: 0

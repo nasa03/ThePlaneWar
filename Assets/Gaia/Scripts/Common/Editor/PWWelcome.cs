@@ -40,13 +40,23 @@ namespace GaiaCommon1
         /// </summary>
         private static void OnEditorUpdate()
         {
-            float waitTime = 2f;
+            float waitTime = 3f;
 
-            if (m_loadTime < 0f)
+            if (m_loadTime < 0f && !EditorApplication.isCompiling)
             {
                 m_loadTime = Time.realtimeSinceStartup;
 #if PW_DEBUG
             Debug.LogFormat("[PWWelcome]: Waiting '{0}' seconds.", waitTime); 
+#endif
+                return;
+            }
+
+            // Check every .6 seconds that the Editor didn't start some compiling as part of import/prod creation
+            if (Time.realtimeSinceStartup - m_loadTime > 0.6f && EditorApplication.isCompiling)
+            {
+                m_loadTime = Time.realtimeSinceStartup;
+#if PW_DEBUG
+            Debug.LogFormat("[PWWelcome]: Editor is compiling. Reseted timer to wait '{0}' seconds.", waitTime); 
 #endif
                 return;
             }

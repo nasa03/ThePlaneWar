@@ -34,6 +34,8 @@ namespace Gaia
         public string m_currentPlayerPrefabName = "FPSController";
         [Tooltip("Current prefab name for the water object.")]
         public string m_currentWaterPrefabName = "Water4Advanced";
+        [Tooltip("Current path for terrain layer storage. Must include 'Assets\' at the beginning.")]
+        public string m_currentTerrainLayerStoragePath = "Assets\\GaiaTerrainLayers\\";
 
         [Tooltip("Publisher name for exported extensions.")]
         public string m_publisherName = "";

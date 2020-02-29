@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GaiaSettings
   m_EditorClassIdentifier: 
   m_currentController: 1
-  m_currentSize: 5
+  m_currentSize: 4
   m_currentEnvironment: 2
   m_currentRenderer: 0
   m_currentDefaults: {fileID: 11400000, guid: 54f4fac3c7f0a1e44a45853d26c87b49, type: 2}
@@ -23,6 +23,7 @@ MonoBehaviour:
   m_currentSizeDivisor: 1
   m_currentPlayerPrefabName: Flycam
   m_currentWaterPrefabName: Water4Advanced
+  m_currentTerrainLayerStoragePath: Assets/GaiaTerrainLayers
   m_publisherName: 
   m_fpsPlayerPrefabName: FPSController
   m_3pPlayerPrefabName: ThirdPersonController

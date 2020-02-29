@@ -49,6 +49,8 @@ namespace GaiaCommon1
         private int m_defaultTabCount;
 
         // Our products buttons
+        private Texture2D m_prodImgASo;
+        private Texture2D m_prodImgASk;
         private Texture2D m_prodImgCTS;
         private Texture2D m_prodImgGaia;
         private Texture2D m_prodImgGeNa;
@@ -58,12 +60,14 @@ namespace GaiaCommon1
         private float m_maxProdImgWidth;
 
         // and links
-        private const string LINK_CTS = "https://www.assetstore.unity3d.com/#!/content/91938";
-        private const string LINK_GAIA = "https://www.assetstore.unity3d.com/#!/content/42618";
-        private const string LINK_GENA = "https://www.assetstore.unity3d.com/#!/content/127636";
-        private const string LINK_PEGASUS = "https://www.assetstore.unity3d.com/#!/content/65397";
-        private const string LINK_PP = "https://www.assetstore.unity3d.com/#!/content/127506";
-        private const string LINK_SECTR = "https://www.assetstore.unity3d.com/#!/content/15356";
+        private const string LINK_ASO = "https://assetstore.unity.com/packages/tools/audio/ambient-sounds-interactive-soundscapes-142132";
+        private const string LINK_ASK = "https://assetstore.unity.com/packages/tools/particles-effects/ambient-skies-skies-post-fx-lighting-145817";
+        private const string LINK_CTS = "https://assetstore.unity.com/packages/tools/terrain/cts-2019-complete-terrain-shader-140806";
+        private const string LINK_GAIA = "https://assetstore.unity.com/packages/tools/terrain/gaia-terrain-scene-generator-42618";
+        private const string LINK_GENA = "https://assetstore.unity.com/packages/tools/terrain/gena-2-terrain-scene-spawner-127636";
+        private const string LINK_PEGASUS = "https://assetstore.unity.com/packages/tools/animation/pegasus-65397";
+        private const string LINK_PP = "https://assetstore.unity.com/packages/tools/terrain/path-painter-127506";
+        private const string LINK_SECTR = "https://assetstore.unity.com/packages/tools/terrain/sectr-complete-2019-144433";
 
 
         PWWelcomeScreen()
@@ -76,47 +80,30 @@ namespace GaiaCommon1
 
         private void OnEnable()
         {
-            minSize = new Vector2(980, 675);
+            // Too expand height to 3 rows. Will allow a smaller minSize for ancient PCs in OnEditorUpdate().
+            minSize = new Vector2(980, 920);
 
             if (m_editorUtils == null)
             {
                 m_editorUtils = new EditorUtils(PWConst.COMMON_APP_CONF, this);
             }
 
-            if (m_prodImgCTS == null)
-            {
-                m_prodImgCTS = Resources.Load("CTS" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
-                m_maxProdImgWidth = m_prodImgCTS.width > m_maxProdImgWidth ? m_prodImgCTS.width : m_maxProdImgWidth;
-            }
+            LoadImage("AmbientSkies", ref m_prodImgASk);
+            LoadImage("AmbientSounds", ref m_prodImgASo);
+            LoadImage("CTS", ref m_prodImgCTS);
+            LoadImage("Gaia", ref m_prodImgGaia);
+            LoadImage("GeNa", ref m_prodImgGeNa);
+            LoadImage("Pegasus", ref m_prodImgPegasus);
+            LoadImage("PathPainter", ref m_prodImgPP);
+            LoadImage("SECTR", ref m_prodImgSECTR);
+        }
 
-            if (m_prodImgGaia == null)
+        private void LoadImage(string id, ref Texture2D targetTexture)
+        {
+            if (targetTexture == null)
             {
-                m_prodImgGaia = Resources.Load("Gaia" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
-                m_maxProdImgWidth = m_prodImgCTS.width > m_maxProdImgWidth ? m_prodImgCTS.width : m_maxProdImgWidth;
-            }
-
-            if (m_prodImgGeNa == null)
-            {
-                m_prodImgGeNa = Resources.Load("GeNa" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
-                m_maxProdImgWidth = m_prodImgCTS.width > m_maxProdImgWidth ? m_prodImgCTS.width : m_maxProdImgWidth;
-            }
-
-            if (m_prodImgPegasus == null)
-            {
-                m_prodImgPegasus = Resources.Load("Pegasus" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
-                m_maxProdImgWidth = m_prodImgCTS.width > m_maxProdImgWidth ? m_prodImgCTS.width : m_maxProdImgWidth;
-            }
-
-            if (m_prodImgPP == null)
-            {
-                m_prodImgPP = Resources.Load("PathPainter" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
-                m_maxProdImgWidth = m_prodImgCTS.width > m_maxProdImgWidth ? m_prodImgCTS.width : m_maxProdImgWidth;
-            }
-
-            if (m_prodImgSECTR == null)
-            {
-                m_prodImgSECTR = Resources.Load("SECTR" + PWConst.VERSION_IN_FILENAMES) as Texture2D;
-                m_maxProdImgWidth = m_prodImgCTS.width > m_maxProdImgWidth ? m_prodImgCTS.width : m_maxProdImgWidth;
+                targetTexture = Resources.Load(id + PWConst.VERSION_IN_FILENAMES) as Texture2D;
+                m_maxProdImgWidth = targetTexture.width > m_maxProdImgWidth ? targetTexture.width : m_maxProdImgWidth;
             }
         }
 
@@ -153,6 +140,8 @@ namespace GaiaCommon1
             if (Time.realtimeSinceStartup - m_openingTime > 1f)
             {
                 Focus();
+                // Allow smaller height for aciant PCs.
+                minSize = new Vector2(980, 675);
                 EditorApplication.update -= OnEditorUpdate;
             }
         }
@@ -258,27 +247,15 @@ namespace GaiaCommon1
                 GUILayout.FlexibleSpace();
                 GUILayout.BeginVertical();
                 {
-                    // CTS
-                    if (m_editorUtils.ClickableImage(m_prodImgCTS))
+                    // Ambient Skies
+                    if (m_editorUtils.ClickableImage(m_prodImgASk))
                     {
-                        Application.OpenURL(LINK_CTS);
+                        Application.OpenURL(LINK_ASK);
                     }
-                    m_editorUtils.ClickableImgDescriptionBold("CTSDescription", GUILayout.Width(m_maxProdImgWidth), GUILayout.Height(descriptionHeight));
+                    m_editorUtils.ClickableImgDescriptionBold("ASkiesDescription", GUILayout.Width(m_maxProdImgWidth), GUILayout.Height(descriptionHeight));
 
                     GUILayout.Space(spacing);
 
-                    // PP
-                    if (m_editorUtils.ClickableImage(m_prodImgPP))
-                    {
-                        Application.OpenURL(LINK_PP);
-                    }
-                    m_editorUtils.ClickableImgDescriptionBold("PPDescription", GUILayout.Width(m_maxProdImgWidth), GUILayout.Height(descriptionHeight));
-                }
-                GUILayout.EndVertical();
-
-                GUILayout.Space(spacing);
-                GUILayout.BeginVertical();
-                {
                     // Gaia
                     if (m_editorUtils.ClickableImage(m_prodImgGaia))
                     {
@@ -297,9 +274,18 @@ namespace GaiaCommon1
                 }
                 GUILayout.EndVertical();
 
-                GUILayout.Space(spacing);
+                GUILayout.FlexibleSpace();
                 GUILayout.BeginVertical();
                 {
+                    // Ambient Sounds
+                    if (m_editorUtils.ClickableImage(m_prodImgASo))
+                    {
+                        Application.OpenURL(LINK_ASO);
+                    }
+                    m_editorUtils.ClickableImgDescriptionBold("ASoDescription", GUILayout.Width(m_maxProdImgWidth), GUILayout.Height(descriptionHeight));
+
+                    GUILayout.Space(spacing);
+
                     // GeNa
                     if (m_editorUtils.ClickableImage(m_prodImgGeNa))
                     {
@@ -317,7 +303,27 @@ namespace GaiaCommon1
                     m_editorUtils.ClickableImgDescriptionBold("SECTRDescription", GUILayout.Width(m_maxProdImgWidth), GUILayout.Height(descriptionHeight));
                 }
                 GUILayout.EndVertical();
-                GUILayout.FlexibleSpace();
+
+                GUILayout.Space(spacing);
+                GUILayout.BeginVertical();
+                {
+                    // CTS
+                    if (m_editorUtils.ClickableImage(m_prodImgCTS))
+                    {
+                        Application.OpenURL(LINK_CTS);
+                    }
+                    m_editorUtils.ClickableImgDescriptionBold("CTSDescription", GUILayout.Width(m_maxProdImgWidth), GUILayout.Height(descriptionHeight));
+
+                    GUILayout.Space(spacing);
+
+                    // PP
+                    if (m_editorUtils.ClickableImage(m_prodImgPP))
+                    {
+                        Application.OpenURL(LINK_PP);
+                    }
+                    m_editorUtils.ClickableImgDescriptionBold("PPDescription", GUILayout.Width(m_maxProdImgWidth), GUILayout.Height(descriptionHeight));
+                }
+                GUILayout.EndVertical();
             }
             GUILayout.EndHorizontal();
         }

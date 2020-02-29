@@ -684,9 +684,6 @@ namespace Gaia
                             spawnInfo.m_hitTerrain.AddTreeInstance(t);
                             spawnInfo.m_spawner.m_treeCache.AddTree(spawnInfo.m_hitLocationWU, t.prototypeIndex);
 
-                            //Add a collider cache
-                            //TODO Update collision checks to handle this!
-                            /*
                             float boundsRadius = treeProto.m_dna.m_boundsRadius * t.widthScale;
                             GameObject colliderObj = GameObject.CreatePrimitive(PrimitiveType.Capsule);
                             colliderObj.name = m_colliderName;
@@ -705,7 +702,7 @@ namespace Gaia
 
                             }
                             colliderObj.transform.parent = spawnInfo.m_spawner.m_areaBoundsColliderCache.transform;
-                            */
+                            
                             break;
                         }
                     case GaiaConstants.SpawnerResourceType.GameObject:

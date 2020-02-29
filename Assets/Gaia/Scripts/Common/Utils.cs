@@ -128,6 +128,64 @@ namespace GaiaCommon1
             }
         }
 
+        /// <summary>
+        /// Get the Editor Scripts Path of Prod or return null if unsuccesful.
+        /// </summary>
+        /// <param name="appConfig">Appconfig of the Prod.</param>
+        public static string GetEditorScriptsPath(AppConfig appConfig)
+        {
+            return GetAppsSubfolder(appConfig.Folder, appConfig.EditorScriptsFolder);
+        }
+
+        /// <summary>
+        /// Get a folder in a Prod/App or return null if unsuccesful.
+        /// </summary>
+        /// <param name="appFolder">Folder name of the App.</param>
+        /// <param name="subfolderPath">Path of the subfolder inside the Prod/App.</param>
+        public static string GetAppsSubfolder(string appFolder, string subfolderPath)
+        {
+#if PW_DEBUG
+            Debug.Log("Looking for subfolder '" + subfolderPath + "' in app folder '"+ appFolder + "', root: 'Assets'");
+#endif
+            DirectoryInfo searchRoot = new DirectoryInfo("Assets");
+            if (!searchRoot.Exists)
+            {
+                Debug.LogWarning("Search root does not exist: Assets");
+                return null;
+            }
+
+            List<DirectoryInfo> dirsAtLevel = new List<DirectoryInfo>(searchRoot.GetDirectories());
+
+            while (dirsAtLevel.Count > 0)
+            {
+                List<DirectoryInfo> nextLevel = new List<DirectoryInfo>();
+
+                for (int i = 0; i < dirsAtLevel.Count; i++)
+                {
+                    if (dirsAtLevel[i].Name == appFolder)
+                    {
+                        string path = Path.Combine(dirsAtLevel[i].FullName, subfolderPath);
+                        //string path = dirsAtLevel[i].FullName + @"\" + subfolderPath;
+#if PW_DEBUG
+                        Debug.Log("Found a match for project folder: '" + dirsAtLevel[i].FullName + "'; Checking existence of '" + path + "'");
+#endif
+                        if (Directory.Exists(path))
+                        {
+                            // Returning project relative path with slashes
+                            path = path.Replace(searchRoot.FullName, "Assets");
+                            return path.Replace(@"\", "/");
+                        }
+                    }
+                    nextLevel.AddRange(dirsAtLevel[i].GetDirectories());
+                }
+
+                dirsAtLevel = nextLevel;
+            }
+
+            Debug.LogWarning("Unable to locate directory: '" + appFolder + "/" + subfolderPath + "'");
+            return null;
+        }
+
         #endregion
 
         #region Math helpers

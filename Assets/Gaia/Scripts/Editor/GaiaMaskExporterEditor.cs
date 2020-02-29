@@ -19,17 +19,10 @@ namespace Gaia
 
         void OnEnable()
         {
-#if UNITY_2018_4_OR_NEWER
             if (Terrain.activeTerrain != null)
             {
-                m_selectedMask = Terrain.activeTerrain.terrainData.terrainLayers.Length;
+                m_selectedMask = GaiaSplatPrototype.GetGaiaSplatPrototypes(Terrain.activeTerrain).Length;
             }
-#else
-            if (Terrain.activeTerrain != null)
-            {
-                m_selectedMask = Terrain.activeTerrain.terrainData.splatPrototypes.Length;
-            }
-#endif
         }
 
 
@@ -67,17 +60,11 @@ namespace Gaia
             List<GUIContent> textureNames = new List<GUIContent>();
             if (Terrain.activeTerrain != null)
             {
-#if UNITY_2018_4_OR_NEWER
-                for (int idx = 0; idx < Terrain.activeTerrain.terrainData.terrainLayers.Length; idx++)
+                var splatPrototypes = GaiaSplatPrototype.GetGaiaSplatPrototypes(Terrain.activeTerrain); 
+                for (int idx = 0; idx < splatPrototypes.Length; idx++)
                 {
-                    textureNames.Add(new GUIContent(Terrain.activeTerrain.terrainData.terrainLayers[idx].diffuseTexture.name));
+                    textureNames.Add(new GUIContent(splatPrototypes[idx].texture.name));
                 }
-#else
-                for (int idx = 0; idx < Terrain.activeTerrain.terrainData.splatPrototypes.Length; idx++)
-                {
-                    textureNames.Add(new GUIContent(Terrain.activeTerrain.terrainData.splatPrototypes[idx].texture.name));
-                }
-#endif
             }
             textureNames.Add(new GUIContent("All"));
             m_selectedMask = EditorGUILayout.Popup(GetLabel("Selected Texture"), m_selectedMask, textureNames.ToArray());

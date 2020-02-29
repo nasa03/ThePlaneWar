@@ -7,8 +7,8 @@ Enhancements
 · Modified reflection probe update algorithm to stop tearing.
 · Improved large terrain auto settings to stop tops of mountains from being cut off.
 · Improved water settings and reflections to stop blown out sun highlights.
-· Improved speed of quadtree system with resulting tree placement speed improvements.
+· Impoved speed of quadtree system with resulting tree placement speed improvements.
 · Fixed issue where post processing v2 was already in scene.
 · Fixed linux and mac backslash issue.
-· Improved 2018.3 compatibility.
+· Imropoved 2018.3 compatibility.
 · Fixed post processing gizmo.

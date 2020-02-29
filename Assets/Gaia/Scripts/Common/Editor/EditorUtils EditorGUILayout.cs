@@ -393,6 +393,66 @@ namespace GaiaCommon1
         }
 
         /// <summary>
+        ///   <para>Make a label field. (Useful for showing read-only info. with Automatic Help handling)</para>
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the label field.</param>
+        /// <param name="content">The content (NON LOCALIZED) of the label to show to the right.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        /// <param name="style"></param>
+        public void LabelField(string key, GUIContent content, bool helpSwitch, params GUILayoutOption[] options)
+        {
+            EditorGUILayout.LabelField(GetContent(key), content, options);
+            InlineHelp(key, helpSwitch);
+        }
+
+        /// <summary>
+        ///   <para>Make a label field. (Useful for showing read-only info.)</para>
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the label field.</param>
+        /// <param name="content">The content (NON LOCALIZED) of the label to show to the right.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        /// <param name="style"></param>
+        public void LabelField(string key, GUIContent content, params GUILayoutOption[] options)
+        {
+            EditorGUILayout.LabelField(GetContent(key), content, options);
+        }
+
+        /// <summary>
+        ///   <para>Make a label field. (Useful for showing read-only info. with Automatic Help handling)</para>
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the label field.</param>
+        /// <param name="content">The content (NON LOCALIZED) of the label to show to the right.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        /// <param name="style"></param>
+        public void LabelField(string key, GUIContent content, GUIStyle style, bool helpSwitch, params GUILayoutOption[] options)
+        {
+            EditorGUILayout.LabelField(GetContent(key), content, style, options);
+            InlineHelp(key, helpSwitch);
+        }
+
+        /// <summary>
+        ///   <para>Make a label field. (Useful for showing read-only info.)</para>
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the label field.</param>
+        /// <param name="content">The content (NON LOCALIZED) of the label to show to the right.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        /// <param name="style"></param>
+        public void LabelField(string key, GUIContent content, GUIStyle style, params GUILayoutOption[] options)
+        {
+            EditorGUILayout.LabelField(GetContent(key), content, style, options);
+        }
+
+        /// <summary>
         ///   <para>Make a toggle with Automatic Help handling.</para>
         /// </summary>
         /// <param name="key">Localization key of the label in front of the toggle.</param>
@@ -486,7 +546,7 @@ namespace GaiaCommon1
         /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
         public bool ToggleLeft(string key, bool value, bool helpSwitch, params GUILayoutOption[] options)
         {
-            var val = EditorGUILayout.ToggleLeft(GetContent(key), value, options);
+            var val = ToggleLeft(GetContent(key), value, options);
             InlineHelp(key, helpSwitch);
             return val;
         }
@@ -502,7 +562,7 @@ namespace GaiaCommon1
         /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
         public bool ToggleLeft(string key, bool value, params GUILayoutOption[] options)
         {
-            return EditorGUILayout.ToggleLeft(GetContent(key), value, options);
+            return ToggleLeft(GetContent(key), value, options);
         }
 
         /// <summary>
@@ -517,7 +577,7 @@ namespace GaiaCommon1
         /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
         public bool ToggleLeft(string key, bool value, GUIStyle labelStyle, bool helpSwitch, params GUILayoutOption[] options)
         {
-            var val = EditorGUILayout.ToggleLeft(GetContent(key), value, labelStyle, options);
+            var val = ToggleLeft(GetContent(key), value, labelStyle, options);
             InlineHelp(key, helpSwitch);
             return val;
         }
@@ -533,7 +593,36 @@ namespace GaiaCommon1
         /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
         public bool ToggleLeft(string key, bool value, GUIStyle labelStyle, params GUILayoutOption[] options)
         {
-            return EditorGUILayout.ToggleLeft(GetContent(key), value, labelStyle, options);
+            return ToggleLeft(GetContent(key), value, labelStyle, options);
+        }
+
+        /// <summary>
+        ///   <para>Make a toggle field where the toggle is to the left and the label immediately to the right of it with Automatic Help handling.</para>
+        /// </summary>
+        /// <param name="label">Label for the toggle.</param>
+        /// <param name="value">The value to edit.</param>
+        /// <param name="labelStyle">Optional GUIStyle to use for the label.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        public bool ToggleLeft(GUIContent label, bool value, params GUILayoutOption[] options)
+        {
+            return EditorGUILayout.ToggleLeft(label, value, options);
+        }
+
+        /// <summary>
+        ///   <para>Make a toggle field where the toggle is to the left and the label immediately to the right of it.</para>
+        /// </summary>
+        /// <param name="label">Label for the toggle.</param>
+        /// <param name="value">The value to edit.</param>
+        /// <param name="labelStyle">Optional GUIStyle to use for the label.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        public bool ToggleLeft(GUIContent label, bool value, GUIStyle labelStyle, params GUILayoutOption[] options)
+        {
+            return EditorGUILayout.ToggleLeft(label, value, labelStyle, options);
         }
 
         /// <summary>
@@ -1426,10 +1515,150 @@ namespace GaiaCommon1
             EditorGUILayout.IntSlider(property, leftValue, rightValue, GetContent(key), options);
         }
 
+        /// <summary>
+        /// Make a slider the user can drag to change a range (min/max value) between a min and a max.
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the slider.</param>
+        /// <param name="minValue">The left/minimum value the user can set.</param>
+        /// <param name="maxValue">The right/maximum value the user can set.</param>
+        /// <param name="minLimit">The value at the left end of the slider.</param>
+        /// <param name="maxLimit">The value at the right end of the slider.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        public void MinMaxSlider(string key, ref float minValue, ref float maxValue, float minLimit, float maxLimit, bool helpSwitch, params GUILayoutOption[] options)
+        {
+            EditorGUILayout.MinMaxSlider(GetContent(key), ref minValue, ref maxValue, minLimit, maxLimit, options);
+            InlineHelp(key, helpSwitch);
+        }
 
+        /// <summary>
+        /// Make a slider the user can drag to change a range (min/max value) between a min and a max.
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the slider.</param>
+        /// <param name="minValue">The left/minimum value the user can set.</param>
+        /// <param name="maxValue">The right/maximum value the user can set.</param>
+        /// <param name="minLimit">The value at the left end of the slider.</param>
+        /// <param name="maxLimit">The value at the right end of the slider.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
         public void MinMaxSlider(string key, ref float minValue, ref float maxValue, float minLimit, float maxLimit, params GUILayoutOption[] options)
         {
             EditorGUILayout.MinMaxSlider(GetContent(key), ref minValue, ref maxValue, minLimit, maxLimit, options);
+        }
+
+        /// <summary>
+        /// Make a slider the user can drag or type values in fields to change a range (min/max value) between a min and a max.
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the slider.</param>
+        /// <param name="minValue">The left/minimum value the user can set.</param>
+        /// <param name="maxValue">The right/maximum value the user can set.</param>
+        /// <param name="minLimit">The value at the left end of the slider.</param>
+        /// <param name="maxLimit">The value at the right end of the slider.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        public void MinMaxSliderWithFields(string key, ref float minValue, ref float maxValue, float minLimit, float maxLimit, bool helpSwitch)
+        {
+            MinMaxSliderWithFields(key, ref minValue, ref maxValue, minLimit, maxLimit);
+            InlineHelp(key, helpSwitch);
+        }
+
+        /// <summary>
+        /// Make a slider the user can drag or type values in fields to change a range (min/max value) between a min and a max.
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the slider.</param>
+        /// <param name="minValue">The left/minimum value the user can set.</param>
+        /// <param name="maxValue">The right/maximum value the user can set.</param>
+        /// <param name="minLimit">The value at the left end of the slider.</param>
+        /// <param name="maxLimit">The value at the right end of the slider.</param>
+        public void MinMaxSliderWithFields(string key, ref float minValue, ref float maxValue, float minLimit, float maxLimit)
+        {
+            Rect rect = EditorGUILayout.GetControlRect();
+            rect = EditorGUI.PrefixLabel(rect, GetContent(key));
+
+            int indent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
+
+            float min = minValue;
+            float max = maxValue;
+
+            min = Mathf.Clamp(EditorGUI.DelayedFloatField(new Rect(rect.x, rect.y, EditorGUIUtility.fieldWidth, rect.height), min), minLimit, maxLimit);
+            if (min != minValue && max < min)
+            {
+                max = min;
+            }
+
+            EditorGUI.MinMaxSlider(new Rect(rect.x + EditorGUIUtility.fieldWidth + 5f, rect.y, rect.width - 10f - 2 * EditorGUIUtility.fieldWidth, rect.height), ref min, ref max, minLimit, maxLimit);
+
+            max = Mathf.Clamp(EditorGUI.DelayedFloatField(new Rect(rect.xMax - EditorGUIUtility.fieldWidth, rect.y, EditorGUIUtility.fieldWidth, rect.height), max), minLimit, maxLimit);
+            if (max != maxValue && max < min)
+            {
+                min = max;
+            }
+
+            minValue = min;
+            maxValue = max;
+
+            EditorGUI.indentLevel = indent;
+        }
+
+        /// <summary>
+        /// Make a slider the user can drag or type values in fields to change a range (min/max value) between a min and a max.
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the slider.</param>
+        /// <param name="minValue">The left/minimum value the user can set.</param>
+        /// <param name="maxValue">The right/maximum value the user can set.</param>
+        /// <param name="minLimit">The value at the left end of the slider.</param>
+        /// <param name="maxLimit">The value at the right end of the slider.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        public void MinMaxSliderWithFields(string key, ref int minValue, ref int maxValue, int minLimit, int maxLimit, bool helpSwitch)
+        {
+            MinMaxSliderWithFields(key, ref minValue, ref maxValue, minLimit, maxLimit);
+            InlineHelp(key, helpSwitch);
+        }
+
+        /// <summary>
+        /// Make a slider the user can drag or type values in fields to change a range (min/max value) between a min and a max.
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the slider.</param>
+        /// <param name="minValue">The left/minimum value the user can set.</param>
+        /// <param name="maxValue">The right/maximum value the user can set.</param>
+        /// <param name="minLimit">The value at the left end of the slider.</param>
+        /// <param name="maxLimit">The value at the right end of the slider.</param>
+        public void MinMaxSliderWithFields(string key, ref int minValue, ref int maxValue, int minLimit, int maxLimit)
+        {
+            Rect rect = EditorGUILayout.GetControlRect();
+            rect = EditorGUI.PrefixLabel(rect, GetContent(key));
+
+            int indent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
+
+            int min = minValue;
+            int max = maxValue;
+
+            min = Mathf.Clamp(EditorGUI.DelayedIntField(new Rect(rect.x, rect.y, EditorGUIUtility.fieldWidth, rect.height), minValue), minLimit, maxLimit);
+            if (min != minValue && max < min)
+            {
+                max = min;
+            }
+
+            float minValF = min;
+            float maxValF = max;
+            EditorGUI.MinMaxSlider(new Rect(rect.x + EditorGUIUtility.fieldWidth + 5f, rect.y, rect.width - 10f - 2 * EditorGUIUtility.fieldWidth, rect.height), ref minValF, ref maxValF, minLimit, maxLimit);
+            minValue = min = Mathf.RoundToInt(minValF);
+            maxValue = max = Mathf.RoundToInt(maxValF);
+
+            max = Mathf.Clamp(EditorGUI.DelayedIntField(new Rect(rect.xMax - EditorGUIUtility.fieldWidth, rect.y, EditorGUIUtility.fieldWidth, rect.height), maxValue), minLimit, maxLimit);
+            if (max != maxValue && max < min)
+            {
+                min = max;
+            }
+
+            minValue = min;
+            maxValue = max;
+
+            EditorGUI.indentLevel = indent;
         }
 
         /// <summary>
@@ -1508,6 +1737,84 @@ namespace GaiaCommon1
         public int Popup(string key, int selectedIndex, string[] optionsKeys, GUIStyle style, params GUILayoutOption[] options)
         {
             return EditorGUILayout.Popup(GetContent(key), selectedIndex, GetContent(optionsKeys), style, options);
+        }
+
+        /// <summary>
+        ///   <para>Make a generic popup selection field with localized label and options with Automatic Help handling.</para>
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the field.</param>
+        /// <param name="selectedIndex">The index of the option the field shows.</param>
+        /// <param name="options">An array of GUIContent: the options shown in the popup.</param>
+        /// <param name="style">Optional GUIStyle.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        /// <returns>
+        ///   <para>The index of the option that has been selected by the user.</para>
+        /// </returns>
+        public int Popup(string key, int selectedIndex, GUIContent[] optionsKeys, bool helpSwitch, params GUILayoutOption[] options)
+        {
+            var val = EditorGUILayout.Popup(GetContent(key), selectedIndex, optionsKeys, options);
+            InlineHelp(key, helpSwitch);
+            return val;
+        }
+
+        /// <summary>
+        ///   <para>Make a generic popup selection field with localized label and options.</para>
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the field.</param>
+        /// <param name="selectedIndex">The index of the option the field shows.</param>
+        /// <param name="options">An array of GUIContent: the options shown in the popup.</param>
+        /// <param name="style">Optional GUIStyle.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        /// <returns>
+        ///   <para>The index of the option that has been selected by the user.</para>
+        /// </returns>
+        public int Popup(string key, int selectedIndex, GUIContent[] optionsKeys, params GUILayoutOption[] options)
+        {
+            return EditorGUILayout.Popup(GetContent(key), selectedIndex, optionsKeys, options);
+        }
+
+        /// <summary>
+        ///   <para>Make a generic popup selection field with localized label and options with Automatic Help handling.</para>
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the field.</param>
+        /// <param name="selectedIndex">The index of the option the field shows.</param>
+        /// <param name="options">An array of GUIContent: the options shown in the popup.</param>
+        /// <param name="style">Optional GUIStyle.</param>
+        /// <param name="helpSwitch">The <see langword="bool"/> that the user interacts with to switch help On/Off.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        /// <returns>
+        ///   <para>The index of the option that has been selected by the user.</para>
+        /// </returns>
+        public int Popup(string key, int selectedIndex, GUIContent[] optionsKeys, GUIStyle style, bool helpSwitch, params GUILayoutOption[] options)
+        {
+            var val = EditorGUILayout.Popup(GetContent(key), selectedIndex, optionsKeys, style, options);
+            InlineHelp(key, helpSwitch);
+            return val;
+        }
+
+        /// <summary>
+        ///   <para>Make a generic popup selection field with localized label and options.</para>
+        /// </summary>
+        /// <param name="key">Localization key of the label in front of the field.</param>
+        /// <param name="selectedIndex">The index of the option the field shows.</param>
+        /// <param name="options">An array of GUIContent: the options shown in the popup.</param>
+        /// <param name="style">Optional GUIStyle.</param>
+        /// <param name="options">An optional list of layout options that specify extra layouting properties. Any values passed in here will override settings defined by the style.&lt;br&gt;
+        /// See Also: GUILayout.Width, GUILayout.Height, GUILayout.MinWidth, GUILayout.MaxWidth, GUILayout.MinHeight,
+        /// GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
+        /// <returns>
+        ///   <para>The index of the option that has been selected by the user.</para>
+        /// </returns>
+        public int Popup(string key, int selectedIndex, GUIContent[] optionsKeys, GUIStyle style, params GUILayoutOption[] options)
+        {
+            return EditorGUILayout.Popup(GetContent(key), selectedIndex, optionsKeys, style, options);
         }
 
         /// <summary>

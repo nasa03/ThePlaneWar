@@ -188,12 +188,12 @@ namespace Gaia
             var rangexMin = range.xMin;
             var rangeyMax = range.yMax;
             var rangeyMin = range.yMin;
-            if (
-                this.boundaries.xMin < rangexMax &&
-                this.boundaries.xMax > rangexMin &&
-                this.boundaries.yMin < rangeyMax &&
-                this.boundaries.yMax > rangeyMin
-            )
+            if (!(
+                 this.boundaries.xMin < rangexMax &&
+                 this.boundaries.xMax > rangexMin &&
+                 this.boundaries.yMin < rangeyMax &&
+                 this.boundaries.yMax > rangeyMin
+            ))
             {
                 yield break;
             }

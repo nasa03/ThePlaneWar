@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fb348b92be0d544c94139d9cd5c3b93, type: 3}
   m_Name: CTS_Profile_180424-1317
   m_EditorClassIdentifier: 
-  m_Name: CTS_Profile_180424-1317
-  m_EditorClassIdentifier: 
   m_ctsMajorVersion: 1
   m_ctsMinorVersion: 7
   m_persistMaterials: 0
+  m_useMaterialControlBlock: 0
   m_showGlobalSettings: 1
   m_showSnowSettings: 0
   m_showTextureSettings: 0
@@ -26,6 +25,7 @@ MonoBehaviour:
   m_showOptimisationSettings: 0
   m_ctsDirectory: Assets/CTS/
   m_shaderType: 2
+  m_currentRenderPipelineType: 0
   m_globalUvMixPower: 3
   m_globalUvMixStartDistance: 300
   m_globalNormalPower: 0.637
@@ -42,7 +42,9 @@ MonoBehaviour:
   m_globalAOType: 2
   m_globalAOPower: 1
   m_globalBasemapDistance: 1000
-  m_globalOptimiseAtRuntime: 1
+  m_globalStripTexturesAtRuntime: 1
+  m_drawInstanced: 1
+  m_globalDisconnectProfileAtRuntime: 1
   m_colorMapClosePower: 0
   m_colorMapFarPower: 0
   m_colorMapOpacity: 1
@@ -66,11 +68,7 @@ MonoBehaviour:
   m_snowBrightness: 1
   m_snowBlendNormal: 0.9
   m_snowSmoothness: 1
-  m_snowTint:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
+  m_snowTint: {r: 1, g: 1, b: 1, a: 1}
   m_snowSpecular: 1
   m_snowHeightmapBlendClose: 1
   m_snowHeightmapBlendFar: 1
@@ -81,6 +79,7 @@ MonoBehaviour:
   m_snowTesselationDepth: 0
   m_snowAOStrength: 1
   m_snowAverage: {x: 0.5775805, y: 0.56471163, z: 0.6104956, w: 0.17254902}
+  terrainLayerAssetRebuild: 0
   m_albedoFormat: 4
   m_albedoAniso: 8
   m_albedoFilterMode: 1
@@ -100,8 +99,6 @@ MonoBehaviour:
   m_snowAlbedoTexture: {fileID: 2800000, guid: 1cff50f696e47004793933731f01ff8e, type: 3}
   m_snowNormalTextureIdx: 4
   m_snowNormalTexture: {fileID: 2800000, guid: 5f00806f215844043a324a7613dd212d, type: 3}
-  m_snowNoiseTextureIdx: 10
-  m_snowNoiseTexture: {fileID: 2800000, guid: 29effafbe0176af44a2be596b3d4ac0e, type: 3}
   m_snowHeightTextureIdx: 9
   m_snowHeightTexture: {fileID: 2800000, guid: 6715fe680a5bc6c4c8788a3dcba67188, type: 3}
   m_snowAOTextureIdx: 9
@@ -125,15 +122,9 @@ MonoBehaviour:
     m_snowReductionPower: 0
     m_geologicalPower: 0
     m_triplanar: 0
-    m_tint:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    m_tint: {r: 1, g: 1, b: 1, a: 1}
     m_tintBrightness: 1
     m_smoothness: 1
-    m_substanceRegenOnBake: 0
-    m_substance: {fileID: 0}
     m_albedoIdx: 0
     m_albedoTilingClose: 8
     m_albedoTilingFar: 3
@@ -166,15 +157,9 @@ MonoBehaviour:
     m_snowReductionPower: 0
     m_geologicalPower: 0.517
     m_triplanar: 0
-    m_tint:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    m_tint: {r: 1, g: 1, b: 1, a: 1}
     m_tintBrightness: 1
     m_smoothness: 1
-    m_substanceRegenOnBake: 0
-    m_substance: {fileID: 0}
     m_albedoIdx: 2
     m_albedoTilingClose: 8
     m_albedoTilingFar: 3
@@ -207,15 +192,9 @@ MonoBehaviour:
     m_snowReductionPower: 0
     m_geologicalPower: 0.246
     m_triplanar: 0
-    m_tint:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    m_tint: {r: 1, g: 1, b: 1, a: 1}
     m_tintBrightness: 1
     m_smoothness: 1
-    m_substanceRegenOnBake: 0
-    m_substance: {fileID: 0}
     m_albedoIdx: 4
     m_albedoTilingClose: 15
     m_albedoTilingFar: 3
@@ -248,15 +227,9 @@ MonoBehaviour:
     m_snowReductionPower: 0
     m_geologicalPower: 0.789
     m_triplanar: 1
-    m_tint:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    m_tint: {r: 1, g: 1, b: 1, a: 1}
     m_tintBrightness: 1
     m_smoothness: 1
-    m_substanceRegenOnBake: 0
-    m_substance: {fileID: 0}
     m_albedoIdx: 6
     m_albedoTilingClose: 40
     m_albedoTilingFar: 3
@@ -290,3 +263,4 @@ MonoBehaviour:
   m_normalsTextureArray: {fileID: 18700000, guid: 609225340d02c0c448ef758e26d1baeb,
     type: 2}
   m_needsNormalsArrayUpdate: 0
+  cachedTerrainLayers: []

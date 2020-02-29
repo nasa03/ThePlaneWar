@@ -173,11 +173,7 @@ namespace Gaia
                             for (int idx = 0; idx < numSplats; idx++)
                             {
                                 splatValues[idx] = idx;
-#if UNITY_2018_4_OR_NEWER
-                                splatNames[idx] = m_editorUtils.GetContent(Terrain.activeTerrain.terrainData.terrainLayers[idx].diffuseTexture.name);
-#else
-                                splatNames[idx] = m_editorUtils.GetContent(Terrain.activeTerrain.terrainData.splatPrototypes[idx].texture.name);
-#endif
+                                splatNames[idx] = m_editorUtils.GetContent(GaiaSplatPrototype.GetGaiaSplatPrototypes(Terrain.activeTerrain)[idx].texture.name);
                             }
                             m_targetSplatIdx = EditorGUILayout.IntPopup(m_editorUtils.GetContent("Target Splat", m_tooltips), m_targetSplatIdx, splatNames, splatValues);
                         }
@@ -1553,36 +1549,22 @@ namespace Gaia
                         fname = Path.Combine(path, GaiaCommon1.Utils.FixFileName(mgr.PhysicalTerrainArray[tileX, tileZ].name + "_BaseMap"));
 
                         Texture2D[] terrainSplats = mgr.PhysicalTerrainArray[tileX, tileZ].terrainData.alphamapTextures;
-#if UNITY_2018_4_OR_NEWER
-                        TerrainLayer[] terrainSplatPrototypes = mgr.PhysicalTerrainArray[tileX, tileZ].terrainData.terrainLayers;
-#else
-                        SplatPrototype[] terrainSplatPrototypes = mgr.PhysicalTerrainArray[tileX, tileZ].terrainData.splatPrototypes;
-#endif
+
+                        GaiaSplatPrototype[] terrainSplatPrototypes = GaiaSplatPrototype.GetGaiaSplatPrototypes(mgr.PhysicalTerrainArray[tileX, tileZ]);
                         int width = terrainSplats[0].width;
                         int height = terrainSplats[0].height;
                         float dimensions = width * height;
 
-#if UNITY_2018_4_OR_NEWER
                         //Get the average colours of the terrain textures by using the highest mip
                         Color[] averageSplatColors = new Color[terrainSplatPrototypes.Length];
                         for (int protoIdx = 0; protoIdx < terrainSplatPrototypes.Length; protoIdx++)
                         {
-                            TerrainLayer proto = terrainSplatPrototypes[protoIdx];
-                            Texture2D tmpTerrainTex = ResizeTexture(proto.diffuseTexture, TextureFormat.ARGB32, 8, width, height, true, false, false);
-                            Color[] maxMipColors = tmpTerrainTex.GetPixels(tmpTerrainTex.mipmapCount - 1);
-                            averageSplatColors[protoIdx] = new Color(maxMipColors[0].r, maxMipColors[0].g, maxMipColors[0].b, maxMipColors[0].a);
-                        }
-#else
-                        //Get the average colours of the terrain textures by using the highest mip
-                        Color[] averageSplatColors = new Color[terrainSplatPrototypes.Length];
-                        for (int protoIdx = 0; protoIdx < terrainSplatPrototypes.Length; protoIdx++)
-                        {
-                            SplatPrototype proto = terrainSplatPrototypes[protoIdx];
+                            GaiaSplatPrototype proto = terrainSplatPrototypes[protoIdx];
                             Texture2D tmpTerrainTex = ResizeTexture(proto.texture, TextureFormat.ARGB32, 8, width, height, true, false, false);
                             Color[] maxMipColors = tmpTerrainTex.GetPixels(tmpTerrainTex.mipmapCount - 1);
                             averageSplatColors[protoIdx] = new Color(maxMipColors[0].r, maxMipColors[0].g, maxMipColors[0].b, maxMipColors[0].a);
                         }
-#endif
+
 
                         //Create the new texture
                         Texture2D colorTex = new Texture2D(width, height, TextureFormat.RGBAFloat, false);
@@ -1657,6 +1639,7 @@ namespace Gaia
                     }
                 }
             }
+            
             AssetDatabase.Refresh();
         }
 

@@ -155,7 +155,8 @@ namespace GaiaCommon1.Localization
         {
             if (string.IsNullOrEmpty(m_path))
             {
-                Debug.LogWarning("Can only reaload language packs that were loaded from file.");
+                Debug.LogWarning("Can only reload language packs that were loaded from file.");
+                return;
             }
 
             // Reset things before loading
