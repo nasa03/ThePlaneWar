@@ -113,13 +113,16 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         base.OnDisconnected(cause);
 
         ConnectButton.isEnabled = true;
-        FindObjectOfType<ChoosePlane>().Show(false);
 
         StartCoroutine(FindObjectOfType<MessageShow>().Show("已断开连接！"));
 
         LoginUI.SetActive(true);
         LobbyUI.SetActive(false);
         RoomUI.SetActive(false);
+        
+        FindObjectOfType<ChoosePlane>().Show(false);
+        FindObjectOfType<ShowPlane>().DestroyAll();
+        FindObjectOfType<PhotonAI>().LeftRoomOfAI();
     }
 
     public override void OnConnectedToMaster()
@@ -148,6 +151,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
 
         FindObjectOfType<ChoosePlane>().Show(true);
         FindObjectOfType<PhotonRoom>().EnterOrRefreshRoom();
+        FindObjectOfType<PhotonAI>().EnterOrRefreshRoomOfAI();
     }
 
     public override void OnLeftRoom()
@@ -160,5 +164,6 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
 
         FindObjectOfType<ChoosePlane>().Show(false);
         FindObjectOfType<ShowPlane>().DestroyAll();
+        FindObjectOfType<PhotonAI>().LeftRoomOfAI();
     }
 }

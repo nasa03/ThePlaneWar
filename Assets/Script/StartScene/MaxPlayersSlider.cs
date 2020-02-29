@@ -6,7 +6,8 @@ public class MaxPlayersSlider : MonoBehaviour {
     [SerializeField] UISlider playerSlider;
     [SerializeField] UILabel label;
     int maxPlayers;
-    public int MaxPlayers { get { return maxPlayers; } }
+
+    public int MaxPlayers => maxPlayers;
 
     public void OnValueChange()
     {

@@ -13,13 +13,7 @@ public class MissleActorButton : MonoBehaviour
     const float maxTime = 10.0f;
     const int maxCount = 3;
 
-    public bool Missle
-    {
-        get
-        {
-            return totalCount > 0;
-        }
-    }
+    public bool Missle => totalCount > 0;
 
     // Update is called once per frame
     void Update()

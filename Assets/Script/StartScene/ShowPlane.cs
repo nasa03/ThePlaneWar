@@ -7,13 +7,26 @@ using Photon.Realtime;
 public class ShowPlane : MonoBehaviourPunCallbacks {
     GameObject[] otherPlaneObject = new GameObject[5];
 
-    public void Show(int PlayerInt)
+    public void Show(int playerInt)
     {
-        Player player = PhotonNetwork.PlayerListOthers[PlayerInt];
+        Player player = PhotonNetwork.PlayerListOthers[playerInt];
         int planeInt = (int)CustomProperties.GetProperties(player, "totalPlaneInt", 0);
 
-        otherPlaneObject[PlayerInt] = Instantiate(FindObjectOfType<ChoosePlane>().planePrefabs[planeInt], Global.planePositions[PlayerInt + 1], Quaternion.Euler(0, 180, 0));
-        otherPlaneObject[PlayerInt].transform.localScale = new Vector3(5, 5, 5);
+        otherPlaneObject[playerInt] = Instantiate(FindObjectOfType<ChoosePlane>().planePrefabs[planeInt],
+            Global.planePositions[playerInt + 1], Quaternion.Euler(0, 180, 0));
+        otherPlaneObject[playerInt].transform.localScale = new Vector3(5, 5, 5);
+    }
+
+    public void ShowAI(int playerInt,int planeInt)
+    {
+        otherPlaneObject[playerInt] = Instantiate(FindObjectOfType<ChoosePlane>().planePrefabs[planeInt],
+            Global.planePositions[playerInt + 1], Quaternion.Euler(0, 180, 0));
+        otherPlaneObject[playerInt].transform.localScale = new Vector3(5, 5, 5);
+    }
+
+    public void DestroyAI(int playerInt)
+    {
+        Destroy(otherPlaneObject[playerInt]);
     }
 
     public void DestroyAll()
@@ -32,7 +45,8 @@ public class ShowPlane : MonoBehaviourPunCallbacks {
             {
                 int planeInt = (int)CustomProperties.GetProperties(target, "totalPlaneInt", 0);
                 Destroy(otherPlaneObject[i]);
-                otherPlaneObject[i] = Instantiate(FindObjectOfType<ChoosePlane>().planePrefabs[planeInt], Global.planePositions[i + 1], Quaternion.Euler(0, 180, 0));
+                otherPlaneObject[i] = Instantiate(FindObjectOfType<ChoosePlane>().planePrefabs[planeInt],
+                    Global.planePositions[i + 1], Quaternion.Euler(0, 180, 0));
                 otherPlaneObject[i].transform.localScale = new Vector3(5, 5, 5);
             }
         }
