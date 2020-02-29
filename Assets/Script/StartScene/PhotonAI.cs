@@ -25,8 +25,6 @@ public class PhotonAI : MonoBehaviour
             StartCoroutine(FindObjectOfType<MessageShow>().Show("房间人数已满"));
             return;
         }
-        
-        int index = PhotonNetwork.PlayerListOthers.Length + AI_List.Count;
 
         AI_Information information = new AI_Information();
         information.planeInt = Random.Range(0, 9);
