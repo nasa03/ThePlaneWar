@@ -19,9 +19,17 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Caustics:
         m_Texture: {fileID: 2800000, guid: 1d82eb5d5a1f7d24eb53f168d424c1d7, type: 3}
         m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _ColorControl:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Foam:
         m_Texture: {fileID: 2800000, guid: d01457b88b1c5174ea4235d140b5fab8, type: 3}
@@ -31,8 +39,32 @@ Material:
         m_Texture: {fileID: 2800000, guid: d01457b88b1c5174ea4235d140b5fab8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Fresnel:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Noise:
         m_Texture: {fileID: 2800000, guid: 44097651842cbf146a98a86745c81c33, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectiveColor:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RefractionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShoreTex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SkyboxReflection:
@@ -79,15 +111,20 @@ Material:
     - _FoamOpacity: 0.4
     - _FoamSmoothness: 1
     - _FoamSpecular: 1
+    - _FresnelScale: 0.75
+    - _GerstnerIntensity: 1
     - _GlobalTiling: 20000
     - _GlossyReflections: 1
     - _NormalScale: 0.2
+    - _ReflDistort: 0.44
     - _ReflectionAmount: 1
+    - _RefrDistort: 0.4
     - _ShadowDepth: 1
     - _ShallowColorBlend: 0.905
     - _ShallowDepth: 30
     - _ShallowEdgeBlend: 1
     - _ShallowFalloff: 1
+    - _Shininess: 200
     - _ShorelineAmount: 1
     - _ShorelineFalloff: 0.502
     - _SpecularHighlights: 1
@@ -99,15 +136,37 @@ Material:
     - _WaterFalloff: 2
     - _WaterSmoothness: 0.92
     - _WaterSpecular: 1
+    - _WaveScale: 0.063
     - _WavesAmount: 8.87
     - _WavesAmplitude: 0.1
     - __dirty: 0
     m_Colors:
+    - WaveSpeed: {r: 19, g: 9, b: -16, a: -7}
+    - _AnimationDirection: {r: 1, g: 1, b: 1, a: 1}
+    - _AnimationTiling: {r: 2.2, g: 2.2, b: -1.1, a: -1.1}
+    - _BaseColor: {r: 0.53999996, g: 0.95, b: 0.98999995, a: 0.5}
+    - _BumpDirection: {r: 1, g: 1, b: -1, a: 1}
+    - _BumpTiling: {r: 1, g: 1, b: -2, a: 3}
     - _Color0: {r: 0.1532764, g: 0.6105888, b: 0.9926471, a: 0}
     - _DeepColor: {r: 0.07058769, g: 0.17646986, b: 0.32941103, a: 1}
+    - _DistortParams: {r: 1, g: 1, b: 2, a: 1.15}
+    - _Foam: {r: 0.1, g: 0.375, b: 0, a: 0}
     - _FoamTint: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 1}
+    - _GAmplitude: {r: 0.3, g: 0.35, b: 0.25, a: 0.25}
+    - _GDirectionAB: {r: 0.3, g: 0.85, b: 0.85, a: 0.25}
+    - _GDirectionCD: {r: 0.1, g: 0.9, b: 0.5, a: 0.5}
+    - _GFrequency: {r: 1.3, g: 1.35, b: 1.25, a: 1.25}
+    - _GSpeed: {r: 1.2, g: 1.375, b: 1.1, a: 1.5}
+    - _GSteepness: {r: 1, g: 1, b: 1, a: 1}
+    - _HorizonColor: {r: 0.17199996, g: 0.46299994, b: 0.43499997, a: 1}
+    - _InvFadeParemeter: {r: 0.15, g: 0.15, b: 0.5, a: 1}
+    - _ReflectionColor: {r: 0.53999996, g: 0.95, b: 0.98999995, a: 0.5}
+    - _RefrColor: {r: 0.33999997, g: 0.85, b: 0.92, a: 1}
     - _ShallowColor: {r: 0, g: 0.5416665, b: 1, a: 1}
     - _ShalowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 0.72, g: 0.72, b: 0.72, a: 1}
     - _SurfaceColor: {r: 0.29803923, g: 0.4392157, b: 0.5568628, a: 1}
     - _WaterColor: {r: 0.32515138, g: 0.5365902, b: 0.71323526, a: 0}
     - _WaveSpeed: {r: -0.05, g: 0.05, b: 0, a: 0}
+    - _WorldLightDir: {r: 0, g: 0.1, b: -0.5, a: 0}
+    - _horizonColor: {r: 0.17199996, g: 0.46299994, b: 0.43499997, a: 0}
