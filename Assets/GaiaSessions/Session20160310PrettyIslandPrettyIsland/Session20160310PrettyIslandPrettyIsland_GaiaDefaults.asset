@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de82eef1d1f4fe64bb00feb5caaadbd7, type: 3}
+  m_Name: Session20160310PrettyIslandPrettyIsland_GaiaDefaults
+  m_EditorClassIdentifier: 
+  m_defaultsID: 43d3c9da-e521-49e3-961f-fcfc4ba338c7
+  m_seaLevel: 50
+  m_beachHeight: 5
+  m_tilesX: 1
+  m_tilesZ: 1
+  m_pixelError: 5
+  m_baseMapDist: 1024
+  m_castShadows: 1
+  m_material: {fileID: 0}
+  m_physicsMaterial: {fileID: 0}
+  m_draw: 1
+  m_detailDistance: 120
+  m_detailDensity: 0.5
+  m_treeDistance: 671
+  m_billboardStart: 82
+  m_fadeLength: 20
+  m_maxMeshTrees: 50
+  m_speed: 0.35
+  m_size: 0.2
+  m_bending: 0.2
+  m_grassTint: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}
+  m_terrainSize: 2048
+  m_terrainHeight: 1000
+  m_heightmapResolution: 1025
+  m_detailResolution: 2048
+  m_detailResolutionPerPatch: 16
+  m_controlTextureResolution: 2048
+  m_baseMapSize: 1024

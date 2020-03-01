@@ -29626,7 +29626,6 @@ GameObject:
   - component: {fileID: 1650671053426268651}
   - component: {fileID: 6138559224103323959}
   - component: {fileID: 1531863431162528349}
-  - component: {fileID: 5543626659409497610}
   - component: {fileID: 2860978197720291448}
   m_Layer: 8
   m_Name: MainCamera
@@ -29722,7 +29721,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 5718857545075766054}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2
   stopNaNPropagation: 1
   antialiasingMode: 0
   temporalAntialiasing:
@@ -29766,23 +29765,6 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
---- !u!114 &5543626659409497610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5492899543912166283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: ce27ec036604e45fd98491979ed6d10f, type: 2}
-  isGlobal: 0
-  blendDistance: 0
-  weight: 1
-  priority: 0
 --- !u!65 &2860978197720291448
 BoxCollider:
   m_ObjectHideFlags: 0

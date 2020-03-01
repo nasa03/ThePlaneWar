@@ -79,7 +79,7 @@ Material:
     - _FoamOpacity: 0.4
     - _FoamSmoothness: 1
     - _FoamSpecular: 1
-    - _GlobalTiling: 2048
+    - _GlobalTiling: 20000
     - _GlossyReflections: 1
     - _NormalScale: 0.2
     - _ReflectionAmount: 1
@@ -97,7 +97,7 @@ Material:
     - _UseSkyboxRelfections: 0
     - _WaterDepth: 1
     - _WaterFalloff: 2
-    - _WaterSmoothness: 1
+    - _WaterSmoothness: 0.92
     - _WaterSpecular: 1
     - _WavesAmount: 8.87
     - _WavesAmplitude: 0.1
