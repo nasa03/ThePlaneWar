@@ -22,9 +22,6 @@ using UnityEngine.Rendering.LWRP;
 using UnityEngine.Experimental.Rendering.LightweightPipeline;
 #endif
 #endif
-#if CTS_PRESENT
-using CTS;
-#endif
 #if UNITY_POST_PROCESSING_STACK_V2
 using UnityEngine.Rendering.PostProcessing;
 #endif
