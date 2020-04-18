@@ -1,23 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!159 &1
-EditorSettings:
-  m_ObjectHideFlags: 0
-  serializedVersion: 7
-  m_ExternalVersionControlSupport: Visible Meta Files
-  m_SerializationMode: 2
-  m_LineEndingsForNewScripts: 2
-  m_DefaultBehaviorMode: 0
-  m_PrefabRegularEnvironment: {fileID: 0}
-  m_PrefabUIEnvironment: {fileID: 0}
-  m_SpritePackerMode: 0
-  m_SpritePackerPaddingPower: 1
-  m_EtcTextureCompressorBehavior: 1
-  m_EtcTextureFastCompressor: 1
-  m_EtcTextureNormalCompressor: 2
-  m_EtcTextureBestCompressor: 4
-  m_ProjectGenerationIncludedExtensions: txt;xml;fnt;cd;asmdef
-  m_ProjectGenerationRootNamespace: 
-  m_CollabEditorSettings:
-    inProgressEnabled: 1
-  m_EnableTextureStreamingInPlayMode: 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:28807b821859aa3a21005f91be30e80e87892a28450c969df30a30ffe0f6bf09
+size 715
