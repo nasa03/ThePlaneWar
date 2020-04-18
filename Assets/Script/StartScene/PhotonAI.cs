@@ -20,7 +20,17 @@ public class PhotonAI : MonoBehaviour
 
     public void AddAI()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount + AI_List.Count == PhotonNetwork.CurrentRoom.MaxPlayers)
+        int maxPlayers;
+        if (PhotonNetwork.CurrentRoom.MaxPlayers == 0)
+        {
+            maxPlayers = 6;
+        }
+        else
+        {
+            maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
+        }
+        
+        if (PhotonNetwork.CurrentRoom.PlayerCount + AI_List.Count == maxPlayers)
         {
             StartCoroutine(FindObjectOfType<MessageShow>().Show("房间人数已满"));
             return;
