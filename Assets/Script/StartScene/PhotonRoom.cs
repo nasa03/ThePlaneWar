@@ -137,7 +137,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.CurrentRoom.IsVisible = false;
 
-                PhotonNetwork.LoadLevel(1);
+                PhotonNetwork.LoadLevel(FindObjectOfType<ChooseMap>().Index);
                 startGameButton.isEnabled = false;
             }
             else
