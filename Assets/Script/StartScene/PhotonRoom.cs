@@ -100,9 +100,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
             if (PhotonNetwork.PlayerListOthers[i].NickName == name.text)
             {
                 PhotonNetwork.CurrentRoom.SetMasterClient(PhotonNetwork.PlayerListOthers[i]);
-                photonView.RPC("EnterOrRefreshRoom", RpcTarget.All);
             }
         }
+        
+        photonView.RPC("EnterOrRefreshRoom", RpcTarget.All);
+        photonView.RPC("EnterOrRefreshRoomOfAI", RpcTarget.All);
     }
 
     [PunRPC]
