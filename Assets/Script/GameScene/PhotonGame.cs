@@ -21,10 +21,13 @@ public class PhotonGame : MonoBehaviour {
     float time = 0.0f;
     int maxTime = 0;
 
+    public Transform[] GroundRunwayPosotion => groundRunwayPosotion;
+
     // Start is called before the first frame update
     void Start()
     {
-        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
+        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
+            groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
         StartCoroutine(InvincibleStart());
     }
