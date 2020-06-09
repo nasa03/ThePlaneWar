@@ -11,6 +11,7 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
     [SerializeField] Image sight_Image;
     [SerializeField] Sprite[] sight_Sprites = new Sprite[3];
     bool isKilled = false;
+    bool isSuicide = false;
 
     // Start is called before the first frame update
     void Start()
@@ -52,21 +53,27 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         }
     }
 
-    public void Suiside(Player player)
+    public IEnumerator Suicide(Player player)
     {
-        if (!photonView.IsMine)
-            return;
+        if (!photonView.IsMine || isSuicide)
+            yield break;
 
+        isSuicide = true;
+        
         photonView.RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", player.NickName));
         photonView.RPC("Dead", player);
+        
+        yield return new WaitForSeconds(2.0f);
+
+        isSuicide = false;
     }
 
-    public void SuisideButtonClick()
+    public void SuicideButtonClick()
     {
-        if (GetComponent<PhotonGame>().reborn)
+        if (GetComponent<PhotonGame>().Reborn)
             return;
 
-        Suiside(PhotonNetwork.LocalPlayer);
+        StartCoroutine(Suicide(PhotonNetwork.LocalPlayer));
     }
 
     IEnumerator ShowSight()

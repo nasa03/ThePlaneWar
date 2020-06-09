@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using Photon.Pun;
 
-public class MissleActor : MonoBehaviour
+public class MissileActor : MonoBehaviour
 {
     [SerializeField] GameObject[] missiles;
     [SerializeField] float interval = 10;
@@ -13,7 +13,7 @@ public class MissleActor : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        missileType = Global.totalMissleInt;
+        missileType = Global.totalMissileInt;
     }
 
     // Update is called once per frame
@@ -22,11 +22,11 @@ public class MissleActor : MonoBehaviour
         if (!GetComponent<PhotonView>().IsMine)
             return;
 
-        if (CrossPlatformInputManager.GetButtonDown("Fire2") && FindObjectOfType<MissleActorButton>().Missle)
+        if (CrossPlatformInputManager.GetButtonDown("Fire2") && FindObjectOfType<MissileActorButton>().Missile)
         {
             GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
             PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
-            FindObjectOfType<MissleActorButton>().ShootStart();
+            FindObjectOfType<MissileActorButton>().ShootStart();
         }
     }
 }

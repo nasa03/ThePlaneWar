@@ -8,26 +8,28 @@ using Photon.Pun;
 public class PhotonGame : MonoBehaviour {
     [SerializeField] Camera mainCamera;
     [SerializeField] GameObject[] planePrefabs;
-    [SerializeField] Transform[] groundRunwayPosotion;
+    [SerializeField] Transform[] groundRunwayPosition;
     [SerializeField] GameObject explosionParticleSystem;
     [SerializeField] GameObject timeBar;
     [SerializeField] GameObject sightImage;
     [SerializeField] Text timeText;
     [SerializeField] Image timeImage;
     GameObject localPlane;
-    [HideInInspector] public bool reborn = false;
+    bool reborn = false;
     bool invincible = false;
     bool reconnected = false;
     float time = 0.0f;
     int maxTime = 0;
 
-    public Transform[] GroundRunwayPosotion => groundRunwayPosotion;
+    public bool Reborn => reborn;
+    
+    public Transform[] GroundRunwayPosition => groundRunwayPosition;
 
     // Start is called before the first frame update
     void Start()
     {
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
-            groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
+            groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
         StartCoroutine(InvincibleStart());
     }
@@ -80,6 +82,13 @@ public class PhotonGame : MonoBehaviour {
         GameObject explosion = PhotonNetwork.Instantiate(explosionParticleSystem.name, localPlane.transform.position, Quaternion.identity);
         explosion.GetComponent<ParticleSystem>().Play();
         GetComponent<AudioPlayer>().PlayAudio(3);
+        
+        localPlane.GetComponent<MeshRenderer>().enabled = false;
+        ParticleSystem[] particleSystems = localPlane.GetComponentsInChildren<ParticleSystem>();
+        foreach (var items in particleSystems)
+        {
+            items.Stop();
+        }
 
         invincible = false;
 
@@ -115,7 +124,7 @@ public class PhotonGame : MonoBehaviour {
         timeBar.SetActive(false);
         sightImage.SetActive(true);
 
-        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosotion[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
+        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
         reborn = false;
         reconnected = false;
@@ -143,7 +152,7 @@ public class PhotonGame : MonoBehaviour {
         invincible = false;
     }
 
-    public void Disonnect()
+    public void Disconnect()
     {
         if (reconnected)
             return;

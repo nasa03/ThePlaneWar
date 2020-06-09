@@ -19,7 +19,7 @@ public class PlaneAI : MonoBehaviour
             {
                 GameObject AI_Plane = PhotonNetwork.Instantiate(
                     AI_Plane_Prefabs[(int) AI_Plane_Index[i]].name,
-                    FindObjectOfType<PhotonGame>().GroundRunwayPosotion[playerCount + i].position +
+                    FindObjectOfType<PhotonGame>().GroundRunwayPosition[playerCount + i].position +
                     new Vector3(0, 15, 0), Quaternion.identity);
                 AI_Plane_List.Add(AI_Plane);
             }

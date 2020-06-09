@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChooseMissle : MonoBehaviour
+public class ChooseMissile : MonoBehaviour
 {
-    [SerializeField] UIPopupList missleList;
+    [SerializeField] UIPopupList missileList;
     [SerializeField] UIPopupList sizeList;
-    int missleInt = 0;
+    int missileInt = 0;
     int sizeInt = 0;
 
     public void Fire()
     {
-        missleInt = GetItemsInt(missleList);
+        missileInt = GetItemsInt(missileList);
 
         GetIndex();
     }
@@ -36,6 +36,6 @@ public class ChooseMissle : MonoBehaviour
 
     void GetIndex()
     {
-        Global.totalMissleInt = missleInt * 3 + sizeInt;
+        Global.totalMissileInt = missileInt * 3 + sizeInt;
     }
 }

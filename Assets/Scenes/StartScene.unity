@@ -6557,7 +6557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52a9918ff67d442b87f40a7a50db32e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missleList: {fileID: 71109478}
+  missileList: {fileID: 71109478}
   sizeList: {fileID: 1665406324}
 --- !u!114 &954965997
 MonoBehaviour:
@@ -6571,31 +6571,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059bf8dcd41014c18aa2bc3ec97034ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeInfomations:
-  - obj: {fileID: 916063059}
-    nameLabel: {fileID: 1257012580}
-    killLabel: {fileID: 1726981625}
-    deathLabel: {fileID: 1034175314}
-  - obj: {fileID: 852902691}
-    nameLabel: {fileID: 336618502}
-    killLabel: {fileID: 1530769099}
-    deathLabel: {fileID: 833261662}
-  - obj: {fileID: 732876684}
-    nameLabel: {fileID: 1027967981}
-    killLabel: {fileID: 2062964043}
-    deathLabel: {fileID: 482936972}
-  - obj: {fileID: 1499733519}
-    nameLabel: {fileID: 514598038}
-    killLabel: {fileID: 1036749153}
-    deathLabel: {fileID: 1340349901}
-  - obj: {fileID: 33034025}
-    nameLabel: {fileID: 301464334}
-    killLabel: {fileID: 2058484875}
-    deathLabel: {fileID: 1199964375}
-  - obj: {fileID: 951180393}
-    nameLabel: {fileID: 646529192}
-    killLabel: {fileID: 543380782}
-    deathLabel: {fileID: 775959230}
+  planeInformation:
+  - obj: {fileID: 0}
+    nameLabel: {fileID: 0}
+    killLabel: {fileID: 0}
+    deathLabel: {fileID: 0}
+  - obj: {fileID: 0}
+    nameLabel: {fileID: 0}
+    killLabel: {fileID: 0}
+    deathLabel: {fileID: 0}
+  - obj: {fileID: 0}
+    nameLabel: {fileID: 0}
+    killLabel: {fileID: 0}
+    deathLabel: {fileID: 0}
+  - obj: {fileID: 0}
+    nameLabel: {fileID: 0}
+    killLabel: {fileID: 0}
+    deathLabel: {fileID: 0}
+  - obj: {fileID: 0}
+    nameLabel: {fileID: 0}
+    killLabel: {fileID: 0}
+    deathLabel: {fileID: 0}
+  - obj: {fileID: 0}
+    nameLabel: {fileID: 0}
+    killLabel: {fileID: 0}
+    deathLabel: {fileID: 0}
 --- !u!114 &954965998
 MonoBehaviour:
   m_ObjectHideFlags: 0

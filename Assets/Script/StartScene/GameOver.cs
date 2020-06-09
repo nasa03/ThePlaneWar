@@ -6,7 +6,7 @@ using Photon.Pun;
 public class GameOver : MonoBehaviour
 {
     [System.Serializable]
-    class PlaneInfomation
+    class PlaneInformation
     {
         public GameObject obj;
         public UILabel nameLabel;
@@ -14,7 +14,7 @@ public class GameOver : MonoBehaviour
         public UILabel deathLabel;
     }
 
-    [SerializeField] PlaneInfomation[] planeInfomations = new PlaneInfomation[6];
+    [SerializeField] PlaneInformation[] planeInformation = new PlaneInformation[6];
 
     public void Show()
     {
@@ -23,18 +23,18 @@ public class GameOver : MonoBehaviour
         {
             if (i < planeCount)
             {
-                planeInfomations[i].obj.SetActive(true);
+                planeInformation[i].obj.SetActive(true);
 
-                planeInfomations[i].nameLabel.text = PhotonNetwork.PlayerList[i].NickName;
+                planeInformation[i].nameLabel.text = PhotonNetwork.PlayerList[i].NickName;
                 if (PhotonNetwork.PlayerList[i].IsLocal)
-                    planeInfomations[i].nameLabel.color = Color.red;
+                    planeInformation[i].nameLabel.color = Color.red;
 
-                planeInfomations[i].killLabel.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
-                planeInfomations[i].deathLabel.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
+                planeInformation[i].killLabel.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
+                planeInformation[i].deathLabel.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
             }
             else
             {
-                planeInfomations[i].obj.SetActive(false);
+                planeInformation[i].obj.SetActive(false);
             }
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MissleActorButton : MonoBehaviour
+public class MissileActorButton : MonoBehaviour
 {
     [SerializeField] Image image;
     [SerializeField] Button button;
@@ -13,7 +13,7 @@ public class MissleActorButton : MonoBehaviour
     const float maxTime = 10.0f;
     const int maxCount = 3;
 
-    public bool Missle => totalCount > 0;
+    public bool Missile => totalCount > 0;
 
     // Update is called once per frame
     void Update()
@@ -36,7 +36,7 @@ public class MissleActorButton : MonoBehaviour
     public void ShootStart()
     {
         totalCount--;
-        button.enabled = Missle;
+        button.enabled = Missile;
         text.text = totalCount.ToString();
         GetComponent<AudioPlayer>().PlayAudio(1);
     }
@@ -48,7 +48,7 @@ public class MissleActorButton : MonoBehaviour
 
         time = maxTime;
         image.fillAmount = 1.0f;
-        button.enabled = Missle;
+        button.enabled = Missile;
         text.text = totalCount.ToString();
     }
 }

@@ -9,7 +9,7 @@ public class ExitGameArea : MonoBehaviour
     {
         if (other.tag == "Plane")
         {
-            FindObjectOfType<PlaneAttack>().Suiside(other.GetComponent<PhotonView>().Controller);
+            StartCoroutine(FindObjectOfType<PlaneAttack>().Suicide(other.GetComponent<PhotonView>().Controller));
         }
     }
 }

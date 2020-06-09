@@ -9,7 +9,7 @@ public class PlaneCollider : MonoBehaviour
     {
         if (collision.collider.tag == "FX")
         {
-            FindObjectOfType<PlaneAttack>().Suiside(GetComponent<PhotonView>().Controller);
+            StartCoroutine(FindObjectOfType<PlaneAttack>().Suicide(GetComponent<PhotonView>().Controller));
         }
     }
 }

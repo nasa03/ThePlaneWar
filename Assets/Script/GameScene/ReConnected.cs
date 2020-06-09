@@ -28,7 +28,7 @@ public class ReConnected : MonoBehaviourPunCallbacks
         else
         {
             PhotonNetwork.Reconnect();
-            FindObjectOfType<PhotonGame>().Disonnect();
+            FindObjectOfType<PhotonGame>().Disconnect();
         }
     }
 
