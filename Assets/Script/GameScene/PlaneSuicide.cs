@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlaneSuicide : MonoBehaviourPun
 {
+    PhotonView gameView;
     bool isSuicide = false;
 
     // Update is called once per frame
@@ -16,7 +18,12 @@ public class PlaneSuicide : MonoBehaviourPun
             StartCoroutine(Suicide());
         }
     }
-    
+
+    private void Awake()
+    {
+        gameView = FindObjectOfType<PhotonGame>().GetComponent<PhotonView>();
+    }
+
     IEnumerator Suicide()
     {
         if (!photonView.IsMine)
@@ -29,8 +36,7 @@ public class PlaneSuicide : MonoBehaviourPun
             yield break;
 
         isSuicide = true;
-
-        PhotonView gameView = FindObjectOfType<PhotonGame>().GetComponent<PhotonView>();
+        
         gameView.RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", PhotonNetwork.LocalPlayer.NickName));
         gameView.RPC("Dead", PhotonNetwork.LocalPlayer);
         

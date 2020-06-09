@@ -67,11 +67,11 @@ public class ExplodingMissile : MonoBehaviour
         float[] distances = new float[missileTargets.Count];
         for (int i = 0; i < missileTargets.Count; i++)
         {
-            Vector3 targetposition = (missileTargets[i] as Transform).position;
-            Vector3 dir = targetposition - thisPosition;
+            Vector3 targetPosition = (missileTargets[i] as Transform).position;
+            Vector3 dir = targetPosition - thisPosition;
             float dot = Vector3.Dot(Vector3.forward, dir);
             if (dot > 0)
-                distances[i] = Vector3.Distance(thisPosition, targetposition);
+                distances[i] = Vector3.Distance(thisPosition, targetPosition);
             else
                 distances[i] = 0;
         }

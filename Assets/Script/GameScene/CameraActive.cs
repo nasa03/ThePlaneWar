@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -6,6 +7,7 @@ using Photon.Pun;
 public class CameraActive : MonoBehaviour
 {
     [SerializeField] GameObject camera;
+    BinnacleScript binnacleScript;
 
     // Start is called before the first frame update
     void Start()
@@ -14,8 +16,13 @@ public class CameraActive : MonoBehaviour
         {
             camera.SetActive(true);
 
-            FindObjectOfType<BinnacleScript>().player = transform;
-            FindObjectOfType<BinnacleScript>().playerCamera = camera.transform;
+            binnacleScript.player = transform;
+            binnacleScript.playerCamera = camera.transform;
         }
+    }
+
+    private void Awake()
+    {
+        binnacleScript = FindObjectOfType<BinnacleScript>();
     }
 }

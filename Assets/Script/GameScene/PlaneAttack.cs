@@ -25,8 +25,8 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
 
         int randomAttack = Random.Range(5, 15);
 
-        int totalHP = (int)CustomProperties.GetProperties(player, "HP", 100);
-        bool invincible = (bool)CustomProperties.GetProperties(player, "invincible", false);
+        int totalHP = (int) CustomProperties.GetProperties(player, "HP", 100);
+        bool invincible = (bool) CustomProperties.GetProperties(player, "invincible", false);
 
         if (totalHP <= 0 || invincible)
             return;
@@ -42,12 +42,13 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         {
             StartCoroutine(ShowKillSight());
 
-            int kill = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
+            int kill = (int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
             kill++;
             CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
 
             GetComponent<AudioSource>().Play();
-            photonView.RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}击杀了{1}", PhotonNetwork.LocalPlayer.NickName, player.NickName));
+            photonView.RPC("AddAttackMessage", RpcTarget.All,
+                string.Format("{0}击杀了{1}", PhotonNetwork.LocalPlayer.NickName, player.NickName));
             photonView.RPC("Dead", player);
         }
     }

@@ -27,9 +27,16 @@ public class MobileInputController : MonoBehaviour {
 
                 if (position.x < Screen.width / 2 && position.y < Screen.height / 2)
                 {
-                    PointPosition = new Vector2((position.x - Background.position.x) / ((Background.rect.size.x - Knob.rect.size.x) / 2), (position.y - Background.position.y) / ((Background.rect.size.y - Knob.rect.size.y) / 2));
+                    PointPosition =
+                        new Vector2(
+                            (position.x - Background.position.x) / ((Background.rect.size.x - Knob.rect.size.x) / 2),
+                            (position.y - Background.position.y) / ((Background.rect.size.y - Knob.rect.size.y) / 2));
                     PointPosition = (PointPosition.magnitude > 1.0f) ? PointPosition.normalized : PointPosition;
-                    Knob.transform.position = new Vector2((PointPosition.x * ((Background.rect.size.x - Knob.rect.size.x) / 2) * offset) + Background.position.x, (PointPosition.y * ((Background.rect.size.y - Knob.rect.size.y) / 2) * offset) + Background.position.y);
+                    Knob.transform.position = new Vector2(
+                        (PointPosition.x * ((Background.rect.size.x - Knob.rect.size.x) / 2) * offset) +
+                        Background.position.x,
+                        (PointPosition.y * ((Background.rect.size.y - Knob.rect.size.y) / 2) * offset) +
+                        Background.position.y);
                 }
             }
             else

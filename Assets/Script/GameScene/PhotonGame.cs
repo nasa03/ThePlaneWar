@@ -124,7 +124,8 @@ public class PhotonGame : MonoBehaviour {
         timeBar.SetActive(false);
         sightImage.SetActive(true);
 
-        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name, groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
+        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
+            groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
         reborn = false;
         reconnected = false;
