@@ -4632,7 +4632,7 @@ GameObject:
   - component: {fileID: 3261256125482159449}
   - component: {fileID: 1805259577759105660}
   - component: {fileID: 4829040033457905179}
-  - component: {fileID: 6108484082293992480}
+  - component: {fileID: 1310181778122321091}
   m_Layer: 0
   m_Name: StarSparrow9
   m_TagString: Plane
@@ -5415,7 +5415,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 5
   m_Center: {x: -0.0000015497211, y: 0.06952076, z: 0.32428563}
---- !u!114 &6108484082293992480
+--- !u!114 &1310181778122321091
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5424,7 +5424,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1311379639167522}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dcc7b10f621f45d1adeb0a70a0a9cf5, type: 3}
+  m_Script: {fileID: 11500000, guid: 456b2120add8e4a65adb32c869756e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1351430696781956

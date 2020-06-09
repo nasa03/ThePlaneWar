@@ -65,7 +65,11 @@ public class BinnacleScript : MonoBehaviour {
 		
 	}
 	
-	void Update (){
+	void Update ()
+	{
+
+		if (player == null)
+			return;
 		
 		DrawRadarMarkers ();
 		MiniMapPositioning ();

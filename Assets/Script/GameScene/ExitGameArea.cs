@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class ExitGameArea : MonoBehaviour
 {
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Plane")
+        if (other.tag == "Plane" && other.GetComponent<PhotonView>().IsMine)
         {
-            StartCoroutine(FindObjectOfType<PlaneAttack>().Suicide(other.GetComponent<PhotonView>().Controller));
+            CrossPlatformInputManager.SetButtonDown("Suicide");
         }
     }
 }
