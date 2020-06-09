@@ -5484,7 +5484,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8dcc41e6b2646e9a48e53978bc8a58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missiles: []
+  missiles:
+  - {fileID: 1257873104036598, guid: 6cc183c0aaf06eb4e953092b441c6a05, type: 3}
+  - {fileID: 1238843893459588, guid: 92505d387f2abfd4d88d59618a85e2af, type: 3}
+  - {fileID: 1238843893459588, guid: 561abac2220442c4da20719a0d81371f, type: 3}
+  - {fileID: 1257873104036598, guid: a1d5609ff2cc6754ab75f8c4dd567bca, type: 3}
+  - {fileID: 1238843893459588, guid: 44b0798f8b718d8438a4e83ab28d42a2, type: 3}
+  - {fileID: 1238843893459588, guid: 3037e882f52864141aea4f144d222c73, type: 3}
+  - {fileID: 1257873104036598, guid: 3e8f90cf5ace53541b8523ce5200cdc5, type: 3}
+  - {fileID: 1238843893459588, guid: 46bf08350ee566542b0bb087e35a1020, type: 3}
+  - {fileID: 1238843893459588, guid: 659fe3ff3c5cb6640a2decc431b3351b, type: 3}
+  - {fileID: 1257873104036598, guid: 53969f535551323489f9059fbe5ca740, type: 3}
+  - {fileID: 1238843893459588, guid: 918ff3ea946d5bc42920f6a004bca98a, type: 3}
+  - {fileID: 1238843893459588, guid: 0d589ddd2ed60394784c5add357069fa, type: 3}
+  - {fileID: 1257873104036598, guid: 3a341c353f340584e91f13d8ef0055e8, type: 3}
+  - {fileID: 1238843893459588, guid: 7b4b488721e2ac54a873cf71cd131a14, type: 3}
+  - {fileID: 1238843893459588, guid: e1ea459f4762c81448d4b4d986f075a2, type: 3}
   interval: 10
   missileType: 0
 --- !u!114 &5485066271820079972
