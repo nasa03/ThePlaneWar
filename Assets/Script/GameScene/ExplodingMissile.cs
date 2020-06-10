@@ -9,6 +9,7 @@ public class ExplodingMissile : MonoBehaviourPun
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] float speed = 800;
     [SerializeField] float explosionTimer = 6;
+    PhotonView playerView;
     Rigidbody thisRigidbody;
     Collider thisCollider;
     Transform missileTarget;
@@ -48,6 +49,7 @@ public class ExplodingMissile : MonoBehaviourPun
 
     private void Awake()
     {
+        playerView = PhotonView.Get(FindObjectOfType<PhotonGame>().LocalPlane);
         thisRigidbody = GetComponent<Rigidbody>();
         thisCollider = GetComponent<Collider>();
     }
@@ -111,7 +113,6 @@ public class ExplodingMissile : MonoBehaviourPun
 
         if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
         {
-            PhotonView playerView = PhotonView.Get(FindObjectOfType<PhotonGame>().LocalPlane);
             playerView.RPC("Attack", PhotonNetwork.LocalPlayer, other.GetComponent<PhotonView>().Controller);
             PhotonNetwork.Destroy(gameObject);
         }

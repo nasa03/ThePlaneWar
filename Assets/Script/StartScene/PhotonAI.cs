@@ -6,9 +6,11 @@ using Random = UnityEngine.Random;
 
 public class PhotonAI : MonoBehaviourPunCallbacks
 {
-    [SerializeField] UIButton AddAIButton;
-    [SerializeField] UISprite[] AI_Sprites = new UISprite[5];
-    [HideInInspector] public ArrayList AI_List = new ArrayList();
+    [SerializeField] UIButton addAIButton;
+    [SerializeField] UISprite[] ai_Sprites = new UISprite[5];
+    readonly ArrayList ai_List = new ArrayList();
+
+    public ArrayList AIList => ai_List;
 
     public void AddAI()
     {
@@ -22,16 +24,16 @@ public class PhotonAI : MonoBehaviourPunCallbacks
             maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
         }
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount + AI_List.Count == maxPlayers)
+        if (PhotonNetwork.CurrentRoom.PlayerCount + ai_List.Count == maxPlayers)
 
         {
             StartCoroutine(FindObjectOfType<MessageShow>().Show("房间人数已满"));
             return;
         }
 
-        AI_List.Add(Random.Range(0, 9));
+        ai_List.Add(Random.Range(0, 9));
 
-        CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, "AI_List", AI_List.ToArray());
+        CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, "ai_List", ai_List.ToArray());
 
         photonView.RPC("EnterOrRefreshRoom", RpcTarget.All);
         photonView.RPC("EnterOrRefreshRoomOfAI", RpcTarget.All);
@@ -40,9 +42,9 @@ public class PhotonAI : MonoBehaviourPunCallbacks
     public void RefreshAI(UILabel nameLabel)
     {
         int index = GetIndex(nameLabel);
-        AI_List[index] = Random.Range(0, 9);
+        ai_List[index] = Random.Range(0, 9);
 
-        CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, "AI_List", AI_List.ToArray());
+        CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, "ai_List", ai_List.ToArray());
 
         photonView.RPC("EnterOrRefreshRoomOfAI", RpcTarget.All);
     }
@@ -50,9 +52,9 @@ public class PhotonAI : MonoBehaviourPunCallbacks
     public void KickAI(UILabel nameLabel)
     {
         int index = GetIndex(nameLabel);
-        AI_List.RemoveAt(index);
+        ai_List.RemoveAt(index);
 
-        CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, "AI_List", AI_List.ToArray());
+        CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, "ai_List", ai_List.ToArray());
 
         photonView.RPC("EnterOrRefreshRoom", RpcTarget.All);
         photonView.RPC("EnterOrRefreshRoomOfAI", RpcTarget.All);
@@ -61,26 +63,26 @@ public class PhotonAI : MonoBehaviourPunCallbacks
     [PunRPC]
     public void EnterOrRefreshRoomOfAI()
     {
-        object[] list = (object[]) CustomProperties.GetProperties(PhotonNetwork.CurrentRoom, "AI_List");
-        AI_List.Clear();
+        object[] list = (object[]) CustomProperties.GetProperties(PhotonNetwork.CurrentRoom, "ai_List");
+        ai_List.Clear();
         if (list != null)
         {
             for (int i = 0; i < list.Length; i++)
             {
-                AI_List.Add(list[i]);
+                ai_List.Add(list[i]);
             }
         }
 
-        AddAIButton.isEnabled = PhotonNetwork.LocalPlayer.IsMasterClient;
+        addAIButton.isEnabled = PhotonNetwork.LocalPlayer.IsMasterClient;
         
-        for (int i = 0; i < AI_Sprites.Length; i++)
+        for (int i = 0; i < ai_Sprites.Length; i++)
         {
-            AI_Sprites[i].gameObject.SetActive(false);
+            ai_Sprites[i].gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < AI_List.Count; i++)
+        for (int i = 0; i < ai_List.Count; i++)
         {
-            UISprite sprite = AI_Sprites[PhotonNetwork.PlayerListOthers.Length + i];
+            UISprite sprite = ai_Sprites[PhotonNetwork.PlayerListOthers.Length + i];
             sprite.gameObject.SetActive(true);
 
             sprite.transform.Find("Name Label").GetComponent<UILabel>().text = string.Format("机器人{0}", i + 1);
@@ -96,18 +98,18 @@ public class PhotonAI : MonoBehaviourPunCallbacks
             }
 
             FindObjectOfType<ShowPlane>().DestroyAI(PhotonNetwork.PlayerListOthers.Length + i);
-            FindObjectOfType<ShowPlane>().ShowAI(PhotonNetwork.PlayerListOthers.Length + i, (int) AI_List[i]);
+            FindObjectOfType<ShowPlane>().ShowAI(PhotonNetwork.PlayerListOthers.Length + i, (int) ai_List[i]);
         }
     }
 
     public void LeftRoomOfAI()
     {
-        AI_List.Clear();
+        ai_List.Clear();
     }
 
     int GetIndex(UILabel nameLabel)
     {
-        for (int i = 0; i < AI_List.Count; i++)
+        for (int i = 0; i < ai_List.Count; i++)
         {
             if (nameLabel.text == string.Format("机器人{0}", i + 1))
             {

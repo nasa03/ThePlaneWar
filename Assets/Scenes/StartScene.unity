@@ -6457,7 +6457,6 @@ MonoBehaviour:
   roomPrefab: {fileID: 6012015344959852720, guid: 9be4b72c7c8414950be4fad7b6f39dd0,
     type: 3}
   scrollView: {fileID: 1216682200}
-  CreateWidget: {fileID: 335246671}
   nameInput: {fileID: 1295751617}
   maxPlayersSlider: {fileID: 597818394}
   openToggle: {fileID: 91132531}
@@ -6499,7 +6498,7 @@ MonoBehaviour:
   playersLabel: {fileID: 1550028688}
   openToggle: {fileID: 2143584155}
   startGameButton: {fileID: 504255659}
-  usernameSprides:
+  usernameSprites:
   - {fileID: 517320150}
   - {fileID: 1470155571}
   - {fileID: 276705854}
@@ -6630,8 +6629,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 932d55259185d403da034464c5a3ff42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AddAIButton: {fileID: 57391518}
-  AI_Sprites:
+  addAIButton: {fileID: 57391518}
+  ai_Sprites:
   - {fileID: 465319684}
   - {fileID: 442908750}
   - {fileID: 1499673991}

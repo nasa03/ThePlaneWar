@@ -11,31 +11,30 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
     [SerializeField] UILabel playersLabel;
     [SerializeField] UIToggle openToggle;
     [SerializeField] UIButton startGameButton;
-    
-    public UISprite[] usernameSprides;
+    [SerializeField] UISprite[] usernameSprites;
 
     [PunRPC]
     public void EnterOrRefreshRoom()
     {
         roomLabel.text = string.Format("房间名：{0}", PhotonNetwork.CurrentRoom.Name);
         playersLabel.text = string.Format("人数：{0}/{1}",
-            PhotonNetwork.CurrentRoom.PlayerCount + GetComponent<PhotonAI>().AI_List.Count,
+            PhotonNetwork.CurrentRoom.PlayerCount + GetComponent<PhotonAI>().AIList.Count,
             PhotonNetwork.CurrentRoom.MaxPlayers);
         openToggle.value = PhotonNetwork.CurrentRoom.IsVisible;
         openToggle.GetComponent<UIButton>().isEnabled = PhotonNetwork.LocalPlayer.IsMasterClient;
 
         Player localPlayer = PhotonNetwork.LocalPlayer;
-        usernameSprides[0].GetComponentInChildren<UILabel>().text = localPlayer.NickName;
+        usernameSprites[0].GetComponentInChildren<UILabel>().text = localPlayer.NickName;
 
         if (localPlayer.IsMasterClient)
         {
             startGameButton.GetComponentInChildren<UILabel>().text = "开始游戏";
-            usernameSprides[0].transform.Find("Name Label").GetComponent<UILabel>().color = Color.red;
+            usernameSprites[0].transform.Find("Name Label").GetComponent<UILabel>().color = Color.red;
         }
         else
         {
             startGameButton.GetComponentInChildren<UILabel>().text = "准备";
-            usernameSprides[0].transform.Find("Name Label").GetComponent<UILabel>().color = Color.white;
+            usernameSprites[0].transform.Find("Name Label").GetComponent<UILabel>().color = Color.white;
             CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "isReady", false);
         }
 
@@ -43,36 +42,36 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
 
         FindObjectOfType<ShowPlane>().DestroyAll();
         for (int i = 1; i < 6; i++)
-            usernameSprides[i].gameObject.SetActive(false);
+            usernameSprites[i].gameObject.SetActive(false);
 
         for (int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
         {
             Player player = PhotonNetwork.PlayerListOthers[i];
 
-            usernameSprides[i + 1].gameObject.SetActive(true);
-            usernameSprides[i + 1].GetComponentInChildren<UILabel>().text = player.NickName;
+            usernameSprites[i + 1].gameObject.SetActive(true);
+            usernameSprites[i + 1].GetComponentInChildren<UILabel>().text = player.NickName;
 
             if (localPlayer.IsMasterClient)
             {
-                usernameSprides[i + 1].transform.Find("Master Label").gameObject.SetActive(true);
-                usernameSprides[i + 1].transform.Find("Kick Label").gameObject.SetActive(true);
+                usernameSprites[i + 1].transform.Find("Master Label").gameObject.SetActive(true);
+                usernameSprites[i + 1].transform.Find("Kick Label").gameObject.SetActive(true);
             }
             else
             {
-                usernameSprides[i + 1].transform.Find("Master Label").gameObject.SetActive(false);
-                usernameSprides[i + 1].transform.Find("Kick Label").gameObject.SetActive(false);
+                usernameSprites[i + 1].transform.Find("Master Label").gameObject.SetActive(false);
+                usernameSprites[i + 1].transform.Find("Kick Label").gameObject.SetActive(false);
             }
 
             FindObjectOfType<ShowPlane>().Show(i);
 
             if (player.IsMasterClient)
-                usernameSprides[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.red;
+                usernameSprites[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.red;
             else
             {
                 if ((bool)CustomProperties.GetProperties(player, "isReady", false))
-                    usernameSprides[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.yellow;
+                    usernameSprites[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.yellow;
                 else
-                    usernameSprides[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.white;
+                    usernameSprites[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.white;
             }
         }
     }
@@ -152,13 +151,13 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
             if (startGameButton.transform.Find("Label").GetComponent<UILabel>().text == "准备")
             {
                 startGameButton.GetComponentInChildren<UILabel>().text = "取消准备";
-                usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.yellow;
+                usernameSprites[0].GetComponentInChildren<UILabel>().color = Color.yellow;
                 CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "isReady", true);
             }
             else
             {
                 startGameButton.GetComponentInChildren<UILabel>().text = "准备";
-                usernameSprides[0].GetComponentInChildren<UILabel>().color = Color.white;
+                usernameSprites[0].GetComponentInChildren<UILabel>().color = Color.white;
                 CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "isReady", false);
             }
         }
@@ -199,9 +198,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
             if (target == PhotonNetwork.PlayerListOthers[i])
             {
                 if ((bool)CustomProperties.GetProperties(target, "isReady", false))
-                    usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.yellow;
+                    usernameSprites[i + 1].GetComponentInChildren<UILabel>().color = Color.yellow;
                 else
-                    usernameSprides[i + 1].GetComponentInChildren<UILabel>().color = Color.white;
+                    usernameSprites[i + 1].GetComponentInChildren<UILabel>().color = Color.white;
             }
         }
     }

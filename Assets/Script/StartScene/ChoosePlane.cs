@@ -5,8 +5,10 @@ using Photon.Pun;
 using Photon.Realtime;
 
 public class ChoosePlane : MonoBehaviour {
-    public GameObject[] planePrefabs;
+    [SerializeField] GameObject[] planePrefabs;
     GameObject totalPlaneObject;
+
+    public GameObject[] PlanePrefabs => planePrefabs;
 
     public void Show(bool isShow)
     {

@@ -6,10 +6,10 @@ using Photon.Realtime;
 
 public class ChooseMap : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private UISprite mapSprite;
-    [SerializeField] private UILabel mapLabel;
-    [SerializeField] private UIButton[] mapButtons;
-    private int index = 1;
+    [SerializeField] UISprite mapSprite;
+    [SerializeField] UILabel mapLabel;
+    [SerializeField] UIButton[] mapButtons; 
+    int index = 1;
 
     public int Index => index;
 
