@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using Photon.Pun;
 
-public class MissileActor : MonoBehaviour
+public class MissileActor : MonoBehaviourPun
 {
     [SerializeField] GameObject[] missiles;
     [SerializeField] float interval = 10;
@@ -19,7 +19,7 @@ public class MissileActor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GetComponent<PhotonView>().IsMine)
+        if (!photonView.IsMine)
             return;
 
         if (CrossPlatformInputManager.GetButtonDown("Fire2") && FindObjectOfType<MissileActorButton>().Missile)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class ExplodingMissile : MonoBehaviour
+public class ExplodingMissile : MonoBehaviourPun
 {
     [SerializeField] GameObject muzzlePrefab;
     [SerializeField] GameObject explosionPrefab;
@@ -106,12 +106,13 @@ public class ExplodingMissile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!GetComponent<PhotonView>().IsMine)
+        if (!photonView.IsMine)
             return;
 
         if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
         {
-            FindObjectOfType<PlaneAttack>().Attack(other.gameObject.GetComponent<PhotonView>().Controller);
+            PhotonView playerView = PhotonView.Get(FindObjectOfType<PhotonGame>().LocalPlane);
+            playerView.RPC("Attack", PhotonNetwork.LocalPlayer, other.GetComponent<PhotonView>().Controller);
             PhotonNetwork.Destroy(gameObject);
         }
     }

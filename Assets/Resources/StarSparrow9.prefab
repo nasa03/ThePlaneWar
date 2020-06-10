@@ -4632,6 +4632,7 @@ GameObject:
   - component: {fileID: 3261256125482159449}
   - component: {fileID: 1805259577759105660}
   - component: {fileID: 4829040033457905179}
+  - component: {fileID: 372782981292864462}
   - component: {fileID: 1310181778122321091}
   m_Layer: 0
   m_Name: StarSparrow9
@@ -5415,6 +5416,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 5
   m_Center: {x: -0.0000015497211, y: 0.06952076, z: 0.32428563}
+--- !u!114 &372782981292864462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311379639167522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0428daedacdac4d44b552b0daa405fa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sight_Sprites:
+  - {fileID: 21300000, guid: a07256bf3e1f84fd0ba36c6056cd273e, type: 3}
+  - {fileID: 21300000, guid: c2f65a0af103a4215a089b77528d7f4c, type: 3}
+  - {fileID: 21300000, guid: 5d53f82237c8443b0bb63b98298b9254, type: 3}
 --- !u!114 &1310181778122321091
 MonoBehaviour:
   m_ObjectHideFlags: 0

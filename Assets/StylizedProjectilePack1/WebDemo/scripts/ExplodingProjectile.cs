@@ -4,7 +4,7 @@ using Photon.Pun;
 
 /* THIS CODE IS JUST FOR PREVIEW AND TESTING */
 // Feel free to use any code and picking on it, I cannot guaratnee it will fit into your project
-public class ExplodingProjectile : MonoBehaviour
+public class ExplodingProjectile : MonoBehaviourPun
 {
     public GameObject impactPrefab;
     public GameObject explosionPrefab;
@@ -136,11 +136,14 @@ public class ExplodingProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!GetComponent<PhotonView>().IsMine)
+        if (!photonView.IsMine)
             return;
 
         if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
-            FindObjectOfType<PlaneAttack>().Attack(other.gameObject.GetComponent<PhotonView>().Controller);
+        {
+            PhotonView playerView = PhotonView.Get(FindObjectOfType<PhotonGame>().LocalPlane);
+            playerView.RPC("Attack", PhotonNetwork.LocalPlayer, other.GetComponent<PhotonView>().Controller);
+        }
     }
 
     void Explode()

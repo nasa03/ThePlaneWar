@@ -10,8 +10,9 @@ public class PhotonGame : MonoBehaviour {
     [SerializeField] GameObject[] planePrefabs;
     [SerializeField] Transform[] groundRunwayPosition;
     [SerializeField] GameObject explosionParticleSystem;
+    [SerializeField] Image hpImage;
+    [SerializeField] Image sightImage;
     [SerializeField] GameObject timeBar;
-    [SerializeField] GameObject sightImage;
     [SerializeField] Text timeText;
     [SerializeField] Image timeImage;
     GameObject localPlane;
@@ -21,8 +22,14 @@ public class PhotonGame : MonoBehaviour {
     float time = 0.0f;
     int maxTime = 0;
 
+    public Image HPImage => hpImage;
+
+    public Image SightImage => sightImage;
+
     public bool Reborn => reborn;
-    
+
+    public GameObject LocalPlane => localPlane;
+
     public Transform[] GroundRunwayPosition => groundRunwayPosition;
 
     // Start is called before the first frame update
@@ -108,7 +115,7 @@ public class PhotonGame : MonoBehaviour {
 
         mainCamera.enabled = true;
         timeBar.SetActive(true);
-        sightImage.SetActive(false);
+        sightImage.gameObject.SetActive(false);
 
         time = 10.0f;
         maxTime = 10;
@@ -122,7 +129,7 @@ public class PhotonGame : MonoBehaviour {
     {
         mainCamera.enabled = false;
         timeBar.SetActive(false);
-        sightImage.SetActive(true);
+        sightImage.gameObject.SetActive(true);
 
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
             groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
@@ -160,7 +167,7 @@ public class PhotonGame : MonoBehaviour {
 
         mainCamera.enabled = true;
         timeBar.SetActive(true);
-        sightImage.SetActive(false);
+        sightImage.gameObject.SetActive(false);
 
         time = 60.0f;
         maxTime = 60;

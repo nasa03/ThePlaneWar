@@ -1,15 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using Random = UnityEngine.Random;
 
-public class PlaneAttack : MonoBehaviourPunCallbacks
+public class PlaneAttack : MonoBehaviourPun
 {
-    [SerializeField] Image HP_Image;
-    [SerializeField] Image sight_Image;
-    [SerializeField] Sprite[] sight_Sprites = new Sprite[3];
+    [SerializeField] Sprite[] sight_Sprites = new Sprite[3]; 
+    PhotonGame photonGame;
+    PhotonView gameView;
     bool isKilled = false;
 
     // Start is called before the first frame update
@@ -17,7 +18,22 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
     {
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
     }
+    
+    // Update is called once per frame
+    void Update()
+    {
+        photonGame.HPImage.fillAmount = Mathf.Lerp(
+            (float) ((int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "HP", 100) / 100.0),
+            photonGame.HPImage.fillAmount, 0.95f);
+    }
+    
+    private void Awake()
+    {
+        photonGame = FindObjectOfType<PhotonGame>();
+        gameView = photonGame.GetComponent<PhotonView>();
+    }
 
+    [PunRPC]
     public void Attack(Player player)
     {
         if (!photonView.IsMine)
@@ -36,7 +52,7 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
 
         StartCoroutine(ShowSight());
 
-        photonView.RPC("PlayAudio", player, 2);
+        gameView.RPC("PlayAudio", player, 2);
 
         if (totalHP <= 0)
         {
@@ -47,41 +63,31 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
             CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
 
             GetComponent<AudioSource>().Play();
-            photonView.RPC("AddAttackMessage", RpcTarget.All,
+            gameView.RPC("AddAttackMessage", RpcTarget.All,
                 string.Format("{0}击杀了{1}", PhotonNetwork.LocalPlayer.NickName, player.NickName));
-            photonView.RPC("Dead", player);
+            gameView.RPC("Dead", player);
         }
     }
 
     IEnumerator ShowSight()
     {
         if (!isKilled)
-            sight_Image.sprite = sight_Sprites[1];
+            photonGame.SightImage.sprite = sight_Sprites[1];
 
         yield return new WaitForSeconds(0.5f);
 
         if (!isKilled)
-            sight_Image.sprite = sight_Sprites[0];
+            photonGame.SightImage.sprite = sight_Sprites[0];
     }
 
     IEnumerator ShowKillSight()
     {
         isKilled = true;
 
-        sight_Image.sprite = sight_Sprites[2];
+        photonGame.SightImage.sprite = sight_Sprites[2];
         yield return new WaitForSeconds(2.0f);
-        sight_Image.sprite = sight_Sprites[0];
+        photonGame.SightImage.sprite = sight_Sprites[0];
 
         isKilled = false;
-    }
-
-    public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
-    {
-        base.OnPlayerPropertiesUpdate(target, changedProps);
-
-        if (target == PhotonNetwork.LocalPlayer)
-        {
-            HP_Image.fillAmount = (float)((int)CustomProperties.GetProperties(target, "HP", 100) / 100.0);
-        }
     }
 }
