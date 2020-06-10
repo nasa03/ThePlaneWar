@@ -141,8 +141,8 @@ public class ExplodingProjectile : MonoBehaviourPun
 
         if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
         {
-            PhotonView playerView = PhotonView.Get(FindObjectOfType<PhotonGame>().LocalPlane);
-            playerView.RPC("Attack", PhotonNetwork.LocalPlayer, other.GetComponent<PhotonView>().Controller);
+            FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
+                .Attack(other.GetComponent<PhotonView>().Controller);
         }
     }
 

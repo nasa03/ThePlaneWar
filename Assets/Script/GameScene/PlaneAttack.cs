@@ -32,8 +32,7 @@ public class PlaneAttack : MonoBehaviourPun
         photonGame = FindObjectOfType<PhotonGame>();
         gameView = photonGame.GetComponent<PhotonView>();
     }
-
-    [PunRPC]
+    
     public void Attack(Player player)
     {
         if (!photonView.IsMine)
