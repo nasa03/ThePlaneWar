@@ -37101,8 +37101,8 @@ GameObject:
   - component: {fileID: 23011046481094668}
   - component: {fileID: 65938828622044320}
   - component: {fileID: 54643346209306900}
-  - component: {fileID: 114386324569829288}
   - component: {fileID: 114465678245376640}
+  - component: {fileID: 2559082483627094829}
   - component: {fileID: 114738770654533010}
   - component: {fileID: 4848663250205647972}
   - component: {fileID: 8393401490908642908}
@@ -37217,32 +37217,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114386324569829288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1817626638657306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 235a6615124795442b98c1f03500003e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxEnginePower: 40
-  m_Lift: 0.003
-  m_ZeroLiftSpeed: 300
-  m_RollEffect: 7
-  m_PitchEffect: 2
-  m_YawEffect: 0.2
-  m_BankedTurnEffect: 2
-  m_AerodynamicEffect: 0.02
-  m_AutoTurnPitch: 0.5
-  m_AutoRollLevel: 0.2
-  m_AutoPitchLevel: 0.2
-  m_AirBrakesEffect: 10
-  m_ThrottleChangeSpeed: 0.3
-  m_DragIncreaseFactor: 0.001
 --- !u!114 &114465678245376640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37257,6 +37231,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxRollAngle: 80
   maxPitchAngle: 80
+--- !u!114 &2559082483627094829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817626638657306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 235a6615124795442b98c1f03500003e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxEnginePower: 40
+  m_Lift: 0.003
+  m_ZeroLiftSpeed: 300
+  m_RollEffect: 10
+  m_PitchEffect: 4
+  m_YawEffect: 4
+  m_BankedTurnEffect: 2
+  m_AerodynamicEffect: 0.02
+  m_AutoTurnPitch: 0.5
+  m_AutoRollLevel: 0.4
+  m_AutoPitchLevel: 0.4
+  m_AirBrakesEffect: 10
+  m_ThrottleChangeSpeed: 0.3
+  m_DragIncreaseFactor: 0.001
 --- !u!114 &114738770654533010
 MonoBehaviour:
   m_ObjectHideFlags: 0
