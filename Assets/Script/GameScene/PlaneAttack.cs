@@ -6,9 +6,9 @@ using Photon.Pun;
 using Photon.Realtime;
 using Random = UnityEngine.Random;
 
-public class PlaneAttack : MonoBehaviourPun
+public class PlaneAttack : MonoBehaviourPunCallbacks
 {
-    [SerializeField] Sprite[] sight_Sprites = new Sprite[3]; 
+    [SerializeField] Sprite[] sight_Sprites = new Sprite[3];
     PhotonGame photonGame;
     PhotonView gameView;
     bool isKilled = false;
@@ -18,21 +18,21 @@ public class PlaneAttack : MonoBehaviourPun
     {
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
     }
-    
+
     // Update is called once per frame
     void Update()
     {
-        photonGame.HPImage.fillAmount = Mathf.Lerp(
+        photonGame.HpLerpImage.fillAmount = Mathf.Lerp(
             (float) ((int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "HP", 100) / 100.0),
-            photonGame.HPImage.fillAmount, 0.95f);
+            photonGame.HpLerpImage.fillAmount, 0.95f);
     }
-    
+
     private void Awake()
     {
         photonGame = FindObjectOfType<PhotonGame>();
         gameView = photonGame.GetComponent<PhotonView>();
     }
-    
+
     public void Attack(Player player)
     {
         if (!photonView.IsMine)
@@ -89,4 +89,16 @@ public class PlaneAttack : MonoBehaviourPun
 
         isKilled = false;
     }
+
+
+    public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(target, changedProps);
+
+        if (target == PhotonNetwork.LocalPlayer)
+        {
+            photonGame.HPImage.fillAmount = (float) ((int) CustomProperties.GetProperties(target, "HP", 100) / 100.0);
+        }
+    }
+    
 }

@@ -11,6 +11,7 @@ public class PhotonGame : MonoBehaviour {
     [SerializeField] Transform[] groundRunwayPosition;
     [SerializeField] GameObject explosionParticleSystem;
     [SerializeField] Image hpImage;
+    [SerializeField] Image hpLerpImage;
     [SerializeField] Image sightImage;
     [SerializeField] GameObject timeBar;
     [SerializeField] Text timeText;
@@ -23,6 +24,8 @@ public class PhotonGame : MonoBehaviour {
     int maxTime = 0;
 
     public Image HPImage => hpImage;
+
+    public Image HpLerpImage => hpLerpImage;
 
     public Image SightImage => sightImage;
 
