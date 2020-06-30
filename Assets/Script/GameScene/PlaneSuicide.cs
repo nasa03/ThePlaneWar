@@ -13,7 +13,7 @@ public class PlaneSuicide : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (CrossPlatformInputManager.GetButtonDown("Suicide"))
+        if (CrossPlatformInputManager.GetButtonDown("Suicide") && !isSuicide)
         {
             StartCoroutine(Suicide());
         }
@@ -31,9 +31,6 @@ public class PlaneSuicide : MonoBehaviourPun
 
         if (FindObjectOfType<PhotonGame>().Reborn)
             yield break;
-        
-        if (isSuicide)
-            yield break;
 
         isSuicide = true;
         
@@ -47,7 +44,7 @@ public class PlaneSuicide : MonoBehaviourPun
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "FX")
+        if (collision.collider.tag == "FX" && !isSuicide)
         {
             StartCoroutine(Suicide());
         }
