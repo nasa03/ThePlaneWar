@@ -40,9 +40,16 @@ namespace Photon.Realtime
     /// </remarks>
     public class LoadBalancingPeer : PhotonPeer
     {
-        protected internal static Type PingImplementation = null;
+        /// <summary>Obsolete accessor to the RegionHandler.PingImplementation.</summary>
+        [Obsolete("Use RegionHandler.PingImplementation directly.")]
+        protected internal static Type PingImplementation
+        {
+            get { return RegionHandler.PingImplementation; }
+            set { RegionHandler.PingImplementation = value; }
+        }
 
-        private readonly Dictionary<byte, object> opRaiseEventParameters = new Dictionary<byte, object>(); // used in OpRaiseEvent() (avoids lots of new Dictionary() calls)
+
+        private readonly Pool<Dictionary<byte, object>> paramDictionaryPool = new Pool<Dictionary<byte, object>>(() => new Dictionary<byte, object>(), x => x.Clear(), 1); // used in OpRaiseEvent() (avoids lots of new Dictionary() calls)
 
 
         /// <summary>
@@ -71,17 +78,6 @@ namespace Photon.Realtime
         [System.Diagnostics.Conditional("SUPPORTED_UNITY")]
         private void ConfigUnitySockets()
         {
-            #if !NETFX_CORE && !NO_SOCKET
-            PingImplementation = typeof(PingMono);
-            #endif
-            #if UNITY_WEBGL
-            PingImplementation = typeof(PingHttp);
-            #endif
-            #if !UNITY_EDITOR && NETFX_CORE
-            PingImplementation = typeof(PingWindowsStore);
-            #endif
-
-
             Type websocketType = null;
             #if UNITY_XBOXONE && !UNITY_EDITOR
             websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, PhotonRealtime", false);
@@ -117,7 +113,7 @@ namespace Photon.Realtime
                 this.SocketImplementationConfig[ConnectionProtocol.WebSocketSecure] = websocketType;
             }
 
-            #if NET_4_6 && (UNITY_EDITOR || !ENABLE_IL2CPP)
+            #if NET_4_6 && (UNITY_EDITOR || !ENABLE_IL2CPP) && !NETFX_CORE
             this.SocketImplementationConfig[ConnectionProtocol.Udp] = typeof(SocketUdpAsync);
             this.SocketImplementationConfig[ConnectionProtocol.Tcp] = typeof(SocketTcpAsync);
             #endif
@@ -172,17 +168,6 @@ namespace Photon.Realtime
             return this.SendOperation(OperationCode.LeaveLobby, null, SendOptions.SendReliable);
         }
 
-
-        /// <summary>Used in the RoomOptionFlags parameter, this bitmask toggles options in the room.</summary>
-        enum RoomOptionBit : int
-        {
-            CheckUserOnJoin = 0x01,  // toggles a check of the UserId when joining (enabling returning to a game)
-            DeleteCacheOnLeave = 0x02,  // deletes cache on leave
-            SuppressRoomEvents = 0x04,  // suppresses all room events
-            PublishUserId = 0x08,  // signals that we should publish userId
-            DeleteNullProps = 0x10,  // signals that we should remove property if its value was set to null. see RoomOption to Delete Null Properties
-            BroadcastPropsChangeToAll = 0x20,  // signals that we should send PropertyChanged event to all room players including initiator
-        }
 
         /// <summary>Used by OpJoinRoom and by OpCreateRoom alike.</summary>
         private void RoomOptionsToOpParameters(Dictionary<byte, object> op, RoomOptions roomOptions, bool usePropertiesKey = false)
@@ -641,11 +626,11 @@ namespace Photon.Realtime
                 this.Listener.DebugReturn(DebugLevel.INFO, "OpSetPropertiesOfActor()");
             }
 
-            if (actorNr <= 0 || actorProperties == null)
+            if (actorNr <= 0 || actorProperties == null || actorProperties.Count == 0)
             {
                 if (this.DebugOut >= DebugLevel.INFO)
                 {
-                    this.Listener.DebugReturn(DebugLevel.INFO, "OpSetPropertiesOfActor not sent. ActorNr must be > 0 and actorProperties != null.");
+                    this.Listener.DebugReturn(DebugLevel.INFO, "OpSetPropertiesOfActor not sent. ActorNr must be > 0 and actorProperties must be not null nor empty.");
                 }
                 return false;
             }
@@ -668,11 +653,11 @@ namespace Photon.Realtime
         }
 
 
-        protected void OpSetPropertyOfRoom(byte propCode, object value)
+        protected bool OpSetPropertyOfRoom(byte propCode, object value)
         {
             Hashtable properties = new Hashtable();
             properties[propCode] = value;
-            this.OpSetPropertiesOfRoom(properties);
+            return this.OpSetPropertiesOfRoom(properties);
         }
 
         public bool OpSetCustomPropertiesOfRoom(Hashtable gameProperties)
@@ -693,6 +678,14 @@ namespace Photon.Realtime
             if (this.DebugOut >= DebugLevel.INFO)
             {
                 this.Listener.DebugReturn(DebugLevel.INFO, "OpSetPropertiesOfRoom()");
+            }
+            if (gameProperties == null || gameProperties.Count == 0)
+            {
+                if (this.DebugOut >= DebugLevel.INFO)
+                {
+                    this.Listener.DebugReturn(DebugLevel.INFO, "OpSetPropertiesOfRoom not sent. gameProperties must be not null nor empty.");
+                }
+                return false;
             }
 
             Dictionary<byte, object> opParameters = new Dictionary<byte, object>();
@@ -781,7 +774,7 @@ namespace Photon.Realtime
                 }
             }
 
-            return this.SendOperation(OperationCode.Authenticate, opParameters, new SendOptions() { Reliability = true, Encrypt = this.IsEncryptionAvailable });
+            return this.SendOperation(OperationCode.Authenticate, opParameters, new SendOptions() { Reliability = true, Encrypt = true });
         }
 
 
@@ -805,9 +798,8 @@ namespace Photon.Realtime
         {
             if (this.DebugOut >= DebugLevel.INFO)
             {
-                this.Listener.DebugReturn(DebugLevel.INFO, "OpAuthenticateOnce()");
+                this.Listener.DebugReturn(DebugLevel.INFO, "OpAuthenticateOnce(): authValues = "  + authValues + ", region = " + regionCode + ", encryption = " + encryptionMode);
             }
-
 
             var opParameters = new Dictionary<byte, object>();
 
@@ -863,7 +855,7 @@ namespace Photon.Realtime
                 }
             }
 
-            return this.SendOperation(OperationCode.AuthenticateOnce, opParameters, new SendOptions() { Reliability = true, Encrypt = this.IsEncryptionAvailable });
+            return this.SendOperation(OperationCode.AuthenticateOnce, opParameters, new SendOptions() { Reliability = true, Encrypt = true });
         }
 
         /// <summary>
@@ -912,56 +904,63 @@ namespace Photon.Realtime
         /// <returns>If operation could be enqueued for sending. Sent when calling: Service or SendOutgoingCommands.</returns>
         public virtual bool OpRaiseEvent(byte eventCode, object customEventContent, RaiseEventOptions raiseEventOptions, SendOptions sendOptions)
         {
-            this.opRaiseEventParameters.Clear(); // re-used private variable to avoid many new Dictionary() calls (garbage collection)
-            if (raiseEventOptions != null)
+            var paramDict = this.paramDictionaryPool.Acquire();
+            try
             {
-                if (raiseEventOptions.CachingOption != EventCaching.DoNotCache)
+                if (raiseEventOptions != null)
                 {
-                    this.opRaiseEventParameters[(byte)ParameterCode.Cache] = (byte)raiseEventOptions.CachingOption;
+                    if (raiseEventOptions.CachingOption != EventCaching.DoNotCache)
+                    {
+                        paramDict[(byte)ParameterCode.Cache] = (byte)raiseEventOptions.CachingOption;
+                    }
+                    switch (raiseEventOptions.CachingOption)
+                    {
+                        case EventCaching.SliceSetIndex:
+                        case EventCaching.SlicePurgeIndex:
+                        case EventCaching.SlicePurgeUpToIndex:
+                            //this.opParameters[(byte) ParameterCode.CacheSliceIndex] =
+                            //    (byte) raiseEventOptions.CacheSliceIndex;
+                            return this.SendOperation(OperationCode.RaiseEvent, paramDict, sendOptions);
+                        case EventCaching.SliceIncreaseIndex:
+                        case EventCaching.RemoveFromRoomCacheForActorsLeft:
+                            return this.SendOperation(OperationCode.RaiseEvent, paramDict, sendOptions);
+                        case EventCaching.RemoveFromRoomCache:
+                            if (raiseEventOptions.TargetActors != null)
+                            {
+                                paramDict[(byte)ParameterCode.ActorList] = raiseEventOptions.TargetActors;
+                            }
+                            break;
+                        default:
+                            if (raiseEventOptions.TargetActors != null)
+                            {
+                                paramDict[(byte)ParameterCode.ActorList] = raiseEventOptions.TargetActors;
+                            }
+                            else if (raiseEventOptions.InterestGroup != 0)
+                            {
+                                paramDict[(byte)ParameterCode.Group] = raiseEventOptions.InterestGroup;
+                            }
+                            else if (raiseEventOptions.Receivers != ReceiverGroup.Others)
+                            {
+                                paramDict[(byte)ParameterCode.ReceiverGroup] = (byte)raiseEventOptions.Receivers;
+                            }
+                            if (raiseEventOptions.Flags.HttpForward)
+                            {
+                                paramDict[(byte)ParameterCode.EventForward] = raiseEventOptions.Flags.WebhookFlags;
+                            }
+                            break;
+                    }
                 }
-                switch (raiseEventOptions.CachingOption)
+                paramDict[(byte)ParameterCode.Code] = (byte)eventCode;
+                if (customEventContent != null)
                 {
-                    case EventCaching.SliceSetIndex:
-                    case EventCaching.SlicePurgeIndex:
-                    case EventCaching.SlicePurgeUpToIndex:
-                        //this.opParameters[(byte) ParameterCode.CacheSliceIndex] =
-                        //    (byte) raiseEventOptions.CacheSliceIndex;
-                        return this.SendOperation(OperationCode.RaiseEvent, this.opRaiseEventParameters, sendOptions);
-                    case EventCaching.SliceIncreaseIndex:
-                    case EventCaching.RemoveFromRoomCacheForActorsLeft:
-                        return this.SendOperation(OperationCode.RaiseEvent, this.opRaiseEventParameters, sendOptions);
-                    case EventCaching.RemoveFromRoomCache:
-                        if (raiseEventOptions.TargetActors != null)
-                        {
-                            this.opRaiseEventParameters[(byte)ParameterCode.ActorList] = raiseEventOptions.TargetActors;
-                        }
-                        break;
-                    default:
-                        if (raiseEventOptions.TargetActors != null)
-                        {
-                            this.opRaiseEventParameters[(byte)ParameterCode.ActorList] = raiseEventOptions.TargetActors;
-                        }
-                        else if (raiseEventOptions.InterestGroup != 0)
-                        {
-                            this.opRaiseEventParameters[(byte)ParameterCode.Group] = raiseEventOptions.InterestGroup;
-                        }
-                        else if (raiseEventOptions.Receivers != ReceiverGroup.Others)
-                        {
-                            this.opRaiseEventParameters[(byte)ParameterCode.ReceiverGroup] = (byte)raiseEventOptions.Receivers;
-                        }
-                        if (raiseEventOptions.Flags.HttpForward)
-                        {
-                            this.opRaiseEventParameters[(byte)ParameterCode.EventForward] = raiseEventOptions.Flags.WebhookFlags;
-                        }
-                        break;
+                    paramDict[(byte)ParameterCode.Data] = customEventContent;
                 }
+                return this.SendOperation(OperationCode.RaiseEvent, paramDict, sendOptions);
             }
-            this.opRaiseEventParameters[(byte)ParameterCode.Code] = (byte)eventCode;
-            if (customEventContent != null)
+            finally
             {
-                this.opRaiseEventParameters[(byte)ParameterCode.Data] = customEventContent;
+                this.paramDictionaryPool.Release(paramDict);
             }
-            return this.SendOperation(OperationCode.RaiseEvent, this.opRaiseEventParameters, sendOptions);
         }
 
 
@@ -995,6 +994,16 @@ namespace Photon.Realtime
         }
     }
 
+    /// <summary>Used in the RoomOptionFlags parameter, this bitmask toggles options in the room.</summary>
+    internal enum RoomOptionBit : int
+    {
+        CheckUserOnJoin = 0x01,  // toggles a check of the UserId when joining (enabling returning to a game)
+        DeleteCacheOnLeave = 0x02,  // deletes cache on leave
+        SuppressRoomEvents = 0x04,  // suppresses all room events
+        PublishUserId = 0x08,  // signals that we should publish userId
+        DeleteNullProps = 0x10,  // signals that we should remove property if its value was set to null. see RoomOption to Delete Null Properties
+        BroadcastPropsChangeToAll = 0x20,  // signals that we should send PropertyChanged event to all room players including initiator
+    }
 
     /// <summary>
     /// Options for OpFindFriends can be combined to filter which rooms of friends are returned.
@@ -1030,26 +1039,47 @@ namespace Photon.Realtime
     }
 
 
-
+    /// <summary>
+    /// Parameters for the matchmaking of JoinRandomRoom and JoinRandomOrCreateRoom.
+    /// </summary>
+    /// <remarks>
+    /// More about matchmaking: <see cref="https://doc.photonengine.com/en-us/pun/current/manuals-and-demos/matchmaking-and-lobby"/>.
+    /// </remarks>
     public class OpJoinRandomRoomParams
     {
+        /// <summary>The custom room properties a room must have to fit. All key-values must be present to match. In SQL Lobby, use SqlLobbyFilter instead.</summary>
         public Hashtable ExpectedCustomRoomProperties;
+        /// <summary>Filters by the MaxPlayers value of rooms.</summary>
         public byte ExpectedMaxPlayers;
+        /// <summary>The MatchmakingMode affects how rooms get filled. By default, the server fills rooms.</summary>
         public MatchmakingMode MatchingType;
+        /// <summary>The lobby in which to match. The type affects how filters are applied.</summary>
         public TypedLobby TypedLobby;
+        /// <summary>SQL query to filter room matches. For default-typed lobbies, use ExpectedCustomRoomProperties instead.</summary>
         public string SqlLobbyFilter;
+        /// <summary>The expected users list blocks player slots for your friends or team mates to join the room, too.</summary>
+        /// <remarks>See: https://doc.photonengine.com/en-us/pun/v2/lobby-and-matchmaking/matchmaking-and-lobby#matchmaking_slot_reservation </remarks>
         public string[] ExpectedUsers;
     }
 
+    /// <summary>Parameters for creating rooms.</summary>
     public class EnterRoomParams
     {
+        /// <summary>The name of the room to create. If null, the server generates a unique name. If not null, it must be unique and new or will cause an error.</summary>
         public string RoomName;
+        /// <summary>The RoomOptions define the optional behaviour of rooms.</summary>
         public RoomOptions RoomOptions;
+        /// <summary>A lobby to attach the new room to. If set, this overrides a joined lobby (if any).</summary>
         public TypedLobby Lobby;
+        /// <summary>The custom player properties that describe this client / user. Keys must be strings.</summary>
         public Hashtable PlayerProperties;
+        /// <summary>Internally used value to skip some values when the operation is sent to the Master Server.</summary>
         protected internal bool OnGameServer = true; // defaults to true! better send more parameter than too few (GS needs all)
+        /// <summary>Matchmaking can optionally create a room if it is not existing. Also useful, when joining a room with a team: It does not matter who is first.</summary>
         public bool CreateIfNotExists;
+        /// <summary>Signals, if the user attempts to return to a room or joins one. Set by the methods that call an operation.</summary>
         public bool RejoinOnly;
+        /// <summary>A list of users who are expected to join the room along with this client. Reserves slots for rooms with MaxPlayers value.</summary>
         public string[] ExpectedUsers;
     }
 
@@ -1323,10 +1353,10 @@ namespace Photon.Realtime
         [Obsolete("Use PropertiesChanged now.")]
         public const byte SetProperties = (byte)253;
 
-        /// <summary>(252) When player left game unexpected and the room has a playerTtl != 0, this event is fired to let everyone know about the timeout.</summary>
+        /// (252) When player left game unexpected and the room has a playerTtl != 0, this event is fired to let everyone know about the timeout.
         /// Obsolete. Replaced by Leave. public const byte Disconnect = LiteEventCode.Disconnect;
 
-        /// <summary>(251) Sent by Photon Cloud when a plugin-call or webhook-call failed. Usually, the execution on the server continues, despite the issue. Contains: ParameterCode.Info.</summary>
+        /// <summary>(251) Sent by Photon Cloud when a plugin-call or webhook-call failed or events cache limit exceeded. Usually, the execution on the server continues, despite the issue. Contains: ParameterCode.Info.</summary>
         /// <seealso cref="https://doc.photonengine.com/en-us/realtime/current/reference/webhooks#options"/>
         public const byte ErrorInfo = 251;
 
@@ -1418,7 +1448,7 @@ namespace Photon.Realtime
         /// <summary>(250) Code for broadcast parameter of OpSetProperties method.</summary>
         public const byte Broadcast = (byte)250;
 
-        /// <summary>(252) Code for list of players in a room. Currently not used.</summary>
+        /// <summary>(252) Code for list of players in a room.</summary>
         public const byte ActorList = (byte)252;
 
         /// <summary>(254) Code of the Actor of an operation. Used for property get and set.</summary>

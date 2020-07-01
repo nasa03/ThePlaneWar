@@ -32,8 +32,8 @@ namespace Gaia
         /// <param name="terrain">Terrain to be flattened</param>
         public static void FlattenTerrain(Terrain terrain)
         {
-            int width = terrain.terrainData.heightmapWidth;
-            int height = terrain.terrainData.heightmapHeight;
+            int width = terrain.terrainData.heightmapResolution;
+            int height = terrain.terrainData.heightmapResolution;
             float[,] heights = new float[width, height];
             terrain.terrainData.SetHeights(0, 0, heights);
         }
@@ -46,8 +46,8 @@ namespace Gaia
         {
             foreach (Terrain terrain in terrains)
             {
-                int width = terrain.terrainData.heightmapWidth;
-                int height = terrain.terrainData.heightmapHeight;
+                int width = terrain.terrainData.heightmapResolution;
+                int height = terrain.terrainData.heightmapResolution;
                 float[,] heights = new float[width, height];
                 terrain.terrainData.SetHeights(0, 0, heights);
             }

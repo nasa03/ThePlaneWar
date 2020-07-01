@@ -155,9 +155,9 @@ namespace Gaia
 
                 terrainBoundsTU = new Bounds();
                 m_WUtoTU = new Vector3(
-                    (float)(terrain.terrainData.heightmapWidth) / terrain.terrainData.size.x,
+                    (float)(terrain.terrainData.heightmapResolution) / terrain.terrainData.size.x,
                     (((float)(terrain.terrainData.heightmapResolution - 1) / Mathf.Max(terrain.terrainData.size.x, terrain.terrainData.size.z)) * terrain.terrainData.size.y) / terrain.terrainData.size.y,
-                    (float)(terrain.terrainData.heightmapHeight) / terrain.terrainData.size.z
+                    (float)(terrain.terrainData.heightmapResolution) / terrain.terrainData.size.z
                     );
                 m_TUtoWU = new Vector3(1f / m_WUtoTU.x, 1f / m_WUtoTU.y, 1f / m_WUtoTU.z);
                 terrainBoundsTU.center = Vector3.Scale(terrainBoundsWU.center, m_WUtoTU);
@@ -901,8 +901,8 @@ namespace Gaia
                     terrain = m_physicalTerrainArray[tileX, tileZ];
                     if (terrain != null)
                     {
-                        width = terrain.terrainData.heightmapWidth;
-                        height = terrain.terrainData.heightmapHeight;
+                        width = terrain.terrainData.heightmapResolution;
+                        height = terrain.terrainData.heightmapResolution;
                         nrmMap = new float[width, height, 4];
 
                         for (int x = 0; x < width; x++)

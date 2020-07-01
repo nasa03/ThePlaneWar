@@ -5515,6 +5515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0428daedacdac4d44b552b0daa405fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  planeCamera: {fileID: 20468739936627014}
   sight_Sprites:
   - {fileID: 21300000, guid: a07256bf3e1f84fd0ba36c6056cd273e, type: 3}
   - {fileID: 21300000, guid: c2f65a0af103a4215a089b77528d7f4c, type: 3}

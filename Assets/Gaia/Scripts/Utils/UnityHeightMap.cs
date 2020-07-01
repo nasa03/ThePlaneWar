@@ -130,8 +130,8 @@ namespace Gaia
             m_boundsWU.center = terrain.transform.position;
             m_boundsWU.size = terrain.terrainData.size;
             m_boundsWU.center += m_boundsWU.extents;
-            m_widthX = terrain.terrainData.heightmapWidth;
-            m_depthZ = terrain.terrainData.heightmapHeight;
+            m_widthX = terrain.terrainData.heightmapResolution;
+            m_depthZ = terrain.terrainData.heightmapResolution;
             m_widthInvX = 1f / (float)(m_widthX);
             m_depthInvZ = 1f / (float)(m_depthZ);
             m_heights = terrain.terrainData.GetHeights(0, 0, m_widthX, m_depthZ);
@@ -146,8 +146,8 @@ namespace Gaia
         public void SaveToTerrain(Terrain terrain)
         {
             //Get terrain stats
-            int terWidth = terrain.terrainData.heightmapWidth;
-            int terDepth = terrain.terrainData.heightmapHeight;
+            int terWidth = terrain.terrainData.heightmapResolution;
+            int terDepth = terrain.terrainData.heightmapResolution;
 
             //Direct one to one mapping
             if (m_widthX == terWidth && m_depthZ == terDepth)

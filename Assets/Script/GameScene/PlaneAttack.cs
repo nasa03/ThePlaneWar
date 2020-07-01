@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class PlaneAttack : MonoBehaviourPunCallbacks
 {
+    [SerializeField] Camera planeCamera;
     [SerializeField] Sprite[] sight_Sprites = new Sprite[3];
     PhotonGame photonGame;
     PhotonView gameView;
@@ -17,6 +18,7 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
     void Start()
     {
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
+        photonGame.SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
     }
 
     // Update is called once per frame
@@ -33,7 +35,7 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         gameView = photonGame.GetComponent<PhotonView>();
     }
 
-    public void Attack(Player player)
+    public void Attack(Player player,Transform target)
     {
         if (!photonView.IsMine)
             return;
@@ -49,13 +51,13 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         totalHP -= randomAttack;
         CustomProperties.SetProperties(player, "HP", totalHP);
 
-        StartCoroutine(ShowSight());
+        StartCoroutine(ShowSight(target));
 
         gameView.RPC("PlayAudio", player, 2);
 
         if (totalHP <= 0)
         {
-            StartCoroutine(ShowKillSight());
+            StartCoroutine(ShowKillSight(target));
 
             int kill = (int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
             kill++;
@@ -68,25 +70,35 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
         }
     }
 
-    IEnumerator ShowSight()
+    IEnumerator ShowSight(Transform target)
     {
         if (!isKilled)
+        {
             photonGame.SightImage.sprite = sight_Sprites[1];
-
+            photonGame.SightImage.rectTransform.position = planeCamera.WorldToScreenPoint(target.position);
+        }
+        
         yield return new WaitForSeconds(0.5f);
 
         if (!isKilled)
+        {
             photonGame.SightImage.sprite = sight_Sprites[0];
+            photonGame.SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        }
     }
 
-    IEnumerator ShowKillSight()
+    IEnumerator ShowKillSight(Transform target)
     {
         isKilled = true;
 
         photonGame.SightImage.sprite = sight_Sprites[2];
+        photonGame.SightImage.rectTransform.position = planeCamera.WorldToScreenPoint(target.position);
+        
         yield return new WaitForSeconds(2.0f);
+        
         photonGame.SightImage.sprite = sight_Sprites[0];
-
+        photonGame.SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        
         isKilled = false;
     }
 

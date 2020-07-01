@@ -23,7 +23,7 @@ namespace Photon.Pun
     /// </summary>
     public class AccountService
     {
-        private const string ServiceUrl = "https://partner.photonengine.com/api/Unity/User/RegisterEx";
+        private const string ServiceUrl = "https://partner.photonengine.com/api/{0}/User/RegisterEx";
 
         private readonly Dictionary<string, string> RequestHeaders = new Dictionary<string, string>
         {
@@ -31,12 +31,20 @@ namespace Photon.Pun
             { "x-functions-key", "" }
         };
 
+        private const string DefaultContext = "Unity";
+
         private const string DefaultToken = "VQ920wVUieLHT9c3v1ZCbytaLXpXbktUztKb3iYLCdiRKjUagcl6eg==";
+
+        /// <summary>
+        /// third parties custom token, if null, defaults to DefaultContext property value
+        /// </summary>
+        public string CustomContext = null;
         
         /// <summary>
-        /// third parties custom token;
+        /// third parties custom token. If null, defaults to DefaultToken property value
         /// </summary>
         public string CustomToken = null;
+        
         
         /// <summary>
         /// Attempts to create a Photon Cloud Account asynchronously.
@@ -127,11 +135,12 @@ namespace Photon.Pun
             return true;
         }
 
-        private static string GetUrlWithQueryStringEscaped(AccountServiceRequest request)
+        private string GetUrlWithQueryStringEscaped(AccountServiceRequest request)
         {
             string email = UnityEngine.Networking.UnityWebRequest.EscapeURL(request.Email);
             string st = UnityEngine.Networking.UnityWebRequest.EscapeURL(request.ServiceTypes);
-            return string.Format("{0}?email={1}&st={2}", ServiceUrl, email, st);
+            string serviceUrl = string.Format(ServiceUrl, string.IsNullOrEmpty(CustomContext) ? DefaultContext : CustomContext );
+            return string.Format("{0}?email={1}&st={2}", serviceUrl, email, st);
         }
 
         /// <summary>

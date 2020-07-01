@@ -4,6 +4,73 @@ Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
 
+Version 4.1.4.4 (29. June 2020 - rev5625)
+    Fixed: NonAllocDict. Capacity change was broken. This is a critical fix.
+    Added: Indexer to NonAllocDict to allow Dict[key] get and set.
+    Added: NonAllocDict.Clear() method.
+
+Version 4.1.4.3 (24. June 2020 - rev5622)
+    Added: PhotonPeer.UseByteArraySlicePoolForEvents and PhotonPeer.ByteArraySlicePool to avoid memory garbage when events consist only of a byte-array. See comments / doc.
+    Added: Class NonAllocDictionary<K,V> as replacement for the suboptimal implementation in Mono. Some of our code relies on Dictionaries and can be optimized with this. Note: This is neither documented well yet and considered "beta" until we got feedback on some use cases.
+    Added: PhotonPeer.TrafficRecorder and ITrafficRecorder. This can be used to capture traffic on UDP connections.
+    Changed: IPhotonSocket.ConnectAddress is now a local field. Before, it accessed the peer which might already connect to another server.
+    Changed: Debug log for DNS resolution (INFO level). This includes a count of IPs that were returned.
+    Added: Static PhotonPeer.NoNativeCallbacks to disable callbacks from native code to C#. SocketNative is the first class to use NoNativeCallbacks in DnsAndConnect().
+    Changed: SocketUdp and SocketTcp are now public, like other implementations. This means you can assign them to the SocketImplementationConfig and select these deliberately.
+    Internal: Datagram Encryption was updated and optimized. (rev5548+rev5550). Added PhotonPeer.NativeEncryptorApiVersion constant to be able to check which native encryptor API is being compiled into the assembly.
+    Changed: EnetPeer.ReceiveIncomingCommands(): bytesIn counter simplified: now it simply incremented by input data size.
+    Removed: "CommandLog" feature. It was replaced by Traffic Recording. Remaining setting values for this (in PhotonPeer) are now Obsolete and without function.
+    Changed: WebSocket init workflow to make it compatible with AuthOnce / AuthOnceWss. It can send an init request now.
+    Internal: WebSockets need to use the ConnectAddress, as the TPeer will setup the address and path as required.
+    Changed: The IPhotonSocket does not set the ConnectAddress again, so the Peer can set this address before connecting. This is used for WebSocket connects.
+    Fixed: NETFX_CORE variant of payload encryption initialization.
+    Added: PreserveAttribute and used it on IPhotonSocket constructors. This keeps Unity's code stripping from constructors which we need.
+    Fixed: A rare threading issue for UDP connections.
+    Internal: SupportClass.StartBackgroundCalls() and related methods are now locked. A proper cleanup of StartBackgroundCalls is pending.
+    Changed: SupportClass.StopBackgroundCalls(id) will now clear the reference to the used thread but not remove the entry in the list.
+    Changed: SupportClass.StopAllBackgroundCalls() will now clear all referenced threads. Could be used when disconnected / before another connect to reduce number of Threads.
+    Removed: SupportClass.CallInBackground, which was replaced by StartBackgroundCalls a while ago.
+
+
+Version 4.1.4.2 (08. May 2020 - rev5519)
+    Updated: DotNet SDK (net35, UWP and .Net Standard 2.0) and Unity SDK.
+Version 4.1.4.1 (30. April 2020 - rev5482)
+    Fixed: String serialization for characters with more bytes. UTF8.GetBytes was called with byte-count instead of character-count as parameter.
+Version 4.1.4.0 (28. April 2020 - rev5474)
+    Internal: Changed serialization of strings to produce no memory garbage. Strings that exceed a UTF8-encoded byte-length of 32767 (short.MaxValue) are not supported in either protocol (now throwing an exception).
+    Internal: Improved the serialization of float, double, float-array and double-array to produce less memory garbage with better performance.
+    Fixed: Cross platform serialization of float and double values in protocol 1.8 (which is used by default by PUN 2). Undiscovered, the C# client was using a wrong byte-order for network. The server and native clients were receiving a wrong value. Between C# clients, everything was fine.
+    Added: WebSocket support built-in to the Metro / UWP assembly. The PhotonMessageWebSocket is automatically used, unless some override is defined externally.
+    Changed: The socket implementations now disconnect when an exception happens due to sending. This uses the StatusCode.SendError, reported via OnStatusChanged callback. The LoadBalancingClient will handle this and report a DisconnectCause.Exception. Careful when updating only the library: Handle this in LoadBalancingClient.
+    Changed: The internal exception logging is now in log level INFO. This means the handled exception is no longer logged as if it's not.
+    Internal: Reverted to using the datagram encryption API v1. The new one is not fully implemented and should not be used yet (but was in v4.1.3.0).
+    Fixed: If a timeout message arrives after the client disconnected locally, the timeout is neither reported (via OnStatusChanged) nor does it trigger (another) disconnect. This avoids rare issues where clients would get stuck in Disconnecting state.
+    Added: Initial changes to support proxies for WSS. The PhotonPeer got a Connect overload which sets the proxy address and the IPhotonSocket got ProxyServerAddress. Higher level changes are upcoming.
+    Fixed: When the StreamBuffer for a large message got fragmented, this goes back to the StreamBuffer pool.
+    Changed: ExecuteCommand() for fragments. We now use a StreamBuffer from the pool and only adjust the buffered size if needed.
+    Added: Static PhotonPeer.MessageBufferPoolSize() to have access to the current StreamBuffer pool size.
+
+Version 4.1.3.0 (23. March 2020 - rev5399)
+    Internal: Changed Visual Studio projects which build the C# Photon libraries. Added a .Net Standard 2.0 assembly, which has built-in WebSocket support.
+    Added: IPhotonSocket.SerializationProtocol property. This provides the protocol of the current PhotonPeer.SerializationProtocolType as string.
+    Note: Some WebSocket implementations use a static value of the same name and need to be updated! Some projects contain SocketWebTcp.cs, SocketWebTcpThread.cs or similar files.
+    Changed: It is now possible to signal "on demand encryption" (known as Payload Encryption within Photon terms) even on secure connections (WSS / Datagram Encryption). This is important (only) for mixed connection types. A server update is required. The Photon Cloud is updated.
+    Added: PhotonPeer.SendInCreationOrder. This defaults to true, enabling the new behaviour explained below.
+    Changed: The send order of reliable and unreliable commands (UDP). This improves throughput of unreliable commands, when there are multiple datagrams of data. Before, a datagram got filled with the reliable commands first. Only when those were gone, unreliable commands were sent. The server was discarding some messages are too late.
+    Updated: Pool<T> to be used in higher level APIs. Pool.Count is now also locked.
+    Internal: EnetPeer ocal variable fragmentLength to currentFragmentSize. It no longer hides EnetPeer.fragmentLength, which was probably causing issues in the Native Toolchain (Master builds for HoloLens 2).
+    Internal: Datagram Encryption now has a new mode: GCM. It can be used seamlessly with the Photon Cloud.
+    Internal: Native Datagram Encryption plugins and APIs are now more efficient.
+    Removed: rHttp support.
+
+Version 4.1.2.20 (12. December 2019 - rev5296)
+    Changed: DiffieHellmanCryptoProviderNative is now always compiled into the assembly using dynamic linking. If the payload encryption native library is present, it will be used automatically.
+    Changed: Extern methods with the DllImport attribute are now public. This allows a PrelinkAll() check if the dll is available and can be loaded.
+    Internal: EncryptorNative will no longer use native extern methods in static fields. This causes execptions in unexpected context.
+    Added: PhotonPeer NativePayloadEncryptionLibAvailable, NativeDatagramEncryptionLibAvailable and NativeSocketLibAvailable values.
+    Changed: SocketNative is autmatically used if the native socket lib is available, based on the checks above.
+    Changed: The wrappers for the native libraries (sockets and datagram encryption) will now setup a debug logging callback with debug level. This requires new native libraries.
+
 Version 4.1.2.19 (13. November 2019 - rev5271)
     Internal: Handling for DllNotFoundException in the SocketNative.DnsAndConnect().
     Internal: Added support for setting the serialization protocol when using native websocket.
@@ -11,7 +78,7 @@ Version 4.1.2.19 (13. November 2019 - rev5271)
     Internal: Changed the access level of PeerBase.debugOut from 'internal' to 'public'.
     Changed: UDP socket classes now trigger a disconnect in the send methods, should the lower-level socket be disconnected. This gives us a quicker "disconnected" state in some error cases. So far, only reading-errors triggered disconnects in UDP.
     Changed: Logging in case of send errors.
-	Added: Exception handling to deserialization. This adds a safety layer for receiving messages, which can be skipped. Important: It will be unknown, what message got discarded and if it's important or if it was fake / surplus.
+    Added: Exception handling to deserialization. This adds a safety layer for receiving messages, which can be skipped. Important: It will be unknown, what message got discarded and if it's important or if it was fake / surplus.
     Fixed: Internal class EncryptorNet, which was not thread safe, so DatagramEncryption was failing sooner or later. This affected only v4.1.2.18, which was an internal release.
 
 Version 4.1.2.18 (1. October 2019 - rev5229)

@@ -1585,8 +1585,8 @@ namespace Gaia
                 }
                 if (t != null)
                 {
-                    width = t.terrainData.heightmapWidth;
-                    depth = t.terrainData.heightmapWidth;
+                    width = t.terrainData.heightmapResolution;
+                    depth = t.terrainData.heightmapResolution;
                 }
 
                 m_imageMaskHM = new HeightMap(width, depth);

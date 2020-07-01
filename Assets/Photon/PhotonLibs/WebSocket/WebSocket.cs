@@ -17,12 +17,12 @@ public class WebSocket
     /// <summary>Photon uses this to agree on a serialization protocol. Either: GpBinaryV16 or GpBinaryV18. Based on enum SerializationProtocol.</summary>
     private string protocols = "GpBinaryV16";
 
-    public WebSocket(Uri url, string protocols = null)
+    public WebSocket(Uri url, string serialization = null)
     {
         this.mUrl = url;
-        if (protocols != null)
+        if (serialization != null)
         {
-            this.protocols = protocols;
+            this.protocols = serialization;
         }
 
         string protocol = mUrl.Scheme;

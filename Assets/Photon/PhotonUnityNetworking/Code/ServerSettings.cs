@@ -29,6 +29,10 @@ namespace Photon.Pun
         [Tooltip("Core Photon Server/Cloud settings.")]
         public AppSettings AppSettings;
 
+        /// <summary>Region that will be used by the Editor and Development Builds. This ensures all users will be in the same region for testing.</summary>
+        [Tooltip("Developer build override for Best Region.")]
+        public string DevRegion;
+
         [Tooltip("Log output by PUN.")]
         public PunLogLevel PunLogging = PunLogLevel.ErrorsOnly;
 
@@ -45,10 +49,9 @@ namespace Photon.Pun
         public List<string> RpcList = new List<string>();   // set by scripts and or via Inspector
 
         #if UNITY_EDITOR
-        [HideInInspector]
         public bool DisableAutoOpenWizard;
-        [HideInInspector]
         public bool ShowSettings;
+        public bool DevRegionSetOnce;
         #endif
 
         /// <summary>Sets appid and region code in the AppSettings. Used in Editor.</summary>

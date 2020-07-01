@@ -78,6 +78,8 @@ namespace Photon.Pun
 
         #region Members
 
+        private bool TriggerUsageWarningDone;
+        
         private Animator m_Animator;
 
         private PhotonStreamQueue m_StreamQueue = new PhotonStreamQueue(120);
@@ -335,6 +337,14 @@ namespace Photon.Pun
                             this.m_StreamQueue.SendNext(this.m_Animator.GetInteger(parameter.Name));
                             break;
                         case ParameterType.Trigger:
+                            if (!TriggerUsageWarningDone)
+                            {
+                                TriggerUsageWarningDone = true;
+                                Debug.Log("PhotonAnimatorView: When using triggers, make sure this component is last in the stack.\n" +
+                                          "If you still experience issues, implement triggers as a regular RPC \n" +
+                                          "or in custom IPunObservable component instead",this);
+                            
+                            }
                             this.m_StreamQueue.SendNext(this.m_Animator.GetBool(parameter.Name));
                             break;
                     }
@@ -395,8 +405,9 @@ namespace Photon.Pun
 
             for (int i = 0; i < this.m_SynchronizeParameters.Count; ++i)
             {
+               
                 SynchronizedParameter parameter = this.m_SynchronizeParameters[i];
-
+       
                 if (parameter.SynchronizeType == SynchronizeType.Discrete)
                 {
                     switch (parameter.Type)
@@ -411,6 +422,14 @@ namespace Photon.Pun
                             stream.SendNext(this.m_Animator.GetInteger(parameter.Name));
                             break;
                         case ParameterType.Trigger:
+                            if (!TriggerUsageWarningDone)
+                            {
+                                TriggerUsageWarningDone = true;
+                                Debug.Log("PhotonAnimatorView: When using triggers, make sure this component is last in the stack.\n" +
+                                          "If you still experience issues, implement triggers as a regular RPC \n" +
+                                          "or in custom IPunObservable component instead",this);
+                            
+                            }
                             // here we can't rely on the current real state of the trigger, we might have missed its raise
                             stream.SendNext(this.m_raisedDiscreteTriggersCache.Contains(parameter.Name));
                             break;

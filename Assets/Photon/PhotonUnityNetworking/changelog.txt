@@ -1,5 +1,79 @@
 PUN 2 Change Log
 
+
+v2.19.1 (29. June 2020)
+Changed: Don't run GameObject removal code if app is quitting.
+Replaced: Mixamo animations with Standard Asset equivalents (for licensing reasons).
+Fixed: A problem in the Photon3Unity3d.dll (v4.1.4.3). New version: v4.1.4.4.
+    Fixed: NonAllocDict. Capacity change was broken. This is a critical fix. PUN uses this internally for the PhotonViewCollection.
+    Added: Indexer to NonAllocDict to allow Dict[key] get and set.
+    Added: NonAllocDict.Clear() method.
+
+v2.19 (25. June 2020)
+Fixed: FindPunAssetFolder, which relied on a file that got renamed earlier. (no new asset file version)
+v2.19 (24. June 2020)
+Added: Documentation for PhotonView.Find(ViewID).
+Added: Callback "OnPreNetDestroy" and registration to PhotonView. If necessary, scripts can get a call before networked objects get destroyed. This may help unparent/rearrange objects.
+Added: Check that the Dev Region override is in the list of available regions (from Name Server). If not, the first available region is being used.
+Changed: RegionPinger.Start() now attempts to use a ThreadPool WorkerItem to ping individual regions. Only if that fails, a separate managed Thread is used. This should help avoid running into Thread limits (if any).
+Changed: The PhotonServerSettings field "Port" now gets used, even if the client connects to a Name Server. Before, the Port was only used if the checkbox "Use Name Server" was off.
+Added: Proxy setup for WebSocket connections. To actually use the proxy settings, a special WebSocket implementation is needed. In the PUN 2 package, this value won't do anything.
+Fixed: WebSocketTcp to call peerBase.OnConnect(), as expected by all IPhotonSockets.
+Changed: Error messages for RPC issues. Not found, parameters and too many components implementing them. Now uses GO as context (click the Editor log entry to highlight the exact target object).
+Changed: OnJoinedInstantiate component to add more features. It now checks Player.HasRejoined to decide if the local player needs to instantiate networked objects or if that was done before.
+Update: The link.xml to also cover the client lib namespace ExitGames.Client.Photon. If Unity fails to run a build with the error that some default constructor is missing, move the link.xml to your project root (or merge with yours). This avoids too much code stripping in IL2CPP builds.
+Fixed: AccountService Context description override to go with the authentication token for third party registrations.
+Added: TrafficRecorder with sample. See TrafficRecorderSrc for docs and usage.
+Fixed: NullReferenceException in PhotonTeamsManager when accessed in Awake.
+Added: EnableProtocolFallback in the PhotonServerSettigns. It is enabled by default, so the client will try another protocol if the initial connect to the Name Server fails. It's only applied in ConnectUsingSettings(). This is disabled for WebGL and Xbox One.
+Updated: The Realtime API and Photon3Unity3d.dll (v4.1.4.3) with lots of improvements and changes. Check the respective changelogs. Some important changes listed below:
+    Improved: Performance in terms of GC. More internal objects are pooled. Events that contain just a byte[] can now be sent and received with almost zero allocations. Check LoadBalancingPeer.UseByteArraySlicePoolForEvents.
+    Changed: Internals to avoid accumulation of Threads.
+    Fixed: A rare threading issue for UDP connections.
+    Fixed: Best Region selection for UWP builds on the .Net Runtime.
+    Added: PhotonPeer.TrafficRecorder and ITrafficRecorder. This can be used to capture traffic on UDP connections.
+    Added: Checks for connections on WebGL and Xbox One. Settings that can be corrected (to match the platform's requirements) are corrected with a log note. An Exception is thrown, if that's not possible. Connect methods may throw an Exception, which are to be fixed during development time.
+
+
+v2.18.1 (30. April 2020)
+Fixed: String serialization issue in the Photon3Unity3d.dll (v4.1.4.0). Updated to Photon3Unity3d.dll (v4.1.4.1).
+v2.18 (28. April 2020)
+Fixed: Support for Unity 2019.3. As Unity 2020 is still beta, there may be more import / build issues. Please report via mail.
+Note: We noticed upgrading projects may create more than one PhotonServerSettings file. If your AppId seems gone, look up these files and keep the one with settings.
+Fixed: Asteroid Demo bullet instantation uses the position sent via the rpc, instead of the current local position.
+Updated: Nicer format for the countdown utility script to avoid floating points.
+Fixed: NullReferenceExceptions in PhotonTeamsManager.OnPlayerEnteredRoom and PhotonTeamsManager.OnPlayerLeftRoom.
+Added: PhotonTeamsManager.GetTeamMembersCount which is a helper method to get size of teams directly.
+Fixed: Photon teams extension methods for team assignment now rely only on Player.SetCustomProperties.
+Fixed: Removed obsolete usage of GuiLayer Components in demos for compatibility with Unity 2019.3 onwards.
+Fixed: Some warnings that Unity was showing on build.
+Changed: The checks before sending operations. As long as the peer is switching servers, there is no connection and operations can not be sent. This is logged better.
+Added: Logging of OnJoinRoomFailed to SupportLogger.
+Changed: StripKeysWithNullValues to reuse a list of key with null-values. This causes less allocations and garbage to clean.
+Fixed: Setting the serialization protocol for connections that directly go to the Master Server. This was broken in v2.17 by accident.
+Changed: The assembly PhotonWebsocket (WebSocket folder) will no longer export to UWP / Windows Store builds, even if the compile define WEBSOCKET is set. It is simply incompatible with the platform.
+Changed: LoadBalancingPeer.ConfigUnitySockets() will not set the UDP/TCP sockets for Windows Store builds.
+Changed: RegionHandler.GetPingImplementation will no longer use PingMono class, unless it is defined by some platform-specific code.
+Updated: The Realtime API and Photon3Unity3d.dll (v4.1.4.0) with lots of improvements and changes. Check the respective changelogs.
+
+v2.17 (26. March 2020)
+Added: New "Dev Region" feature. With this setting, all development builds will use the same region, avoiding initial matchmaking problems with best region selection. Development builds are turned on automatically, when the PhotonServerSettings get created initially and the "Dev Region" is set on first run in Editor.
+Changed: PhotonServerSettings inspector to accomodate the new values and reorganize existing ones.
+Changed: Instantiate and InstantiateSceneObject to not create a new object while not (yet) in a room. This avoids issues where an invalid showed up. There is a new debug log for this case, as it causes null-reference exceptions (in case it's used incorrectly).
+Added: New animations for the Basics Tutorial. The previous ones were causing warnings on import / reload.
+Added: New callback OnErrorInfo when the client receives an ErrorInfo event from the server. Implemented in MonoBehaviourPunCallbacks and SupportLogger.
+Changed: PhotonNetwork.SetPlayerCustomProperties return bool instead of void.
+Internal: ObjectsInOneUpdate will now initialize the capacity of a SerializeViewBatch.
+Removed: Metro folder and dlls. Unity deprecated builds for Windows 8.x Store, which means PUN can't support this anymore. Windows 10 UWP builds are supported using IL2CPP and the regular managed Photon dlls.
+Fixed: Unity Cloud Builds. A check prevents creation of ServerSettings when using Cloud Build.
+Internal: The PhotonEditor can now define a "customToken" for the AccountService registrations.
+Changed: Utility script OnJoinedInstantiate. It is now more versatile.
+Updated: SocketWebTcp.cs which should no longer define a SerializationProtocol. This is now part of the inherited class IPhotonSocket and automates sending the used protocol.
+Fixed: PunTurnManager ignores processed event callback when sender is -1, so that it can be instantiated even when player is not in room.
+Updated: Better warning for Trigger usages in PhotonAnimatorView inspector and at runtime.
+Updated: The Realtime API and Photon3Unity3d.dll (v4.1.3.0) with lots of improvements and changes. Check the respective changelogs.
+
+
 v2.16 (26. November 2019)
 Reverted: Some changes in the TypedLobby class. Setting Name and Type does not depend on some other state. Just make sure the Name is not null or empty or the TypedLobby will point to the "default lobby" with a fixed/defined behaviour.
 Fixed: Properly set the received interest group on the PhotonViews of the locally instantiated networked GameObject.
@@ -11,8 +85,7 @@ Added: Option to run RPCs as coroutines. Disable with PhotonNetwork.RunRpcCorout
 Added: OpJoinRandomOrCreateRoom. When the random matchmaking does not find a suitable room, this operation creates one immediately.
 Added: The Scene Settings inspector now links to the online documentation for this topic. Click the "book" icon which Uniy uses to explain built in components. This works in other cases, too.
 Changed: LoadBalancingPeer and ChatPeer now look for SocketNativeSource instead of SocketWebTcpNativeDynamic when the target platform is XB One. A new Xbox addon is coming up on our SDK page.
-Updated: Photon3Unity3d.dll to v41.2.19.
-
+Updated: Photon3Unity3d.dll to v4.1.2.19.
 
 v2.15 (19. September 2019)
 Fixed: NullReferenceException when trying to log an error for a received RPC with a non existing method and zero arguments.

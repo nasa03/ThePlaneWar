@@ -3,6 +3,61 @@ Photon Realtime C# Client - Changelog
 Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
+Version 4.1.4.3 (24. July 2020)
+    Added: Check that the Dev Region override is in the list of available regions (from Name Server). If not, the first available region is being used.
+    Changed: RegionPinger.Start() now attempts to use a ThreadPool WorkerItem to ping individual regions. Only if that fails, a separate managed Thread is used. This should help avoid running into Thread limits (if any). Builds for NETFX_CORE don't use this.
+    Changed: Error handling in PingMono. SocketExceptions were not handled entirely.
+    Changed: PhotonPingClasses is no longer used. It's empty and can be removed.
+    Changed: Handling of event LobbyStats in case of LoadBalancingPeer.UseByteArraySlicePoolForEvents. This relates to a new option in the PhotonPeer to use pooled memory (wrapped byte[] basically) when incoming events only contain a byte[]. See changes-library.txt and API reference.
+    Added: Initial puzzle pieces for WSS Proxy support. This is not yet funtional. To actually use the proxy settings, a special WebSocket implementation is needed.
+    Changed: The AppSettings.Port value is now also usable when connecting to a Name Server initially. This allows custom ports on a (custom) Name Server.
+    Added: Various details to the SupportLogger output.
+    Changed: Callback OnCreatedRoom() is now also triggered by the event Join. This is the same trigger as for JoinOrCreateRoom (if that created a new room).
+    Added: Player.HasRejoined value. This is set for the local and remote players and can help define the workflow on ReJoin.
+    Added: LoadBalancingClient.EnableProtocolFallback. If enabled, the client will try another protocol if the initial connect to the Name Server fails.
+    Added: AppSettings.EnableProtocolFallback with a default of true. Used in ConnectUsingSettings to set the client's value accordingly.
+    Internal: Added setting the LoadBalancingClient.Server in Connect and other places, so it should be accurate.
+    Added: Checks for connections on WebGL and Xbox One. Settings that can be corrected (to match the platform's requirements) are corrected with a log note. An Exception is thrown, if the settings can't be corrected automatically. This means Connect methods may throw an Exception in some cases, which are to be fixed during development time.
+
+
+Version 4.1.4.2 (8. May 2020 - rev5519)
+    Fixed: EventLeave handling. The IsInactive property is to false before doing the OnPlayerLeftRoom callback.
+    Note: Use Player.IsInactive to know the 'reason' for the callback.
+
+Version 4.1.4.0 (27. April 2020 rev5469)
+    Fixed: When connecting directly to a Master Server (self hosted), the serialization protocol 1.6 is used (not the detault 1.8). This was changed accidentally in v4.1.3.0 (and thus PUN 2.17).
+    Added: Connection state check in CheckIfOpCanBeSent() to fail early if an op can't be sent.
+    Updated: WebRPC handling and added an example to the doc of OnWebRpcResponse.
+    Added: Logging of OnJoinRoomFailed to SupportLogger.
+    Changed: StripKeysWithNullValues to reuse a list of key with null-values. This causes less allocations and garbage to clean. As a downside, the method now runs only for one thread (even for distinct IDictionary instances). This should not be a problem for the expected use case.
+    Changed: The LoadBalancingClient.OnStatusChanged will handle StatusCode.SendError as disconnect due to Exception. Log level INFO should log the inner exception when sending.
+    Fixed: Cleanup of the RoomReference for the local player object on disconnect. This prevents issues when setting properties, after joining and leaving a room (back on Master Server).
+	Internal: LoadBalancingClient.ExpectedProtocol is now a nullable property with private setter. It's used internally (only) to switch to the target transport protocol when Authmode AuthOnceWss is "done".
+	Fixed: EventLeave handling. When a player gets removed from the room, the IsInactive property must be set to false before doing the OnPlayerLeftRoom callback. Use Player.IsInactive to know the 'reason' for the callback.
+
+Version 4.1.3.0 (23.03.2020 rev5394)
+    Changed: Trying to set empty custom properties Hashtable will fail (return false) and log error.
+    Changed: In online mode, trying to set properties while not joined to a room will fail (return false) and log error. Caching local player properties could be allowed though.
+    Changed: Player.InternalCacheProperties is now "protected internal" and no longer "public".
+    Changed: LoadBalancingClient.OpSetPropertiesOfRoom is now "protected internal" and no longer "public". Use LoadBalancingClient.OpSetCustomPropertiesOfRoom or Room.SetCustomProperties.
+    Changed: StatusCode.EncryptionFailedToEstablish will cause disconnection with DisconnectCause.ExceptionOnConnect.
+    Changed: Fix for Unity cloud build context to prevent sanitization of server settings, it's not needed and for some reason doesn't detect the current server settings.
+    Changed: AppSettings. The NonSerialized attribute is now only used in Unity builds.
+    Changed: With the updated Photon library (v4.1.3.0), the encryption can be set to true on any connection, including WSS. It should not be used conditionally for Auth.
+    Changed: GetPingImplementation() new sets a default PhotonPingImplementation for UNITY_WEBGL, NETFX_CORE and regular Mono/.Net.
+    Internal: New datagram encryption mode DatagramEncryptionGCMRandomSequence (value 12). To be used later on.
+    Internal: The SocketWebTcp.SerializationProtocol is now selected by the PhotonSocket with the Peer's current value. It no longer needs to be set.
+
+Version 4.1.2.20 (12. December 2019 - rev5296)
+    Added: New callback IErrorInfoCallback.OnErrorInfo when the client receives an ErrorInfo event from the server.
+    Changed: RegionPinger use a singleton MonoBehaviourEmpty for coroutine ping in WebGL in Unity.
+    Added: LoadBalancingClient.SerializationProtocol property to get or set the binary protocol version. Use this always instead of setting it via LoadBalancingPeer.SerializationProtocolType.
+    Added: LoadBalancingClient.ConnectUsingSettings(AppSettings appSettings). This allows Best Region connect, setting a custom name server and much more.
+    Changed: Connect() is now ConnectToMasterServer(). Unlike ConnectUsingSettings(), this requires some settings to be done on the client.
+    Added: Return parameter for all methods that set properties on the server.
+    Note: Room.SetCustomProperties returns bool. If you did override this, your project will have errors, make sure to fix the return type.
+    Changed: Failed Authentication will no longer call the OnDisconnected callback twice. This should better align with expectations.
+    Internal: Pinging regions via coroutine (when Threads are unavailable) now uses only one GameObject for all pinging.
 
 Version 4.1.2.19 (12. November 2019 - rev5266)
     Fixed: The ExpectedProtocol is now also set for Authmode "AuthOnce" for ConnectToNameServer and ConnectToRegionMaster.
@@ -14,7 +69,6 @@ Version 4.1.2.19 (12. November 2019 - rev5266)
     Changed: Logging of SupportLogger.
     Added: LoadBalancingClient.OpJoinRandomOrCreateRoom. This can be used to create a room, should random matchmaking fail. This helps avoid race conditons where players can't find one another.
     Added: Extra null-check in handling of event leave.
-
 
 Version 4.1.2.17 (9. August 2019 - rev5188)
     Changed: SupportLogger. Traffic stats are enabled by default. The PhotonHandler no longer has to enable this.
@@ -63,6 +117,9 @@ Version 4.1.2.11 (15. April 2019 - rev5043)
 
 Version 4.1.2.10 (11. March 2019 - rev5023)
     Changed: The cached "best region" is cleared whenever a region's pinging finishes. This fixes a potential issue when the BestRegion value is used before the pinging is done. Then, you end up with a wrong selection.
+    Changed: PhotonPing now reuses the Socket per region.
+    Changed: The RegionHandler now checks #if PING_VIA_COROUTINE to use a coroutine instead of a thread (per region). This is for WebGL exports from Unity.
+    Changed: The SupportLogger now uses a Stopwatch to log the time (not depending on Unity's APIs).
 
 Version 4.1.2.1 (31. July 2018 - rev4787)
     Changed: OnStateChangeAction is now named StateChanged and provides a "previous state" value. State changes only trigger the event-call when the value actually changes.

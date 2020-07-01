@@ -40,13 +40,13 @@ namespace Photon.Pun
         public string SetupButton = "Setup Project";
         public string CancelButton = "Cancel";
         public string PUNWizardLabel = "PUN Wizard";
-        public string SettingsButton = "Settings";
+        public string SettingsButton = "Settings:";
         public string SetupServerCloudLabel = "Setup wizard for setting up your own server or the cloud.";
         public string WarningPhotonDisconnect = "Disconnecting PUN due to recompile.";
         public string StartButton = "Start";
         public string LocateSettingsButton = "Locate PhotonServerSettings";
         public string SettingsHighlightLabel = "Highlights the used photon settings file in the project.";
-        public string DocumentationLabel = "Documentation";
+        public string DocumentationLabel = "Documentation:";
         public string OpenPDFText = "Reference PDF";
         public string OpenPDFTooltip = "Opens the local documentation pdf.";
         public string OpenDevNetText = "Doc Pages / Manual";
@@ -56,7 +56,7 @@ namespace Photon.Pun
         public string OpenForumText = "Open Forum";
         public string OpenForumTooltip = "Online support for Photon.";
         public string OkButton = "Ok";
-        public string OwnHostCloudCompareLabel = "I am not quite sure how 'my own host' compares to 'cloud'.";
+        public string OwnHostCloudCompareLabel = "How 'my own host' compares to 'cloud'.";
         public string ComparisonPageButton = "Cloud versus OnPremise";
         public string ConnectionTitle = "Connecting";
         public string ConnectionInfo = "Connecting to the account service...";
@@ -88,6 +88,11 @@ namespace Photon.Pun
 
         public static PunWizardText CurrentLang = new PunWizardText();
 
+        /// <summary>
+        /// third parties custom token
+        /// </summary>
+        public static string CustomToken = null;
+        
         protected static string DocumentationLocation = "Assets/Photon/PhotonNetworking-Documentation.pdf";
 
         protected static string UrlFreeLicense = "https://dashboard.photonengine.com/en-US/SelfHosted";
@@ -154,7 +159,6 @@ namespace Photon.Pun
             CompilationPipeline.assemblyCompilationStarted += OnCompileStarted;
         }
 
-
         // setup per window
         public PhotonEditor()
         {
@@ -164,7 +168,7 @@ namespace Photon.Pun
         [MenuItem("Window/Photon Unity Networking/PUN Wizard &p", false, 0)]
         protected static void MenuItemOpenWizard()
         {
-            PhotonEditor win = GetWindow(WindowType, false, CurrentLang.WindowTitle, true) as PhotonEditor;
+            PhotonEditor win = GetWindow<PhotonEditor>(false, CurrentLang.WindowTitle, true);
             if (win == null)
             {
                 return;
@@ -217,6 +221,11 @@ namespace Photon.Pun
         // called in editor, opens wizard for initial setup, keeps scene PhotonViews up to date and closes connections when compiling (to avoid issues)
         private static void OnProjectChanged()
         {
+            // Prevent issues with Unity Cloud Builds where ServerSettings are not found.
+            // Also, within the context of a Unity Cloud Build, ServerSettings is already present anyway.
+            #if UNITY_CLOUD_BUILD
+            return;   
+            #endif
             
             PunSceneSettings.SanitizeSettings();
             
@@ -464,7 +473,9 @@ namespace Photon.Pun
 
         private void UiTitleBox(string title, Texture2D bgIcon)
         {
-            GUIStyle bgStyle = new GUIStyle(GUI.skin.GetStyle("Label"));
+
+            GUIStyle bgStyle = EditorGUIUtility.isProSkin ? new GUIStyle(GUI.skin.GetStyle("Label")) : new GUIStyle(GUI.skin.GetStyle("WhiteLabel"));
+            bgStyle.padding = new RectOffset(10, 10, 10, 10);
             bgStyle.normal.background = bgIcon;
             bgStyle.fontSize = 22;
             bgStyle.fontStyle = FontStyle.Bold;
@@ -473,7 +484,7 @@ namespace Photon.Pun
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
             Rect scale = GUILayoutUtility.GetLastRect();
-            scale.height = 30;
+            scale.height = 44;
 
             GUI.Label(scale, title, bgStyle);
             GUILayout.Space(scale.height + 5);
@@ -486,15 +497,16 @@ namespace Photon.Pun
             // title
             this.UiTitleBox(CurrentLang.PUNWizardLabel, BackgroundImage);
 
+            EditorGUILayout.BeginVertical(new GUIStyle() { padding = new RectOffset(10, 10, 10, 10) });
+
             // wizard info text
-            GUILayout.Label(CurrentLang.WizardMainWindowInfo);
+            GUILayout.Label(CurrentLang.WizardMainWindowInfo, new GUIStyle("Label") { wordWrap = true });
             GUILayout.Space(15);
 
 
             // settings button
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(CurrentLang.SettingsButton, EditorStyles.boldLabel, GUILayout.Width(100));
-            GUILayout.BeginVertical();
+            GUILayout.Label(CurrentLang.SettingsButton, EditorStyles.boldLabel);
+
             if (GUILayout.Button(new GUIContent(CurrentLang.LocateSettingsButton, CurrentLang.SettingsHighlightLabel)))
             {
                 HighlightSettings();
@@ -507,18 +519,13 @@ namespace Photon.Pun
             {
                 this.photonSetupState = PhotonSetupStates.RegisterForPhotonCloud;
             }
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
+
             GUILayout.Space(15);
 
 
-            EditorGUILayout.Separator();
-
-
             // documentation
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(CurrentLang.DocumentationLabel, EditorStyles.boldLabel, GUILayout.Width(100));
-            GUILayout.BeginVertical();
+            GUILayout.Label(CurrentLang.DocumentationLabel, EditorStyles.boldLabel);
+
             if (GUILayout.Button(new GUIContent(CurrentLang.OpenPDFText, CurrentLang.OpenPDFTooltip)))
             {
                 EditorUtility.OpenWithDefaultApp(DocumentationLocation);
@@ -543,7 +550,7 @@ namespace Photon.Pun
             }
 
             GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
+
         }
 
         #endregion
@@ -552,6 +559,7 @@ namespace Photon.Pun
         protected virtual void RegisterWithEmail(string email)
         {
             AccountService client = new AccountService();
+            client.CustomToken = CustomToken;
             List<ServiceTypes> types = new List<ServiceTypes>();
             types.Add(ServiceTypes.Pun);
             if (PhotonEditorUtils.HasChat)

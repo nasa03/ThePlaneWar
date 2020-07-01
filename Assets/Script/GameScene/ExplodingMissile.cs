@@ -112,7 +112,7 @@ public class ExplodingMissile : MonoBehaviourPun
         if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
         {
             FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
-                .Attack(other.GetComponent<PhotonView>().Controller);
+                .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
             PhotonNetwork.Destroy(gameObject);
         }
     }

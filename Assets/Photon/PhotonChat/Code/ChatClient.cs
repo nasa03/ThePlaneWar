@@ -207,6 +207,31 @@ namespace Photon.Chat
             this.PublicChannelsUnsubscribing = new HashSet<string>();
         }
 
+        public bool ConnectUsingSettings(ChatAppSettings appSettings)
+        {
+            if (appSettings == null)
+            {
+                this.listener.DebugReturn(DebugLevel.ERROR, "ConnectUsingSettings failed. The appSettings can't be null.'");
+                return false;
+            }
+
+            if (!string.IsNullOrEmpty(appSettings.FixedRegion))
+            {
+                this.ChatRegion = appSettings.FixedRegion;
+            }
+
+            this.DebugOut = appSettings.NetworkLogging;
+
+            this.TransportProtocol = appSettings.Protocol;
+
+            if (!appSettings.IsDefaultNameServer)
+            {
+                this.chatPeer.NameServerHost = appSettings.Server;
+            }
+
+            return this.Connect(appSettings.AppId, appSettings.AppVersion, this.AuthValues);
+        }
+
         /// <summary>
         /// Connects this client to the Photon Chat Cloud service, which will also authenticate the user (and set a UserId).
         /// </summary>
@@ -330,10 +355,12 @@ namespace Photon.Chat
         /// <summary>
         /// Disconnects from the Chat Server by sending a "disconnect command", which prevents a timeout server-side.
         /// </summary>
-        public void Disconnect()
+        public void Disconnect(ChatDisconnectCause cause = ChatDisconnectCause.DisconnectByClientLogic)
         {
             if (this.HasPeer && this.chatPeer.PeerState != PeerStateValue.Disconnected)
             {
+                this.State = ChatState.Disconnecting;
+                this.DisconnectedCause = cause;
                 this.chatPeer.Disconnect();
             }
         }
@@ -972,21 +999,17 @@ namespace Photon.Chat
                 case StatusCode.Connect:
                     if (!this.chatPeer.IsProtocolSecure)
                     {
-                        this.chatPeer.EstablishEncryption();
+                        if (!this.chatPeer.EstablishEncryption())
+                        {
+                            if (this.DebugOut >= DebugLevel.ERROR)
+                            {
+                                this.listener.DebugReturn(DebugLevel.ERROR, "Error establishing encryption");
+                            }
+                        }
                     }
                     else
                     {
-                        if (!this.didAuthenticate)
-                        {
-                            this.didAuthenticate = this.chatPeer.AuthenticateOnNameServer(this.AppId, this.AppVersion, this.chatRegion, this.AuthValues);
-                            if (!this.didAuthenticate)
-                            {
-                                if (this.DebugOut >= DebugLevel.ERROR)
-                                {
-                                    ((IPhotonPeerListener)this).DebugReturn(DebugLevel.ERROR, "Error calling OpAuthenticate! Did not work. Check log output, AuthValues and if you're connected. State: " + this.State);
-                                }
-                            }
-                        }
+                        this.TryAuthenticateOnNameServer();
                     }
 
                     if (this.State == ChatState.ConnectingToNameServer)
@@ -996,38 +1019,71 @@ namespace Photon.Chat
                     }
                     else if (this.State == ChatState.ConnectingToFrontEnd)
                     {
-                        this.AuthenticateOnFrontEnd();
-                    }
-                    break;
-                case StatusCode.EncryptionEstablished:
-                    // once encryption is available, the client should send one (secure) authenticate. it includes the AppId (which identifies your app on the Photon Cloud)
-                    if (!this.didAuthenticate)
-                    {
-                        this.didAuthenticate = this.chatPeer.AuthenticateOnNameServer(this.AppId, this.AppVersion, this.chatRegion, this.AuthValues);
-                        if (!this.didAuthenticate)
+                        if (!this.AuthenticateOnFrontEnd())
                         {
                             if (this.DebugOut >= DebugLevel.ERROR)
                             {
-                                ((IPhotonPeerListener)this).DebugReturn(DebugLevel.ERROR, "Error calling OpAuthenticate! Did not work. Check log output, AuthValues and if you're connected. State: " + this.State);
+                                this.listener.DebugReturn(DebugLevel.ERROR, string.Format("Error authenticating on frontend! Check log output, AuthValues and if you're connected. State: {0}", this.State));
                             }
                         }
                     }
                     break;
-                case StatusCode.EncryptionFailedToEstablish:
-                    this.State = ChatState.Disconnecting;
-                    this.chatPeer.Disconnect();
+                case StatusCode.EncryptionEstablished:
+                    // once encryption is available, the client should send one (secure) authenticate. it includes the AppId (which identifies your app on the Photon Cloud)
+                    this.TryAuthenticateOnNameServer();
                     break;
                 case StatusCode.Disconnect:
-                    if (this.State == ChatState.Authenticated)
+                    switch (this.State)
                     {
-                        this.ConnectToFrontEnd();
+                        case ChatState.Authenticated:
+                            this.ConnectToFrontEnd();
+                            // client disconnected from nameserver after authentication
+                            // to switch to frontend
+                            return;
+                        case ChatState.Disconnecting:
+                            // expected disconnect
+                            break;
+                        default:
+                            // unexpected disconnect, we log warning and stacktrace
+                            string stacktrace = string.Empty;
+                            #if DEBUG && !NETFX_CORE
+                            stacktrace = new System.Diagnostics.StackTrace(true).ToString();
+                            #endif
+                            this.listener.DebugReturn(DebugLevel.WARNING, string.Format("Got a unexpected Disconnect in ChatState: {0}. Server: {1} Trace: {2}", this.State, this.chatPeer.ServerAddress, stacktrace));
+                            break;
                     }
-                    else
+                    if (this.AuthValues != null)
                     {
-                        this.State = ChatState.Disconnected;
-                        this.listener.OnChatStateChange(ChatState.Disconnected);
-                        this.listener.OnDisconnected();
+                        this.AuthValues.Token = null; // when leaving the server, invalidate the secret (but not the auth values)
                     }
+                    this.State = ChatState.Disconnected;
+                    this.listener.OnChatStateChange(ChatState.Disconnected);
+                    this.listener.OnDisconnected();
+                    break;
+                case StatusCode.DisconnectByServerUserLimit:
+                    this.listener.DebugReturn(DebugLevel.ERROR, "This connection was rejected due to the apps CCU limit.");
+                    this.Disconnect(ChatDisconnectCause.MaxCcuReached);
+                    break;
+                case StatusCode.ExceptionOnConnect:
+                case StatusCode.SecurityExceptionOnConnect:
+                case StatusCode.EncryptionFailedToEstablish:
+                    this.Disconnect(ChatDisconnectCause.ExceptionOnConnect);
+                    break;
+                case StatusCode.Exception:
+                case StatusCode.ExceptionOnReceive:
+                    this.Disconnect(ChatDisconnectCause.Exception);
+                    break;
+                case StatusCode.DisconnectByServerTimeout:
+                    this.Disconnect(ChatDisconnectCause.ServerTimeout);
+                    break;
+                case StatusCode.DisconnectByServerLogic:
+                    this.Disconnect(ChatDisconnectCause.DisconnectByServerLogic);
+                    break;
+                case StatusCode.DisconnectByServerReasonUnknown:
+                    this.Disconnect(ChatDisconnectCause.DisconnectByServerReasonUnknown);
+                    break;
+                case StatusCode.TimeoutDisconnect:
+                    this.Disconnect(ChatDisconnectCause.ClientTimeout);
                     break;
             }
         }
@@ -1041,6 +1097,21 @@ namespace Photon.Chat
         #endif
 
         #endregion
+
+        private void TryAuthenticateOnNameServer()
+        {
+            if (!this.didAuthenticate)
+            {
+                this.didAuthenticate = this.chatPeer.AuthenticateOnNameServer(this.AppId, this.AppVersion, this.chatRegion, this.AuthValues);
+                if (!this.didAuthenticate)
+                {
+                    if (this.DebugOut >= DebugLevel.ERROR)
+                    {
+                        this.listener.DebugReturn(DebugLevel.ERROR, string.Format("Error calling OpAuthenticate! Did not work on NameServer. Check log output, AuthValues and if you're connected. State: {0}", this.State));
+                    }
+                }
+            }
+        }
 
         private bool SendChannelOperation(string[] channels, byte operation, int historyLength)
         {
@@ -1255,16 +1326,18 @@ namespace Photon.Chat
                     case ErrorCode.OperationNotAllowedInCurrentState:
                         this.DisconnectedCause = ChatDisconnectCause.OperationNotAllowedInCurrentState;
                         break;
+                    case ErrorCode.AuthenticationTicketExpired:
+                        this.DisconnectedCause = ChatDisconnectCause.AuthenticationTicketExpired;
+                        break;
                 }
 
                 if (this.DebugOut >= DebugLevel.ERROR)
                 {
-                    this.listener.DebugReturn(DebugLevel.ERROR, "Authentication request error: " + operationResponse.ReturnCode + ". Disconnecting.");
+                    this.listener.DebugReturn(DebugLevel.ERROR, string.Format("{0} ClientState: {1} ServerAddress: {2}", operationResponse.ToStringFull(), this.State, this.chatPeer.ServerAddress));
                 }
 
 
-                this.State = ChatState.Disconnecting;
-                this.chatPeer.Disconnect();
+                this.Disconnect(this.DisconnectedCause);
             }
         }
 
@@ -1300,7 +1373,13 @@ namespace Photon.Chat
             }
             #endif
 
-            this.chatPeer.Connect(this.FrontendAddress, ChatAppName);
+            if (!this.chatPeer.Connect(this.FrontendAddress, ChatAppName))
+            {
+                if (this.DebugOut >= DebugLevel.ERROR)
+                {
+                    this.listener.DebugReturn(DebugLevel.ERROR, string.Format("Connecting to frontend {0} failed.", this.FrontendAddress));
+                }
+            }
         }
 
         private bool AuthenticateOnFrontEnd()

@@ -1,25 +1,45 @@
-﻿using System;
-using System.Collections;
-using System.Threading;
-
-#if NETFX_CORE
-using System.Diagnostics;
-using Windows.Foundation;
-using Windows.Networking;
-using Windows.Networking.Sockets;
-using Windows.Storage.Streams;
-#endif
-
-#if !NO_SOCKET && !NETFX_CORE
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Sockets;
-#endif
+﻿// ----------------------------------------------------------------------------
+// <copyright file="PhotonPing.cs" company="Exit Games GmbH">
+//   PhotonNetwork Framework for Unity - Copyright (C) 2018 Exit Games GmbH
+// </copyright>
+// <summary>
+// This file includes various PhotonPing implementations for different APIs,
+// platforms and protocols.
+// The RegionPinger class is the instance which selects the Ping implementation
+// to use.
+// </summary>
+// <author>developer@exitgames.com</author>
+// ----------------------------------------------------------------------------
 
 
 namespace Photon.Realtime
 {
+    using System;
+    using System.Collections;
+    using System.Threading;
 
+    #if NETFX_CORE
+    using System.Diagnostics;
+    using Windows.Foundation;
+    using Windows.Networking;
+    using Windows.Networking.Sockets;
+    using Windows.Storage.Streams;
+    #endif
+
+    #if !NO_SOCKET && !NETFX_CORE
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Net.Sockets;
+    #endif
+
+    #if UNITY_WEBGL
+    // import WWW class
+    using UnityEngine;
+    #endif
+
+    /// <summary>
+    /// Abstract implementation of PhotonPing, ase for pinging servers to find the "Best Region".
+    /// </summary>
     public abstract class PhotonPing : IDisposable
     {
         public string DebugString = "";
@@ -33,7 +53,7 @@ namespace Photon.Realtime
 
         protected internal byte PingId;
 
-        private static readonly Random RandomIdProvider = new Random();
+        private static readonly System.Random RandomIdProvider = new System.Random();
 
         public virtual bool StartPing(string ip)
         {
@@ -49,7 +69,6 @@ namespace Photon.Realtime
         {
             throw new NotImplementedException();
         }
-
 
         protected internal void Init()
         {
@@ -70,7 +89,7 @@ namespace Photon.Realtime
         /// <summary>
         /// Sends a "Photon Ping" to a server.
         /// </summary>
-        /// <param name="ip">Address in IPv4 or IPv6 format. An address containing a '.' will be interpretet as IPv4.</param>
+        /// <param name="ip">Address in IPv4 or IPv6 format. An address containing a '.' will be interpreted as IPv4.</param>
         /// <returns>True if the Photon Ping could be sent.</returns>
         public override bool StartPing(string ip)
         {
@@ -96,7 +115,7 @@ namespace Photon.Realtime
 
                 this.PingBytes[this.PingBytes.Length - 1] = this.PingId;
                 this.sock.Send(this.PingBytes);
-                this.PingBytes[this.PingBytes.Length - 1] = (byte)(this.PingId+1);  // invalidate the result, as we re-use the buffer
+                this.PingBytes[this.PingBytes.Length - 1] = (byte)(this.PingId+1);  // this buffer is re-used for the result/receive. invalidate the result now.
             }
             catch (Exception e)
             {
@@ -111,15 +130,29 @@ namespace Photon.Realtime
         {
             if (this.GotResult || this.sock == null)
             {
-                return true;
+                return true;    // this just indicates the ping is no longer waiting. this.Successful value defines if the roundtrip completed
             }
 
-            if (!this.sock.Poll(0, SelectMode.SelectRead))
+            int read = 0;
+            try
             {
-                return false;
-            }
+                if (!this.sock.Poll(0, SelectMode.SelectRead))
+                {
+                    return false;
+                }
 
-            int read = this.sock.Receive(this.PingBytes, SocketFlags.None);
+                read = this.sock.Receive(this.PingBytes, SocketFlags.None);
+            }
+            catch (Exception ex)
+            {
+                if (this.sock != null)
+                {
+                    this.sock.Close();
+                    this.sock = null;
+                }
+                this.DebugString += " Exception of socket! " + ex.GetType() + " ";
+                return true;    // this just indicates the ping is no longer waiting. this.Successful value defines if the roundtrip completed
+            }
 
             bool replyMatch = this.PingBytes[this.PingBytes.Length - 1] == this.PingId && read == this.PingLength;
             if (!replyMatch)
@@ -151,7 +184,7 @@ namespace Photon.Realtime
 
 
     #if NETFX_CORE
-    /// <summary>Windows store API implementation of PhotonPing</summary>
+    /// <summary>Windows store API implementation of PhotonPing, based on DatagramSocket for UDP.</summary>
     public class PingWindowsStore : PhotonPing
     {
         private DatagramSocket sock;
@@ -396,5 +429,38 @@ namespace Photon.Realtime
         }
     }
     #endif
+    #endif
+
+
+    #if UNITY_WEBGL
+    public class PingHttp : PhotonPing
+    {
+        private WWW webRequest;
+
+        public override bool StartPing(string address)
+        {
+            base.Init();
+
+            address = "https://" + address + "/photon/m/?ping&r=" + UnityEngine.Random.Range(0, 10000);
+            this.webRequest = new WWW(address);
+            return true;
+        }
+
+        public override bool Done()
+        {
+            if (this.webRequest.isDone)
+            {
+                Successful = true;
+                return true;
+            }
+
+            return false;
+        }
+
+        public override void Dispose()
+        {
+            this.webRequest.Dispose();
+        }
+    }
     #endif
 }

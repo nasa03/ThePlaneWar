@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400000}
-  - component: {fileID: 11424148}
   - component: {fileID: 14300000}
   - component: {fileID: 11400000}
   - component: {fileID: 5400000}
@@ -29,65 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.06, y: 1.061, z: -8.07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11424148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb033ce86e4863f4283740d947ed6ec2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Effects:
-  - m_PhysicMaterial: {fileID: 13400000, guid: 4461a0d71e6c5234eafbf02752aae7e6, type: 2}
-    m_HitEffect: {fileID: 155568, guid: 7d467234bf4716143bc2742e996922f4, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 791135952c9e8cc4c80dd1753e4eb80f, type: 2}
-    m_HitEffect: {fileID: 155568, guid: 9b3b67a40049cd1418a465c7001e2307, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: c309d37c5df64324886bacd93e4432df, type: 2}
-    m_HitEffect: {fileID: 1000011812377774, guid: 78f5d75b48868d24398aae39f093d11f,
-      type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 804380ef047e74b44a784d7a9d1c4e53, type: 2}
-    m_HitEffect: {fileID: 155568, guid: 7214aa56153b77447a803e29b602aadd, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 616d08a282b8f2e48a17cc541f8c417a, type: 2}
-    m_HitEffect: {fileID: 1000011642097996, guid: 19cb374f47f581f448cc907c911966d7,
-      type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 83de94d3c5f7bd04ca0eb08dd202346e, type: 2}
-    m_HitEffect: {fileID: 155568, guid: 7396da7e452843c418caf37da13f6158, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 1c724865d847e9c42956d67d17bc11bd, type: 2}
-    m_HitEffect: {fileID: 155568, guid: fb45a9260cc072d4f835342de1874a86, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 2bb548d02c1607d4bafc47b60e4700cb, type: 2}
-    m_HitEffect: {fileID: 155568, guid: 7bd9c7e4c56d6b2408642ad9d0d5b612, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: b2f6563c26e7c644aa0037007e2a0a7c, type: 2}
-    m_HitEffect: {fileID: 155568, guid: ce325dac979c0384a9e312b646e56c44, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: e8a1e3a08bd725c4590eb8f3c2f59b8b, type: 2}
-    m_HitEffect: {fileID: 199158, guid: 22f5fc856424dc840ad1d208d6348783, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: b4eb0ebedb8db3542a4132b5fa15f33d, type: 2}
-    m_HitEffect: {fileID: 199158, guid: 8373e0c2da781e546bc0dedd6122224e, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 2a59ebda08f805a45acdc0f7fa25cccd, type: 2}
-    m_HitEffect: {fileID: 155568, guid: f1ff554c1181557499e04f02994974d0, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 0b61112ecad9af44bb1a7762bf2b099a, type: 2}
-    m_HitEffect: {fileID: 155568, guid: 7cdbf540ba884fe4799b7f2247907b76, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 3ffbc72e1a5558844b3c5ffcaf2c88f6, type: 2}
-    m_HitEffect: {fileID: 1000013956432306, guid: 23c06b4c59c4ea84eacbce55c164198b,
-      type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: b82e5d4c5b9066f408826c68db4d89ea, type: 2}
-    m_HitEffect: {fileID: 155568, guid: 32bccc69c38ae3745928c61dd7327d87, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 6c09042c841706d4cbe4829c26846e61, type: 2}
-    m_HitEffect: {fileID: 155568, guid: ec3124c7890ac4b4bbd3793d3895e7d6, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 6f35dc5de07dc0a40b7c86a382e8c7c5, type: 2}
-    m_HitEffect: {fileID: 155568, guid: 4492f9a92e606864cabf29beec6d33ac, type: 3}
-  - m_PhysicMaterial: {fileID: 13400000, guid: 09450156bd59aec45a50b4a76769fd3c, type: 2}
-    m_HitEffect: {fileID: 155568, guid: f23cc637372f13a4193cc1076b6bf3da, type: 3}
 --- !u!143 &14300000
 CharacterController:
   m_ObjectHideFlags: 0
@@ -99,8 +46,8 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0
+  m_Height: 1.8
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -121,7 +68,6 @@ MonoBehaviour:
   m_IsWalking: 0
   m_WalkSpeed: 5
   m_RunSpeed: 10
-  m_RunstepLenghten: 0.7
   m_JumpSpeed: 10
   m_StickToGroundForce: 10
   m_GravityMultiplier: 2
@@ -258,7 +204,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -355,7 +301,7 @@ GameObject:
   - component: {fileID: 8100000}
   - component: {fileID: 12474086}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: FirstPersonCharacter
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -387,9 +333,10 @@ Camera:
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2

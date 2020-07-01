@@ -36,3 +36,28 @@ Update Mode: updateDependencies
 
 The following packages were updated:
   com.unity.analytics from version 3.2.2 to 3.2.3
+
+=== Wed Jul  1 19:26:43 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were 已添加:
+  com.unity.2d.sprite@1.0.0
+  com.unity.2d.tilemap@1.0.0
+  com.unity.ide.rider@1.1.4
+  com.unity.ide.vscode@1.2.1
+  com.unity.modules.androidjni@1.0.0
+  com.unity.multiplayer-hlapi@1.0.6
+  com.unity.test-framework@1.1.14
+  com.unity.timeline@1.2.6
+  com.unity.ugui@1.0.0
+  com.unity.xr.legacyinputhelpers@2.1.4
+The following packages were 已更新:
+  com.unity.ads 从版本 2.3.1 到 3.4.5
+  com.unity.analytics 从版本 3.2.3 到 3.3.5
+  com.unity.collab-proxy 从版本 1.2.15 到 1.2.16
+  com.unity.purchasing 从版本 2.0.3 到 2.0.6
+  com.unity.textmeshpro 从版本 1.4.1 到 2.0.1
+The following packages were 已移除:
+  com.unity.package-manager-ui@2.0.8

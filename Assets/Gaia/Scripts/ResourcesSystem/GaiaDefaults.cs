@@ -400,7 +400,7 @@ namespace Gaia
             GameObjectUtility.SetStaticEditorFlags(terrain.gameObject,
                 StaticEditorFlags.BatchingStatic | StaticEditorFlags.NavigationStatic |
                 StaticEditorFlags.OccludeeStatic | StaticEditorFlags.OccluderStatic |
-                StaticEditorFlags.OffMeshLinkGeneration | StaticEditorFlags.ReflectionProbeStatic | StaticEditorFlags.LightmapStatic
+                StaticEditorFlags.OffMeshLinkGeneration | StaticEditorFlags.ReflectionProbeStatic | StaticEditorFlags.ContributeGI
                 );
             terrain.bakeLightProbesForTrees = false;
 #if UNITY_2018_3_OR_NEWER

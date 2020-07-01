@@ -13,11 +13,12 @@ namespace Photon.Pun
 {
     using ExitGames.Client.Photon;
     using Photon.Realtime;
+    using System.Collections.Generic;
     using UnityEngine;
 
-    #if UNITY_5_5_OR_NEWER
+#if UNITY_5_5_OR_NEWER
     using UnityEngine.Profiling;
-    #endif
+#endif
 
 
     /// <summary>
@@ -72,6 +73,7 @@ namespace Photon.Pun
 
         protected override void Awake()
         {
+
             if (instance == null || ReferenceEquals(this, instance))
             {
                 instance = this;
@@ -85,6 +87,7 @@ namespace Photon.Pun
 
         protected virtual void OnEnable()
         {
+
             if (Instance != this)
             {
                 Debug.LogError("PhotonHandler is a singleton but there are multiple instances. this != Instance.");
@@ -218,24 +221,150 @@ namespace Photon.Pun
             PhotonNetwork.LoadLevelIfSynced();
         }
 
-        public void OnJoinedRoom(){}
 
-        public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps){}
+        public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps) { }
 
-        public void OnMasterClientSwitched(Player newMasterClient){}
+        public void OnMasterClientSwitched(Player newMasterClient)
+        {
+            var views = PhotonNetwork.PhotonViewCollection;
+            foreach (var view in views)
+            {
+                view.RebuildControllerCache();
+            }
+        }
 
-        public void OnFriendListUpdate(System.Collections.Generic.List<FriendInfo> friendList){}
+        public void OnFriendListUpdate(System.Collections.Generic.List<FriendInfo> friendList) { }
 
-        public void OnCreateRoomFailed(short returnCode, string message){}
+        public void OnCreateRoomFailed(short returnCode, string message) { }
 
-        public void OnJoinRoomFailed(short returnCode, string message){}
+        public void OnJoinRoomFailed(short returnCode, string message) { }
 
-        public void OnJoinRandomFailed(short returnCode, string message){}
+        public void OnJoinRandomFailed(short returnCode, string message) { }
 
-        public void OnLeftRoom(){}
+        protected List<int> reusableIntList = new List<int>();
 
-        public void OnPlayerEnteredRoom(Player newPlayer){}
+        public void OnJoinedRoom()
+        {
 
-        public void OnPlayerLeftRoom(Player otherPlayer){}
+            if (PhotonNetwork.ViewCount == 0)
+                return;
+
+            var views = PhotonNetwork.PhotonViewCollection;
+
+            bool amMasterClient = PhotonNetwork.IsMasterClient;
+            bool amRejoiningMaster = amMasterClient && PhotonNetwork.CurrentRoom.PlayerCount > 1;
+
+            if (amRejoiningMaster)
+                reusableIntList.Clear();
+
+            // If this is the master rejoining, reassert ownership of non-creator owners
+            foreach (var view in views)
+            {
+                int viewOwnerId = view.OwnerActorNr;
+                int viewCreatorId = view.CreatorActorNr;
+
+                // Scene objects need to set their controller to the master.
+                view.RebuildControllerCache();
+
+                // Rejoining master should enforce its world view, and override any changes that happened while it was soft disconnected
+                if (amRejoiningMaster)
+                    if (viewOwnerId != viewCreatorId)
+                    {
+                        reusableIntList.Add(view.ViewID);
+                        reusableIntList.Add(viewOwnerId);
+                    }
+            }
+
+            if (amRejoiningMaster && reusableIntList.Count > 0)
+            {
+                PhotonNetwork.OnwershipUpdate(reusableIntList.ToArray());
+            }
+        }
+
+        public void OnLeftRoom()
+        {
+            // Destroy spawned objects and reset scene objects
+            PhotonNetwork.LocalCleanupAnythingInstantiated(true);
+        }
+
+
+        public void OnPlayerEnteredRoom(Player newPlayer)
+        {
+
+            bool isRejoiningMaster = newPlayer.IsMasterClient;
+            bool amMasterClient = PhotonNetwork.IsMasterClient;
+
+            // Nothing to do if this isn't the master joining, nor are we the master.
+            if (!isRejoiningMaster && !amMasterClient)
+                return;
+
+            var views = PhotonNetwork.PhotonViewCollection;
+
+            // Get a slice big enough for worst case - all views with no compression...extra byte per int for varint bloat.
+
+            if (amMasterClient)
+                reusableIntList.Clear();
+
+            foreach (var view in views)
+            {
+                // TODO: make this only if the new actor affects this?
+                view.RebuildControllerCache();
+
+                //// If this is the master, and some other player joined - notify them of any non-creator ownership
+                if (amMasterClient)
+                {
+                    int viewOwnerId = view.OwnerActorNr;
+                    // TODO: Ideally all of this would only be targetted at the new player.
+                    if (viewOwnerId != view.CreatorActorNr)
+                    {
+                        reusableIntList.Add(view.ViewID);
+                        reusableIntList.Add(viewOwnerId);
+                        //PhotonNetwork.TransferOwnership(view.ViewID, viewOwnerId);
+                    }
+                }
+                // Master rejoined - reset all ownership. The master will be broadcasting non-creator ownership shortly
+                else if (isRejoiningMaster)
+                {
+                    view.ResetOwnership();
+                }
+            }
+
+            if (amMasterClient && reusableIntList.Count > 0)
+            {
+                PhotonNetwork.OnwershipUpdate(reusableIntList.ToArray(), newPlayer.ActorNumber);
+            }
+
+        }
+
+        public void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            var views = PhotonNetwork.PhotonViewCollection;
+
+            int leavingPlayerId = otherPlayer.ActorNumber;
+            bool isInactive = otherPlayer.IsInactive;
+
+            // SOFT DISCONNECT: A player has timed out to the relay but has not yet exceeded PlayerTTL and may reconnect.
+            // Master will take control of this objects until the player hard disconnects, or returns.
+            if (isInactive)
+            {
+                foreach (var view in views)
+                {
+                    if (view.OwnerActorNr == leavingPlayerId)
+                        view.RebuildControllerCache(true);
+                }
+
+            }
+            // HARD DISCONNECT: Player permanently removed. Remove that actor as owner for all items.
+            else
+            {
+                foreach (var view in views)
+                {
+                    var master = PhotonNetwork.MasterClient;
+                    if (view.OwnerActorNr == leavingPlayerId)
+                        view.SetOwnerInternal(master, 0);
+                }
+            }
+
+        }
     }
 }
