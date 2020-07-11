@@ -58,6 +58,16 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 float targetAngleYaw = Mathf.Atan2(localTarget.x, localTarget.z);
                 float targetAnglePitch = -Mathf.Atan2(localTarget.y, localTarget.z);
 
+                // 如果有地形阻挡，则向上飞
+                Ray ray = new Ray(transform.position, Vector3.forward);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 500))
+                {
+                    if (hit.collider.tag == "FX")
+                    {
+                        targetAnglePitch = -1.0f;
+                    }
+                }
 
                 // Set the target for the planes pitch, we check later that this has not passed the maximum threshold
                 targetAnglePitch = Mathf.Clamp(targetAnglePitch, -m_MaxClimbAngle*Mathf.Deg2Rad,
@@ -76,20 +86,20 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 float desiredRoll = Mathf.Clamp(targetAngleYaw, -m_MaxRollAngle*Mathf.Deg2Rad, m_MaxRollAngle*Mathf.Deg2Rad);
                 float yawInput = 0;
                 float rollInput = 0;
-                if (!m_TakenOff)
-                {
-                    // If the planes altitude is above m_TakeoffHeight we class this as taken off
-                    if (m_AeroplaneController.Altitude > m_TakeoffHeight)
-                    {
-                        m_TakenOff = true;
-                    }
-                }
-                else
-                {
+//               if (!m_TakenOff)
+//               {
+//                   // If the planes altitude is above m_TakeoffHeight we class this as taken off
+//                   if (m_AeroplaneController.Altitude > m_TakeoffHeight)
+//                   {
+//                       m_TakenOff = true;
+//                   }
+//               }
+//               else
+//               {
                     // now we have taken off to a safe height, we can use the rudder and ailerons to yaw and roll
                     yawInput = targetAngleYaw;
-                    rollInput = -(m_AeroplaneController.RollAngle - desiredRoll)*m_RollSensitivity;
-                }
+                    rollInput = -(m_AeroplaneController.RollAngle - desiredRoll) * m_RollSensitivity;
+//                }
 
                 // adjust how fast the AI is changing the controls based on the speed. Faster speed = faster on the controls.
                 float currentSpeedEffect = 1 + (m_AeroplaneController.ForwardSpeed*m_SpeedEffect);

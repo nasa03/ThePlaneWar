@@ -15,7 +15,7 @@ public class PlaneAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        getRandomPosition();
     }
 
     // Update is called once per frame
@@ -23,9 +23,10 @@ public class PlaneAI : MonoBehaviour
     {
         if (!target)
         {
-            target = GetNearTargetTransform();
-            if (target)
+            Transform tempTarget = GetNearTargetTransform();
+            if (tempTarget)
             {
+                target = tempTarget;
                 aeroplaneAiControl.SetTarget(target);
             }
             else
