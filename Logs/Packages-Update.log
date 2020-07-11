@@ -61,3 +61,11 @@ The following packages were 已更新:
   com.unity.textmeshpro 从版本 1.4.1 到 2.0.1
 The following packages were 已移除:
   com.unity.package-manager-ui@2.0.8
+
+=== Sat Jul 11 14:48:52 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were 已更新:
+  com.unity.ads 从版本 3.4.5 到 3.4.7
