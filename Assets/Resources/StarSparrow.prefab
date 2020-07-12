@@ -4764,8 +4764,8 @@ GameObject:
   - component: {fileID: 23940079164964952}
   - component: {fileID: 65041412013847892}
   - component: {fileID: 54979978961043912}
-  - component: {fileID: 114161810602699606}
   - component: {fileID: 114272042875472538}
+  - component: {fileID: 114161810602699606}
   - component: {fileID: 114848639605267132}
   - component: {fileID: 3989821194853853176}
   - component: {fileID: 3838668067766658113}
@@ -4880,20 +4880,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114161810602699606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1389673082934982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b297a60c0ddf0ee4dabefaf158fb097d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxRollAngle: 80
-  maxPitchAngle: 80
 --- !u!114 &114272042875472538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4920,6 +4906,20 @@ MonoBehaviour:
   m_AirBrakesEffect: 10
   m_ThrottleChangeSpeed: 0.3
   m_DragIncreaseFactor: 0.001
+--- !u!114 &114161810602699606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389673082934982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b297a60c0ddf0ee4dabefaf158fb097d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRollAngle: 40
+  maxPitchAngle: 80
 --- !u!114 &114848639605267132
 MonoBehaviour:
   m_ObjectHideFlags: 0

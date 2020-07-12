@@ -28,18 +28,18 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             //float roll = CrossPlatformInputManager.GetAxis("Horizontal");
             float yaw = CrossPlatformInputManager.GetAxis("Horizontal");
             float pitch = -CrossPlatformInputManager.GetAxis("Vertical");
+            float roll = yaw * 0.4f;
             bool airBrakes = CrossPlatformInputManager.GetButton("Break");
             bool powerSpeed = CrossPlatformInputManager.GetButton("PowerSpeed");
 
             // auto throttle up, or down if braking.
             float throttle = airBrakes ? -1 : 1;
 #if MOBILE_INPUT
-            //AdjustInputForMobileControls(ref roll, ref pitch, ref throttle);
-            AdjustInputForMobileControls(ref yaw, ref pitch, ref throttle);
+            AdjustInputForMobileControls(ref roll, ref pitch, ref throttle);
 #endif
             // Pass the input to the aeroplane
             //m_Aeroplane.Move(roll, pitch, 0, throttle, airBrakes);
-            m_Aeroplane.Move(0, pitch, yaw, throttle, airBrakes);
+            m_Aeroplane.Move(roll, pitch, yaw, throttle, airBrakes);
             m_Aeroplane.m_MaxEnginePower = powerSpeed ? 1200f : 40f;
         }
 
