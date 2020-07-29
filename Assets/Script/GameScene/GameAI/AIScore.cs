@@ -11,8 +11,11 @@ public class AIScore : MonoBehaviour
     public void Initialize(string name)
     {
         Name = name;
-        Kill = 0;
-        Death = 0;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Kill = 0;
+            Death = 0;
+        }
     }
 
     public string Name
