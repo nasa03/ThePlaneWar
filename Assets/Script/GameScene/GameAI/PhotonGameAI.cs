@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -7,12 +8,11 @@ public class PhotonGameAI : MonoBehaviour
 {
     [SerializeField] GameObject[] AI_Plane_Prefabs;
     [SerializeField] Transform[] randomPositions;
-    private ArrayList AI_Plane_List = new ArrayList();
+    [HideInInspector] public ArrayList AI_Plane_List = new ArrayList();
 
     public Transform[] RandomPositions => randomPositions;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {

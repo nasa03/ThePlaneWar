@@ -25,7 +25,6 @@ public class PhotonAI : MonoBehaviourPunCallbacks
         }
 
         if (PhotonNetwork.CurrentRoom.PlayerCount + ai_List.Count == maxPlayers)
-
         {
             StartCoroutine(FindObjectOfType<MessageShow>().Show("房间人数已满"));
             return;

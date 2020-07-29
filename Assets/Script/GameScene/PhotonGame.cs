@@ -41,6 +41,10 @@ public class PhotonGame : MonoBehaviour {
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
             groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
+        FindObjectOfType<PhotonGameAI>().Initialize();
+        
+        FindObjectOfType<PhotonScore>().Show();
+        
         StartCoroutine(InvincibleStart());
     }
 

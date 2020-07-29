@@ -42224,6 +42224,7 @@ GameObject:
   - component: {fileID: 139961920098445648}
   - component: {fileID: 2078152845214210483}
   - component: {fileID: 4508325708815821369}
+  - component: {fileID: 1674217043940401387}
   m_Layer: 0
   m_Name: StarSparrowAI6
   m_TagString: Plane
@@ -42996,6 +42997,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10e31091e368b45308581ea8e10a731b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1674217043940401387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781775965045562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e14a3fb77eed47629b21cb0b6acc838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1787490433798280

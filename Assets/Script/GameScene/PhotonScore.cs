@@ -17,31 +17,45 @@ public class PhotonScore : MonoBehaviourPunCallbacks
     [SerializeField] Score title;
     [SerializeField] Score[] scores = new Score[6];
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Show();
-    }
-
-    void Show()
+    public void Show()
     {
         title.scoreImage.enabled = true;
         title.scoreText.enabled = true;
 
         int planeCount = PhotonNetwork.PlayerList.Length;
+        ArrayList aiPlaneList = FindObjectOfType<PhotonGameAI>().AI_Plane_List;
         for(int i = 0; i < 6; i++)
         {
-            if (i < planeCount)
+            if (i < planeCount+aiPlaneList.Count)
             {
-                scores[i].scoreImage.enabled = true;
-                scores[i].scoreText.enabled = true;
+                if (i < planeCount)
+                {
+                    scores[i].scoreImage.enabled = true;
+                    scores[i].scoreText.enabled = true;
 
-                string name = PhotonNetwork.PlayerList[i].NickName;
-                string kill= CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
-                string dead= CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
-                scores[i].scoreText.text = string.Format("{0} {1}/{2}", name, kill, dead);
-                if (PhotonNetwork.PlayerList[i].IsLocal)
-                    scores[i].scoreText.color = Color.red;
+                    string name = PhotonNetwork.PlayerList[i].NickName;
+                    string kill = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
+                    string dead = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
+                    scores[i].scoreText.text = string.Format("{0} {1}/{2}", name, kill, dead);
+                    if (PhotonNetwork.PlayerList[i].IsLocal)
+                        scores[i].scoreText.color = Color.red;
+                }
+                else
+                {
+                    scores[i].scoreImage.enabled = true;
+                    scores[i].scoreText.enabled = true;
+
+                    GameObject aiPlane = (GameObject) aiPlaneList[i - planeCount];
+                    AIScore aiScore = aiPlane.GetComponent<AIScore>();
+                    if (aiScore.Name == null)
+                        aiScore.Initialize(string.Format("机器人{0}", i - planeCount + 1));
+                    string name = aiScore.Name;
+                    string kill = aiScore.Kill.ToString();
+                    string dead = aiScore.Death.ToString();
+                    scores[i].scoreText.text = string.Format("{0} {1}/{2}", name, kill, dead);
+                    scores[i].scoreText.color = Color.green;
+                }
+                
             }
             else
             {

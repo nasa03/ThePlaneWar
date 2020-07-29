@@ -37560,6 +37560,7 @@ GameObject:
   - component: {fileID: 7941338748108320944}
   - component: {fileID: 2203682888084784723}
   - component: {fileID: 4497943614374034433}
+  - component: {fileID: 5797228940719754485}
   m_Layer: 0
   m_Name: StarSparrowAI4
   m_TagString: Plane
@@ -38332,6 +38333,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10e31091e368b45308581ea8e10a731b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5797228940719754485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817626638657306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e14a3fb77eed47629b21cb0b6acc838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1871057050754726
