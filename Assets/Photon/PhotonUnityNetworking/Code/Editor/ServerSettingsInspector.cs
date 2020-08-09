@@ -15,6 +15,8 @@ using UnityEngine;
 using Photon.Pun;
 
 using ExitGames.Client.Photon;
+using System.Collections.Generic;
+using System.Reflection;
 
 [CustomEditor(typeof(ServerSettings))]
 public class ServerSettingsInspector : Editor
@@ -30,9 +32,6 @@ public class ServerSettingsInspector : Editor
     private bool showRpcs;
 
     private GUIStyle vertboxStyle;
-
-    public static bool SearchForSNSOnce;
-    private static System.Reflection.MethodInfo drawSImpleSettingsMethod;
 
     public void Awake()
     {
@@ -239,24 +238,22 @@ public class ServerSettingsInspector : Editor
             this.rpcCrc = this.RpcListHashCode().ToString("X");
         }
 
-        #region SNS Settings
+        #region emotitron Settings
 
         /// Conditional Simple Sync Settings DrawGUI - Uses reflection to avoid having to hard connect the libraries
-
-        if (!SearchForSNSOnce)
+        var SettingsScriptableObjectBaseType = GetType("Photon.Utilities.SettingsScriptableObjectBase");
+        if (SettingsScriptableObjectBaseType != null)
         {
-            var simpleSettings = GetType("emotitron.Networking.SimpleSyncSettings");
-            if (simpleSettings != null)
-                drawSImpleSettingsMethod = simpleSettings.GetMethod("DrawGuiStatic");
+            var drawAllMethod = SettingsScriptableObjectBaseType.GetMethod("DrawAllSettings");
 
-            SearchForSNSOnce = true;
+            if (drawAllMethod != null && this != null)
+            {
+                bool initializeAsOpen = false;
+                drawAllMethod.Invoke(null, new object[2] { this, initializeAsOpen });
+
+            }
         }
 
-        if (drawSImpleSettingsMethod != null)
-        {
-            EditorGUILayout.GetControlRect(false, 4);
-            drawSImpleSettingsMethod.Invoke(null, new object[5] { this, true, false, true, false });
-        }
 
         #endregion
     }

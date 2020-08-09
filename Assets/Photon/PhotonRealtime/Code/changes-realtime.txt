@@ -3,7 +3,12 @@ Photon Realtime C# Client - Changelog
 Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
-Version 4.1.4.3 (24. July 2020)
+Version 4.1.4.4 (6. July 2020)
+    Fixed: AppSettings.CopyTo method. It was not copying the new value EnableProtocolFallback yet.
+    Fixed: The date of version 4.1.4.3 in this changelog.
+    Updated: Error handling in PingWindowsStore.
+
+Version 4.1.4.3 (24. June 2020)
     Added: Check that the Dev Region override is in the list of available regions (from Name Server). If not, the first available region is being used.
     Changed: RegionPinger.Start() now attempts to use a ThreadPool WorkerItem to ping individual regions. Only if that fails, a separate managed Thread is used. This should help avoid running into Thread limits (if any). Builds for NETFX_CORE don't use this.
     Changed: Error handling in PingMono. SocketExceptions were not handled entirely.

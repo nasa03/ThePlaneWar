@@ -1,5 +1,43 @@
-PUN 2 Change Log
 
+PUN 2 Change Log
+Exit Games GmbH - www.photonengine.com - forum.photonengine.com
+
+
+v2.20.2 (04. August 2020)
+Fixed: Destroy code that caused a "Ev Destroy Failed." error log.
+
+v2.20.1 (03. August 2020)
+Fixed: An issue with Standalone builds in Unity 2019.4.x, which did not connect. The main loop was somehow not called if PhotonMono was created in RuntimeInitializeOnLoad callback.
+Changed: RuntimeInitializeOnLoad() should only happen in the Editor, where we may disable the Domain Reload.
+Removed: Code that automatically added PV to gameobjects with MonoBehaviourPun (the PhotonView is not a must-have for those scripts (but typical)).
+
+v2.20 (03. August 2020)
+Fixed: Potential cause for NetworkingClient being null in Editor on enter playmode. The EditorApplication.isPlaying value has a race condition.
+Fixed: Edge case where ownershipCacheIsValid was not getting correctly updated for leaving players when Cleanup is disabled.
+Added: CustomContext for PhotonWizard AccountService creation.
+Added: Some additional Standard Assets for third person demos (For SNS overlap with existing demo).
+Note: ThirdPerson scripts namespace changed to avoid conflicts with Unity Standard Assets they are taken from.
+Added: "Chat Extended" features. Properties for public channels and users. Event OnErrorInfo. Wrapped in compile define.
+Added: Additional method for finding nested components. Used by SNS.
+Fixed: PhotonView.ResetOwnership will no longer run into NullReferenceException. 
+Fixed: Another potential NullReferenceException due to bad placing of a null-check (in OnEvent, case OwnershipTransfer).
+Fixed: Asteroids scenes had missing (obsolete) component on cameras.
+Added: Auto-find Observable Components in PhotonViews and Multi-select. PhotonViews can now (optionally) find observable components on the same object, making the setup easier.
+Added: Initial support to turn off Domain Reloading, also known as Fast Play Mode. Please report issues by mail, should there be any.
+Changed: InstantiateSceneObject got renamed to InstantiateRoomObject, which is a better terminology for objects that belong to the room but are not loaded with the scene. Old naming is obsolete.
+Changed: Added argument to OnControllerChange callback - controllerHasChanged.
+Fixed: Support to network-destroy scene objects (loaded with the scene). Known limit: The events to remove networked scene-objects are fired on join, not on load. This may actually desync players, depending on when scenes get loaded.
+Added: Nullcheck to the StatesGui to avoid issues when recompiling during runtime (in Editor).
+Changed: Initialization of PhotonEditor to make sure it runs for the first time after the Editor finished loading. OnInitialHierarchyChanged registers for the events.
+Fixed: Potential issue when the background image could not be loaded and would assign to the style as null.
+Removed: PhotonEditor static constructor and InitializeOnLoad attribute (using InitializeOnLoadMethod exclusively).
+Removed: Support for PlaymodeStateChanged event as used before Unity 2017.2 (without the parameter). Affects PhotonEditor.cs.
+
+
+v2.19.3 (06. July 2020)
+Fixed: An issue with ownership, which was introduced in v2.19.2.
+v2.19.2 (02. July 2020)
+Fixed: Wasn't setting owner in NetworkInstantiate, which was causing a failure to reset old owner values on second room join.
 
 v2.19.1 (29. June 2020)
 Changed: Don't run GameObject removal code if app is quitting.
@@ -33,7 +71,6 @@ Updated: The Realtime API and Photon3Unity3d.dll (v4.1.4.3) with lots of improve
     Fixed: Best Region selection for UWP builds on the .Net Runtime.
     Added: PhotonPeer.TrafficRecorder and ITrafficRecorder. This can be used to capture traffic on UDP connections.
     Added: Checks for connections on WebGL and Xbox One. Settings that can be corrected (to match the platform's requirements) are corrected with a log note. An Exception is thrown, if that's not possible. Connect methods may throw an Exception, which are to be fixed during development time.
-
 
 v2.18.1 (30. April 2020)
 Fixed: String serialization issue in the Photon3Unity3d.dll (v4.1.4.0). Updated to Photon3Unity3d.dll (v4.1.4.1).

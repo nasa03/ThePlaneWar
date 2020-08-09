@@ -36,7 +36,7 @@ namespace Photon.Pun
         private const string DefaultToken = "VQ920wVUieLHT9c3v1ZCbytaLXpXbktUztKb3iYLCdiRKjUagcl6eg==";
 
         /// <summary>
-        /// third parties custom token, if null, defaults to DefaultContext property value
+        /// third parties custom context, if null, defaults to DefaultContext property value
         /// </summary>
         public string CustomContext = null;
         

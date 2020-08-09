@@ -64,7 +64,7 @@ namespace Photon.Pun
     public static partial class PhotonNetwork
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
-        public const string PunVersion = "2.19.1";
+        public const string PunVersion = "2.20.1";
 
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
@@ -700,7 +700,7 @@ namespace Photon.Pun
         }
 
         /// <summary>Used for Photon/PUN timing, as Time.time can't be called from Threads.</summary>
-        private static readonly Stopwatch StartupStopwatch;
+        private static Stopwatch StartupStopwatch;
 
 
         /// <summary>
@@ -983,10 +983,20 @@ namespace Photon.Pun
         /// </summary>
         static PhotonNetwork()
         {
-            #if UNITY_EDITOR
-            if (!EditorApplication.isPlaying) return;
-            #endif
+            StaticReset();
+        }
+        
+        #if UNITY_2019_4_OR_NEWER && UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        #endif
+        private static void StaticReset()
+        {
 
+            #if UNITY_EDITOR
+            if (!EditorApplication.isPlayingOrWillChangePlaymode) return;
+            #endif
+            // This clear is for when Domain Reloading is disabled. Typicall will already be empty.
+            monoRPCMethodsCache.Clear();
 
             // set up the NetworkingClient, protocol, etc
             ConnectionProtocol protocol = PhotonNetwork.PhotonServerSettings.AppSettings.Protocol;
@@ -994,24 +1004,12 @@ namespace Photon.Pun
             NetworkingClient.LoadBalancingPeer.QuickResendAttempts = 2;
             NetworkingClient.LoadBalancingPeer.SentCountAllowance = 7;
 
+            NetworkingClient.EventReceived -= OnEvent;
             NetworkingClient.EventReceived += OnEvent;
+            NetworkingClient.OpResponseReceived -= OnOperation;
             NetworkingClient.OpResponseReceived += OnOperation;
-            NetworkingClient.StateChanged += (previousState, state) =>
-                                                    {
-                                                        if (
-                                                            (previousState == ClientState.Joined && state == ClientState.Disconnected) ||
-                                                            (Server == ServerConnection.GameServer && (state == ClientState.Disconnecting || state == ClientState.DisconnectingFromGameServer))
-                                                            )
-                                                        {
-                                                            LeftRoomCleanup();
-                                                        }
-
-                                                        if (state == ClientState.ConnectedToMasterServer && _cachedRegionHandler != null)
-                                                        {
-                                                            BestRegionSummaryInPreferences = _cachedRegionHandler.SummaryToCache;
-                                                            _cachedRegionHandler = null;
-                                                        }
-                                                    };
+            NetworkingClient.StateChanged -= OnClientStateChanged;
+            NetworkingClient.StateChanged += OnClientStateChanged;
 
             StartupStopwatch = new Stopwatch();
             StartupStopwatch.Start();
@@ -1035,7 +1033,6 @@ namespace Photon.Pun
             // PUN custom types (typical for Unity)
             CustomTypes.Register();
         }
-
 
         /// <summary>Connect to Photon as configured in the PhotonServerSettings file.</summary>
         /// <remarks>
@@ -2355,7 +2352,13 @@ namespace Photon.Pun
             return NetworkInstantiate(netParams, false);
         }
 
+        [Obsolete("Renamed. Use InstantiateRoomObject instead")]
         public static GameObject InstantiateSceneObject(string prefabName, Vector3 position, Quaternion rotation, byte group = 0, object[] data = null)
+        {
+            return InstantiateRoomObject(prefabName, position, rotation, group, data);
+        }
+
+        public static GameObject InstantiateRoomObject(string prefabName, Vector3 position, Quaternion rotation, byte group = 0, object[] data = null)
         {
             if (CurrentRoom == null)
             {
@@ -2493,18 +2496,19 @@ namespace Photon.Pun
                     parameters.viewIDs[i] = (sceneObject) ? AllocateViewID(0) : AllocateViewID(parameters.creator.ActorNumber);
                 }
 
-                photonViews[i].didAwake = false;
-                photonViews[i].ViewID = 0;
+                var view = photonViews[i];
 
-                photonViews[i].Prefix = parameters.objLevelPrefix;
-                photonViews[i].InstantiationId = parameters.viewIDs[0];
-                photonViews[i].isRuntimeInstantiated = true;
-                photonViews[i].InstantiationData = parameters.data;
+                view.didAwake = false;
+                view.ViewID = 0;
+                view.Prefix = parameters.objLevelPrefix;
+                view.InstantiationId = parameters.viewIDs[0];
+                view.isRuntimeInstantiated = true;
+                view.InstantiationData = parameters.data;
+                view.ownershipCacheIsValid = PhotonView.OwnershipCacheState.Invalid;
+                view.didAwake = true;
+                view.ViewID = parameters.viewIDs[i];    // with didAwake true and viewID == 0, this will also register the view
 
-                photonViews[i].didAwake = true;
-                photonViews[i].ViewID = parameters.viewIDs[i];    // with didAwake true and viewID == 0, this will also register the view
-
-                photonViews[i].Group = parameters.group;
+                view.Group = parameters.group;
             }
 
             if (localInstantiate)
@@ -3024,7 +3028,7 @@ namespace Photon.Pun
         }
 
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
 
         /// <summary>
         /// Finds the asset path base on its name or search query: https://docs.unity3d.com/ScriptReference/AssetDatabase.FindAssets.html
@@ -3150,6 +3154,6 @@ namespace Photon.Pun
                 }
             }
         }
-        #endif
+#endif
     }
 }

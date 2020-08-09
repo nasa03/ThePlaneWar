@@ -4,6 +4,9 @@ Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
 
+Version 4.1.4.5 (2020 - rev)
+    Fixed: Potential issues with SupportLogger.StartBackgroundCalls() when there were 255 threads running (and or stopped).
+    
 Version 4.1.4.4 (29. June 2020 - rev5625)
     Fixed: NonAllocDict. Capacity change was broken. This is a critical fix.
     Added: Indexer to NonAllocDict to allow Dict[key] get and set.

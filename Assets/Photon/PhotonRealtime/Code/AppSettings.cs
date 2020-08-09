@@ -147,6 +147,7 @@ namespace Photon.Realtime
             d.AuthMode = this.AuthMode;
             d.EnableLobbyStatistics = this.EnableLobbyStatistics;
             d.NetworkLogging = this.NetworkLogging;
+            d.EnableProtocolFallback = this.EnableProtocolFallback;
             return d;
         }
     }

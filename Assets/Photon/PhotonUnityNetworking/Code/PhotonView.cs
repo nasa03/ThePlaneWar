@@ -21,6 +21,7 @@ namespace Photon.Pun
     using UnityEditor;
 #endif
 
+
     public interface IOnPhotonViewPreNetDestroy
     {
         void OnPreNetDestroy(PhotonView rootView);
@@ -28,7 +29,7 @@ namespace Photon.Pun
 
     public interface IOnPhotonViewControllerChange
     {
-        void OnControllerChange(Player newOwner, Player newController, bool isMine);
+        void OnControllerChange(Player newOwner, Player newController, bool isMine, bool controllerHasChanged);
     }
 
     /// <summary>
@@ -84,6 +85,12 @@ namespace Photon.Pun
         // this field is serialized by unity. that means it is copied when instantiating a persistent obj into the scene
         [FormerlySerializedAs("prefixBackup")]
         public int prefixField = -1;
+
+        public enum ObservableSearch { Manual, AutoFindActive, AutoFindAll }
+
+        // Default to manual so existing PVs in projects default to same as before. Reset() changes this to AutoAll for new implementations.
+        public ObservableSearch observableSearch = ObservableSearch.Manual;
+
 
         /// <summary>
         /// This is the InstantiationData that was passed when calling PhotonNetwork.Instantiate* (if that was used to spawn this prefab)
@@ -278,8 +285,11 @@ namespace Photon.Pun
         internal void ResetPhotonView(bool resetOwner)
         {
             // If this was fired by this connection rejoining, reset the ownership cache to owner = creator.
+            // TODO: This reset may not be needed at all with the ownership being invalidated next.
             if (resetOwner)
                 ResetOwnership();
+
+            ownershipCacheIsValid = OwnershipCacheState.Invalid;
 
             // Reset the delta check to force a complete update of owned objects, to ensure joining connections get full updates.
             lastOnSerializeDataSent = null;
@@ -290,10 +300,22 @@ namespace Photon.Pun
         /// </summary>
         internal void ResetOwnership()
         {
-            if (CreatorActorNr == 0)
-                SetOwnerInternal(null, 0);
+            if (this.CreatorActorNr == 0)
+            {
+                this.SetOwnerInternal(null, 0);
+            }
             else
-               SetOwnerInternal(PhotonNetwork.CurrentRoom.GetPlayer(this.CreatorActorNr), CreatorActorNr);
+            {
+                // Offline Mode or just offline edge cases... just set to null.
+                if (ReferenceEquals(PhotonNetwork.CurrentRoom, null))
+                {
+                    this.SetOwnerInternal(null, this.CreatorActorNr);
+                }
+                else
+                {
+                    this.SetOwnerInternal(PhotonNetwork.CurrentRoom.GetPlayer(this.CreatorActorNr), this.CreatorActorNr);
+                }
+            }
         }
 
         /// <summary>
@@ -337,16 +359,14 @@ namespace Photon.Pun
                 this.controllerActorNr = this.ownerActorNr;
             }
 
-            if (ownershipCacheIsValid < OwnershipCacheState.ControllerValid)
-            {
-                // No changes to the controller or owner - nothing has changed.
-                if (!ownerHasChanged && ReferenceEquals(this.controller, prevController))
-                {
-                    return;
-                }
-            }
-            else
-                ownershipCacheIsValid |= OwnershipCacheState.ControllerValid;
+            //// No changes to the controller or owner - nothing has changed.
+            //if (!ownerHasChanged && this.ownershipCacheIsValid >= OwnershipCacheState.ControllerValid && ReferenceEquals(this.controller, prevController))
+            //{
+            //    Debug.Log("NothingChanged");
+            //    return;
+            //}
+
+            ownershipCacheIsValid |= OwnershipCacheState.ControllerValid;
 
             this.amController = this.controllerActorNr != -1 && this.controllerActorNr == PhotonNetwork.LocalPlayer.ActorNumber;
 
@@ -354,7 +374,7 @@ namespace Photon.Pun
 
             if (!ReferenceEquals(OnControllerChangeCallbacks, null))
                 for (int i = 0, cnt = OnControllerChangeCallbacks.Count; i < cnt; ++i)
-                    OnControllerChangeCallbacks[i].OnControllerChange(this.owner, this.controller, this.amController);
+                    OnControllerChangeCallbacks[i].OnControllerChange(this.owner, this.controller, this.amController, controller != prevController);
         }
 
         private Player owner;
@@ -415,7 +435,7 @@ namespace Photon.Pun
 
                     ownershipCacheIsValid |= OwnershipCacheState.ControllerValid;
                 }
-                   
+
 
                 return controller;
             }
@@ -492,6 +512,13 @@ namespace Photon.Pun
 
         internal MonoBehaviour[] RpcMonoBehaviours;
 
+#if UNITY_EDITOR
+        private void Reset()
+        {
+            observableSearch = ObservableSearch.AutoFindAll;
+        }
+#endif
+
         /// <summary>Called by Unity on start of the application and does a setup the PhotonView.</summary>
         protected internal void Awake()
         {
@@ -510,6 +537,22 @@ namespace Photon.Pun
             }
 
             this.didAwake = true;
+
+            FindObservables();
+        }
+
+        public void FindObservables(bool force = false)
+        {
+            if (!force && observableSearch == ObservableSearch.Manual)
+                return;
+
+            if (ObservedComponents == null)
+                ObservedComponents = new List<Component>();
+
+            ObservedComponents.Clear();
+
+            transform.GetNestedComponentsInChildren<Component, IPunObservable, PhotonView>(force || observableSearch == ObservableSearch.AutoFindAll, ObservedComponents);
+
         }
 
         public void OnPreNetDestroy(PhotonView rootView)
@@ -533,6 +576,7 @@ namespace Photon.Pun
                 }
             }
         }
+
 
         /// <summary>
         /// Depending on the PhotonView's OwnershipTransfer setting, any client can request to become owner of the PhotonView.
@@ -771,12 +815,12 @@ namespace Photon.Pun
 
         public static PhotonView Get(Component component)
         {
-            return component.GetComponent<PhotonView>();
+            return component.GetComponentInParent<PhotonView>();
         }
 
         public static PhotonView Get(GameObject gameObj)
         {
-            return gameObj.GetComponent<PhotonView>();
+            return gameObj.GetComponentInParent<PhotonView>();
         }
 
         /// <summary>

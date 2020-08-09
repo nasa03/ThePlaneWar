@@ -12,7 +12,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Photon.Chat;
-
+using Photon.Realtime;
+using AuthenticationValues = Photon.Chat.AuthenticationValues;
 #if PHOTON_UNITY_NETWORKING
 using Photon.Pun;
 #endif
@@ -451,7 +452,13 @@ public class ChatGui : MonoBehaviour, IChatClientListener
 	    this.ShowChannel(channels[0]);
 	}
 
-	private void InstantiateChannelButton(string channelName)
+    /// <inheritdoc />
+    public void OnSubscribed(string channel, string[] users, Dictionary<object, object> properties)
+    {
+        Debug.LogFormat("OnSubscribed: {0}, users.Count: {1} Channel-props: {2}.", channel, users.Length, properties.ToStringFull());
+    }
+
+    private void InstantiateChannelButton(string channelName)
 	{
 		if (this.channelToggles.ContainsKey(channelName))
 		{
@@ -566,6 +573,23 @@ public class ChatGui : MonoBehaviour, IChatClientListener
     public void OnUserUnsubscribed(string channel, string user)
     {
         Debug.LogFormat("OnUserUnsubscribed: channel=\"{0}\" userId=\"{1}\"", channel, user);
+    }
+
+    /// <inheritdoc />
+    public void OnChannelPropertiesChanged(string channel, string userId, Dictionary<object, object> properties)
+    {
+        Debug.LogFormat("OnChannelPropertiesChanged: {0} by {1}. Props: {2}.", channel, userId, Extensions.ToStringFull(properties));
+    }
+
+    public void OnUserPropertiesChanged(string channel, string targetUserId, string senderUserId, Dictionary<object, object> properties)
+    {
+        Debug.LogFormat("OnUserPropertiesChanged: (channel:{0} user:{1}) by {2}. Props: {3}.", channel, targetUserId, senderUserId, Extensions.ToStringFull(properties));
+    }
+
+    /// <inheritdoc />
+    public void OnErrorInfo(string channel, string error, object data)
+    {
+        Debug.LogFormat("OnErrorInfo for channel {0}. Error: {1} Data: {2}", channel, error, data);
     }
 
     public void AddMessageToSelectedChannel(string msg)

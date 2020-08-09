@@ -75,7 +75,6 @@ namespace Photon.Pun
     }
 
 
-    [InitializeOnLoad]
     public class PhotonEditor : EditorWindow
     {
         protected static Type WindowType = typeof(PhotonEditor);
@@ -92,7 +91,12 @@ namespace Photon.Pun
         /// third parties custom token
         /// </summary>
         public static string CustomToken = null;
-        
+
+        /// <summary>
+        /// third parties custom context
+        /// </summary>
+        public static string CustomContext = null;
+
         protected static string DocumentationLocation = "Assets/Photon/PhotonNetworking-Documentation.pdf";
 
         protected static string UrlFreeLicense = "https://dashboard.photonengine.com/en-US/SelfHosted";
@@ -139,31 +143,7 @@ namespace Photon.Pun
         private static double lastWarning = 0;
         private static bool postCompileActionsDone;
 
-        // setup once on load
-        static PhotonEditor()
-        {
-            #if UNITY_2017_2_OR_NEWER
-            EditorApplication.playModeStateChanged += PlaymodeStateChanged;
-            #else
-            EditorApplication.playmodeStateChanged += PlaymodeStateChanged;
-            #endif
 
-            #if (UNITY_2018 || UNITY_2018_1_OR_NEWER)
-            EditorApplication.projectChanged += OnProjectChanged;
-            EditorApplication.hierarchyChanged += OnInitialHierarchyChanged;
-            #else
-            EditorApplication.projectWindowChanged += OnProjectChanged;
-            EditorApplication.hierarchyWindowChanged += OnInitialHierarchyChanged;
-            #endif
-
-            CompilationPipeline.assemblyCompilationStarted += OnCompileStarted;
-        }
-
-        // setup per window
-        public PhotonEditor()
-        {
-            this.minSize = this.preferredSize;
-        }
 
         [MenuItem("Window/Photon Unity Networking/PUN Wizard &p", false, 0)]
         protected static void MenuItemOpenWizard()
@@ -184,13 +164,19 @@ namespace Photon.Pun
         }
 
 
-        [DidReloadScripts]
-        private static void OnDidReloadScripts()
+
+        [UnityEditor.InitializeOnLoadMethod]
+        public static void InitializeOnLoadMethod()
         {
-            //Debug.Log("OnDidReloadScripts()");
-            PhotonEditor.UpdateRpcList();
+            // this fires even if the hierarchy window is not visible
+            #if (UNITY_2018 || UNITY_2018_1_OR_NEWER)
+            EditorApplication.hierarchyChanged += OnInitialHierarchyChanged;
+            #else
+            EditorApplication.hierarchyWindowChanged += OnInitialHierarchyChanged;
+            #endif
         }
 
+        // used to register for various events (post-load)
         private static void OnInitialHierarchyChanged()
         {
             #if (UNITY_2018 || UNITY_2018_1_OR_NEWER)
@@ -199,7 +185,55 @@ namespace Photon.Pun
             EditorApplication.hierarchyWindowChanged -= OnInitialHierarchyChanged;
             #endif
 
-            UpdateRpcList();
+
+            EditorApplication.playModeStateChanged += PlayModeStateChanged;
+
+            CompilationPipeline.assemblyCompilationStarted -= OnCompileStarted;
+            CompilationPipeline.assemblyCompilationStarted += OnCompileStarted;
+
+
+            #if (UNITY_2018 || UNITY_2018_1_OR_NEWER)
+            EditorApplication.projectChanged -= OnProjectChanged;
+            EditorApplication.projectChanged += OnProjectChanged;
+            #else
+            EditorApplication.projectWindowChanged -= OnProjectChanged;
+            EditorApplication.projectWindowChanged += OnProjectChanged;
+            #endif
+
+            OnProjectChanged(); // call this initially from here, as the project change events happened earlier (on start of the Editor)
+        }
+
+
+        // called in editor, opens wizard for initial setup, keeps scene PhotonViews up to date and closes connections when compiling (to avoid issues)
+        private static void OnProjectChanged()
+        {
+            // Prevent issues with Unity Cloud Builds where ServerSettings are not found.
+            // Also, within the context of a Unity Cloud Build, ServerSettings is already present anyway.
+            #if UNITY_CLOUD_BUILD
+            return;
+            #endif
+
+
+            PunSceneSettings.SanitizeSceneSettings();
+
+            if (PhotonNetwork.PhotonServerSettings == null)
+            {
+                PhotonNetwork.CreateSettings();
+
+                if (PhotonNetwork.PhotonServerSettings == null)
+                {
+                    Debug.LogError("CreateSettings() failed to create PhotonServerSettings.");
+                    return;
+                }
+            }
+
+            // serverSetting is null when the file gets deleted. otherwise, the wizard should only run once and only if hosting option is not (yet) set
+            if (!PhotonNetwork.PhotonServerSettings.DisableAutoOpenWizard)
+            {
+                ShowRegistrationWizard();
+                PhotonNetwork.PhotonServerSettings.DisableAutoOpenWizard = true;
+                PhotonEditor.SaveSettings();
+            }
         }
 
         private static void OnCompileStarted(string obj)
@@ -218,44 +252,13 @@ namespace Photon.Pun
             }
         }
 
-        // called in editor, opens wizard for initial setup, keeps scene PhotonViews up to date and closes connections when compiling (to avoid issues)
-        private static void OnProjectChanged()
+        [DidReloadScripts]
+        private static void OnDidReloadScripts()
         {
-            // Prevent issues with Unity Cloud Builds where ServerSettings are not found.
-            // Also, within the context of a Unity Cloud Build, ServerSettings is already present anyway.
-            #if UNITY_CLOUD_BUILD
-            return;   
-            #endif
-            
-            PunSceneSettings.SanitizeSettings();
-            
-            if (PhotonNetwork.PhotonServerSettings == null)
-            {
-                PhotonNetwork.CreateSettings();
-
-                if (PhotonNetwork.PhotonServerSettings == null)
-                {
-                    Debug.LogError("CreateSettings() failed to create PhotonServerSettings.");
-                    return;
-                }
-            }
-
-
-            // serverSetting is null when the file gets deleted. otherwise, the wizard should only run once and only if hosting option is not (yet) set
-            if (!PhotonNetwork.PhotonServerSettings.DisableAutoOpenWizard)
-            {
-                ShowRegistrationWizard();
-                PhotonNetwork.PhotonServerSettings.DisableAutoOpenWizard = true;
-                PhotonEditor.SaveSettings();
-            }
+            PhotonEditor.UpdateRpcList();   // could be called when compilation finished (instead of when reload / compile starts)
         }
 
-        // called in editor on change of play-mode (used to show a message popup that connection settings are incomplete)
-        #if UNITY_2017_2_OR_NEWER
-        private static void PlaymodeStateChanged(PlayModeStateChange state)
-        #else
-        private static void PlaymodeStateChanged()
-        #endif
+        private static void PlayModeStateChanged(PlayModeStateChange state)
         {
             if (EditorApplication.isPlaying || !EditorApplication.isPlayingOrWillChangePlaymode)
             {
@@ -271,6 +274,12 @@ namespace Photon.Pun
 
         #region GUI and Wizard
 
+
+        // setup per window
+        public PhotonEditor()
+        {
+            this.minSize = this.preferredSize;
+        }
 
         /// <summary>Creates an Editor window, showing the cloud-registration wizard for Photon (entry point to setup PUN).</summary>
         protected static void ShowRegistrationWizard()
@@ -473,12 +482,14 @@ namespace Photon.Pun
 
         private void UiTitleBox(string title, Texture2D bgIcon)
         {
-
             GUIStyle bgStyle = EditorGUIUtility.isProSkin ? new GUIStyle(GUI.skin.GetStyle("Label")) : new GUIStyle(GUI.skin.GetStyle("WhiteLabel"));
             bgStyle.padding = new RectOffset(10, 10, 10, 10);
-            bgStyle.normal.background = bgIcon;
             bgStyle.fontSize = 22;
             bgStyle.fontStyle = FontStyle.Bold;
+            if (bgIcon != null)
+            {
+                bgStyle.normal.background = bgIcon;
+            }
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -560,6 +571,8 @@ namespace Photon.Pun
         {
             AccountService client = new AccountService();
             client.CustomToken = CustomToken;
+            client.CustomContext = CustomContext;
+
             List<ServiceTypes> types = new List<ServiceTypes>();
             types.Add(ServiceTypes.Pun);
             if (PhotonEditorUtils.HasChat)

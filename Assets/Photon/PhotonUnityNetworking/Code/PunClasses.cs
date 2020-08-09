@@ -193,13 +193,34 @@ namespace Photon.Pun
         {
             get
             {
+                #if UNITY_EDITOR
+                // In the editor we want to avoid caching this at design time, so changes in PV structure appear immediately.
+                if (!Application.isPlaying || this.pvCache == null)
+                {
+                    this.pvCache = PhotonView.Get(this);
+                }
+                #else
                 if (this.pvCache == null)
                 {
                     this.pvCache = PhotonView.Get(this);
                 }
+                #endif
                 return this.pvCache;
             }
         }
+
+        //#if UNITY_EDITOR
+        //protected virtual void Reset()
+        //{
+        //    this.pvCache = this.transform.GetParentComponent<PhotonView>();
+
+        //    if (this.pvCache == null)
+        //    {
+        //        Debug.LogWarning(this.GetType().Name + " requires a PhotonView. No PhotonView was found, so one is being added to GameObject '" + this.transform.root.name + "'");
+        //        this.pvCache = this.transform.root.gameObject.AddComponent<PhotonView>();
+        //    }
+        //}
+        //#endif
     }
 
 

@@ -9,7 +9,7 @@ public class AIPositionOverlap : MonoBehaviour
     {
         if (other.tag == "Plane")
         {
-            other.GetComponent<PlaneAI>().getRandomPosition();
+            other.GetComponent<AIController>().getRandomPosition();
         }
     }
 }

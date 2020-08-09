@@ -192,7 +192,7 @@ namespace Photon.Pun
 
         private static readonly Dictionary<Type, List<MethodInfo>> monoRPCMethodsCache = new Dictionary<Type, List<MethodInfo>>();
 
-        private static readonly Dictionary<string, int> rpcShortcuts;  // lookup "table" for the index (shortcut) of an RPC name
+        private static Dictionary<string, int> rpcShortcuts;  // lookup "table" for the index (shortcut) of an RPC name
 
         /// <summary>
         /// If an RPC method is implemented as coroutine, it gets started, unless this value is false.
@@ -764,7 +764,6 @@ namespace Photon.Pun
             if (ConnectionHandler.AppQuits)
                 return;
 
-
             if (go == null)
             {
                 Debug.LogError("Failed to 'network-remove' GameObject because it's null.");
@@ -780,8 +779,6 @@ namespace Photon.Pun
             }
 
             PhotonView viewZero = foundPVs[0];
-            int creatorId = viewZero.CreatorActorNr;            // creatorId of obj is needed to delete EvInstantiate (only if it's from that user)
-            int instantiationId = viewZero.InstantiationId;     // actual, live InstantiationIds start with 1 and go up
 
             // Don't remove GOs that are owned by others (unless this is the master and the remote player left)
             if (!localOnly)
@@ -792,19 +789,12 @@ namespace Photon.Pun
                     Debug.LogError("Failed to 'network-remove' GameObject. Client is neither owner nor MasterClient taking over for owner who left: " + viewZero);
                     return;
                 }
-
-                // Don't remove the Instantiation from the server, if it doesn't have a proper ID
-                if (instantiationId < 1)
-                {
-                    Debug.LogError("Failed to 'network-remove' GameObject because it is missing a valid InstantiationId on view: " + viewZero + ". Not Destroying GameObject or PhotonViews!");
-                    return;
-                }
             }
 
             // cleanup instantiation (event and local list)
             if (!localOnly)
             {
-                ServerCleanInstantiateAndDestroy(instantiationId, creatorId, viewZero.isRuntimeInstantiated);   // server cleaning
+                ServerCleanInstantiateAndDestroy(viewZero); // server cleaning
             }
 
             int creatorActorNr = viewZero.CreatorActorNr;
@@ -865,18 +855,26 @@ namespace Photon.Pun
         /// <summary>
         /// Removes an instantiation event from the server's cache. Needs id and actorNr of player who instantiated.
         /// </summary>
-        private static void ServerCleanInstantiateAndDestroy(int instantiateId, int creatorId, bool isRuntimeInstantiated)
+        private static void ServerCleanInstantiateAndDestroy(PhotonView photonView)
         {
-            // remove the Instantiate-event from the server cache:
-            removeFilter[(byte)7] = instantiateId;
-            ServerCleanOptions.CachingOption = EventCaching.RemoveFromRoomCache;
-
-            PhotonNetwork.RaiseEventInternal(PunEvent.Instantiation, removeFilter, ServerCleanOptions, SendOptions.SendReliable);
-
+            int filterId;
+            if (photonView.isRuntimeInstantiated)
+            {
+                filterId = photonView.InstantiationId; // actual, live InstantiationIds start with 1 and go up
+                // remove the Instantiate-event from the server cache:
+                removeFilter[keyByteSeven] = filterId;
+                ServerCleanOptions.CachingOption = EventCaching.RemoveFromRoomCache;
+                PhotonNetwork.RaiseEventInternal(PunEvent.Instantiation, removeFilter, ServerCleanOptions, SendOptions.SendReliable);
+            }
+            // Don't remove the Instantiation from the server, if it doesn't have a proper ID
+            else 
+            {
+                filterId = photonView.ViewID;
+            }
 
             // send a Destroy-event to everyone (removing an event from the cache, doesn't send this to anyone else):
-            ServerCleanDestroyEvent[(byte)0] = instantiateId;
-            ServerCleanOptions.CachingOption = (isRuntimeInstantiated) ? EventCaching.DoNotCache : EventCaching.AddToRoomCacheGlobal;   // if the view got loaded with the scene, cache EvDestroy for anyone (re)joining later
+            ServerCleanDestroyEvent[keyByteZero] = filterId;
+            ServerCleanOptions.CachingOption = photonView.isRuntimeInstantiated ? EventCaching.DoNotCache : EventCaching.AddToRoomCacheGlobal;   // if the view got loaded with the scene, cache EvDestroy for anyone (re)joining later
 
             PhotonNetwork.RaiseEventInternal(PunEvent.Destroy, ServerCleanDestroyEvent, ServerCleanOptions, SendOptions.SendReliable);
         }
@@ -2327,33 +2325,36 @@ namespace Photon.Pun
                         }
 
                         PhotonView requestedView = GetPhotonView(requestedViewId);
-
-                        // Only apply this if pv allows Takeover, or allows Request and this message originates from the controller or owner.
-                        if (requestedView.OwnershipTransfer == OwnershipOption.Takeover || 
-                           (requestedView.OwnershipTransfer == OwnershipOption.Request && (originatingPlayer == requestedView.Controller || originatingPlayer == requestedView.Owner)))
+                        if (requestedView != null)
                         {
-                            if (requestedView != null)
+                            // Only apply this if pv allows Takeover, or allows Request and this message originates from the controller or owner.
+                            if (requestedView.OwnershipTransfer == OwnershipOption.Takeover || 
+                                (requestedView.OwnershipTransfer == OwnershipOption.Request && (originatingPlayer == requestedView.Controller || originatingPlayer == requestedView.Owner)))
                             {
-                                int currentPvOwnerId = requestedView.OwnerActorNr;
-                                Player prevOwner = requestedView.Owner;
-                                Player newOwner = CurrentRoom.GetPlayer(newOwnerId);
+                                    Player prevOwner = requestedView.Owner;
+                                    Player newOwner = CurrentRoom.GetPlayer(newOwnerId);
 
-                                requestedView.SetOwnerInternal(newOwner, newOwnerId);
+                                    requestedView.SetOwnerInternal(newOwner, newOwnerId);
 
-                                if (PhotonNetwork.OnOwnershipTransferedEv != null)
-                                {
-                                    PhotonNetwork.OnOwnershipTransferedEv(requestedView, prevOwner);
-                                }
+                                    if (PhotonNetwork.OnOwnershipTransferedEv != null)
+                                    {
+                                        PhotonNetwork.OnOwnershipTransferedEv(requestedView, prevOwner);
+                                    }
+                            }
+                            else if (PhotonNetwork.LogLevel >= PunLogLevel.Informational)
+                            {
+                                if (requestedView.OwnershipTransfer == OwnershipOption.Request)
+                                    Debug.Log("Failed incoming OwnershipTransfer attempt for '" + requestedView.name + "; " + requestedViewId + 
+                                              " - photonView has OwnershipTransfer set to OwnershipOption.Request, but Player attempting to change owner is not the current owner/controller.");
+                                else
+                                    Debug.Log("Failed incoming OwnershipTransfer attempt for '" + requestedView.name + "; " + requestedViewId +
+                                              " - photonView has OwnershipTransfer set to OwnershipOption.Fixed.");
                             }
                         }
-                        else if (PhotonNetwork.LogLevel >= PunLogLevel.Informational)
+                        else if (PhotonNetwork.LogLevel >= PunLogLevel.ErrorsOnly)
                         {
-                            if (requestedView.OwnershipTransfer == OwnershipOption.Request)
-                                Debug.Log("Failed incoming OwnershipTransfer attempt for '" + requestedView.name + "; " + requestedViewId + 
-                                    " - photonView has OwnershipTransfer set to OwnershipOption.Request, but Player attempting to change owner is not the current owner/controller.");
-                            else
-                                Debug.Log("Failed incoming OwnershipTransfer attempt for '" + requestedView.name + "; " + requestedViewId +
-                                    " - photonView has OwnershipTransfer set to OwnershipOption.Fixed.");
+                            Debug.LogErrorFormat("Failed to find a PhotonView with ID={0} for incoming OwnershipTransfer event (newOwnerActorNumber={1}), sender={2}",
+                                                 requestedViewId, newOwnerId, actorNr);
                         }
 
                         break;
@@ -2410,6 +2411,23 @@ namespace Photon.Pun
                         PhotonNetwork.LoadLevelIfSynced();
                     }
                     break;
+            }
+        }
+
+        private static void OnClientStateChanged(ClientState previousState, ClientState state)
+        {
+            if (
+                (previousState == ClientState.Joined && state == ClientState.Disconnected) ||
+                (Server == ServerConnection.GameServer && (state == ClientState.Disconnecting || state == ClientState.DisconnectingFromGameServer))
+                )
+            {
+                LeftRoomCleanup();
+            }
+
+            if (state == ClientState.ConnectedToMasterServer && _cachedRegionHandler != null)
+            {
+                BestRegionSummaryInPreferences = _cachedRegionHandler.SummaryToCache;
+                _cachedRegionHandler = null;
             }
         }
 

@@ -192,54 +192,66 @@ namespace Photon.Realtime
 
         public override bool StartPing(string host)
         {
-            base.Init();
+            lock (this.syncer)
+            {
+                this.Init();
 
-            EndpointPair endPoint = new EndpointPair(null, string.Empty, new HostName(host), "5055");
-            this.sock = new DatagramSocket();
-            this.sock.MessageReceived += OnMessageReceived;
+                EndpointPair endPoint = new EndpointPair(null, string.Empty, new HostName(host), "5055");
+                this.sock = new DatagramSocket();
+                this.sock.MessageReceived += this.OnMessageReceived;
 
-            var result = this.sock.ConnectAsync(endPoint);
-            result.Completed = this.OnConnected;
-            this.DebugString += " End StartPing";
-            return true;
+                IAsyncAction result = this.sock.ConnectAsync(endPoint);
+                result.Completed = this.OnConnected;
+                this.DebugString += " End StartPing";
+                return true;
+            }
         }
 
         public override bool Done()
         {
-            return this.GotResult;
+            lock (this.syncer)
+            {
+                return this.GotResult || this.sock == null; // this just indicates the ping is no longer waiting. this.Successful value defines if the roundtrip completed
+            }
         }
 
         public override void Dispose()
         {
-            this.sock = null;
+            lock (this.syncer)
+            {
+                this.sock = null;
+            }
         }
 
         private void OnConnected(IAsyncAction asyncinfo, AsyncStatus asyncstatus)
         {
-            if (asyncinfo.AsTask().IsCompleted)
+            lock (this.syncer)
             {
-                PingBytes[PingBytes.Length - 1] = PingId;
+                if (asyncinfo.AsTask().IsCompleted && !asyncinfo.AsTask().IsFaulted && this.sock != null && this.sock.Information.RemoteAddress != null)
+                {
+                    this.PingBytes[this.PingBytes.Length - 1] = this.PingId;
 
-                DataWriter writer;
-                writer = new DataWriter(sock.OutputStream);
-                writer.WriteBytes(PingBytes);
-                var res = writer.StoreAsync();
-                res.AsTask().Wait(100);
+                    DataWriter writer;
+                    writer = new DataWriter(this.sock.OutputStream);
+                    writer.WriteBytes(this.PingBytes);
+                    DataWriterStoreOperation res = writer.StoreAsync();
+                    res.AsTask().Wait(100);
 
-                writer.DetachStream();
-                writer.Dispose();
+                    this.PingBytes[this.PingBytes.Length - 1] = (byte)(this.PingId + 1); // this buffer is re-used for the result/receive. invalidate the result now.
 
-                PingBytes[PingBytes.Length - 1] = (byte)(PingId - 1);
-            }
-            else
-            {
-                // TODO: handle error
+                    writer.DetachStream();
+                    writer.Dispose();
+                }
+                else
+                {
+                    this.sock = null; // will cause Done() to return true but this.Successful defines if the roundtrip completed
+                }
             }
         }
 
         private void OnMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
         {
-            lock (syncer)
+            lock (this.syncer)
             {
                 DataReader reader = null;
                 try
@@ -248,15 +260,14 @@ namespace Photon.Realtime
                     uint receivedByteCount = reader.UnconsumedBufferLength;
                     if (receivedByteCount > 0)
                     {
-                        var resultBytes = new byte[receivedByteCount];
+                        byte[] resultBytes = new byte[receivedByteCount];
                         reader.ReadBytes(resultBytes);
 
                         //TODO: check result bytes!
 
 
-                        this.Successful = receivedByteCount == PingLength && resultBytes[resultBytes.Length - 1] == PingId;
+                        this.Successful = receivedByteCount == this.PingLength && resultBytes[resultBytes.Length - 1] == this.PingId;
                         this.GotResult = true;
-
                     }
                 }
                 catch

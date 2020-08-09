@@ -6,7 +6,7 @@ using Photon.Pun;
 using UnityStandardAssets.Vehicles.Aeroplane;
 using Random = UnityEngine.Random;
 
-public class PlaneAI : MonoBehaviour
+public class AIController : MonoBehaviour
 {
     AeroplaneAiControl aeroplaneAiControl;
     Transform target;
