@@ -69,6 +69,38 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
             gameView.RPC("Dead", player);
         }
     }
+    
+    public void AttackAI(Transform target)
+    {
+        int randomAttack = Random.Range(5, 15);
+
+        AIProperty targetProperty = target.GetComponent<AIProperty>();
+        int totalHP = targetProperty.HP;
+
+        if (totalHP <= 0)
+            return;
+
+        totalHP -= randomAttack;
+        targetProperty.HP = totalHP;
+
+        StartCoroutine(ShowSight(target));
+
+        target.GetComponent<AudioPlayer>().PlayAudio(2);
+
+        if (totalHP <= 0)
+        {
+            StartCoroutine(ShowKillSight(target));
+
+            int kill = (int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
+            kill++;
+            CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
+
+            GetComponent<AudioSource>().Play();
+            gameView.RPC("AddAttackMessage", RpcTarget.All,
+                string.Format("{0}击杀了{1}", PhotonNetwork.LocalPlayer.NickName, targetProperty.Name));
+            target.GetComponent<AIAttack>().Dead();
+        }
+    }
 
     IEnumerator ShowSight(Transform target)
     {

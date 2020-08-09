@@ -23,6 +23,8 @@ public class PhotonGame : MonoBehaviour {
     float time = 0.0f;
     int maxTime = 0;
 
+    public GameObject ExplosionParticleSystem => explosionParticleSystem;
+    
     public Image HPImage => hpImage;
 
     public Image HpLerpImage => hpLerpImage;

@@ -115,5 +115,12 @@ public class ExplodingMissile : MonoBehaviourPun
                 .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
             PhotonNetwork.Destroy(gameObject);
         }
+
+        if (other.gameObject.tag == "AI")
+        {
+            FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
+                .AttackAI(other.transform);
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class AIScore : MonoBehaviour
+public class AIProperty : MonoBehaviour
 {
     string name = null;
 
@@ -13,6 +13,7 @@ public class AIScore : MonoBehaviour
         Name = name;
         if (PhotonNetwork.IsMasterClient)
         {
+            HP = 100;
             Kill = 0;
             Death = 0;
         }
@@ -22,6 +23,12 @@ public class AIScore : MonoBehaviour
     {
         get => name;
         set => name = value;
+    }
+
+    public int HP
+    {
+        get => (int) CustomProperties.GetProperties(PhotonNetwork.CurrentRoom, name + "-HP");
+        set => CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, name + "-HP", value);
     }
 
     public int Kill

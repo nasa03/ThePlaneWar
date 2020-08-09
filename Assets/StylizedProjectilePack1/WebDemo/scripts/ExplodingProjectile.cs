@@ -144,6 +144,14 @@ public class ExplodingProjectile : MonoBehaviourPun
             FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
                 .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
         }
+        
+        if (other.gameObject.tag == "AI")
+        {
+            FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
+                .AttackAI(other.transform);
+            PhotonNetwork.Destroy(gameObject);
+        }
+        
     }
 
     void Explode()

@@ -46,12 +46,12 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                     scores[i].scoreText.enabled = true;
 
                     GameObject aiPlane = (GameObject) aiPlaneList[i - planeCount];
-                    AIScore aiScore = aiPlane.GetComponent<AIScore>();
-                    if (aiScore.Name == null)
-                        aiScore.Initialize(string.Format("机器人{0}", i - planeCount + 1));
-                    string name = aiScore.Name;
-                    string kill = aiScore.Kill.ToString();
-                    string dead = aiScore.Death.ToString();
+                    AIProperty aiProperty = aiPlane.GetComponent<AIProperty>();
+                    if (aiProperty.Name == null)
+                        aiProperty.Initialize(string.Format("机器人{0}", i - planeCount + 1));
+                    string name = aiProperty.Name;
+                    string kill = aiProperty.Kill.ToString();
+                    string dead = aiProperty.Death.ToString();
                     scores[i].scoreText.text = string.Format("{0} {1}/{2}", name, kill, dead);
                     scores[i].scoreText.color = Color.green;
                 }
