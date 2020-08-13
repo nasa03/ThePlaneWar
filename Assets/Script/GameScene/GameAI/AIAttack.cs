@@ -57,6 +57,8 @@ public class AIAttack : MonoBehaviour
 
     public void Attack(Player player, Transform target)
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+        
         int randomAttack = Random.Range(5, 15);
 
         int totalHP = (int) CustomProperties.GetProperties(player, "HP", 100);
@@ -83,6 +85,8 @@ public class AIAttack : MonoBehaviour
 
     public void AttackAI(Transform target)
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+        
         int randomAttack = Random.Range(5, 15);
 
         AIProperty targetProperty = target.GetComponent<AIProperty>();

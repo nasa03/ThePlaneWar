@@ -107,7 +107,7 @@ public class ExplodingProjectile : MonoBehaviourPun
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "FX" && collision.gameObject.tag != "Plane")
+        if (collision.gameObject.tag != "FX" && collision.gameObject.tag != "Plane" && collision.gameObject.tag != "AI")
         {
             ContactPoint contact = collision.contacts[0];
             Quaternion rot = Quaternion.FromToRotation(Vector3.forward, contact.normal);
@@ -115,6 +115,7 @@ public class ExplodingProjectile : MonoBehaviourPun
             {
                 rot = Quaternion.Euler(0, 0, 0);
             }
+
             Vector3 pos = contact.point;
             Instantiate(impactPrefab, pos, rot);
             if (!explodeOnTimer && Missile == false)
@@ -136,22 +137,47 @@ public class ExplodingProjectile : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!photonView.IsMine)
-            return;
+        if (!photonView.IsMine) return;
 
-        if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
+        AIBullet aiBullet = GetComponent<AIBullet>();
+
+        if (aiBullet == null)
         {
-            FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
-                .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
+            if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
+            {
+                FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
+                    .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
+
+                PhotonNetwork.Destroy(gameObject);
+            }
+
+            if (other.gameObject.tag == "AI")
+            {
+                FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
+                    .AttackAI(other.transform);
+
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
-        
-        if (other.gameObject.tag == "AI")
+        else
         {
-            FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
-                .AttackAI(other.transform);
-            PhotonNetwork.Destroy(gameObject);
+            if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
+            {
+                aiBullet.AITarget.GetComponent<AIAttack>()
+                    .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
+
+                PhotonNetwork.Destroy(gameObject);
+            }
+
+            if (other.gameObject.tag == "AI")
+            {
+                FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
+                    .AttackAI(other.transform);
+                aiBullet.AITarget.GetComponent<AIAttack>().AttackAI(other.transform);
+
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
-        
     }
 
     void Explode()

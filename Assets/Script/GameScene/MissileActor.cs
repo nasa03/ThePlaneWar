@@ -29,4 +29,12 @@ public class MissileActor : MonoBehaviourPun
             FindObjectOfType<MissileActorButton>().ShootStart();
         }
     }
+
+    public void AIShoot()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        GameObject missile = PhotonNetwork.Instantiate(missiles[0].name, transform.position, transform.rotation);
+        missile.AddComponent<AIBullet>().AITarget = transform;
+    }
 }

@@ -37,8 +37,7 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
 
     public void Attack(Player player,Transform target)
     {
-        if (!photonView.IsMine)
-            return;
+        if (!photonView.IsMine) return;
 
         int randomAttack = Random.Range(5, 15);
 
@@ -72,6 +71,8 @@ public class PlaneAttack : MonoBehaviourPunCallbacks
     
     public void AttackAI(Transform target)
     {
+        if (!photonView.IsMine) return;
+        
         int randomAttack = Random.Range(5, 15);
 
         AIProperty targetProperty = target.GetComponent<AIProperty>();
