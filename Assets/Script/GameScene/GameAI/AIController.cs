@@ -11,16 +11,12 @@ public class AIController : MonoBehaviour
     AeroplaneAiControl aeroplaneAiControl;
     Transform target;
     int random = 0;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        getRandomPosition();
-    }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+        
         if (!target)
         {
             Transform tempTarget = GetNearTargetTransform();

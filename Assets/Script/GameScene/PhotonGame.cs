@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class PhotonGame : MonoBehaviour {
+public class PhotonGame : MonoBehaviourPunCallbacks
+{
     [SerializeField] Camera mainCamera;
     [SerializeField] GameObject[] planePrefabs;
     [SerializeField] Transform[] groundRunwayPosition;
@@ -24,7 +26,7 @@ public class PhotonGame : MonoBehaviour {
     int maxTime = 0;
 
     public GameObject ExplosionParticleSystem => explosionParticleSystem;
-    
+
     public Image HPImage => hpImage;
 
     public Image HpLerpImage => hpLerpImage;
@@ -43,16 +45,22 @@ public class PhotonGame : MonoBehaviour {
         localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
             groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
+        SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+
         FindObjectOfType<PhotonGameAI>().Initialize();
-        
+
         FindObjectOfType<PhotonScore>().Show();
-        
+
         StartCoroutine(InvincibleStart());
     }
 
     // Update is called once per frame
     void Update()
     {
+        HpLerpImage.fillAmount = Mathf.Lerp(
+            (float) ((int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "HP", 100) / 100.0),
+            HpLerpImage.fillAmount, 0.95f);
+
         if (time > 0)
         {
             timeImage.fillAmount = time / maxTime;
@@ -95,11 +103,11 @@ public class PhotonGame : MonoBehaviour {
     [PunRPC]
     public void Dead()
     {
-        GameObject explosion = PhotonNetwork.Instantiate(explosionParticleSystem.name, localPlane.transform.position, Quaternion.identity);
+        GameObject explosion = PhotonNetwork.Instantiate(explosionParticleSystem.name, localPlane.transform.position,
+            Quaternion.identity);
         explosion.GetComponent<ParticleSystem>().Play();
         GetComponent<AudioPlayer>().PlayAudio(3);
-        
-        localPlane.GetComponent<MeshRenderer>().enabled = false;
+
         ParticleSystem[] particleSystems = localPlane.GetComponentsInChildren<ParticleSystem>();
         foreach (var items in particleSystems)
         {
@@ -110,7 +118,7 @@ public class PhotonGame : MonoBehaviour {
 
         StartCoroutine(RebornStart());
 
-        int death = (int)CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death", 0);
+        int death = (int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death", 0);
         death++;
         CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "death", death);
 
@@ -183,5 +191,16 @@ public class PhotonGame : MonoBehaviour {
         timeText.text = "正在重连";
 
         reconnected = true;
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(target, changedProps);
+
+        if (target == PhotonNetwork.LocalPlayer)
+        {
+            HPImage.fillAmount =
+                (float) ((int) CustomProperties.GetProperties(target, "HP", 100) / 100.0);
+        }
     }
 }

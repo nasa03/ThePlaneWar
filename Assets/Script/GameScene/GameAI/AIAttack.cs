@@ -8,16 +8,13 @@ using Random = UnityEngine.Random;
 
 public class AIAttack : MonoBehaviour
 {
-    PhotonGame photonGame;
-    PhotonGameAI photonGameAi;
-    PhotonView gameView;
     AIProperty aiProperty;
 
     bool reborn = false;
 
     float time = 0.0f;
     int maxTime = 0;
-    
+
     int index;
 
     public int Index
@@ -28,7 +25,7 @@ public class AIAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -49,16 +46,13 @@ public class AIAttack : MonoBehaviour
 
     private void Awake()
     {
-        photonGame = FindObjectOfType<PhotonGame>();
-        photonGameAi = FindObjectOfType<PhotonGameAI>();
-        gameView = FindObjectOfType<PhotonGame>().GetComponent<PhotonView>();
         aiProperty = GetComponent<AIProperty>();
     }
 
     public void Attack(Player player, Transform target)
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        
+
         int randomAttack = Random.Range(5, 15);
 
         int totalHP = (int) CustomProperties.GetProperties(player, "HP", 100);
@@ -70,23 +64,23 @@ public class AIAttack : MonoBehaviour
         totalHP -= randomAttack;
         CustomProperties.SetProperties(player, "HP", totalHP);
 
-        gameView.RPC("PlayAudio", player, 2);
+        FindObjectOfType<PhotonGame>().photonView.RPC("PlayAudio", player, 2);
 
         if (totalHP <= 0)
         {
             aiProperty.Kill++;
 
             GetComponent<AudioSource>().Play();
-            gameView.RPC("AddAttackMessage", RpcTarget.All,
+            FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
                 string.Format("{0}击杀了{1}", aiProperty.Name, player.NickName));
-            gameView.RPC("Dead", player);
+            FindObjectOfType<PhotonGame>().photonView.RPC("Dead", player);
         }
     }
 
     public void AttackAI(Transform target)
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        
+
         int randomAttack = Random.Range(5, 15);
 
         AIProperty targetProperty = target.GetComponent<AIProperty>();
@@ -105,39 +99,22 @@ public class AIAttack : MonoBehaviour
             aiProperty.Kill++;
 
             GetComponent<AudioSource>().Play();
-            gameView.RPC("AddAttackMessage", RpcTarget.All,
+            FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
                 string.Format("{0}击杀了{1}", aiProperty.Name, targetProperty.Name));
-            target.GetComponent<AIAttack>().Dead();
+            FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, target.name);
         }
     }
 
     void Suicide()
     {
-        gameView.RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", aiProperty.Name));
-        Dead();
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        FindObjectOfType<PhotonGame>().photonView
+            .RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", aiProperty.Name));
+        FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, transform);
     }
-    
-    public void Dead()
-    {
-        GameObject explosion = PhotonNetwork.Instantiate(photonGame.ExplosionParticleSystem.name, transform.position, Quaternion.identity);
-        explosion.GetComponent<ParticleSystem>().Play();
-        GetComponent<AudioPlayer>().PlayAudio(3);
-        
-        GetComponent<MeshRenderer>().enabled = false;
-        ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
-        foreach (var items in particleSystems)
-        {
-            items.Stop();
-        }
 
-        RebornStart();
-
-        aiProperty.Death++;
-
-        aiProperty.HP = 100;
-    }
-    
-    void RebornStart()
+    public void RebornStart()
     {
         gameObject.SetActive(false);
 
@@ -146,12 +123,16 @@ public class AIAttack : MonoBehaviour
 
         reborn = true;
     }
-    
+
     void RebornEnd()
     {
         gameObject.SetActive(true);
-        transform.position = photonGame.GroundRunwayPosition[index].position + new Vector3(0, 15, 0);
-        transform.rotation = Quaternion.identity;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[index].position +
+                                 new Vector3(0, 15, 0);
+            transform.rotation = Quaternion.identity;
+        }
 
         reborn = false;
     }
