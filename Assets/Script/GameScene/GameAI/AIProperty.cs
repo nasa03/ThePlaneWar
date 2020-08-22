@@ -6,11 +6,9 @@ using UnityEngine;
 
 public class AIProperty : MonoBehaviour
 {
-    string name = null;
-
     public void Initialize(string name)
     {
-        Name = name;
+        gameObject.name = name;
         if (PhotonNetwork.IsMasterClient)
         {
             HP = 100;

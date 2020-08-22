@@ -5537,8 +5537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac9aa86add9644889a20566774b077e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photonGame: {fileID: 0}
-  aiProperty: {fileID: 0}
 --- !u!82 &6147993998943608979
 AudioSource:
   m_ObjectHideFlags: 0

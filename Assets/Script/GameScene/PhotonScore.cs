@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +18,8 @@ public class PhotonScore : MonoBehaviourPunCallbacks
     [SerializeField] Score title;
     [SerializeField] Score[] scores = new Score[6];
 
-    public void Show()
+    // Update is called once per frame
+    void Update()
     {
         title.scoreImage.enabled = true;
         title.scoreText.enabled = true;
@@ -47,8 +49,6 @@ public class PhotonScore : MonoBehaviourPunCallbacks
 
                     GameObject aiPlane = (GameObject) aiPlaneList[i - planeCount];
                     AIProperty aiProperty = aiPlane.GetComponent<AIProperty>();
-                    if (aiProperty.Name == null)
-                        aiProperty.Initialize(string.Format("机器人{0}", i - planeCount + 1));
                     string name = aiProperty.Name;
                     string kill = aiProperty.Kill.ToString();
                     string dead = aiProperty.Death.ToString();
@@ -63,26 +63,5 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                 scores[i].scoreText.enabled = false;
             }
         }
-    }
-
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
-    {
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-
-        Show();
-    }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        base.OnPlayerEnteredRoom(newPlayer);
-
-        Show();
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        base.OnPlayerLeftRoom(otherPlayer);
-
-        Show();
     }
 }

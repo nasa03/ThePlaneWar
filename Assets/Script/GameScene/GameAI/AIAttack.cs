@@ -111,7 +111,7 @@ public class AIAttack : MonoBehaviour
 
         FindObjectOfType<PhotonGame>().photonView
             .RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", aiProperty.Name));
-        FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, transform);
+        FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, transform.name);
     }
 
     public void RebornStart()
