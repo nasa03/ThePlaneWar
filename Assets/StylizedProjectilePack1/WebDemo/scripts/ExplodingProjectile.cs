@@ -150,8 +150,7 @@ public class ExplodingProjectile : MonoBehaviourPun
 
                 PhotonNetwork.Destroy(gameObject);
             }
-
-            if (other.gameObject.tag == "AI")
+            else if (other.gameObject.tag == "AI")
             {
                 FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
                     .AttackAI(other.transform);
@@ -168,11 +167,8 @@ public class ExplodingProjectile : MonoBehaviourPun
 
                 PhotonNetwork.Destroy(gameObject);
             }
-
-            if (other.gameObject.tag == "AI")
+            else if (other.gameObject.tag == "AI")
             {
-                FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
-                    .AttackAI(other.transform);
                 aiBullet.AITarget.GetComponent<AIAttack>().AttackAI(other.transform);
 
                 PhotonNetwork.Destroy(gameObject);

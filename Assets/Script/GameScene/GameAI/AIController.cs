@@ -16,7 +16,7 @@ public class AIController : MonoBehaviour
     void FixedUpdate()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        
+
         if (!target)
         {
             Transform tempTarget = GetNearTargetTransform();
@@ -82,7 +82,7 @@ public class AIController : MonoBehaviour
         }
     }
 
-   public void getRandomPosition()
+    public void getRandomPosition()
     {
         int random = Random.Range(0, FindObjectOfType<PhotonGameAI>().RandomPositions.Length);
         target = FindObjectOfType<PhotonGameAI>().RandomPositions[random];

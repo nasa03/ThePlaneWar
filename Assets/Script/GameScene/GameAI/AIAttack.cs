@@ -72,7 +72,7 @@ public class AIAttack : MonoBehaviour
 
             GetComponent<AudioSource>().Play();
             FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
-                string.Format("{0}击杀了{1}", aiProperty.Name, player.NickName));
+                string.Format("{0}击杀了{1}", gameObject.name, player.NickName));
             FindObjectOfType<PhotonGame>().photonView.RPC("Dead", player);
         }
     }
@@ -100,7 +100,7 @@ public class AIAttack : MonoBehaviour
 
             GetComponent<AudioSource>().Play();
             FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
-                string.Format("{0}击杀了{1}", aiProperty.Name, targetProperty.Name));
+                string.Format("{0}击杀了{1}", gameObject.name, target.name));
             FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, target.name);
         }
     }
@@ -110,13 +110,19 @@ public class AIAttack : MonoBehaviour
         if (!PhotonNetwork.IsMasterClient) return;
 
         FindObjectOfType<PhotonGame>().photonView
-            .RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", aiProperty.Name));
+            .RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", gameObject.name));
         FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, transform.name);
     }
 
     public void RebornStart()
     {
-        gameObject.SetActive(false);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[index].position +
+                                 new Vector3(0, 15, 0);
+            transform.rotation = Quaternion.identity;
+        }
 
         time = 10.0f;
         maxTime = 10;
@@ -126,12 +132,9 @@ public class AIAttack : MonoBehaviour
 
     void RebornEnd()
     {
-        gameObject.SetActive(true);
         if (PhotonNetwork.IsMasterClient)
         {
-            transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[index].position +
-                                 new Vector3(0, 15, 0);
-            transform.rotation = Quaternion.identity;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
 
         reborn = false;

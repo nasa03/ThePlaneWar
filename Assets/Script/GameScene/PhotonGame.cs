@@ -22,8 +22,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     bool reborn = false;
     bool invincible = false;
     bool reconnected = false;
-    float time = 0.0f;
-    int maxTime = 0;
+    float time = 20.0f;
+    int maxTime = 20;
 
     public GameObject ExplosionParticleSystem => explosionParticleSystem;
 
@@ -105,6 +105,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks
             Quaternion.identity);
         explosion.GetComponent<ParticleSystem>().Play();
         GetComponent<AudioPlayer>().PlayAudio(3);
+
+        localPlane.GetComponent<MeshRenderer>().enabled = false;
 
         ParticleSystem[] particleSystems = localPlane.GetComponentsInChildren<ParticleSystem>();
         foreach (var items in particleSystems)

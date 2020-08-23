@@ -56,7 +56,7 @@ public class ExplodingMissile : MonoBehaviourPun
     {
         ArrayList missileTargets = new ArrayList();
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
-        
+
         for (int i = 0; i < targets.Length; i++)
         {
             if (!targets[i].GetComponent<PhotonView>().IsMine)
@@ -75,6 +75,7 @@ public class ExplodingMissile : MonoBehaviourPun
             else
                 distances[i] = 0;
         }
+
         float minDistance = 0;
         Transform minTarget = null;
         for (int i = 0; i < distances.Length; i++)
@@ -120,8 +121,7 @@ public class ExplodingMissile : MonoBehaviourPun
 
                 PhotonNetwork.Destroy(gameObject);
             }
-
-            if (other.gameObject.tag == "AI")
+            else if (other.gameObject.tag == "AI")
             {
                 FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
                     .AttackAI(other.transform);
@@ -138,11 +138,8 @@ public class ExplodingMissile : MonoBehaviourPun
 
                 PhotonNetwork.Destroy(gameObject);
             }
-
-            if (other.gameObject.tag == "AI")
+            else if (other.gameObject.tag == "AI")
             {
-                FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
-                    .AttackAI(other.transform);
                 aiBullet.AITarget.GetComponent<AIAttack>().AttackAI(other.transform);
 
                 PhotonNetwork.Destroy(gameObject);

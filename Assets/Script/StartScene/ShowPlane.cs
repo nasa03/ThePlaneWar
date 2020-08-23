@@ -4,20 +4,21 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class ShowPlane : MonoBehaviourPunCallbacks {
+public class ShowPlane : MonoBehaviourPunCallbacks
+{
     readonly GameObject[] otherPlaneObject = new GameObject[5];
 
     public void Show(int playerInt)
     {
         Player player = PhotonNetwork.PlayerListOthers[playerInt];
-        int planeInt = (int)CustomProperties.GetProperties(player, "totalPlaneInt", 0);
+        int planeInt = (int) CustomProperties.GetProperties(player, "totalPlaneInt", 0);
 
         otherPlaneObject[playerInt] = Instantiate(FindObjectOfType<ChoosePlane>().PlanePrefabs[planeInt],
             Global.planePositions[playerInt + 1], Quaternion.Euler(0, 180, 0));
         otherPlaneObject[playerInt].transform.localScale = new Vector3(5, 5, 5);
     }
 
-    public void ShowAI(int playerInt,int planeInt)
+    public void ShowAI(int playerInt, int planeInt)
     {
         otherPlaneObject[playerInt] = Instantiate(FindObjectOfType<ChoosePlane>().PlanePrefabs[planeInt],
             Global.planePositions[playerInt + 1], Quaternion.Euler(0, 180, 0));
@@ -43,7 +44,7 @@ public class ShowPlane : MonoBehaviourPunCallbacks {
         {
             if (PhotonNetwork.PlayerListOthers[i] == target)
             {
-                int planeInt = (int)CustomProperties.GetProperties(target, "totalPlaneInt", 0);
+                int planeInt = (int) CustomProperties.GetProperties(target, "totalPlaneInt", 0);
                 Destroy(otherPlaneObject[i]);
                 otherPlaneObject[i] = Instantiate(FindObjectOfType<ChoosePlane>().PlanePrefabs[planeInt],
                     Global.planePositions[i + 1], Quaternion.Euler(0, 180, 0));

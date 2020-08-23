@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class PhotonScore : MonoBehaviourPunCallbacks
 {
-    [System.Serializable]
+    [Serializable]
     class Score
     {
         public Image scoreImage;
@@ -26,9 +25,9 @@ public class PhotonScore : MonoBehaviourPunCallbacks
 
         int planeCount = PhotonNetwork.PlayerList.Length;
         ArrayList aiPlaneList = FindObjectOfType<PhotonGameAI>().AI_Plane_List;
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
-            if (i < planeCount+aiPlaneList.Count)
+            if (i < planeCount + aiPlaneList.Count)
             {
                 if (i < planeCount)
                 {
@@ -49,7 +48,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
 
                     GameObject aiPlane = (GameObject) aiPlaneList[i - planeCount];
                     AIProperty aiProperty = aiPlane.GetComponent<AIProperty>();
-                    string name = aiProperty.Name;
+                    string name = aiPlane.name;
                     string kill = aiProperty.Kill.ToString();
                     string dead = aiProperty.Death.ToString();
                     scores[i].scoreText.text = string.Format("{0} {1}/{2}", name, kill, dead);

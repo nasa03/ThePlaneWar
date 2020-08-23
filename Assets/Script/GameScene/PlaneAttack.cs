@@ -81,7 +81,7 @@ public class PlaneAttack : MonoBehaviourPun
 
             GetComponent<AudioSource>().Play();
             FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
-                string.Format("{0}击杀了{1}", PhotonNetwork.LocalPlayer.NickName, targetProperty.Name));
+                string.Format("{0}击杀了{1}", PhotonNetwork.LocalPlayer.NickName, target.name));
             FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, target.name);
         }
     }
