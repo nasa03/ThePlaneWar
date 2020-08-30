@@ -136,6 +136,16 @@ public class AIAttack : MonoBehaviour
         {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
+        
+        GetComponent<MeshRenderer>().enabled = true;
+        GetComponent<BoxCollider>().enabled = true;
+        GetComponent<SphereCollider>().enabled = true;
+
+        ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
+        foreach (var items in particleSystems)
+        {
+            items.Play();
+        }
 
         reborn = false;
     }

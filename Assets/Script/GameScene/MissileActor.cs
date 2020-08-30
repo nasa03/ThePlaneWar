@@ -19,8 +19,7 @@ public class MissileActor : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine)
-            return;
+        if (!photonView.IsMine || tag == "AI") return;
 
         if (CrossPlatformInputManager.GetButtonDown("Fire2") && FindObjectOfType<MissileActorButton>().Missile)
         {

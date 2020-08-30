@@ -35,10 +35,10 @@ public class PhotonGameAI : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void HandleAIPlaneProperty(string name,int index)
+    public void HandleAIPlaneProperty(string name, int index)
     {
         GameObject AI_Plane = GameObject.Find(name);
-        
+
         AI_Plane.GetComponent<AIAttack>().Index = PhotonNetwork.CurrentRoom.Players.Count + index;
         AI_Plane.GetComponent<AIProperty>().Initialize(string.Format("机器人{0}", index + 1));
         AI_Plane_List.Add(AI_Plane);
@@ -55,6 +55,8 @@ public class PhotonGameAI : MonoBehaviourPun
         target.GetComponent<AudioPlayer>().PlayAudio(3);
 
         target.GetComponent<MeshRenderer>().enabled = false;
+        target.GetComponent<BoxCollider>().enabled = false;
+        target.GetComponent<SphereCollider>().enabled = false;
 
         ParticleSystem[] particleSystems = target.GetComponentsInChildren<ParticleSystem>();
         foreach (var items in particleSystems)

@@ -74,8 +74,7 @@ public class projectileActor : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (!GetComponent<PhotonView>().IsMine)
-            return;
+        if (!GetComponent<PhotonView>().IsMine || tag == "AI") return;
 
         //Movement
         if(Input.GetButton("Horizontal"))
@@ -101,7 +100,7 @@ public class projectileActor : MonoBehaviour {
             Switch(1);
         }
         */
-
+        
 	    if (CrossPlatformInputManager.GetButtonDown("Fire1"))
         {
             firing = true;
