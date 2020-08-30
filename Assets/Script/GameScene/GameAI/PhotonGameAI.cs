@@ -54,16 +54,6 @@ public class PhotonGameAI : MonoBehaviourPun
         explosion.GetComponent<ParticleSystem>().Play();
         target.GetComponent<AudioPlayer>().PlayAudio(3);
 
-        target.GetComponent<MeshRenderer>().enabled = false;
-        target.GetComponent<BoxCollider>().enabled = false;
-        target.GetComponent<SphereCollider>().enabled = false;
-
-        ParticleSystem[] particleSystems = target.GetComponentsInChildren<ParticleSystem>();
-        foreach (var items in particleSystems)
-        {
-            items.Stop();
-        }
-
         target.GetComponent<AIAttack>().RebornStart();
 
         if (PhotonNetwork.IsMasterClient)

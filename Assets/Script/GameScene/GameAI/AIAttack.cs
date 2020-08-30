@@ -123,6 +123,16 @@ public class AIAttack : MonoBehaviour
                                  new Vector3(0, 15, 0);
             transform.rotation = Quaternion.identity;
         }
+        
+        GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<SphereCollider>().enabled = false;
+
+        ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
+        foreach (var items in particleSystems)
+        {
+            items.Stop();
+        }
 
         time = 10.0f;
         maxTime = 10;
