@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OfflineMode : MonoBehaviour
 {
-    [SerializeField] UIToggle toggle;
+    [SerializeField] private UIToggle toggle;
 
     public void OnValueChange()
     {

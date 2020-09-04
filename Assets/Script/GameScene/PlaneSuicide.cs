@@ -7,18 +7,18 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlaneSuicide : MonoBehaviourPun
 {
-    bool isSuicide = false;
+    private bool _isSuicide = false;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (CrossPlatformInputManager.GetButtonDown("Suicide") && !isSuicide)
+        if (CrossPlatformInputManager.GetButtonDown("Suicide") && !_isSuicide)
         {
             StartCoroutine(Suicide());
         }
     }
 
-    IEnumerator Suicide()
+    private IEnumerator Suicide()
     {
         if (!photonView.IsMine)
             yield break;
@@ -26,20 +26,20 @@ public class PlaneSuicide : MonoBehaviourPun
         if (FindObjectOfType<PhotonGame>().Reborn)
             yield break;
 
-        isSuicide = true;
+        _isSuicide = true;
 
         FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
-            string.Format("{0}自杀了", PhotonNetwork.LocalPlayer.NickName));
+            $"{PhotonNetwork.LocalPlayer.NickName}自杀了");
         FindObjectOfType<PhotonGame>().photonView.RPC("Dead", PhotonNetwork.LocalPlayer);
 
         yield return new WaitForSeconds(2.0f);
 
-        isSuicide = false;
+        _isSuicide = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "FX" && !isSuicide)
+        if (collision.collider.CompareTag("FX") && !_isSuicide)
         {
             StartCoroutine(Suicide());
         }

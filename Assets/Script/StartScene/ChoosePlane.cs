@@ -4,9 +4,10 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class ChoosePlane : MonoBehaviour {
-    [SerializeField] GameObject[] planePrefabs;
-    GameObject totalPlaneObject;
+public class ChoosePlane : MonoBehaviour
+{
+    [SerializeField] private GameObject[] planePrefabs;
+    private GameObject _totalPlaneObject;
 
     public GameObject[] PlanePrefabs => planePrefabs;
 
@@ -14,14 +15,15 @@ public class ChoosePlane : MonoBehaviour {
     {
         if (isShow)
         {
-            totalPlaneObject = Instantiate(planePrefabs[Global.totalPlaneInt], Global.planePositions[0], Quaternion.Euler(0, 180, 0));
-            totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
+            _totalPlaneObject = Instantiate(planePrefabs[Global.totalPlaneInt], Global.PlanePositions[0],
+                Quaternion.Euler(0, 180, 0));
+            _totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
 
-            CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "totalPlaneInt", Global.totalPlaneInt);
+            PhotonNetwork.LocalPlayer.SetProperties("totalPlaneInt", Global.totalPlaneInt);
         }
         else
         {
-            Destroy(totalPlaneObject);
+            Destroy(_totalPlaneObject);
         }
     }
 
@@ -43,13 +45,14 @@ public class ChoosePlane : MonoBehaviour {
         ChangePlane();
     }
 
-    void ChangePlane()
+    private void ChangePlane()
     {
-        Destroy(totalPlaneObject);
-        totalPlaneObject = Instantiate(planePrefabs[Global.totalPlaneInt], Global.planePositions[0], Quaternion.Euler(0, 180, 0));
-        totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
+        Destroy(_totalPlaneObject);
+        _totalPlaneObject = Instantiate(planePrefabs[Global.totalPlaneInt], Global.PlanePositions[0],
+            Quaternion.Euler(0, 180, 0));
+        _totalPlaneObject.transform.localScale = new Vector3(5, 5, 5);
 
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "totalPlaneInt", Global.totalPlaneInt);
+        PhotonNetwork.LocalPlayer.SetProperties("totalPlaneInt", Global.totalPlaneInt);
     }
 
     public void SetPlayerInt(Player localPlayer)

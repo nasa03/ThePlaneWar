@@ -7,18 +7,18 @@ using Photon.Pun;
 
 public class PhotonScore : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private Score title;
+    [SerializeField] private Score[] scores = new Score[6];
+    
     [Serializable]
-    class Score
+    private class Score
     {
         public Image scoreImage;
         public Text scoreText;
     }
 
-    [SerializeField] Score title;
-    [SerializeField] Score[] scores = new Score[6];
-
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         title.scoreImage.enabled = true;
         title.scoreText.enabled = true;
@@ -35,9 +35,9 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                     scores[i].scoreText.enabled = true;
 
                     string name = PhotonNetwork.PlayerList[i].NickName;
-                    string kill = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
-                    string dead = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
-                    scores[i].scoreText.text = string.Format("{0} {1}/{2}", name, kill, dead);
+                    string kill = PhotonNetwork.PlayerList[i].GetProperties("kill", 0).ToString();
+                    string dead = PhotonNetwork.PlayerList[i].GetProperties("death", 0).ToString();
+                    scores[i].scoreText.text = $"{name} {kill}/{dead}";
                     if (PhotonNetwork.PlayerList[i].IsLocal)
                         scores[i].scoreText.color = Color.red;
                 }
@@ -51,7 +51,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                     string name = aiPlane.name;
                     string kill = aiProperty.Kill.ToString();
                     string dead = aiProperty.Death.ToString();
-                    scores[i].scoreText.text = string.Format("{0} {1}/{2}", name, kill, dead);
+                    scores[i].scoreText.text = $"{name} {kill}/{dead}";
                     scores[i].scoreText.color = Color.green;
                 }
                 

@@ -5,25 +5,25 @@ using UnityEngine.UI;
 
 public class MissileActorButton : MonoBehaviour
 {
-    [SerializeField] Image image;
-    [SerializeField] Button button;
-    [SerializeField] Text text;
-    float time = 10.0f;
-    int totalCount = 3;
-    const float maxTime = 10.0f;
-    const int maxCount = 3;
+    [SerializeField] private Image image;
+    [SerializeField] private Button button;
+    [SerializeField] private Text text;
+    private float _time = 10.0f;
+    private int _totalCount = 3;
+    private const float MAXTime = 10.0f;
+    private const int MAXCount = 3;
 
-    public bool Missile => totalCount > 0;
+    public bool Missile => _totalCount > 0;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (time > 0 && totalCount < maxCount)
+        if (_time > 0 && _totalCount < MAXCount)
         {
-            image.fillAmount = time / maxTime;
-            time -= Time.deltaTime;
+            image.fillAmount = _time / MAXTime;
+            _time -= Time.deltaTime;
         }
-        else if (totalCount == maxCount)
+        else if (_totalCount == MAXCount)
         {
             image.fillAmount = 0.0f;
         }
@@ -35,20 +35,20 @@ public class MissileActorButton : MonoBehaviour
 
     public void ShootStart()
     {
-        totalCount--;
+        _totalCount--;
         button.enabled = Missile;
-        text.text = totalCount.ToString();
+        text.text = _totalCount.ToString();
         GetComponent<AudioPlayer>().PlayAudio(1);
     }
 
-    void ShootEnd()
+    private void ShootEnd()
     {
-        if (totalCount < maxCount)
-            totalCount++;
+        if (_totalCount < MAXCount)
+            _totalCount++;
 
-        time = maxTime;
+        _time = MAXTime;
         image.fillAmount = 1.0f;
         button.enabled = Missile;
-        text.text = totalCount.ToString();
+        text.text = _totalCount.ToString();
     }
 }

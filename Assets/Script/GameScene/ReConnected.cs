@@ -1,29 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
 public class ReConnected : MonoBehaviourPunCallbacks
 {
-    string roomName;
-    int planeCount;
+    private string _roomName;
+    private int _planeCount;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        roomName = PhotonNetwork.CurrentRoom.Name;
-        planeCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        _roomName = PhotonNetwork.CurrentRoom.Name;
+        _planeCount = PhotonNetwork.CurrentRoom.PlayerCount;
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
 
-        Global.returnState = Global.ReturnState.disconnected;
+        Global.returnState = Global.ReturnState.Disconnected;
 
-        if (planeCount == 1)
+        if (_planeCount == 1)
             SceneManager.LoadScene("StartScene");
         else
         {
@@ -36,7 +35,7 @@ public class ReConnected : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
 
-        PhotonNetwork.JoinRoom(roomName);
+        PhotonNetwork.JoinRoom(_roomName);
     }
 
     public override void OnJoinedRoom()
@@ -45,6 +44,6 @@ public class ReConnected : MonoBehaviourPunCallbacks
 
         FindObjectOfType<PhotonGame>().RebornEndOrReconnect();
 
-        Global.returnState = Global.ReturnState.normal;
+        Global.returnState = Global.ReturnState.Normal;
     }
 }

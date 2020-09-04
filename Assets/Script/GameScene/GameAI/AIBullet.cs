@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class AIBullet : MonoBehaviour
 {
-    public Transform AITarget = null;
+    public Transform aiTarget = null;
 }

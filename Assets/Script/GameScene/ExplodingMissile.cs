@@ -5,62 +5,58 @@ using Photon.Pun;
 
 public class ExplodingMissile : MonoBehaviourPun
 {
-    [SerializeField] GameObject muzzlePrefab;
-    [SerializeField] GameObject explosionPrefab;
-    [SerializeField] float speed = 800;
-    [SerializeField] float explosionTimer = 6;
-    Rigidbody thisRigidbody;
-    Collider thisCollider;
-    Transform missileTarget;
-    float timer;
+    [SerializeField] private GameObject muzzlePrefab;
+    [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private float speed = 800;
+    [SerializeField] private float explosionTimer = 6;
+    private Rigidbody _thisRigidbody;
+    private Collider _thisCollider;
+    private Transform _missileTarget;
+    private float _timer;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Instantiate(muzzlePrefab);
-        missileTarget = GetNearTargetTransform();
+        _missileTarget = GetNearTargetTransform();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= explosionTimer)
-        {
-            Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
-            PhotonNetwork.Destroy(gameObject);
-        }
+        _timer += Time.deltaTime;
+        if (!(_timer >= explosionTimer)) return;
+        
+        Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
+        PhotonNetwork.Destroy(gameObject);
     }
 
     private void FixedUpdate()
     {
-        if (missileTarget != null)
-            transform.LookAt(missileTarget);
-        else
-            transform.LookAt(transform);
+        transform.LookAt(_missileTarget != null ? _missileTarget : transform);
 
-        thisRigidbody.AddForce(transform.forward * speed);
+        _thisRigidbody.AddForce(transform.forward * speed);
 
-        if (timer >= 0.05f)
-            transform.rotation = Quaternion.LookRotation(thisRigidbody.velocity);
+        if (_timer >= 0.05f)
+            transform.rotation = Quaternion.LookRotation(_thisRigidbody.velocity);
 
     }
 
     private void Awake()
     {
-        thisRigidbody = GetComponent<Rigidbody>();
-        thisCollider = GetComponent<Collider>();
+        _thisRigidbody = GetComponent<Rigidbody>();
+        _thisCollider = GetComponent<Collider>();
     }
 
-    Transform GetNearTargetTransform()
+    private Transform GetNearTargetTransform()
     {
         ArrayList missileTargets = new ArrayList();
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
 
-        for (int i = 0; i < targets.Length; i++)
+        foreach (var target in targets)
         {
-            if (!targets[i].GetComponent<PhotonView>().IsMine)
-                missileTargets.Add(targets[i].transform);
+            if (!target.GetComponent<PhotonView>().IsMine)
+                missileTargets.Add(target.transform);
         }
 
         Vector3 thisPosition = transform.position;
@@ -90,19 +86,19 @@ public class ExplodingMissile : MonoBehaviourPun
         return minTarget;
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "FX" && collision.gameObject.tag != "Plane" && collision.gameObject.tag != "AI")
-        {
-            ContactPoint contact = collision.contacts[0];
-            Quaternion rot = Quaternion.FromToRotation(Vector3.forward, contact.normal);
-            Vector3 pos = contact.point;
-            Instantiate(explosionPrefab, pos, rot);
-            thisCollider.enabled = false;
-            thisRigidbody.velocity = Vector3.zero;
+        if (collision.gameObject.CompareTag("FX") || collision.gameObject.CompareTag("Plane") ||
+            collision.gameObject.CompareTag("AI")) return;
+        
+        ContactPoint contact = collision.contacts[0];
+        Quaternion rot = Quaternion.FromToRotation(Vector3.forward, contact.normal);
+        Vector3 pos = contact.point;
+        Instantiate(explosionPrefab, pos, rot);
+        _thisCollider.enabled = false;
+        _thisRigidbody.velocity = Vector3.zero;
 
-            PhotonNetwork.Destroy(gameObject);
-        }
+        PhotonNetwork.Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -114,35 +110,37 @@ public class ExplodingMissile : MonoBehaviourPun
 
         if (aiBullet == null)
         {
-            if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
+            switch (other.gameObject.tag)
             {
-                FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
-                    .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
+                case "Plane" when !other.GetComponent<PhotonView>().IsMine:
+                    FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
+                        .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
 
-                PhotonNetwork.Destroy(gameObject);
-            }
-            else if (other.gameObject.tag == "AI")
-            {
-                FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
-                    .AttackAI(other.transform);
+                    PhotonNetwork.Destroy(gameObject);
+                    break;
+                case "AI":
+                    FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<PlaneAttack>()
+                        .AttackAI(other.transform);
 
-                PhotonNetwork.Destroy(gameObject);
+                    PhotonNetwork.Destroy(gameObject);
+                    break;
             }
         }
         else
         {
-            if (other.gameObject.tag == "Plane" && !other.GetComponent<PhotonView>().IsMine)
+            switch (other.gameObject.tag)
             {
-                aiBullet.AITarget.GetComponent<AIAttack>()
-                    .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
+                case "Plane" when !other.GetComponent<PhotonView>().IsMine:
+                    aiBullet.aiTarget.GetComponent<AIAttack>()
+                        .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
 
-                PhotonNetwork.Destroy(gameObject);
-            }
-            else if (other.gameObject.tag == "AI")
-            {
-                aiBullet.AITarget.GetComponent<AIAttack>().AttackAI(other.transform);
+                    PhotonNetwork.Destroy(gameObject);
+                    break;
+                case "AI":
+                    aiBullet.aiTarget.GetComponent<AIAttack>().AttackAI(other.transform);
 
-                PhotonNetwork.Destroy(gameObject);
+                    PhotonNetwork.Destroy(gameObject);
+                    break;
             }
         }
     }

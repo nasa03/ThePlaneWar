@@ -1,20 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
 public class GameOver : MonoBehaviour
 {
-    [System.Serializable]
-    class PlaneInformation
+    [SerializeField] private PlaneInformation[] planeInformation = new PlaneInformation[6];
+    
+    [Serializable]
+    private class PlaneInformation
     {
         public GameObject obj;
         public UILabel nameLabel;
         public UILabel killLabel;
         public UILabel deathLabel;
     }
-
-    [SerializeField] PlaneInformation[] planeInformation = new PlaneInformation[6];
 
     public void Show()
     {
@@ -29,8 +30,8 @@ public class GameOver : MonoBehaviour
                 if (PhotonNetwork.PlayerList[i].IsLocal)
                     planeInformation[i].nameLabel.color = Color.red;
 
-                planeInformation[i].killLabel.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "kill", 0).ToString();
-                planeInformation[i].deathLabel.text = CustomProperties.GetProperties(PhotonNetwork.PlayerList[i], "death", 0).ToString();
+                planeInformation[i].killLabel.text = PhotonNetwork.PlayerList[i].GetProperties("kill", 0).ToString();
+                planeInformation[i].deathLabel.text = PhotonNetwork.PlayerList[i].GetProperties("death", 0).ToString();
             }
             else
             {
@@ -43,7 +44,7 @@ public class GameOver : MonoBehaviour
 
     public void ResetInformation()
     {
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "death", 0);
+        PhotonNetwork.LocalPlayer.SetProperties("kill", 0);
+        PhotonNetwork.LocalPlayer.SetProperties("death", 0);
     }
 }

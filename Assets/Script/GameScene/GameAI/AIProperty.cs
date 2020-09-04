@@ -16,19 +16,19 @@ public class AIProperty : MonoBehaviour
 
     public int HP
     {
-        get => (int) CustomProperties.GetProperties(PhotonNetwork.CurrentRoom, name + "-HP", 100);
-        set => CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, name + "-HP", value);
+        get => (int) PhotonNetwork.CurrentRoom.GetProperties(name + "-HP", 100);
+        set => PhotonNetwork.CurrentRoom.SetProperties(name + "-HP", value);
     }
 
     public int Kill
     {
-        get => (int) CustomProperties.GetProperties(PhotonNetwork.CurrentRoom, name + "-kill", 0);
-        set => CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, name + "-kill", value);
+        get => (int) PhotonNetwork.CurrentRoom.GetProperties(name + "-kill", 0);
+        set => PhotonNetwork.CurrentRoom.SetProperties(name + "-kill", value);
     }
 
     public int Death
     {
-        get => (int) CustomProperties.GetProperties(PhotonNetwork.CurrentRoom, name + "-death", 0);
-        set => CustomProperties.SetProperties(PhotonNetwork.CurrentRoom, name + "-death", value);
+        get => (int) PhotonNetwork.CurrentRoom.GetProperties(name + "-death", 0);
+        set => PhotonNetwork.CurrentRoom.SetProperties(name + "-death", value);
     }
 }

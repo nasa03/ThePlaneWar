@@ -6,12 +6,11 @@ using Photon.Realtime;
 
 public class ChooseMap : MonoBehaviourPunCallbacks
 {
-    [SerializeField] UISprite mapSprite;
-    [SerializeField] UILabel mapLabel;
-    [SerializeField] UIButton[] mapButtons; 
-    int index = 1;
-
-    public int Index => index;
+    [SerializeField] private UISprite mapSprite;
+    [SerializeField] private UILabel mapLabel;
+    [SerializeField] private UIButton[] mapButtons;
+    
+    public int Index { get; private set; } = 1;
 
     public void LastMap()
     {
@@ -42,11 +41,9 @@ public class ChooseMap : MonoBehaviourPunCallbacks
         int mapIndex = 0;
         for (int i = 0; i < list.Count; i++)
         {
-            if (list[i].name == mapSprite.spriteName)
-            {
-                mapIndex = i;
-                break;
-            }
+            if (list[i].name != mapSprite.spriteName) continue;
+            mapIndex = i;
+            break;
         }
 
         if (mapIndex == list.Count - 1)
@@ -60,11 +57,11 @@ public class ChooseMap : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void SetMap(int index)
+    private void SetMap(int index)
     {
         mapSprite.spriteName = mapSprite.atlas.spriteList[index].name;
         mapLabel.text = "Map " + (index + 1);
-        this.index = (index + 1);
+        this.Index = (index + 1);
     }
     
     public override void OnJoinedRoom()

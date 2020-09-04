@@ -1,39 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
 public class AttackMessage : MonoBehaviour
 {
-    [SerializeField] Text text;
-    Queue<string> queue = new Queue<string>();
+    [SerializeField] private Text text;
+    private readonly Queue<string> _queue = new Queue<string>();
 
     [PunRPC]
     public void AddAttackMessage(string message)
     {
-        queue.Enqueue(message);
+        _queue.Enqueue(message);
 
         Show();
 
         StartCoroutine(RemoveLine());
     }
 
-    IEnumerator RemoveLine()
+    private IEnumerator RemoveLine()
     {
         yield return new WaitForSeconds(6.0f);
-        queue.Dequeue();
+        _queue.Dequeue();
         Show();
     }
 
-    void Show()
+    private void Show()
     {
-        string[] array = queue.ToArray();
-        string data = "";
-        for(int i = 0; i < array.Length; i++)
-        {
-            data += array[i] + "\n";
-        }
+        string[] array = _queue.ToArray();
+        string data = array.Aggregate("", (current, str) => current + (str + "\n"));
 
         text.text = data;
     }

@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MaxPlayersSlider : MonoBehaviour {
-    [SerializeField] UISlider playerSlider;
-    [SerializeField] UILabel label;
-    int maxPlayers;
+    [SerializeField] private UISlider playerSlider;
+    [SerializeField] private UILabel label;
 
-    public int MaxPlayers => maxPlayers;
+    public int MaxPlayers { get; private set; }
 
     public void OnValueChange()
     {
-        maxPlayers = (int)(playerSlider.value * 5 + 1);
-        label.text = string.Format("人数：{0}", maxPlayers);
+        MaxPlayers = (int)(playerSlider.value * 5 + 1);
+        label.text = $"人数：{MaxPlayers}";
     }
 }

@@ -5,26 +5,27 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.IO;
 
-public class PhotonLogin : MonoBehaviourPunCallbacks {
-    [SerializeField] GameObject LoginUI;
-    [SerializeField] GameObject LobbyUI;
-    [SerializeField] GameObject RoomUI;
-    [SerializeField] GameObject GameOverUI;
-    [SerializeField] UIInput nameInput;
-    [SerializeField] UIButton ConnectButton;
-    [SerializeField] UILabel IDLabel;
-    string playerName = string.Empty;
+public class PhotonLogin : MonoBehaviourPunCallbacks
+{
+    [SerializeField] private GameObject loginUI;
+    [SerializeField] private GameObject lobbyUI;
+    [SerializeField] private GameObject roomUI;
+    [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private UIInput nameInput;
+    [SerializeField] private UIButton connectButton;
+    [SerializeField] private UILabel idLabel;
+    private string _playerName = string.Empty;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        if (!File.Exists(Global.path))
+        if (!File.Exists(Global.Path))
             return;
 
-        FileStream stream = new FileStream(Global.path, FileMode.Open);
+        FileStream stream = new FileStream(Global.Path, FileMode.Open);
         StreamReader reader = new StreamReader(stream);
-        playerName = reader.ReadToEnd();
-        nameInput.value = playerName;
+        _playerName = reader.ReadToEnd();
+        nameInput.value = _playerName;
         reader.Close();
         stream.Close();
 
@@ -36,11 +37,11 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    void ClientStateHandler()
+    private void ClientStateHandler()
     {
         if (PhotonNetwork.NetworkClientState == ClientState.Joined)
         {
-            if (Global.returnState == Global.ReturnState.exitGame)
+            if (Global.returnState == Global.ReturnState.ExitGame)
             {
                 if (!Global.isOffline)
                     FindObjectOfType<PhotonRoom>().LeftRoomButtonOnClick();
@@ -52,47 +53,47 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
             else GameOver();
         }
 
-        if (Global.returnState == Global.ReturnState.disconnected)
+        if (Global.returnState == Global.ReturnState.Disconnected)
             StartCoroutine(FindObjectOfType<MessageShow>().Show("已断开连接！"));
 
-        Global.returnState = Global.ReturnState.normal;
+        Global.returnState = Global.ReturnState.Normal;
     }
 
     public void InputValueChanged()
     {
-        playerName = nameInput.value;
+        _playerName = nameInput.value;
     }
 
     public void Connect()
     {
-        if (string.IsNullOrEmpty(playerName))
+        if (string.IsNullOrEmpty(_playerName))
         {
             StartCoroutine(FindObjectOfType<MessageShow>().Show("ID为空！"));
             return;
         }
 
-        FileStream stream = new FileStream(Global.path, FileMode.Create);
+        FileStream stream = new FileStream(Global.Path, FileMode.Create);
         StreamWriter writer = new StreamWriter(stream);
-        writer.Write(playerName);
+        writer.Write(_playerName);
         writer.Flush();
         writer.Close();
         stream.Close();
 
-        PhotonNetwork.NickName = playerName;
+        PhotonNetwork.NickName = _playerName;
 
-        ConnectButton.isEnabled = false;
+        connectButton.isEnabled = false;
         if (!Global.isOffline)
             PhotonNetwork.ConnectUsingSettings();
         else
             PhotonNetwork.OfflineMode = true;
     }
 
-    public void GameOver()
+    private void GameOver()
     {
-        LoginUI.SetActive(false);
-        LobbyUI.SetActive(false);
-        RoomUI.SetActive(false);
-        GameOverUI.SetActive(true);
+        loginUI.SetActive(false);
+        lobbyUI.SetActive(false);
+        roomUI.SetActive(false);
+        gameOverUI.SetActive(true);
 
         FindObjectOfType<GameOver>().Show();
     }
@@ -101,25 +102,25 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
     {
         base.OnConnected();
 
-        LoginUI.SetActive(false);
-        LobbyUI.SetActive(true);
-        RoomUI.SetActive(false);
+        loginUI.SetActive(false);
+        lobbyUI.SetActive(true);
+        roomUI.SetActive(false);
 
-        IDLabel.text = string.Format("用户名：{0}", PhotonNetwork.NickName);
+        idLabel.text = $"用户名：{PhotonNetwork.NickName}";
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
 
-        ConnectButton.isEnabled = true;
+        connectButton.isEnabled = true;
 
         StartCoroutine(FindObjectOfType<MessageShow>().Show("已断开连接！"));
 
-        LoginUI.SetActive(true);
-        LobbyUI.SetActive(false);
-        RoomUI.SetActive(false);
-        
+        loginUI.SetActive(true);
+        lobbyUI.SetActive(false);
+        roomUI.SetActive(false);
+
         FindObjectOfType<ChoosePlane>().Show(false);
         FindObjectOfType<ShowPlane>().DestroyAll();
         FindObjectOfType<PhotonAI>().LeftRoomOfAI();
@@ -144,10 +145,10 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
     {
         base.OnJoinedRoom();
 
-        LoginUI.SetActive(false);
-        LobbyUI.SetActive(false);
-        RoomUI.SetActive(true);
-        GameOverUI.SetActive(false);
+        loginUI.SetActive(false);
+        lobbyUI.SetActive(false);
+        roomUI.SetActive(true);
+        gameOverUI.SetActive(false);
 
         FindObjectOfType<ChoosePlane>().Show(true);
         FindObjectOfType<PhotonRoom>().EnterOrRefreshRoom();
@@ -158,9 +159,9 @@ public class PhotonLogin : MonoBehaviourPunCallbacks {
     {
         base.OnLeftRoom();
 
-        LoginUI.SetActive(false);
-        LobbyUI.SetActive(true);
-        RoomUI.SetActive(false);
+        loginUI.SetActive(false);
+        lobbyUI.SetActive(true);
+        roomUI.SetActive(false);
 
         FindObjectOfType<ChoosePlane>().Show(false);
         FindObjectOfType<ShowPlane>().DestroyAll();

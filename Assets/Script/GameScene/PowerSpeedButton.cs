@@ -6,46 +6,46 @@ using UnityEngine.EventSystems;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class PowerSpeedButton : MonoBehaviour
-{
-    enum SpeedType
+{ 
+    [SerializeField] private Image image;
+    [SerializeField] private GameObject button;
+    private SpeedType _speedType = SpeedType.Normal;
+    private float _time = 0.0f;
+    private const int PowerSpeedMaxTime = 10;
+    private const int CoolingMaxTime = 30;
+
+    private enum SpeedType
     {
-        normal, powerSpeed, cooling
+        Normal, PowerSpeed, Cooling
     }
 
-    [SerializeField] Image image;
-    [SerializeField] GameObject button;
-    SpeedType speedType = SpeedType.normal;
-    float time = 0.0f;
-    const int powerSpeedMaxTime = 10;
-    const int coolingMaxTime = 30;
-
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         CoolingStart();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         int maxTime = 0;
-        if (speedType == SpeedType.powerSpeed)
-            maxTime = powerSpeedMaxTime;
-        else if (speedType == SpeedType.cooling)
-            maxTime = coolingMaxTime;
+        if (_speedType == SpeedType.PowerSpeed)
+            maxTime = PowerSpeedMaxTime;
+        else if (_speedType == SpeedType.Cooling)
+            maxTime = CoolingMaxTime;
 
-        if (time > 0)
+        if (_time > 0)
         {
-            image.fillAmount = time / maxTime;
-            time -= Time.deltaTime;
+            image.fillAmount = _time / maxTime;
+            _time -= Time.deltaTime;
         }
         else
         {
-            if (speedType == SpeedType.powerSpeed)
+            if (_speedType == SpeedType.PowerSpeed)
             {
                 CoolingStart();
             }
-            else if (speedType == SpeedType.cooling)
+            else if (_speedType == SpeedType.Cooling)
             {
                 PowerSpeedEnd();
             }
@@ -54,24 +54,24 @@ public class PowerSpeedButton : MonoBehaviour
 
     public void PowerSpeedStart()
     {
-        speedType = SpeedType.powerSpeed;
-        time = powerSpeedMaxTime;
+        _speedType = SpeedType.PowerSpeed;
+        _time = PowerSpeedMaxTime;
         image.fillAmount = 1.0f;
     }
 
-    public void CoolingStart()
+    private void CoolingStart()
     {
-        speedType = SpeedType.cooling;
-        time = coolingMaxTime;
+        _speedType = SpeedType.Cooling;
+        _time = CoolingMaxTime;
         image.fillAmount = 1.0f;
         button.GetComponent<Button>().enabled = false;
         button.GetComponent<EventTrigger>().enabled = false;
         button.GetComponent<ButtonHandler>().SetUpState();
     }
 
-    void PowerSpeedEnd()
+    private void PowerSpeedEnd()
     {
-        speedType = SpeedType.normal;
+        _speedType = SpeedType.Normal;
         button.GetComponent<Button>().enabled = true;
         button.GetComponent<EventTrigger>().enabled = true;
     }

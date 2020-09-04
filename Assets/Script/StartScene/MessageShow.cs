@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MessageShow : MonoBehaviour {
-    [SerializeField] TweenAlpha tween;
-    [SerializeField] UILabel label;
+    [SerializeField] private TweenAlpha tween;
+    [SerializeField] private UILabel label;
 
     public IEnumerator Show(string message)
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class Global {
-    public static readonly string path = string.Format("{0}/name", Application.persistentDataPath);
+    public static readonly string Path = $"{Application.persistentDataPath}/name";
 
-    public static readonly Vector3[] planePositions =
+    public static readonly Vector3[] PlanePositions =
     {
         new Vector3 (0,5,-15),
         new Vector3 (-12,5,-8),
@@ -17,7 +17,7 @@ public static class Global {
 
     public enum ReturnState
     {
-        normal, exitGame, gameOver, disconnected
+        Normal, ExitGame, GameOver, Disconnected
     };
 
     public static int totalPlaneInt = 0;
@@ -25,5 +25,5 @@ public static class Global {
     public static int totalFireInt = 0;
     public static int totalMissileInt = 0;
     public static bool isOffline = false;
-    public static ReturnState returnState = ReturnState.normal;
+    public static ReturnState returnState = ReturnState.Normal;
 }

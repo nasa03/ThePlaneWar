@@ -8,41 +8,35 @@ using Photon.Realtime;
 
 public class PhotonGame : MonoBehaviourPunCallbacks
 {
-    [SerializeField] Camera mainCamera;
-    [SerializeField] GameObject[] planePrefabs;
-    [SerializeField] Transform[] groundRunwayPosition;
-    [SerializeField] GameObject explosionParticleSystem;
-    [SerializeField] Image hpImage;
-    [SerializeField] Image hpLerpImage;
-    [SerializeField] Image sightImage;
-    [SerializeField] GameObject timeBar;
-    [SerializeField] Text timeText;
-    [SerializeField] Image timeImage;
-    GameObject localPlane;
-    bool reborn = false;
-    bool invincible = false;
-    bool reconnected = false;
-    float time = 20.0f;
-    int maxTime = 20;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private GameObject[] planePrefabs;
+    [SerializeField] private Transform[] groundRunwayPosition;
+    [SerializeField] private GameObject explosionParticleSystem;
+    [SerializeField] private Image hpImage;
+    [SerializeField] private Image hpLerpImage;
+    [SerializeField] private Image sightImage;
+    [SerializeField] private GameObject timeBar;
+    [SerializeField] private Text timeText;
+    [SerializeField] private Image timeImage;
+    private bool _invincible = false;
+    private bool _reconnected = false;
+    private float _time = 20.0f;
+    private int _maxTime = 20;
 
     public GameObject ExplosionParticleSystem => explosionParticleSystem;
 
-    public Image HPImage => hpImage;
-
-    public Image HpLerpImage => hpLerpImage;
-
     public Image SightImage => sightImage;
 
-    public bool Reborn => reborn;
+    public bool Reborn { get; private set; } = false;
 
-    public GameObject LocalPlane => localPlane;
+    public GameObject LocalPlane { get; private set; }
 
     public Transform[] GroundRunwayPosition => groundRunwayPosition;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
+        LocalPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
             groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
         SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
@@ -53,30 +47,30 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        HpLerpImage.fillAmount = Mathf.Lerp(
-            (float) ((int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "HP", 100) / 100.0),
-            HpLerpImage.fillAmount, 0.95f);
+        hpLerpImage.fillAmount = Mathf.Lerp(
+            (float) ((int) PhotonNetwork.LocalPlayer.GetProperties("HP", 100) / 100.0),
+            hpLerpImage.fillAmount, 0.95f);
 
-        if (time > 0)
+        if (_time > 0)
         {
-            timeImage.fillAmount = time / maxTime;
-            time -= Time.deltaTime;
+            timeImage.fillAmount = _time / _maxTime;
+            _time -= Time.deltaTime;
         }
         else
         {
-            if (reborn)
+            if (Reborn)
             {
                 RebornEndOrReconnect();
             }
 
-            if (invincible)
+            if (_invincible)
             {
                 InvincibleEnd();
             }
 
-            if (reconnected)
+            if (_reconnected)
             {
                 SceneManager.LoadScene("StartScene");
             }
@@ -85,61 +79,61 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
     public void OnExitButtonClick()
     {
-        Global.returnState = Global.ReturnState.exitGame;
-        PhotonNetwork.Destroy(localPlane);
+        Global.returnState = Global.ReturnState.ExitGame;
+        PhotonNetwork.Destroy(LocalPlane);
         SceneManager.LoadScene("StartScene");
     }
 
     [PunRPC]
     public void GameOver()
     {
-        Global.returnState = Global.ReturnState.gameOver;
-        PhotonNetwork.Destroy(localPlane);
+        Global.returnState = Global.ReturnState.GameOver;
+        PhotonNetwork.Destroy(LocalPlane);
         SceneManager.LoadScene("StartScene");
     }
 
     [PunRPC]
     public void Dead()
     {
-        GameObject explosion = PhotonNetwork.Instantiate(explosionParticleSystem.name, localPlane.transform.position,
+        GameObject explosion = PhotonNetwork.Instantiate(explosionParticleSystem.name, LocalPlane.transform.position,
             Quaternion.identity);
         explosion.GetComponent<ParticleSystem>().Play();
         GetComponent<AudioPlayer>().PlayAudio(3);
 
-        localPlane.GetComponent<MeshRenderer>().enabled = false;
+        LocalPlane.GetComponent<MeshRenderer>().enabled = false;
 
-        ParticleSystem[] particleSystems = localPlane.GetComponentsInChildren<ParticleSystem>();
+        ParticleSystem[] particleSystems = LocalPlane.GetComponentsInChildren<ParticleSystem>();
         foreach (var items in particleSystems)
         {
             items.Stop();
         }
 
-        invincible = false;
+        _invincible = false;
 
         StartCoroutine(RebornStart());
 
-        int death = (int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "death", 0);
+        int death = (int) PhotonNetwork.LocalPlayer.GetProperties("death", 0);
         death++;
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "death", death);
+        PhotonNetwork.LocalPlayer.SetProperties("death", death);
 
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
+        PhotonNetwork.LocalPlayer.SetProperties("HP", 100);
     }
 
-    IEnumerator RebornStart()
+    private IEnumerator RebornStart()
     {
         yield return new WaitForSeconds(0.5f);
-        PhotonNetwork.Destroy(localPlane);
+        PhotonNetwork.Destroy(LocalPlane);
 
         mainCamera.enabled = true;
         timeBar.SetActive(true);
         sightImage.gameObject.SetActive(false);
 
-        time = 10.0f;
-        maxTime = 10;
+        _time = 10.0f;
+        _maxTime = 10;
         timeText.text = "重生";
 
         yield return new WaitForSeconds(1.0f);
-        reborn = true;
+        Reborn = true;
     }
 
     public void RebornEndOrReconnect()
@@ -148,49 +142,49 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         timeBar.SetActive(false);
         sightImage.gameObject.SetActive(true);
 
-        localPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
+        LocalPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
             groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
 
-        reborn = false;
-        reconnected = false;
+        Reborn = false;
+        _reconnected = false;
 
         StartCoroutine(InvincibleStart());
     }
 
-    IEnumerator InvincibleStart()
+    private IEnumerator InvincibleStart()
     {
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", true);
+        PhotonNetwork.LocalPlayer.SetProperties("invincible", true);
         timeBar.SetActive(true);
-        time = 20.0f;
-        maxTime = 20;
+        _time = 20.0f;
+        _maxTime = 20;
         timeText.text = "无敌状态";
 
         yield return new WaitForSeconds(1.0f);
-        invincible = true;
+        _invincible = true;
     }
 
-    void InvincibleEnd()
+    private void InvincibleEnd()
     {
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "invincible", false);
+        PhotonNetwork.LocalPlayer.SetProperties("invincible", false);
         timeBar.SetActive(false);
 
-        invincible = false;
+        _invincible = false;
     }
 
     public void Disconnect()
     {
-        if (reconnected)
+        if (_reconnected)
             return;
 
         mainCamera.enabled = true;
         timeBar.SetActive(true);
         sightImage.gameObject.SetActive(false);
 
-        time = 60.0f;
-        maxTime = 60;
+        _time = 60.0f;
+        _maxTime = 60;
         timeText.text = "正在重连";
 
-        reconnected = true;
+        _reconnected = true;
     }
 
     public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
@@ -199,8 +193,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
         if (target == PhotonNetwork.LocalPlayer)
         {
-            HPImage.fillAmount =
-                (float) ((int) CustomProperties.GetProperties(target, "HP", 100) / 100.0);
+            hpImage.fillAmount = (float) ((int) target.GetProperties("HP", 100) / 100.0);
         }
     }
 }

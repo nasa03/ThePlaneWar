@@ -217,14 +217,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 0.3432836, g: 0.3432836, b: 0.3432836, a: 0.36078432}
   mPivot: 4
-  mWidth: 1569
+  mWidth: 1575
   mHeight: 720
   mDepth: -2
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 2.1791666
+  aspectRatio: 2.1875
   mType: 2
   mFillDirection: 4
   mFillAmount: 1
@@ -273,14 +273,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
-  mWidth: 1569
+  mWidth: 1575
   mHeight: 720
   mDepth: -3
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 2.1791666
+  aspectRatio: 2.1875
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -6507,13 +6507,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d85429e0ad7842b7b7b1a8329e3004f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoginUI: {fileID: 739443966}
-  LobbyUI: {fileID: 170570472}
-  RoomUI: {fileID: 1622111792}
-  GameOverUI: {fileID: 737896026}
+  loginUI: {fileID: 739443966}
+  lobbyUI: {fileID: 170570472}
+  roomUI: {fileID: 1622111792}
+  gameOverUI: {fileID: 737896026}
   nameInput: {fileID: 1958999582}
-  ConnectButton: {fileID: 1538317663}
-  IDLabel: {fileID: 799685923}
+  connectButton: {fileID: 1538317663}
+  idLabel: {fileID: 1958999584}
 --- !u!4 &954965989
 Transform:
   m_ObjectHideFlags: 0
@@ -6719,7 +6719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addAIButton: {fileID: 57391518}
-  ai_Sprites:
+  aiSprites:
   - {fileID: 465319684}
   - {fileID: 442908750}
   - {fileID: 1499673991}
@@ -13002,6 +13002,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1958999581}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1958999584 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11400002, guid: 45edf347f9f51214dbfbab27b16fbf01,
+    type: 3}
+  m_PrefabInstance: {fileID: 1958999581}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1959017842
 GameObject:
   m_ObjectHideFlags: 0

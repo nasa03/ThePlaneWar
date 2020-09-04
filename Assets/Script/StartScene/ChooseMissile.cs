@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class ChooseMissile : MonoBehaviour
 {
-    [SerializeField] UIPopupList missileList;
-    [SerializeField] UIPopupList sizeList;
-    int missileInt = 0;
-    int sizeInt = 0;
+    [SerializeField] private UIPopupList missileList;
+    [SerializeField] private UIPopupList sizeList;
+    private int _missileInt = 0;
+    private int _sizeInt = 0;
 
     public void Fire()
     {
-        missileInt = GetItemsInt(missileList);
+        _missileInt = GetItemsInt(missileList);
 
         GetIndex();
     }
 
     public void Size()
     {
-        sizeInt = GetItemsInt(sizeList);
+        _sizeInt = GetItemsInt(sizeList);
 
         GetIndex();
     }
 
-    int GetItemsInt(UIPopupList list)
+    private int GetItemsInt(UIPopupList list)
     {
         for (int i = 0; i < list.items.Count; i++)
         {
@@ -34,8 +34,8 @@ public class ChooseMissile : MonoBehaviour
         return 0;
     }
 
-    void GetIndex()
+    private void GetIndex()
     {
-        Global.totalMissileInt = missileInt * 3 + sizeInt;
+        Global.totalMissileInt = _missileInt * 3 + _sizeInt;
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -8,44 +7,43 @@ using Random = UnityEngine.Random;
 
 public class AIController : MonoBehaviour
 {
-    AeroplaneAiControl aeroplaneAiControl;
-    Transform target;
-    int random = 0;
+    private AeroplaneAiControl _aeroplaneAiControl;
+    private Transform _target;
+    private int _random = 0;
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        if (!target)
+        if (_target) return;
+        
+        Transform tempTarget = GetNearTargetTransform();
+        if (tempTarget)
         {
-            Transform tempTarget = GetNearTargetTransform();
-            if (tempTarget)
-            {
-                target = tempTarget;
-                aeroplaneAiControl.SetTarget(target);
-            }
-            else
-            {
-                getRandomPosition();
-            }
+            _target = tempTarget;
+            _aeroplaneAiControl.SetTarget(_target);
+        }
+        else
+        {
+            GetRandomPosition();
         }
     }
 
     private void Awake()
     {
-        aeroplaneAiControl = GetComponent<AeroplaneAiControl>();
+        _aeroplaneAiControl = GetComponent<AeroplaneAiControl>();
     }
 
-    Transform GetNearTargetTransform()
+    private Transform GetNearTargetTransform()
     {
         ArrayList missileTargets = new ArrayList();
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
 
-        for (int i = 0; i < targets.Length; i++)
+        foreach (var target in targets)
         {
-            if (!targets[i].GetComponent<PhotonView>().IsMine)
-                missileTargets.Add(targets[i].transform);
+            if (!target.GetComponent<PhotonView>().IsMine)
+                missileTargets.Add(target.transform);
         }
 
         Vector3 thisPosition = transform.position;
@@ -82,10 +80,10 @@ public class AIController : MonoBehaviour
         }
     }
 
-    public void getRandomPosition()
+    public void GetRandomPosition()
     {
         int random = Random.Range(0, FindObjectOfType<PhotonGameAI>().RandomPositions.Length);
-        target = FindObjectOfType<PhotonGameAI>().RandomPositions[random];
-        aeroplaneAiControl.SetTarget(target);
+        _target = FindObjectOfType<PhotonGameAI>().RandomPositions[random];
+        _aeroplaneAiControl.SetTarget(_target);
     }
 }

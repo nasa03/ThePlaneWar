@@ -8,36 +8,28 @@ using Random = UnityEngine.Random;
 
 public class AIAttack : MonoBehaviour
 {
-    AIProperty aiProperty;
+    private AIProperty _aiProperty;
+    private bool _reborn = false;
 
-    bool reborn = false;
-
-    float time = 0.0f;
-    int maxTime = 0;
-
-    int index;
+    private float _time = 0.0f;
+    private int _maxTime = 0;
+    private int _index;
 
     public int Index
     {
-        set => index = value;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
+        set => _index = value;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (time > 0)
+        if (_time > 0)
         {
-            time -= Time.deltaTime;
+            _time -= Time.deltaTime;
         }
         else
         {
-            if (reborn)
+            if (_reborn)
             {
                 RebornEnd();
             }
@@ -46,7 +38,7 @@ public class AIAttack : MonoBehaviour
 
     private void Awake()
     {
-        aiProperty = GetComponent<AIProperty>();
+        _aiProperty = GetComponent<AIProperty>();
     }
 
     public void Attack(Player player, Transform target)
@@ -55,24 +47,24 @@ public class AIAttack : MonoBehaviour
 
         int randomAttack = Random.Range(5, 15);
 
-        int totalHP = (int) CustomProperties.GetProperties(player, "HP", 100);
-        bool invincible = (bool) CustomProperties.GetProperties(player, "invincible", false);
+        int totalHP = (int) player.GetProperties("HP", 100);
+        bool invincible = (bool) player.GetProperties("invincible", false);
 
         if (totalHP <= 0 || invincible)
             return;
 
         totalHP -= randomAttack;
-        CustomProperties.SetProperties(player, "HP", totalHP);
+        player.SetProperties("HP", totalHP);
 
         FindObjectOfType<PhotonGame>().photonView.RPC("PlayAudio", player, 2);
 
         if (totalHP <= 0)
         {
-            aiProperty.Kill++;
+            _aiProperty.Kill++;
 
             GetComponent<AudioSource>().Play();
             FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
-                string.Format("{0}击杀了{1}", gameObject.name, player.NickName));
+                $"{gameObject.name}击杀了{player.NickName}");
             FindObjectOfType<PhotonGame>().photonView.RPC("Dead", player);
         }
     }
@@ -96,21 +88,21 @@ public class AIAttack : MonoBehaviour
 
         if (totalHP <= 0)
         {
-            aiProperty.Kill++;
+            _aiProperty.Kill++;
 
             GetComponent<AudioSource>().Play();
             FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
-                string.Format("{0}击杀了{1}", gameObject.name, target.name));
+                $"{gameObject.name}击杀了{target.name}");
             FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, target.name);
         }
     }
 
-    void Suicide()
+    private void Suicide()
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
         FindObjectOfType<PhotonGame>().photonView
-            .RPC("AddAttackMessage", RpcTarget.All, string.Format("{0}自杀了", gameObject.name));
+            .RPC("AddAttackMessage", RpcTarget.All, $"{gameObject.name}自杀了");
         FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, transform.name);
     }
 
@@ -119,7 +111,7 @@ public class AIAttack : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
         {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[index].position +
+            transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[_index].position +
                                  new Vector3(0, 15, 0);
             transform.rotation = Quaternion.identity;
         }
@@ -134,13 +126,13 @@ public class AIAttack : MonoBehaviour
             items.Stop();
         }
 
-        time = 10.0f;
-        maxTime = 10;
+        _time = 10.0f;
+        _maxTime = 10;
 
-        reborn = true;
+        _reborn = true;
     }
 
-    void RebornEnd()
+    private void RebornEnd()
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -157,12 +149,12 @@ public class AIAttack : MonoBehaviour
             items.Play();
         }
 
-        reborn = false;
+        _reborn = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "FX")
+        if (collision.collider.CompareTag("FX"))
         {
             Suicide();
         }

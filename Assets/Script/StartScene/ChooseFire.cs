@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChooseFire : MonoBehaviour {
-    [SerializeField] UIPopupList fireList;
-    [SerializeField] UIPopupList sizeList;
-    int fireInt = 0;
-    int sizeInt = 0;
+    [SerializeField] private UIPopupList fireList;
+    [SerializeField] private UIPopupList sizeList;
+    private int _fireInt = 0;
+    private int _sizeInt = 0;
 
     public void Fire()
     {
-        fireInt = GetItemsInt(fireList);
+        _fireInt = GetItemsInt(fireList);
 
         GetIndex();
     }
 
     public void Size()
     {
-        sizeInt = GetItemsInt(sizeList);
+        _sizeInt = GetItemsInt(sizeList);
 
         GetIndex();
     }
 
-    int GetItemsInt(UIPopupList list)
+    private int GetItemsInt(UIPopupList list)
     {
         for (int i = 0; i < list.items.Count; i++)
         {
@@ -33,21 +33,21 @@ public class ChooseFire : MonoBehaviour {
         return 0;
     }
 
-    void GetIndex()
+    private void GetIndex()
     {
-        if (fireInt < 2)
+        if (_fireInt < 2)
         {
             if (sizeList.items.Count == 3)
                 sizeList.items.Add("Shotgun");
 
-            Global.totalFireInt = fireInt * 4 + sizeInt;
+            Global.totalFireInt = _fireInt * 4 + _sizeInt;
         }
         else
         {
             if (sizeList.items.Count == 4)
                 sizeList.items.Remove("Shotgun");
 
-            Global.totalFireInt = 8 + (fireInt - 2) * 3 + sizeInt;
+            Global.totalFireInt = 8 + (_fireInt - 2) * 3 + _sizeInt;
         }
     }
 }

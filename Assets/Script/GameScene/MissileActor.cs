@@ -6,27 +6,27 @@ using Photon.Pun;
 
 public class MissileActor : MonoBehaviourPun
 {
-    [SerializeField] GameObject[] missiles;
-    [SerializeField] float interval = 10;
-    [SerializeField] int missileType = 0;
+    [SerializeField] private GameObject[] missiles;
+    [SerializeField] private float interval = 10;
+    [SerializeField] private int missileType = 0;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         missileType = Global.totalMissileInt;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (!photonView.IsMine || tag == "AI") return;
+        if (!photonView.IsMine || CompareTag("AI")) return;
 
-        if (CrossPlatformInputManager.GetButtonDown("Fire2") && FindObjectOfType<MissileActorButton>().Missile)
-        {
-            GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
-            PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
-            FindObjectOfType<MissileActorButton>().ShootStart();
-        }
+        if (!CrossPlatformInputManager.GetButtonDown("Fire2") ||
+            !FindObjectOfType<MissileActorButton>().Missile) return;
+        
+        GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
+        PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
+        FindObjectOfType<MissileActorButton>().ShootStart();
     }
 
     public void AIShoot()
@@ -34,6 +34,6 @@ public class MissileActor : MonoBehaviourPun
         if (!PhotonNetwork.IsMasterClient) return;
 
         GameObject missile = PhotonNetwork.Instantiate(missiles[0].name, transform.position, transform.rotation);
-        missile.AddComponent<AIBullet>().AITarget = transform;
+        missile.AddComponent<AIBullet>().aiTarget = transform;
     }
 }

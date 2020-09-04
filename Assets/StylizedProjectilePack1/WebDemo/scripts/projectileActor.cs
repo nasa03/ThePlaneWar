@@ -204,7 +204,7 @@ public class projectileActor : MonoBehaviour {
             // Quaternion.Euler(0,90,0)
             rocketInstance.AddForce(spawnLocator.forward * Random.Range(bombList[bombType].min, bombList[bombType].max));
 
-            rocketInstance.gameObject.AddComponent<AIBullet>().AITarget = transform;
+            rocketInstance.gameObject.AddComponent<AIBullet>().aiTarget = transform;
         }
     }
 

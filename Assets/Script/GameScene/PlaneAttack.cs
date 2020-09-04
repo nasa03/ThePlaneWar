@@ -8,14 +8,14 @@ using Random = UnityEngine.Random;
 
 public class PlaneAttack : MonoBehaviourPun
 {
-    [SerializeField] Camera planeCamera;
-    [SerializeField] Sprite[] sight_Sprites = new Sprite[3];
-    bool isKilled = false;
+    [SerializeField] private Camera planeCamera;
+    [SerializeField] private Sprite[] sightSprites = new Sprite[3];
+    private bool _isKilled = false;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "HP", 100);
+        PhotonNetwork.LocalPlayer.SetProperties("HP", 100);
     }
 
     public void Attack(Player player, Transform target)
@@ -24,14 +24,14 @@ public class PlaneAttack : MonoBehaviourPun
 
         int randomAttack = Random.Range(5, 15);
 
-        int totalHP = (int) CustomProperties.GetProperties(player, "HP", 100);
-        bool invincible = (bool) CustomProperties.GetProperties(player, "invincible", false);
+        int totalHP = (int) player.GetProperties("HP", 100);
+        bool invincible = (bool) player.GetProperties("invincible", false);
 
         if (totalHP <= 0 || invincible)
             return;
 
         totalHP -= randomAttack;
-        CustomProperties.SetProperties(player, "HP", totalHP);
+        player.SetProperties("HP", totalHP);
 
         StartCoroutine(ShowSight(target));
 
@@ -41,13 +41,13 @@ public class PlaneAttack : MonoBehaviourPun
         {
             StartCoroutine(ShowKillSight(target));
 
-            int kill = (int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
+            int kill = (int) PhotonNetwork.LocalPlayer.GetProperties("kill", 0);
             kill++;
-            CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
+            PhotonNetwork.LocalPlayer.SetProperties("kill", kill);
 
             GetComponent<AudioSource>().Play();
             FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
-                string.Format("{0}击杀了{1}", PhotonNetwork.LocalPlayer.NickName, player.NickName));
+                $"{PhotonNetwork.LocalPlayer.NickName}击杀了{player.NickName}");
             FindObjectOfType<PhotonGame>().photonView.RPC("Dead", player);
         }
     }
@@ -75,50 +75,50 @@ public class PlaneAttack : MonoBehaviourPun
         {
             StartCoroutine(ShowKillSight(target));
 
-            int kill = (int) CustomProperties.GetProperties(PhotonNetwork.LocalPlayer, "kill", 0);
+            int kill = (int) PhotonNetwork.LocalPlayer.GetProperties("kill", 0);
             kill++;
-            CustomProperties.SetProperties(PhotonNetwork.LocalPlayer, "kill", kill);
+            PhotonNetwork.LocalPlayer.SetProperties("kill", kill);
 
             GetComponent<AudioSource>().Play();
             FindObjectOfType<PhotonGame>().photonView.RPC("AddAttackMessage", RpcTarget.All,
-                string.Format("{0}击杀了{1}", PhotonNetwork.LocalPlayer.NickName, target.name));
+                $"{PhotonNetwork.LocalPlayer.NickName}击杀了{target.name}");
             FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, target.name);
         }
     }
 
-    IEnumerator ShowSight(Transform target)
+    private IEnumerator ShowSight(Transform target)
     {
-        if (!isKilled)
+        if (!_isKilled)
         {
-            FindObjectOfType<PhotonGame>().SightImage.sprite = sight_Sprites[1];
+            FindObjectOfType<PhotonGame>().SightImage.sprite = sightSprites[1];
             FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
                 planeCamera.WorldToScreenPoint(target.position);
         }
 
         yield return new WaitForSeconds(0.5f);
 
-        if (!isKilled)
+        if (!_isKilled)
         {
-            FindObjectOfType<PhotonGame>().SightImage.sprite = sight_Sprites[0];
+            FindObjectOfType<PhotonGame>().SightImage.sprite = sightSprites[0];
             FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
                 new Vector3(Screen.width / 2, Screen.height / 2, 0);
         }
     }
 
-    IEnumerator ShowKillSight(Transform target)
+    private IEnumerator ShowKillSight(Transform target)
     {
-        isKilled = true;
+        _isKilled = true;
 
-        FindObjectOfType<PhotonGame>().SightImage.sprite = sight_Sprites[2];
+        FindObjectOfType<PhotonGame>().SightImage.sprite = sightSprites[2];
         FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
             planeCamera.WorldToScreenPoint(target.position);
 
         yield return new WaitForSeconds(2.0f);
 
-        FindObjectOfType<PhotonGame>().SightImage.sprite = sight_Sprites[0];
+        FindObjectOfType<PhotonGame>().SightImage.sprite = sightSprites[0];
         FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
             new Vector3(Screen.width / 2, Screen.height / 2, 0);
 
-        isKilled = false;
+        _isKilled = false;
     }
 }

@@ -6,21 +6,21 @@ using Photon.Pun;
 
 public class GameTime : MonoBehaviourPun
 {
-    [SerializeField] Text text;
-    int time = 600;
+    [SerializeField] private Text text;
+    private int _time = 600;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         StartCoroutine(ShowTime());
-    } 
+    }
 
-    IEnumerator ShowTime()
+    private IEnumerator ShowTime()
     {
-        while (time >= 0)
+        while (_time >= 0)
         {
-            int minutes = time / 60;
-            int seconds = time % 60;
+            int minutes = _time / 60;
+            int seconds = _time % 60;
 
             string secondsStr;
             if (seconds < 10)
@@ -28,11 +28,11 @@ public class GameTime : MonoBehaviourPun
             else
                 secondsStr = seconds.ToString();
 
-            text.text = string.Format("{0}:{1}", minutes, secondsStr);
+            text.text = $"{minutes}:{secondsStr}";
             yield return new WaitForSeconds(1.0f);
-            time--;
+            _time--;
 
-            if (time == 0 && PhotonNetwork.IsMasterClient && photonView.IsMine)
+            if (_time == 0 && PhotonNetwork.IsMasterClient && photonView.IsMine)
             {
                 photonView.RPC("GameOver", RpcTarget.All);
             }

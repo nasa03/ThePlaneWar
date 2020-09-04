@@ -6,18 +6,18 @@ using Photon.Pun;
 [RequireComponent(typeof(AudioSource))]
 public class AudioPlayer : MonoBehaviour
 {
-    [SerializeField] AudioClip[] audioClips;
-    AudioSource audioSource;
+    [SerializeField] private AudioClip[] audioClips;
+    private AudioSource _audioSource;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     [PunRPC]
     public void PlayAudio(int index)
     {
-        audioSource.clip = audioClips[index];
-        audioSource.Play();
+        _audioSource.clip = audioClips[index];
+        _audioSource.Play();
     }
 }
