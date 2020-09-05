@@ -9,7 +9,6 @@ using Random = UnityEngine.Random;
 public class PlaneAttack : MonoBehaviourPun
 {
     [SerializeField] private Camera planeCamera;
-    [SerializeField] private Sprite[] sightSprites = new Sprite[3];
     private bool _isKilled = false;
 
     // Start is called before the first frame update
@@ -90,7 +89,7 @@ public class PlaneAttack : MonoBehaviourPun
     {
         if (!_isKilled)
         {
-            FindObjectOfType<PhotonGame>().SightImage.sprite = sightSprites[1];
+            FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[1];
             FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
                 planeCamera.WorldToScreenPoint(target.position);
         }
@@ -99,7 +98,7 @@ public class PlaneAttack : MonoBehaviourPun
 
         if (!_isKilled)
         {
-            FindObjectOfType<PhotonGame>().SightImage.sprite = sightSprites[0];
+            FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[0];
             FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
                 new Vector3(Screen.width / 2, Screen.height / 2, 0);
         }
@@ -109,13 +108,13 @@ public class PlaneAttack : MonoBehaviourPun
     {
         _isKilled = true;
 
-        FindObjectOfType<PhotonGame>().SightImage.sprite = sightSprites[2];
+        FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[2];
         FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
             planeCamera.WorldToScreenPoint(target.position);
 
         yield return new WaitForSeconds(2.0f);
 
-        FindObjectOfType<PhotonGame>().SightImage.sprite = sightSprites[0];
+        FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[0];
         FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
             new Vector3(Screen.width / 2, Screen.height / 2, 0);
 

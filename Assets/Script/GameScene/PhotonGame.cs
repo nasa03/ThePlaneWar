@@ -15,6 +15,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     [SerializeField] private Image hpImage;
     [SerializeField] private Image hpLerpImage;
     [SerializeField] private Image sightImage;
+    [SerializeField] private Sprite[] sightSprites = new Sprite[3];
     [SerializeField] private GameObject timeBar;
     [SerializeField] private Text timeText;
     [SerializeField] private Image timeImage;
@@ -26,6 +27,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     public GameObject ExplosionParticleSystem => explosionParticleSystem;
 
     public Image SightImage => sightImage;
+
+    public Sprite[] SightSprites => sightSprites;
 
     public bool Reborn { get; private set; } = false;
 
