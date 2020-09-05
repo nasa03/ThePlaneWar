@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class PhotonAI : MonoBehaviourPunCallbacks
@@ -14,7 +13,7 @@ public class PhotonAI : MonoBehaviourPunCallbacks
 
     public void AddAI()
     {
-        var maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers == 0 ? 6 : PhotonNetwork.CurrentRoom.MaxPlayers;
+        int maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers == 0 ? 6 : PhotonNetwork.CurrentRoom.MaxPlayers;
 
         if (PhotonNetwork.CurrentRoom.PlayerCount + AIList.Count == maxPlayers)
         {
@@ -56,12 +55,21 @@ public class PhotonAI : MonoBehaviourPunCallbacks
     {
         object[] list = (object[]) PhotonNetwork.CurrentRoom.GetProperties("ai_List");
         AIList.Clear();
+        
+        int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        int maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers == 0 ? 6 : PhotonNetwork.CurrentRoom.MaxPlayers;
+        
         if (list != null)
         {
-            foreach (var obj in list)
+            for (int i = 0; i < list.Length; i++)
             {
-                AIList.Add(obj);
+                if (i + playerCount + 1 <= maxPlayers)
+                {
+                    AIList.Add(list[i]);
+                }
             }
+            
+            PhotonNetwork.CurrentRoom.SetProperties("ai_List", AIList.ToArray());
         }
 
         addAIButton.isEnabled = PhotonNetwork.LocalPlayer.IsMasterClient;
