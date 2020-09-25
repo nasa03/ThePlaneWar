@@ -9,7 +9,7 @@ public class AIPositionOverlap : MonoBehaviour
     {
         if (other.CompareTag("AI") && PhotonNetwork.IsMasterClient)
         {
-            other.GetComponent<AIController>().GetRandomPosition();
+            other.GetComponent<AIController>().Target = null;
         }
     }
 }
