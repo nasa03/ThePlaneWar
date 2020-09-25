@@ -5,8 +5,10 @@ using Photon.Pun;
 
 public class CameraActive : MonoBehaviour
 {
-    [SerializeField] private GameObject camera;
+    [SerializeField] private new GameObject camera;
     private BinnacleScript _binnacleScript;
+
+    public GameObject Camera => camera;
 
     // Start is called before the first frame update
     private void Start()

@@ -15,6 +15,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
     {
         public Image scoreImage;
         public Text scoreText;
+        public GameObject scoreCamera;
     }
 
     // Update is called once per frame
@@ -25,6 +26,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
 
         int planeCount = PhotonNetwork.PlayerList.Length;
         ArrayList aiPlaneList = FindObjectOfType<PhotonGameAI>().AI_Plane_List;
+        GameObject[] planeObjs = GameObject.FindGameObjectsWithTag("Plane");
         for (int i = 0; i < 6; i++)
         {
             if (i < planeCount + aiPlaneList.Count)
@@ -38,6 +40,14 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                     string kill = PhotonNetwork.PlayerList[i].GetProperties("kill", 0).ToString();
                     string dead = PhotonNetwork.PlayerList[i].GetProperties("death", 0).ToString();
                     scores[i].scoreText.text = $"{name} {kill}/{dead}";
+                    foreach (GameObject planeObj in planeObjs)
+                    {
+                        if (planeObj.GetComponent<PhotonView>().Controller.NickName == name)
+                        {
+                            scores[i].scoreCamera = planeObj.transform.Find("ShakeCamera")
+                                .Find("MultipurposeCameraRig").gameObject;
+                        }
+                    }
                     if (PhotonNetwork.PlayerList[i].IsLocal)
                         scores[i].scoreText.color = Color.red;
                 }
@@ -52,6 +62,8 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                     string kill = aiProperty.Kill.ToString();
                     string dead = aiProperty.Death.ToString();
                     scores[i].scoreText.text = $"{name} {kill}/{dead}";
+                    scores[i].scoreCamera = aiPlane.transform.Find("ShakeCamera")
+                        .Find("MultipurposeCameraRig").gameObject;
                     scores[i].scoreText.color = Color.green;
                 }
                 
@@ -62,5 +74,17 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                 scores[i].scoreText.enabled = false;
             }
         }
+    }
+    
+    public void Show(int index)
+    {
+        FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<CameraActive>().Camera.SetActive(false);
+        scores[index].scoreCamera.SetActive(true);
+    }
+
+    public void Hide(int index)
+    {
+        scores[index].scoreCamera.SetActive(false);
+        FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<CameraActive>().Camera.SetActive(true);
     }
 }
