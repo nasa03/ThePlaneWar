@@ -24,6 +24,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     private float _time = 20.0f;
     private int _maxTime = 20;
 
+    public Camera MainCamera => mainCamera;
+
     public GameObject ExplosionParticleSystem => explosionParticleSystem;
 
     public Image SightImage => sightImage;

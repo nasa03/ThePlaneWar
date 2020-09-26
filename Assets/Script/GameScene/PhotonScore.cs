@@ -44,8 +44,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                     {
                         if (planeObj.GetComponent<PhotonView>().Controller.NickName == name)
                         {
-                            scores[i].scoreCamera = planeObj.transform.Find("ShakeCamera")
-                                .Find("MultipurposeCameraRig").gameObject;
+                            scores[i].scoreCamera = planeObj.GetComponent<CameraActive>().Camera;
                         }
                     }
                     if (PhotonNetwork.PlayerList[i].IsLocal)
@@ -78,13 +77,51 @@ public class PhotonScore : MonoBehaviourPunCallbacks
     
     public void Show(int index)
     {
-        FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<CameraActive>().Camera.SetActive(false);
-        scores[index].scoreCamera.SetActive(true);
+        Camera mainCamera = FindObjectOfType<PhotonGame>().MainCamera;
+        GameObject hideCamera = FindObjectOfType<PhotonGame>().LocalPlane;
+        GameObject showCamera = scores[index].scoreCamera;
+        if (hideCamera)
+        {
+            hideCamera.GetComponent<CameraActive>().Camera.SetActive(false);
+        }
+        else
+        {
+            mainCamera.enabled = false;
+        }
+
+        if (showCamera)
+        {
+            showCamera.SetActive(true);
+        }
+        else
+        {
+            mainCamera.enabled = true;
+        }
+        
     }
 
     public void Hide(int index)
     {
-        scores[index].scoreCamera.SetActive(false);
-        FindObjectOfType<PhotonGame>().LocalPlane.GetComponent<CameraActive>().Camera.SetActive(true);
+        Camera mainCamera = FindObjectOfType<PhotonGame>().MainCamera;
+        GameObject showCamera = FindObjectOfType<PhotonGame>().LocalPlane;
+        GameObject hideCamera = scores[index].scoreCamera;
+        
+        if (hideCamera)
+        {
+            hideCamera.SetActive(false);
+        }
+        else
+        {
+            mainCamera.enabled = false;
+        }
+
+        if (showCamera)
+        {
+            showCamera.GetComponent<CameraActive>().Camera.SetActive(true);
+        }
+        else
+        {
+            mainCamera.enabled = true;
+        }
     }
 }

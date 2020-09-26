@@ -19178,8 +19178,8 @@ MonoBehaviour:
   m_PitchSensitivity: 0.5
   m_LateralWanderDistance: 5
   m_LateralWanderSpeed: 0.11
-  m_MaxClimbAngle: 60
-  m_MaxRollAngle: 60
+  m_MaxClimbAngle: 45
+  m_MaxRollAngle: 45
   m_SpeedEffect: 0.3
   m_TakeoffHeight: 800
   m_Target: {fileID: 0}
