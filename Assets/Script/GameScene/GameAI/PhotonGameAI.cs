@@ -16,7 +16,7 @@ public class PhotonGameAI : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            object[] AI_Plane_Index = (object[]) CustomProperties.GetProperties(PhotonNetwork.CurrentRoom, "ai_List");
+            object[] AI_Plane_Index = (object[]) PhotonNetwork.CurrentRoom.GetProperties("ai_List");
 
             if (AI_Plane_Index != null)
             {
@@ -40,7 +40,7 @@ public class PhotonGameAI : MonoBehaviourPun
         GameObject AI_Plane = GameObject.Find(name);
 
         AI_Plane.GetComponent<AIAttack>().Index = PhotonNetwork.CurrentRoom.Players.Count + index;
-        AI_Plane.GetComponent<AIProperty>().Initialize(string.Format("机器人{0}", index + 1));
+        AI_Plane.GetComponent<AIProperty>().Initialize($"机器人{index + 1}");
         AI_Plane_List.Add(AI_Plane);
     }
 

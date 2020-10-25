@@ -6513,7 +6513,7 @@ MonoBehaviour:
   gameOverUI: {fileID: 737896026}
   nameInput: {fileID: 1958999582}
   connectButton: {fileID: 1538317663}
-  idLabel: {fileID: 1958999584}
+  idLabel: {fileID: 799685923}
 --- !u!4 &954965989
 Transform:
   m_ObjectHideFlags: 0
@@ -13002,18 +13002,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1958999581}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1958999584 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 11400002, guid: 45edf347f9f51214dbfbab27b16fbf01,
-    type: 3}
-  m_PrefabInstance: {fileID: 1958999581}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1959017842
 GameObject:
   m_ObjectHideFlags: 0

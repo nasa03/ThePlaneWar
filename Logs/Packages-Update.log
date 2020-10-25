@@ -106,3 +106,11 @@ Update Mode: updateDependencies
 
 The following packages were 已更新:
   com.unity.purchasing 从版本 2.0.6 到 2.1.0
+
+=== Sun Oct 25 11:03:40 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.ide.vscode from version 1.2.1 to 1.2.2

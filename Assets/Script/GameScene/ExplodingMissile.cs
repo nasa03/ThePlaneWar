@@ -26,7 +26,7 @@ public class ExplodingMissile : MonoBehaviourPun
     {
         _timer += Time.deltaTime;
         if (!(_timer >= explosionTimer)) return;
-        
+
         Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
         PhotonNetwork.Destroy(gameObject);
     }
@@ -39,7 +39,6 @@ public class ExplodingMissile : MonoBehaviourPun
 
         if (_timer >= 0.05f)
             transform.rotation = Quaternion.LookRotation(_thisRigidbody.velocity);
-
     }
 
     private void Awake()
@@ -57,6 +56,12 @@ public class ExplodingMissile : MonoBehaviourPun
         {
             if (!target.GetComponent<PhotonView>().IsMine)
                 missileTargets.Add(target.transform);
+        }
+
+        GameObject[] aiTargets = GameObject.FindGameObjectsWithTag("AI");
+        foreach (var target in aiTargets)
+        {
+            missileTargets.Add(target.transform);
         }
 
         Vector3 thisPosition = transform.position;
@@ -90,7 +95,7 @@ public class ExplodingMissile : MonoBehaviourPun
     {
         if (collision.gameObject.CompareTag("FX") || collision.gameObject.CompareTag("Plane") ||
             collision.gameObject.CompareTag("AI")) return;
-        
+
         ContactPoint contact = collision.contacts[0];
         Quaternion rot = Quaternion.FromToRotation(Vector3.forward, contact.normal);
         Vector3 pos = contact.point;
