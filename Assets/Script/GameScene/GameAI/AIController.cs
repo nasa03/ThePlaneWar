@@ -22,9 +22,9 @@ public class AIController : MonoBehaviour
         if (!PhotonNetwork.IsMasterClient) return;
 
         if (_target) return;
-        
+
         Transform tempTarget = GetNearTargetTransform();
-        if (!tempTarget) 
+        if (!tempTarget)
             tempTarget = GetRandomPosition();
 
         _target = tempTarget;
@@ -39,12 +39,20 @@ public class AIController : MonoBehaviour
     private Transform GetNearTargetTransform()
     {
         ArrayList list = new ArrayList();
-        GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
 
+        GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
         foreach (GameObject target in targets)
         {
-            if (target != gameObject) 
+            list.Add(target.transform);
+        }
+
+        GameObject[] aiTargets = GameObject.FindGameObjectsWithTag("AI");
+        foreach (GameObject target in aiTargets)
+        {
+            if (target != gameObject)
+            {
                 list.Add(target.transform);
+            }
         }
 
         Vector3 thisPosition = transform.position;
@@ -65,7 +73,7 @@ public class AIController : MonoBehaviour
         for (int i = 0; i < distances.Length; i++)
         {
             if (distances[i] == 0 || (minDistance != 0 && !(distances[i] < minDistance))) continue;
-            
+
             minDistance = distances[i];
             minTarget = list[i] as Transform;
         }
@@ -74,7 +82,7 @@ public class AIController : MonoBehaviour
         {
             return minTarget;
         }
-        
+
         return null;
     }
 

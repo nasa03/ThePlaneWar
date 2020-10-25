@@ -50,16 +50,16 @@ public class ExplodingMissile : MonoBehaviourPun
     private Transform GetNearTargetTransform()
     {
         ArrayList missileTargets = new ArrayList();
+        
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
-
-        foreach (var target in targets)
+        foreach (GameObject target in targets)
         {
             if (!target.GetComponent<PhotonView>().IsMine)
                 missileTargets.Add(target.transform);
         }
 
         GameObject[] aiTargets = GameObject.FindGameObjectsWithTag("AI");
-        foreach (var target in aiTargets)
+        foreach (GameObject target in aiTargets)
         {
             missileTargets.Add(target.transform);
         }
