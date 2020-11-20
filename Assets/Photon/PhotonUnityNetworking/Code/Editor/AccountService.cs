@@ -139,8 +139,9 @@ namespace Photon.Pun
         {
             string email = UnityEngine.Networking.UnityWebRequest.EscapeURL(request.Email);
             string st = UnityEngine.Networking.UnityWebRequest.EscapeURL(request.ServiceTypes);
+            string uv = UnityEngine.Networking.UnityWebRequest.EscapeURL(Application.unityVersion);
             string serviceUrl = string.Format(ServiceUrl, string.IsNullOrEmpty(CustomContext) ? DefaultContext : CustomContext );
-            return string.Format("{0}?email={1}&st={2}", serviceUrl, email, st);
+            return string.Format("{0}?email={1}&st={2}&uv={3}", serviceUrl, email, st, uv);
         }
 
         /// <summary>

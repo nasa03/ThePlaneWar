@@ -114,3 +114,16 @@ Update Mode: updateDependencies
 
 The following packages were updated:
   com.unity.ide.vscode from version 1.2.1 to 1.2.2
+
+=== Fri Nov 20 15:10:14 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were 已更新:
+  com.unity.ads 从版本 3.4.9 到 3.5.0
+  com.unity.analytics 从版本 3.3.5 到 3.5.3
+  com.unity.ide.visualstudio 从版本 2.0.2 到 2.0.3
+  com.unity.ide.vscode 从版本 1.2.2 到 1.2.3
+  com.unity.purchasing 从版本 2.1.0 到 2.1.1
+  com.unity.test-framework 从版本 1.1.16 到 1.1.18

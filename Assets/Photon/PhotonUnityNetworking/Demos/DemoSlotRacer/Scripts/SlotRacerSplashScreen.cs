@@ -26,7 +26,9 @@ namespace Photon.Pun.Demo.SlotRacer
     [ExecuteInEditMode]
     public class SlotRacerSplashScreen : MonoBehaviour
     {
+#pragma warning disable 0414
         private string PunCockpit_scene = "PunCockpit-Scene";
+#pragma warning restore 0414
 
         public Text WarningText;
         public GameObject SplashScreen;

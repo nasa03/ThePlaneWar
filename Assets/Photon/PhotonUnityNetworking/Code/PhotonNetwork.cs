@@ -64,7 +64,7 @@ namespace Photon.Pun
     public static partial class PhotonNetwork
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
-        public const string PunVersion = "2.20.1";
+        public const string PunVersion = "2.23";
 
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
@@ -118,7 +118,7 @@ namespace Photon.Pun
             {
                 if (photonServerSettings == null)
                 {
-                    photonServerSettings = (ServerSettings)Resources.Load(PhotonNetwork.ServerSettingsFileName, typeof(ServerSettings));
+                    LoadOrCreateSettings();
                 }
 
                 return photonServerSettings;
@@ -743,12 +743,19 @@ namespace Photon.Pun
         }
 
 
-        /// <summary>Configures the minimal Time.timeScale at which PUN (the PhotonHandler) will dispatch incoming messages within LateUpdate.</summary>
+        /// <summary>Affects if the PhotonHandler dispatches incoming messages in LateUpdate or FixedUpdate (default).</summary>
         /// <remarks>
-        /// It may make sense to dispatch incoming messages, even if the timeScale is near 0.///
-        /// In some cases, stopping the game time makes sense, so this option defaults to -1f, which is "off".
+        /// By default the PhotonHandler component dispatches incoming messages in FixedUpdate.
+        /// 
+        /// When the Time.timeScale is low, FixedUpdate is called less frequently up to a point where updates may get paused.
+        /// PUN can automatically dispatch messages in LateUpdate for low timeScale values (when Time.timeScale is lower than this value).
+        /// 
+        /// PUN will use either FixedUpdate or LateUpdate but not both (as of v2.23).
         ///
-        /// Without dispatching messages, PUN won't change state and does not handle updates.
+        /// When you use this value, be aware that Instantiates and RPCs execute with a changed timing within a frame.
+        /// If Instantiate is called from FixedUpdate, the physics engine seems to run for instantiated objects before the engine calls Start() on them.
+        ///
+        /// By default, this value is -1f, so there is no fallback to LateUpdate.
         /// </remarks>
         public static float MinimalTimeScaleToDispatchInFixedUpdate = -1f;
 
@@ -954,23 +961,16 @@ namespace Photon.Pun
         }
 
 
-        /// <summary>Switch to alternative ports for a UDP connection to the Public Cloud.</summary>
-        /// <remarks>
-        /// This should be used when a customer has issues with connection stability. Some players
-        /// reported better connectivity for Steam games. The effect might vary, which is why the
-        /// alternative ports are not the new default.
-        ///
-        /// The alternative (server) ports are 27000 up to 27003.
-        ///
-        /// The values are appplied by replacing any incoming server-address string accordingly.
-        /// You only need to set this to true though.
-        ///
-        /// This value does not affect TCP or WebSocket connections.
-        /// </remarks>
-        public static bool UseAlternativeUdpPorts
+        /// <summary>Replaced by ServerPortOverrides.</summary>
+        [Obsolete("Set port overrides in ServerPortOverrides. Not used anymore!")]
+        public static bool UseAlternativeUdpPorts { get; set; }
+        
+        /// <summary>Defines overrides for server ports. Used per server-type if > 0. Important: If you change the transport protocol, adjust the overrides, too.</summary>
+        /// <see cref="LoadBalancingClient.ServerPortOverrides"/>
+        public static PhotonPortDefinition ServerPortOverrides
         {
-            get { return (NetworkingClient == null) ? false :  NetworkingClient.UseAlternativeUdpPorts; }
-            set { if (NetworkingClient != null) NetworkingClient.UseAlternativeUdpPorts = value; }
+            get { return (NetworkingClient == null) ? new PhotonPortDefinition() :  NetworkingClient.ServerPortOverrides; }
+            set { if (NetworkingClient != null) NetworkingClient.ServerPortOverrides = value; }
         }
 
 
@@ -983,19 +983,20 @@ namespace Photon.Pun
         /// </summary>
         static PhotonNetwork()
         {
+            #if !UNITY_EDITOR || (UNITY_EDITOR && !UNITY_2019_4_OR_NEWER)
             StaticReset();
+            #endif
         }
         
         #if UNITY_2019_4_OR_NEWER && UNITY_EDITOR
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         #endif
         private static void StaticReset()
         {
-
             #if UNITY_EDITOR
             if (!EditorApplication.isPlayingOrWillChangePlaymode) return;
             #endif
-            // This clear is for when Domain Reloading is disabled. Typicall will already be empty.
+            // This clear is for when Domain Reloading is disabled. Typically will already be empty.
             monoRPCMethodsCache.Clear();
 
             // set up the NetworkingClient, protocol, etc
@@ -1136,7 +1137,7 @@ namespace Photon.Pun
             }
 
             
-            NetworkingClient.NameServerPortOverride = appSettings.Port;
+            NetworkingClient.NameServerPortInAppSettings = appSettings.Port;
 			if (!appSettings.IsDefaultNameServer)
             {
                 NetworkingClient.NameServerHost = appSettings.Server;
@@ -1884,7 +1885,6 @@ namespace Photon.Pun
                 Debug.LogWarning("ReconnectAndRejoin() enabled IsMessageQueueRunning. Needs to be able to dispatch incoming messages.");
             }
 
-            NetworkingClient.IsUsingNameServer = false;
             return NetworkingClient.ReconnectAndRejoin();
         }
 
@@ -2190,8 +2190,11 @@ namespace Photon.Pun
                 {
                     return true;
                 }
+                
+                EventData evData = new EventData { Code = eventCode };  // creates the equivalent of a received event
+                evData.Parameters[ParameterCode.Data] = eventContent;
+                evData.Parameters[ParameterCode.ActorNr] = 1;
 
-                EventData evData = new EventData { Code = eventCode, Parameters = new Dictionary<byte, object> { { ParameterCode.Data, eventContent }, { ParameterCode.ActorNr, 1 } } };
                 NetworkingClient.OnEvent(evData);
                 return true;
             }
@@ -2379,14 +2382,14 @@ namespace Photon.Pun
         {
 
             // some values always present:
-            string prefabName = (string)networkEvent[(byte)0];
-            int serverTime = (int)networkEvent[(byte)6];
-            int instantiationId = (int)networkEvent[(byte)7];
+            string prefabName = (string)networkEvent[keyByteZero];
+            int serverTime = (int)networkEvent[keyByteSix];
+            int instantiationId = (int)networkEvent[keyByteSeven];
 
             Vector3 position;
-            if (networkEvent.ContainsKey((byte)1))
+            if (networkEvent.ContainsKey(keyByteOne))
             {
-                position = (Vector3)networkEvent[(byte)1];
+                position = (Vector3)networkEvent[keyByteOne];
             }
             else
             {
@@ -2394,27 +2397,27 @@ namespace Photon.Pun
             }
 
             Quaternion rotation = Quaternion.identity;
-            if (networkEvent.ContainsKey((byte)2))
+            if (networkEvent.ContainsKey(keyByteTwo))
             {
-                rotation = (Quaternion)networkEvent[(byte)2];
+                rotation = (Quaternion)networkEvent[keyByteTwo];
             }
 
             byte group = 0;
-            if (networkEvent.ContainsKey((byte)3))
+            if (networkEvent.ContainsKey(keyByteThree))
             {
-                group = (byte)networkEvent[(byte)3];
+                group = (byte)networkEvent[keyByteThree];
             }
 
             byte objLevelPrefix = 0;
-            if (networkEvent.ContainsKey((byte)8))
+            if (networkEvent.ContainsKey(keyByteEight))
             {
-                objLevelPrefix = (byte)networkEvent[(byte)8];
+                objLevelPrefix = (byte)networkEvent[keyByteEight];
             }
 
             int[] viewsIDs;
-            if (networkEvent.ContainsKey((byte)4))
+            if (networkEvent.ContainsKey(keyByteFour))
             {
-                viewsIDs = (int[])networkEvent[(byte)4];
+                viewsIDs = (int[])networkEvent[keyByteFour];
             }
             else
             {
@@ -2422,9 +2425,9 @@ namespace Photon.Pun
             }
 
             object[] incomingInstantiationData;
-            if (networkEvent.ContainsKey((byte)5))
+            if (networkEvent.ContainsKey(keyByteFive))
             {
-                incomingInstantiationData = (object[])networkEvent[(byte)5];
+                incomingInstantiationData = (object[])networkEvent[keyByteFive];
             }
             else
             {
@@ -2925,6 +2928,11 @@ namespace Photon.Pun
         /// </param>
         public static void LoadLevel(int levelNumber)
         {
+            if (PhotonHandler.AppQuits)
+            {
+                return;
+            }
+
             if (PhotonNetwork.AutomaticallySyncScene)
             {
                 SetLevelInPropsIfSynced(levelNumber);
@@ -2962,6 +2970,11 @@ namespace Photon.Pun
         /// </param>
         public static void LoadLevel(string levelName)
         {
+            if (PhotonHandler.AppQuits)
+            {
+                return;
+            }
+
             if (PhotonNetwork.AutomaticallySyncScene)
             {
                 SetLevelInPropsIfSynced(levelName);
@@ -3027,8 +3040,93 @@ namespace Photon.Pun
             }
         }
 
+        
+        public static void LoadOrCreateSettings()
+        {
+            if (photonServerSettings != null)
+            {
+                Debug.LogWarning("photonServerSettings is not null. Will not LoadOrCreateSettings().");
+                return;
+            }
 
-#if UNITY_EDITOR
+
+            // try to load the resource / asset (ServerSettings a.k.a. PhotonServerSettings)
+            photonServerSettings = (ServerSettings)Resources.Load(PhotonNetwork.ServerSettingsFileName, typeof(ServerSettings));
+            if (photonServerSettings != null)
+            {
+                //Debug.LogWarning("Settings from Resources.");  // DEBUG
+                return;
+            }
+            
+
+            #if UNITY_EDITOR
+            // let's check if the AssetDatabase finds the file; aimed to avoid multiple files being created, potentially a futile step
+            AssetDatabase.Refresh();
+            
+            // another little check: Does AssetDatabase.Refresh() affect loading Resources?!
+            photonServerSettings = (ServerSettings)Resources.Load(PhotonNetwork.ServerSettingsFileName, typeof(ServerSettings));
+            //Debug.LogWarning("Loaded from Resources after AssetDatabase.Refresh(): "+(photonServerSettings != null)); // DEBUG
+            
+
+            var foundSettings = AssetDatabase.FindAssets("t:ServerSettings");
+
+            if (foundSettings.Length >= 1)
+            {
+                string settingsAssetPath = AssetDatabase.GUIDToAssetPath(foundSettings[0]);
+                photonServerSettings = AssetDatabase.LoadAssetAtPath<ServerSettings>(settingsAssetPath);
+
+                if (foundSettings.Length > 1)
+                {
+                    Debug.LogWarning("PUN found multiple PhotonServerSettings assets in the project. Only one should be in any of the Resources folder. Loading: " + settingsAssetPath);
+                }
+
+                if (photonServerSettings != null)
+                {
+                    //Debug.LogWarning("Settings from AssetDatabase."); // DEBUG
+                    return;
+                }
+            }
+            #endif
+
+
+            // create it if not loaded
+            if (photonServerSettings == null)
+            {
+                photonServerSettings = (ServerSettings)ScriptableObject.CreateInstance("ServerSettings");
+                if (photonServerSettings == null)
+                {
+                    Debug.LogError("Failed to create ServerSettings. PUN is unable to run this way. If you deleted it from the project, reload the Editor.");
+                    return;
+                }
+                //Debug.LogWarning("Settings created!"); // DEBUG 
+            }
+
+
+            // in the editor, store the settings file as it's not loaded
+            #if  UNITY_EDITOR
+            string punResourcesDirectory = PhotonNetwork.FindPunAssetFolder() + "Resources/";
+            string serverSettingsAssetPath = punResourcesDirectory + PhotonNetwork.ServerSettingsFileName + ".asset";
+            string serverSettingsDirectory = Path.GetDirectoryName(serverSettingsAssetPath);
+
+
+            if (!Directory.Exists(serverSettingsDirectory))
+            {
+                Directory.CreateDirectory(serverSettingsDirectory);
+                AssetDatabase.ImportAsset(serverSettingsDirectory);
+            }
+
+            AssetDatabase.CreateAsset(photonServerSettings, serverSettingsAssetPath);
+            AssetDatabase.SaveAssets();
+
+            // if the project does not have PhotonServerSettings yet, enable "Development Build" to use the Dev Region.
+            EditorUserBuildSettings.development = true;
+
+            //Debug.Log("Settings stored to DB."); // DEBUG
+            #endif
+        }
+
+        
+        #if UNITY_EDITOR
 
         /// <summary>
         /// Finds the asset path base on its name or search query: https://docs.unity3d.com/ScriptReference/AssetDatabase.FindAssets.html
@@ -3079,58 +3177,6 @@ namespace Photon.Pun
         }
 
 
-        [Conditional("UNITY_EDITOR")]
-        public static void CreateSettings()
-        {
-            AssetDatabase.Refresh();
-            PhotonNetwork.PhotonServerSettings = (ServerSettings)Resources.Load(PhotonNetwork.ServerSettingsFileName, typeof(ServerSettings));
-            if (PhotonNetwork.PhotonServerSettings != null)
-            {
-                return;
-            }
-
-            // if the project does not have PhotonServerSettings yet, enable "Development Build" to use the Dev Region.
-            EditorUserBuildSettings.development = true;
-
-            // find out if ServerSettings can be instantiated (existing script check)
-            ScriptableObject serverSettingTest = ScriptableObject.CreateInstance("ServerSettings");
-            if (serverSettingTest == null)
-            {
-                Debug.LogError("missing settings script");
-                return;
-            }
-            UnityEngine.Object.DestroyImmediate(serverSettingTest);
-
-
-            // if still not loaded, create one
-            if (PhotonNetwork.PhotonServerSettings == null)
-            {
-                string _PunResourcesPath = PhotonNetwork.FindPunAssetFolder();
-
-                _PunResourcesPath += "Resources/";
-
-
-                string serverSettingsAssetPath = _PunResourcesPath+ PhotonNetwork.ServerSettingsFileName + ".asset";
-                string settingsPath = Path.GetDirectoryName(serverSettingsAssetPath);
-                if (!Directory.Exists(settingsPath))
-                {
-                    Directory.CreateDirectory(settingsPath);
-                    AssetDatabase.ImportAsset(settingsPath);
-                }
-
-                PhotonNetwork.PhotonServerSettings = (ServerSettings)ScriptableObject.CreateInstance("ServerSettings");
-                if (PhotonNetwork.PhotonServerSettings != null)
-                {
-                    AssetDatabase.CreateAsset(PhotonNetwork.PhotonServerSettings, serverSettingsAssetPath);
-                }
-                else
-                {
-                    Debug.LogError("PUN failed creating a settings file. ScriptableObject.CreateInstance(\"ServerSettings\") returned null. Will try again later.");
-                }
-            }
-        }
-
-
         /// <summary>
         /// Internally used by Editor scripts, called on Hierarchy change (includes scene save) to remove surplus hidden PhotonHandlers.
         /// </summary>
@@ -3154,6 +3200,8 @@ namespace Photon.Pun
                 }
             }
         }
-#endif
+
+        #endif
+
     }
 }

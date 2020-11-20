@@ -4,9 +4,60 @@ Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
 
-Version 4.1.4.5 (2020 - rev)
+Version 4.1.4.6 (17. November 2020 - rev5865)
+    Changed: The EventData.Paramters dictionary is now readonly. It does not need to be settable and can no longer be null. So null-checks are removed.
+    Changed: If the ByteArrayPool is used for reading events, the sender's actorNumber will not longer be in the EventData parameter-table. Instead, only the Sender property is used.
+    Note: This makes receiving EventData events non-alloc by not adding the Sender key/value to the Parameters (which would box the int value).
+    Note: The EventData.Sender property was available for a while and was a better way to access the event-sender's actornumber.
+    Changed: PhotonPeer.SendOperation() and PhotonPeer.SendMessage() will now check a few conditions (is connected, etc) and call PeerBase.SerializeOperationToMessage().
+    Internal: Changed the code path for operations and messages serialization. There are lots of internal changes for this but no externals.
+    Internal: Message header length is set in EnqueueMessageAsPayload along with other updates (was in TPeer.SerializeOperationToMessage()).
+    Removed: PhotonPeer.OpCustom(), which was already obsolete for a long time.
+    Added: PeerBase.IsTransportEncrypted() to help figure out if Payload Encryption should be skipped.
+    Changed: PeerBase.SerializeMessageToMessage no longer updates the header for TCP. Done in EnqueueMessageAsPayload, used by EnqueuePhotonMessage.
+    Changed: SerializeMessageToMessage to check existing value isRawMessage instead of re-checking the condition when applying message type.
+    Fixed: Detection of Generic-Dictionary-typed arrays. Was lacking a test if the element was of type Dictionary.
+    Changed: Connect(string serverAddress, string applicationName) to call variant with proxy-support directly.
+    Updated: Connect methods and their docs.
+    Removed: More of the RHTTP support.
+    Added: DisconnectMessage deserialization and an event for this case: PhotonPeer.OnDisconnectMessage. This does not break the dll's compatibility.
+    Changed: Connect() workflow. This simplified the TPeer and EnetPeer somewhat and unifies some actions that were scattered in the classes hierarchy.
+    Changed: PhotonPeer to create the SocketImplementationConfig in the constructor. Connect() will use this to create the actual IPhotonSocket.
+    Changed: TPeer.Connect and EnetPeer.Connect are a bit simpler now (don't have to create the actual IPhotonSocket).
+    Removed: PeerBase.SocketImplementation member.
+    Changed: Setter and handling for the Version.clientVersion (conditional for SERVERSDK).
+    Changed: Version.clientVersion is readonly, unless SERVERSDK is defined.
+    Changed: CreatePeerBase() will only create a new EnetPeer or TPeer on demand (if the protocol changed or there was no PeerBase implementation).
+    Added: Special treatment for byte-typed keys to the Photon Hashtable to avoid boxing. Pre-boxed items are stored in a static array.
+    Added: NonAllocDictionary support in SupportClass (DictionaryToString()).
+    Added: ParameterDictionary as type and support to de/serialize it.
+    Note: This is a WiP commit to get LoadBalancing non-allow (or less alloc).
+    Added: PhotonPeer.WrapIncomingStructs to control how to de-serialize responses and events. Setting this requires adjusted code.
+    Note: As long as WrapIncomingStructs is not set, code changes are not mandatory.
+    Fixed: Error message in SerializeDictionaryHeader to include the type of the value which failed (it was logging the key's type).
+    Changed: The PhotonClientWebSocket does a DNS request before connecting, to figure out if IPv6 should be requested by Photon servers.
+    Added: PhotonPeer.TargetFramework to identify the target framework that the dll was built-for. Might help identify the used variant.
+    Changed: Code order a little, to get obsolete fields up in the range for them.
+    Removed: RhttpMinConnections and RhttpMaxConnections, which were entirely obsolete.
+    Changed: OperationResponse indexer is not obsolete. This was used to detect where it's used.
+    Changed: ParameterDictionary now has a Get<T>() method, so the API is analog to Unwrap<T>() in this case.
+    Changed: EnetChannel to use NonAllocDictionary instead of Dictionary. Our replacement is internal and non-allocating for iteration.
+    Changed: the logging level of events possibly happening on each Service() call changed from INFO to ALL
+    Changed: EnqueueMessageAsPayload stats-keeping no longer throws an exception, when the delivery mode is "out of range".
+    Internal: Changed how the client writes acknowledgements.
+    Internal: TPeer.ReceiveIncomingCommands() will only log "Wrong MagicNumber", if the received length is more than 0. It also logs the length then.
+    Changed: PhotonClientWebSocket (in .Net Standard 2.0 dll) now checks if the clientWebSocket state is still "Open" before handling incoming data.
+    Changed: PhotonClientWebSocket logs INFO, when the received data has length 0 but the socket is still Open.
+
+
+Version 4.1.4.5 (04. September 2020 - rev5733)
+    Fixed: Serialization of a ByteArraySlice will now release it, as described in the docs. So you can pass a ByteArraySlice to RaiseEvent and control of it is passed over to the Photon API.
     Fixed: Potential issues with SupportLogger.StartBackgroundCalls() when there were 255 threads running (and or stopped).
-    
+    Changed: When PhotonClientWebSocket fails to connect, this will now correctly result in a disconnect with code/reason ExceptionOnConnect.
+    Changed: The socket reading-thread not call it's disconnect method, if already disconnecting/disconnected. This avoids a surplus call (and callback).
+    Internal: The thread locking object in SocketNative is no longers static.
+    Note: The next release will change the native datagram encryptor api. Most likely this is the last one compatible with the old native plugin.
+
 Version 4.1.4.4 (29. June 2020 - rev5625)
     Fixed: NonAllocDict. Capacity change was broken. This is a critical fix.
     Added: Indexer to NonAllocDict to allow Dict[key] get and set.

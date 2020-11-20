@@ -267,12 +267,26 @@ namespace Photon.Realtime
                 return false;
             }
 
-            this.pingerList = new List<RegionPinger>();
-            foreach (Region region in this.EnabledRegions)
+            if (this.pingerList == null)
             {
-                RegionPinger rp = new RegionPinger(region, this.OnRegionDone);
-                this.pingerList.Add(rp);
-                rp.Start(); // TODO: check return value
+                this.pingerList = new List<RegionPinger>();
+            }
+            else
+            {
+                lock (this.pingerList)
+                {
+                    this.pingerList.Clear();
+                }
+            }
+
+            lock (this.pingerList)
+            {
+                foreach (Region region in this.EnabledRegions)
+                {
+                    RegionPinger rp = new RegionPinger(region, this.OnRegionDone);
+                    this.pingerList.Add(rp);
+                    rp.Start(); // TODO: check return value
+                }
             }
 
             return true;
@@ -280,16 +294,25 @@ namespace Photon.Realtime
 
         private void OnRegionDone(Region region)
         {
-            this.bestRegionCache = null;
-            foreach (RegionPinger pinger in this.pingerList)
+            lock (this.pingerList)
             {
-                if (!pinger.Done)
+                if (this.IsPinging == false)
                 {
                     return;
                 }
+
+                this.bestRegionCache = null;
+                foreach (RegionPinger pinger in this.pingerList)
+                {
+                    if (!pinger.Done)
+                    {
+                        return;
+                    }
+                }
+
+                this.IsPinging = false;
             }
 
-            this.IsPinging = false;
             this.onCompleteCall(this);
             #if PING_VIA_COROUTINE
             MonoBehaviourEmpty.SelfDestroy();

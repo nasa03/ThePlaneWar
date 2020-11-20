@@ -9,8 +9,10 @@ public class ChooseMap : MonoBehaviourPunCallbacks
     [SerializeField] private UISprite mapSprite;
     [SerializeField] private UILabel mapLabel;
     [SerializeField] private UIButton[] mapButtons;
-    
-    public int Index { get; private set; } = 1;
+
+    public int Index { get; private set; } = 0;
+
+    private readonly string[] mapNames = {"山脉", "海岛"};
 
     public void LastMap()
     {
@@ -31,7 +33,7 @@ public class ChooseMap : MonoBehaviourPunCallbacks
         }
 
         mapIndex--;
-        
+
         photonView.RPC("SetMap", RpcTarget.All, mapIndex);
     }
 
@@ -60,14 +62,14 @@ public class ChooseMap : MonoBehaviourPunCallbacks
     private void SetMap(int index)
     {
         mapSprite.spriteName = mapSprite.atlas.spriteList[index].name;
-        mapLabel.text = "Map " + (index + 1);
-        this.Index = (index + 1);
+        mapLabel.text = mapNames[index];
+        this.Index = (index);
     }
-    
+
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        
+
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             foreach (UIButton button in mapButtons)
@@ -87,7 +89,7 @@ public class ChooseMap : MonoBehaviourPunCallbacks
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         base.OnMasterClientSwitched(newMasterClient);
-        
+
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             foreach (UIButton button in mapButtons)

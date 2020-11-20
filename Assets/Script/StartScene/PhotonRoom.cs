@@ -100,7 +100,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
                 PhotonNetwork.CurrentRoom.SetMasterClient(playerOthers);
             }
         }
-        
+
         photonView.RPC("EnterOrRefreshRoom", RpcTarget.All);
         photonView.RPC("EnterOrRefreshRoomOfAI", RpcTarget.All);
     }
@@ -115,7 +115,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
     public void LeftRoomButtonOnClick()
     {
         if (!PhotonNetwork.OfflineMode)
-            PhotonNetwork.LeaveRoom(); 
+            PhotonNetwork.LeaveRoom();
         else
             PhotonNetwork.Disconnect();
     }
@@ -130,7 +130,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.CurrentRoom.IsVisible = false;
 
-                PhotonNetwork.LoadLevel(FindObjectOfType<ChooseMap>().Index);
+                PhotonNetwork.LoadLevel(FindObjectOfType<ChooseMap>().Index + 1);
                 startGameButton.isEnabled = false;
             }
             else
@@ -161,7 +161,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         EnterOrRefreshRoom();
-        
+
         FindObjectOfType<PhotonAI>().EnterOrRefreshRoomOfAI();
     }
 
@@ -170,7 +170,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         base.OnPlayerLeftRoom(otherPlayer);
 
         EnterOrRefreshRoom();
-        
+
         FindObjectOfType<PhotonAI>().EnterOrRefreshRoomOfAI();
     }
 
@@ -188,7 +188,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         for (int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
         {
             if (target != PhotonNetwork.PlayerListOthers[i]) continue;
-            
+
             if ((bool) target.GetProperties("isReady", false))
                 usernameSprites[i + 1].GetComponentInChildren<UILabel>().color = Color.yellow;
             else

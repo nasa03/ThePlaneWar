@@ -89,6 +89,8 @@ namespace Photon.Realtime
         #if SUPPORTED_UNITY
         protected void Start()
         {
+            this.LogBasics();
+
             if (this.startStopwatch == null)
             {
                 this.startStopwatch = new Stopwatch();
@@ -234,12 +236,19 @@ namespace Photon.Realtime
                 string appIdShort = string.IsNullOrEmpty(this.client.AppId) || this.client.AppId.Length < 8 ? this.client.AppId : string.Concat(this.client.AppId.Substring(0, 8), "***");
 
                 sb.AppendFormat("{0} SupportLogger Info: ", this.GetFormattedTimestamp());
-                sb.AppendFormat("AppID: \"{0}\" AppVersion: \"{1}\" ClientVersion: {2} Build: {3} ", appIdShort, this.client.AppVersion, this.client.LoadBalancingPeer.ClientVersion, string.Join(", ", buildProperties.ToArray()));
-                sb.AppendFormat("UserId: \"{0}\" AuthType: {1} {2} {3} PeerID: {4} ", this.client.UserId, (this.client.AuthValues != null) ? this.client.AuthValues.AuthType.ToString() : "N/A", this.client.AuthMode, this.client.EncryptionMode, this.client.LoadBalancingPeer.PeerID);
-                //NOTE: this.client.LoadBalancingPeer.ServerIpAddress requires Photon3Unity3d.dll v4.1.2.5 and up
-                sb.AppendFormat("NameServer: {0} Server: {1} IP: {2} Region: {3} Socket: {4} ", this.client.NameServerHost, this.client.CurrentServerAddress, this.client.LoadBalancingPeer.ServerIpAddress, this.client.CloudRegion, this.client.LoadBalancingPeer.SocketImplementation);
+                sb.AppendFormat("AppID: \"{0}\" AppVersion: \"{1}\" Client: v{2} Build: {3} ", appIdShort, this.client.AppVersion, this.client.LoadBalancingPeer.ClientVersion, string.Join(", ", buildProperties.ToArray()));
+                if (this.client != null && this.client.LoadBalancingPeer != null && this.client.LoadBalancingPeer.SocketImplementation != null)
+                {
+                    sb.AppendFormat("Socket: {0} ", this.client.LoadBalancingPeer.SocketImplementation.Name);
+                }
+                
+                sb.AppendFormat("UserId: \"{0}\" AuthType: {1} AuthMode: {2} {3} ", this.client.UserId, (this.client.AuthValues != null) ? this.client.AuthValues.AuthType.ToString() : "N/A", this.client.AuthMode, this.client.EncryptionMode);
 
-                Debug.Log(sb.ToString());
+                sb.AppendFormat("State: {0} ", this.client.State);
+                sb.AppendFormat("PeerID: {0} ", this.client.LoadBalancingPeer.PeerID);
+                sb.AppendFormat("NameServer: {0} Current Server: {1} IP: {2} Region: {3} ", this.client.NameServerHost, this.client.CurrentServerAddress, this.client.LoadBalancingPeer.ServerIpAddress, this.client.CloudRegion);
+
+                Debug.LogWarning(sb.ToString());
             }
         }
 
@@ -324,7 +333,6 @@ namespace Photon.Realtime
         public void OnRegionListReceived(RegionHandler regionHandler)
         {
 			Debug.Log(this.GetFormattedTimestamp() + " SupportLogger OnRegionListReceived(regionHandler).");
-            this.LogBasics();
         }
 
         public void OnRoomListUpdate(List<RoomInfo> roomList)

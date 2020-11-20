@@ -22,8 +22,9 @@ namespace Photon.Pun
     {
         private PhotonView m_Target;
 
-        private static GUIContent syncronizationGuiContent = new GUIContent("Observe option", "(Syncronization) Determines how sync updates are culled and sent.");
-        private static GUIContent findObservablesGuiContent = new GUIContent("Find Observables", "When set to Auto, On Awake, Observables on this GameObject (child GameObjects) will be found and populate the Observables List." +
+        private static GUIContent ownerTransferGuiContent = new GUIContent("Ownership Transfer", "Determines how ownership changes may be initiated.");
+        private static GUIContent syncronizationGuiContent = new GUIContent("Syncronization", "Determines how sync updates are culled and sent.");
+        private static GUIContent observableSearchGuiContent = new GUIContent("Observable Search", "When set to Auto, On Awake, Observables on this GameObject (and child GameObjects) will be found and populate the Observables List." +
                 "\n\nNested PhotonViews (children with a PhotonView) and their children will not be included in the search.");
 
         public void OnEnable()
@@ -35,6 +36,7 @@ namespace Photon.Pun
         }
         public override void OnInspectorGUI()
         {
+
 
             this.m_Target = (PhotonView)this.target;
             bool isProjectPrefab = PhotonEditorUtils.IsPrefab(this.m_Target.gameObject);
@@ -50,47 +52,9 @@ namespace Photon.Pun
                 this.m_Target.ObservedComponents.Add(null);
             }
 
-            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(5);
 
-            // Owner
-            if (isProjectPrefab)
-            {
-                EditorGUILayout.LabelField("Owner", "<i>Set at runtime</i>", new GUIStyle("Label") { richText = true }, GUILayout.MinWidth(120));
-            }
-            else if (!this.m_Target.IsOwnerActive)
-            {
-                EditorGUILayout.LabelField("Owner", "Scene", GUILayout.MinWidth(120));
-            }
-            else
-            {
-                Player owner = this.m_Target.Owner;
-                string ownerInfo = (owner != null) ? owner.NickName : "<no Player found>";
-
-                if (string.IsNullOrEmpty(ownerInfo))
-                {
-                    ownerInfo = "<no playername set>";
-                }
-
-                EditorGUILayout.LabelField("Owner [" + this.m_Target.OwnerActorNr + "] " + ownerInfo, GUILayout.MinWidth(120));
-            }
-
-            // ownership requests
-            EditorGUI.BeginDisabledGroup(Application.isPlaying);
-            OwnershipOption own = (OwnershipOption)EditorGUILayout.EnumPopup(this.m_Target.OwnershipTransfer, GUILayout.MaxWidth(68), GUILayout.MinWidth(68));
-            if (own != this.m_Target.OwnershipTransfer)
-            {
-                // jf: fixed 5 and up prefab not accepting changes if you quit Unity straight after change.
-                // not touching the define nor the rest of the code to avoid bringing more problem than solving.
-                EditorUtility.SetDirty(this.m_Target);
-
-                Undo.RecordObject(this.m_Target, "Change PhotonView Ownership Transfer");
-                this.m_Target.OwnershipTransfer = own;
-            }
-            EditorGUI.EndDisabledGroup();
-
-            EditorGUILayout.EndHorizontal();
-
-
+            EditorGUILayout.BeginVertical((GUIStyle)"HelpBox");
             // View ID - Hide if we are multi-selected
             if (!multiSelected)
             {
@@ -116,49 +80,66 @@ namespace Photon.Pun
             // Locally Controlled
             if (EditorApplication.isPlaying)
             {
-                string masterClientHint = PhotonNetwork.IsMasterClient ? "(master)" : "";
-                EditorGUILayout.Toggle("Controlled locally: " + masterClientHint, this.m_Target.IsMine);
+                string masterClientHint = PhotonNetwork.IsMasterClient ? " (master)" : "";
+                EditorGUILayout.LabelField("IsMine:", this.m_Target.IsMine.ToString() + masterClientHint);
+                Room room = PhotonNetwork.CurrentRoom;
+                int cretrId = this.m_Target.CreatorActorNr;
+                Player cretr = (room != null) ? room.GetPlayer(cretrId) : null;
+                Player owner = this.m_Target.Owner;
+                Player ctrlr = this.m_Target.Controller;
+                EditorGUILayout.LabelField("Controller:", (ctrlr != null ? ("[" + ctrlr.ActorNumber + "] '" + ctrlr.NickName + "' " + (ctrlr.IsMasterClient ? " (master)" : "")) : "[0] <null>"));
+                EditorGUILayout.LabelField("Owner:", (owner != null ? ("[" + owner.ActorNumber + "] '" + owner.NickName + "' " + (owner.IsMasterClient ? " (master)" : "")) : "[0] <null>"));
+                EditorGUILayout.LabelField("Creator:", (cretr != null ? ("[" +cretrId + "] '" + cretr.NickName + "' " + (cretr.IsMasterClient ? " (master)" : "")) : "[0] <null>"));
+
             }
 
-            // ViewSynchronization (reliability)
-            if (this.m_Target.Synchronization == ViewSynchronization.Off)
+            EditorGUILayout.EndVertical();
+
+            EditorGUI.BeginDisabledGroup(Application.isPlaying);
+
+            GUILayout.Space(5);
+
+            // Ownership section
+
+            EditorGUILayout.LabelField("Ownership", (GUIStyle)"BoldLabel");
+
+            OwnershipOption own = (OwnershipOption)EditorGUILayout.EnumPopup(ownerTransferGuiContent, this.m_Target.OwnershipTransfer/*, GUILayout.MaxWidth(68), GUILayout.MinWidth(68)*/);
+            if (own != this.m_Target.OwnershipTransfer)
             {
-                GUI.color = Color.grey;
+                // jf: fixed 5 and up prefab not accepting changes if you quit Unity straight after change.
+                // not touching the define nor the rest of the code to avoid bringing more problem than solving.
+                EditorUtility.SetDirty(this.m_Target);
+
+                Undo.RecordObject(this.m_Target, "Change PhotonView Ownership Transfer");
+                this.m_Target.OwnershipTransfer = own;
             }
+
+            
+            GUILayout.Space(5);
+
+            // Observables section
+
+            EditorGUILayout.LabelField("Observables", (GUIStyle)"BoldLabel");
 
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("Synchronization"), syncronizationGuiContent);
 
-            GUI.color = Color.white;
-
-            if (this.m_Target.Synchronization != ViewSynchronization.Off)
-            {
-                if (this.m_Target.ObservedComponents.FindAll(item => item != null).Count == 0)
-                {
-                    EditorGUILayout.HelpBox("Setting the synchronization option only makes sense if you observe something.", MessageType.Warning);
-                }
-            }
-            else
+            if (this.m_Target.Synchronization == ViewSynchronization.Off)
             {
                 // Show warning if there are any observables. The null check is because the list allows nulls.
-                if (Selection.gameObjects.Length == 1)
+                var observed = m_Target.ObservedComponents;
+                if (observed.Count > 0)
                 {
-                    var observed = m_Target.ObservedComponents;
-                    if (observed.Count > 0)
-                    {
-                        for (int i = 0, cnt = observed.Count; i < cnt; ++i)
-                            if (observed[i] != null)
-                            {
-
-                                EditorGUILayout.HelpBox("Observe Option is set to Off. Select a Syncronization setting in order to sync the listed Observables.", MessageType.Warning);
-                                break;
-                            }
-                    }
+                    for (int i = 0, cnt = observed.Count; i < cnt; ++i)
+                        if (observed[i] != null)
+                        {
+                            EditorGUILayout.HelpBox("Syncronization is set to Off. Select a Syncronization setting in order to sync the listed Observables.", MessageType.Warning);
+                            break;
+                        }
                 }
              }
 
-            //GUILayout.Space(5);
 
-            PhotonView.ObservableSearch autoFindObservables = (PhotonView.ObservableSearch)EditorGUILayout.EnumPopup(findObservablesGuiContent, m_Target.observableSearch);
+            PhotonView.ObservableSearch autoFindObservables = (PhotonView.ObservableSearch)EditorGUILayout.EnumPopup(observableSearchGuiContent, m_Target.observableSearch);
 
             if (m_Target.observableSearch != autoFindObservables)
             {
@@ -170,9 +151,15 @@ namespace Photon.Pun
 
             if (!multiSelected)
             {
-                EditorGUI.BeginDisabledGroup(autoFindObservables != PhotonView.ObservableSearch.Manual);
-                this.DrawObservedComponentsList(autoFindObservables != PhotonView.ObservableSearch.Manual);
-                EditorGUI.EndDisabledGroup();
+                bool disableList = Application.isPlaying || autoFindObservables != PhotonView.ObservableSearch.Manual;
+
+                if (disableList)
+                    EditorGUI.BeginDisabledGroup(true);
+
+                this.DrawObservedComponentsList(disableList);
+
+                if (disableList)
+                    EditorGUI.EndDisabledGroup();
             }
 
             // Cleanup: save and fix look
@@ -181,7 +168,7 @@ namespace Photon.Pun
                 PhotonViewHandler.OnHierarchyChanged(); // TODO: check if needed
             }
 
-            GUI.color = Color.white;
+            EditorGUI.EndDisabledGroup();
         }
 
 

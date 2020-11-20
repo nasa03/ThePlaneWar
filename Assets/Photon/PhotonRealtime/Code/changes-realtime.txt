@@ -2,6 +2,40 @@
 Photon Realtime C# Client - Changelog
 Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
+Version 4.1.4.6 (17. November 2020)
+    Added: Unity-specific types will now be registered for de/serialization automatically (in Unity projects) using CustomTypesUnity (in LoadBalancingClient constructor).
+    Note: The Player class needs to reference the current room to deserialize, so it is not a serializable type in the Realtime API (but in PUN). Send the Player.ActorNumber instead and the receiver looks up the ActorNumber in the room.
+    Changed: The client will now call disconnect if any operation response has a ReturnCode == ErrorCode.OperationLimitReached. The resulting OnDisconnect callback gets the new DisconnectCause.DisconnectByOperationLimit value.
+    Added: DisconnectCause.DisconnectByDisconnectMessage. If the server has a "low level" reason to disconnect a client, it can now send a Disconnect Message with some debug info. The LoadBalancingClient will log this message as error and disconnect. When this gets used will be added to the docs.
+    Changed: The BroadcastProperties parameter is now always sent to the Game Server, no matter if there are properties. This fixes a recent issue where UserIds were not broadcast in rooms, if no other player properties were used (see v4.1.4.5 changes).
+    Changed: UseAlternativeUdpPorts is replaced by ServerPortOverrides, which allow configuration of ports per server (including using no override).
+    Changed: UseAlternativeUdpPorts is obsolete and no longer used.
+    Changed: LoadBalancingClient.NameServerPortOverride is now named NameServerPortInAppSettings, which is closer to what it resembles. It is overwritten by the ServerPortOverrides if the nameserver port is > 0 there.
+    Added: Struct PhotonPortDefinition.
+    Added: ReplacePortWithAlternative method to wrap up the replacement as per our address rules.
+    Changed: When the client does not connect initially and EnableProtocolFallback is enabled, the ServerPortOverrides are reset and the fallback protocol will use the default ports for the Name Server (defined per protocol).
+    Changed: ReconnectAndRejoin() no longer affects the value IsUsingNameServer. This is only about reconnecting.
+    Changed: ReconnectAndRejoin() was logging error-level messages for expected situations. Now, there are only warnings in the logs. You can simply check the return value, which is false on error (then you should connect again, as usual).
+    Internal: The pool type for paramDictionaryPool, which is used in OpRaiseEvent. It is now a ParameterDictionary, which will wrap some value-types into pooled objects. This helps avoid some memory allocation.
+    Internal: ParameterCode.Secret is now .Token to match the server naming.
+    Changed: Logging level when OpRaiseEvent fails due to leaving a room. It reports as INFO level, when leaving or disconnecting.
+    Added: Error log for Op Authenticate, if the client does not have a token to authenticate on a Master or Game Server. That token comes from the Name Server and should be automatically present and used. Note: The client will send the auth but may fail due to missing token.
+    Changed: LoadBalancingClient.Disconnect() now checks if the client was just created or is disconnecting already. Those cases won't trigger a callback, so there is no surplus attempt to disconnect the peer. Also, the State does not change. An INFO level debug message helps detect those cases.
+
+
+Version 4.1.4.5 (02. September 2020)
+    Added: Unity-only ConnectionHandler.StaticReset() to allow entering playmode without domain reload.
+    Added: ErrorCode definition for OperationLimitReached (32743). The client will become unable to call any further operations (to safeguard the room/server) and get disconnected soon after. Currently used for SetProperties only.
+    Fixed: Region pinging for the case that none of the regions answered anything. Then, all region results caused a callback.
+    Added: Support for rooms that suppress room-events.
+    Added: Field bool Room.SuppressRoomEvents to allow checking if room events are suppressed.
+    Changed: If room events are suppressed, the callbacks OnCreatedRoom() and OnJoinedRoom() are now called by the operation response (not waiting for the suppressed events).
+    Renamed: Room.SetRoomFlags() to InternalCacheRoomFlags().
+    Changed: When entering a room, the local players NickName property (255) is not sent if NullOrEmpty.
+    Changed: LoadBalancingApi should not use Unity.Debug unconditionally.
+    Updated: AuthenticationValues reference slightly. Better wording.
+    Updated: Token setter to be protected internal. Only needs to be set by Photon LB API.
+    Fixed: Csproject files for Chat API and LoadBalancing API. The two projects now import the dll based on the current target framework (dynamic).
 
 Version 4.1.4.4 (6. July 2020)
     Fixed: AppSettings.CopyTo method. It was not copying the new value EnableProtocolFallback yet.
@@ -23,7 +57,6 @@ Version 4.1.4.3 (24. June 2020)
     Added: AppSettings.EnableProtocolFallback with a default of true. Used in ConnectUsingSettings to set the client's value accordingly.
     Internal: Added setting the LoadBalancingClient.Server in Connect and other places, so it should be accurate.
     Added: Checks for connections on WebGL and Xbox One. Settings that can be corrected (to match the platform's requirements) are corrected with a log note. An Exception is thrown, if the settings can't be corrected automatically. This means Connect methods may throw an Exception in some cases, which are to be fixed during development time.
-
 
 Version 4.1.4.2 (8. May 2020 - rev5519)
     Fixed: EventLeave handling. The IsInactive property is to false before doing the OnPlayerLeftRoom callback.
