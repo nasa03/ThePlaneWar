@@ -22,6 +22,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         openToggle.value = PhotonNetwork.CurrentRoom.IsVisible;
         openToggle.GetComponent<UIButton>().isEnabled = PhotonNetwork.LocalPlayer.IsMasterClient;
 
+        PhotonNetwork.CurrentRoom.IsVisible = true;
+
         Player localPlayer = PhotonNetwork.LocalPlayer;
         usernameSprites[0].GetComponentInChildren<UILabel>().text = localPlayer.NickName;
 

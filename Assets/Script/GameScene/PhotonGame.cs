@@ -85,8 +85,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     public void OnExitButtonClick()
     {
         Global.returnState = Global.ReturnState.ExitGame;
-        PhotonNetwork.Destroy(LocalPlane);
-        SceneManager.LoadScene("StartScene");
+        PhotonNetwork.LeaveRoom();
     }
 
     [PunRPC]
@@ -200,5 +199,13 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         {
             hpImage.fillAmount = (float) ((int) target.GetProperties("HP", 100) / 100.0);
         }
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        
+        PhotonNetwork.Destroy(LocalPlane);
+        SceneManager.LoadScene("StartScene");
     }
 }
