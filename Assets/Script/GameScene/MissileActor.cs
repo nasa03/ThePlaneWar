@@ -9,6 +9,7 @@ public class MissileActor : MonoBehaviourPun
     [SerializeField] private GameObject[] missiles;
     [SerializeField] private float interval = 10;
     [SerializeField] private int missileType = 0;
+    [SerializeField] private bool CameraShake = true;
 
     // Use this for initialization
     private void Start()
@@ -23,8 +24,11 @@ public class MissileActor : MonoBehaviourPun
 
         if (!CrossPlatformInputManager.GetButtonDown("Fire2") ||
             !FindObjectOfType<MissileActorButton>().Missile) return;
-        
-        GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
+
+        if (CameraShake)
+        {
+            GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
+        }
         PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
         FindObjectOfType<MissileActorButton>().ShootStart();
     }

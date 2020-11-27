@@ -187,7 +187,7 @@ MonoBehaviour:
   thisRigidbody: {fileID: 54453457801900860}
   particleKillGroup: {fileID: 0}
   LookRotation: 1
-  Missile: 0
+  Missile: 1
   missileTarget: {fileID: 0}
   projectileSpeed: 0
   projectileSpeedMultiplier: 0
@@ -215,7 +215,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9780,7 +9779,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 1d4efe2e7e01f2a408fa16199f23230d, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14633,7 +14631,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: be8a68a4ceb83f947b32e8cd8e36d668, type: 2}
-  - {fileID: 2100000, guid: be8a68a4ceb83f947b32e8cd8e36d668, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19431,7 +19428,6 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 74d7c1849075b024cbaaa7e3fbfc6e4b, type: 2}
   - {fileID: 2100000, guid: 74d7c1849075b024cbaaa7e3fbfc6e4b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

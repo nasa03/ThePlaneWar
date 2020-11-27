@@ -19668,7 +19668,7 @@ MonoBehaviour:
   Torque: 0
   Tor_min: 0
   Tor_max: 0
-  MinorRotate: 1
+  MinorRotate: 0
   MajorRotate: 0
 --- !u!114 &3580607845925912868
 MonoBehaviour:
@@ -19700,6 +19700,7 @@ MonoBehaviour:
   - {fileID: 1238843893459588, guid: e1ea459f4762c81448d4b4d986f075a2, type: 3}
   interval: 10
   missileType: 0
+  CameraShake: 1
 --- !u!95 &942720787095008462
 Animator:
   serializedVersion: 3

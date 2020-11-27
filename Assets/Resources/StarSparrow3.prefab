@@ -10176,7 +10176,7 @@ MonoBehaviour:
     hasShells: 0
   UiText: {fileID: 0}
   UImaster: 0
-  CameraShake: 1
+  CameraShake: 0
   rapidFireDelay: 0
   CameraShakeCaller: {fileID: 2077746941480338157}
   firing: 0
@@ -10185,7 +10185,7 @@ MonoBehaviour:
   Torque: 0
   Tor_min: 0
   Tor_max: 0
-  MinorRotate: 1
+  MinorRotate: 0
   MajorRotate: 0
 --- !u!114 &7711685787152609315
 MonoBehaviour:
@@ -10217,6 +10217,7 @@ MonoBehaviour:
   - {fileID: 1238843893459588, guid: e1ea459f4762c81448d4b4d986f075a2, type: 3}
   interval: 10
   missileType: 0
+  CameraShake: 1
 --- !u!95 &2970417422320831800
 Animator:
   serializedVersion: 3
