@@ -87,7 +87,11 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     public void OnExitButtonClick()
     {
         Global.returnState = Global.ReturnState.ExitGame;
-        PhotonNetwork.LeaveRoom();
+        
+        if (PhotonNetwork.OfflineMode)
+            PhotonNetwork.Disconnect();
+        else
+            PhotonNetwork.LeaveRoom();
     }
 
     [PunRPC]
