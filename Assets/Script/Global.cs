@@ -19,6 +19,13 @@ public static class Global {
     {
         Normal, ExitGame, GameOver, Disconnected
     };
+    
+    public struct AIPlaneScores
+    {
+        public string name;
+        public int kill;
+        public int death;
+    }
 
     public static int totalPlaneInt = 0;
     public static int totalPlayerInt = 0;
@@ -26,4 +33,6 @@ public static class Global {
     public static int totalMissileInt = 0;
     public static bool isOffline = false;
     public static ReturnState returnState = ReturnState.Normal;
+    
+    public static readonly ArrayList aiPlaneScores = new ArrayList();
 }

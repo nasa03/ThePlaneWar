@@ -99,6 +99,9 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     {
         Global.returnState = Global.ReturnState.GameOver;
         PhotonNetwork.Destroy(LocalPlane);
+        
+        FindObjectOfType<PhotonGameAI>().HandleAIPlaneScores();
+        
         if (PhotonNetwork.IsMasterClient)
         {
             SceneManager.LoadScene("StartScene");

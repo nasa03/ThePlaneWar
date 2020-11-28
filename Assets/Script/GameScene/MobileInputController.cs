@@ -14,10 +14,7 @@ public class MobileInputController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
-        if (Input.touchCount != 1)
-            return;
-
+        
         Touch[] touches = Input.touches;
         foreach (Touch touch in touches)
         {

@@ -76,4 +76,19 @@ public class PhotonGameAI : MonoBehaviourPun
             aiProperty.HP = 100;
         }
     }
+
+    public void HandleAIPlaneScores()
+    {
+        foreach (GameObject aiPlane in aiPlaneList)
+        {
+            Global.AIPlaneScores aiPlaneScores = new Global.AIPlaneScores
+            {
+                name = aiPlane.name,
+                kill = aiPlane.GetComponent<AIProperty>().Kill,
+                death = aiPlane.GetComponent<AIProperty>().Death
+            };
+            
+            Global.aiPlaneScores.Add(aiPlaneScores);
+        }
+    }
 }
