@@ -59,7 +59,7 @@ public class ChoosePlane : MonoBehaviour
     {
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
-            if (localPlayer == PhotonNetwork.PlayerList[i])
+            if (Equals(localPlayer, PhotonNetwork.PlayerList[i]))
             {
                 Global.totalPlayerInt = i;
             }

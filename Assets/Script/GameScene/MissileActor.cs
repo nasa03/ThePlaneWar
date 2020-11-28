@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using Photon.Pun;
+using UnityEngine.Serialization;
 
 public class MissileActor : MonoBehaviourPun
 {
     [SerializeField] private GameObject[] missiles;
     [SerializeField] private float interval = 10;
     [SerializeField] private int missileType = 0;
-    [SerializeField] private bool CameraShake = true;
+    [SerializeField] private bool cameraShake = true;
 
     // Use this for initialization
     private void Start()
@@ -25,7 +26,7 @@ public class MissileActor : MonoBehaviourPun
         if (!CrossPlatformInputManager.GetButtonDown("Fire2") ||
             !FindObjectOfType<MissileActorButton>().Missile) return;
 
-        if (CameraShake)
+        if (cameraShake)
         {
             GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
         }

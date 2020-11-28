@@ -198,7 +198,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     {
         base.OnPlayerPropertiesUpdate(target, changedProps);
 
-        if (target == PhotonNetwork.LocalPlayer)
+        if (Equals(target, PhotonNetwork.LocalPlayer))
         {
             hpImage.fillAmount = (float) ((int) target.GetProperties("HP", 100) / 100.0);
         }

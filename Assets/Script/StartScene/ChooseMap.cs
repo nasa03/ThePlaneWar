@@ -12,7 +12,7 @@ public class ChooseMap : MonoBehaviourPunCallbacks
 
     public int Index { get; private set; } = 0;
 
-    private readonly string[] mapNames = {"山脉", "海岛"};
+    private readonly string[] _mapNames = {"山脉", "海岛"};
 
     public void LastMap()
     {
@@ -62,7 +62,7 @@ public class ChooseMap : MonoBehaviourPunCallbacks
     private void SetMap(int index)
     {
         mapSprite.spriteName = mapSprite.atlas.spriteList[index].name;
-        mapLabel.text = mapNames[index];
+        mapLabel.text = _mapNames[index];
         this.Index = (index);
     }
 

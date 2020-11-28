@@ -68,7 +68,7 @@ public class ExplodingMissile : MonoBehaviourPun
         float[] distances = new float[missileTargets.Count];
         for (int i = 0; i < missileTargets.Count; i++)
         {
-            Vector3 targetPosition = (missileTargets[i] as Transform).position;
+            Vector3 targetPosition = ((Transform) missileTargets[i]).position;
             Vector3 dir = targetPosition - thisPosition;
             float dot = Vector3.Dot(Vector3.forward, dir);
             if (dot > 0)
