@@ -1,34 +1,47 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class PhotonGameAI : MonoBehaviourPun
 {
-    [SerializeField] GameObject[] AI_Plane_Prefabs;
+    [SerializeField] GameObject[] aiPlanePrefabs;
     [SerializeField] Transform[] randomPositions;
-    [HideInInspector] public ArrayList AI_Plane_List = new ArrayList();
+    [HideInInspector] public ArrayList aiPlaneList = new ArrayList();
 
     public Transform[] RandomPositions => randomPositions;
 
-    public void InitializeAI()
+    public IEnumerator InitializeAI()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            object[] AI_Plane_Index = (object[]) PhotonNetwork.CurrentRoom.GetProperties("ai_List");
-
-            if (AI_Plane_Index != null)
+            while (true)
             {
-                for (int i = 0; i < AI_Plane_Index.Length; i++)
+                if (!PhotonNetwork.PlayerList.All(player => (bool) player.GetProperties("isLoadScene", false)))
                 {
-                    GameObject AI_Plane = PhotonNetwork.InstantiateRoomObject(
-                        AI_Plane_Prefabs[(int) AI_Plane_Index[i]].name,
+                    yield return new WaitForSeconds(1.0f);
+                    continue;
+                }
+
+                break;
+            }
+
+            object[] aiPlaneIndex = (object[]) PhotonNetwork.CurrentRoom.GetProperties("ai_List");
+
+            if (aiPlaneIndex != null)
+            {
+                for (int i = 0; i < aiPlaneIndex.Length; i++)
+                {
+                    GameObject aiPlane = PhotonNetwork.InstantiateRoomObject(
+                        aiPlanePrefabs[(int) aiPlaneIndex[i]].name,
                         FindObjectOfType<PhotonGame>().GroundRunwayPosition[PhotonNetwork.CurrentRoom.Players.Count + i]
                             .position +
                         new Vector3(0, 15, 0), Quaternion.identity);
 
-                    photonView.RPC("HandleAIPlaneProperty", RpcTarget.All, AI_Plane.name, i);
+                    photonView.RPC("HandleAIPlaneProperty", RpcTarget.All, aiPlane.name, i);
                 }
             }
         }
@@ -37,11 +50,11 @@ public class PhotonGameAI : MonoBehaviourPun
     [PunRPC]
     public void HandleAIPlaneProperty(string name, int index)
     {
-        GameObject AI_Plane = GameObject.Find(name);
+        GameObject aiPlane = GameObject.Find(name);
 
-        AI_Plane.GetComponent<AIAttack>().Index = PhotonNetwork.CurrentRoom.Players.Count + index;
-        AI_Plane.GetComponent<AIProperty>().Initialize($"机器人{index + 1}");
-        AI_Plane_List.Add(AI_Plane);
+        aiPlane.GetComponent<AIAttack>().Index = PhotonNetwork.CurrentRoom.Players.Count + index;
+        aiPlane.GetComponent<AIProperty>().Initialize($"机器人{index + 1}");
+        aiPlaneList.Add(aiPlane);
     }
 
     [PunRPC]

@@ -25,7 +25,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
         title.scoreText.enabled = true;
 
         int planeCount = PhotonNetwork.PlayerList.Length;
-        ArrayList aiPlaneList = FindObjectOfType<PhotonGameAI>().AI_Plane_List;
+        ArrayList aiPlaneList = FindObjectOfType<PhotonGameAI>().aiPlaneList;
         GameObject[] planeObjs = GameObject.FindGameObjectsWithTag("Plane");
         for (int i = 0; i < 6; i++)
         {

@@ -38706,7 +38706,7 @@ MonoBehaviour:
   - {fileID: 1238843893459588, guid: e1ea459f4762c81448d4b4d986f075a2, type: 3}
   interval: 10
   missileType: 0
-  CameraShake: 1
+  cameraShake: 1
 --- !u!95 &9184601468994845905
 Animator:
   serializedVersion: 3

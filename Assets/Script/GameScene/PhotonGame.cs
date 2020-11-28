@@ -46,7 +46,9 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
         SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
 
-        FindObjectOfType<PhotonGameAI>().InitializeAI();
+        PhotonNetwork.LocalPlayer.SetProperties("isLoadScene", true);
+
+        StartCoroutine(FindObjectOfType<PhotonGameAI>().InitializeAI());
 
         StartCoroutine(InvincibleStart());
     }

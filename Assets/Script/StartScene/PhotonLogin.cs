@@ -149,6 +149,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         gameOverUI.SetActive(false);
         
         Global.returnState = Global.ReturnState.Normal;
+        PhotonNetwork.LocalPlayer.SetProperties("isLoadScene", false);
 
         FindObjectOfType<ChoosePlane>().Show(true);
         FindObjectOfType<PhotonRoom>().EnterOrRefreshRoom();

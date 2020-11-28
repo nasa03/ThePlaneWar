@@ -23,20 +23,20 @@ public class PlaneAttack : MonoBehaviourPun
 
         int randomAttack = Random.Range(5, 15);
 
-        int totalHP = (int) player.GetProperties("HP", 100);
+        int totalHp = (int) player.GetProperties("HP", 100);
         bool invincible = (bool) player.GetProperties("invincible", false);
 
-        if (totalHP <= 0 || invincible)
+        if (totalHp <= 0 || invincible)
             return;
 
-        totalHP -= randomAttack;
-        player.SetProperties("HP", totalHP);
+        totalHp -= randomAttack;
+        player.SetProperties("HP", totalHp);
 
         StartCoroutine(ShowSight(target));
 
         FindObjectOfType<PhotonGame>().photonView.RPC("PlayAudio", player, 2);
 
-        if (totalHP <= 0)
+        if (totalHp <= 0)
         {
             StartCoroutine(ShowKillSight(target));
 
@@ -58,19 +58,19 @@ public class PlaneAttack : MonoBehaviourPun
         int randomAttack = Random.Range(5, 15);
 
         AIProperty targetProperty = target.GetComponent<AIProperty>();
-        int totalHP = targetProperty.HP;
+        int totalHp = targetProperty.HP;
 
-        if (totalHP <= 0)
+        if (totalHp <= 0)
             return;
 
-        totalHP -= randomAttack;
-        targetProperty.HP = totalHP;
+        totalHp -= randomAttack;
+        targetProperty.HP = totalHp;
 
         StartCoroutine(ShowSight(target));
 
         target.GetComponent<AudioPlayer>().PlayAudio(2);
 
-        if (totalHP <= 0)
+        if (totalHp <= 0)
         {
             StartCoroutine(ShowKillSight(target));
 
