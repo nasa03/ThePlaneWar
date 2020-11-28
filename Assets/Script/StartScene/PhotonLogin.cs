@@ -55,8 +55,6 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
 
         if (Global.returnState == Global.ReturnState.Disconnected)
             StartCoroutine(FindObjectOfType<MessageShow>().Show("已断开连接！"));
-
-        Global.returnState = Global.ReturnState.Normal;
     }
 
     public void InputValueChanged()
@@ -94,7 +92,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         lobbyUI.SetActive(false);
         roomUI.SetActive(false);
         gameOverUI.SetActive(true);
-
+        
         FindObjectOfType<GameOver>().Show();
     }
 
@@ -149,6 +147,8 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         lobbyUI.SetActive(false);
         roomUI.SetActive(true);
         gameOverUI.SetActive(false);
+        
+        Global.returnState = Global.ReturnState.Normal;
 
         FindObjectOfType<ChoosePlane>().Show(true);
         FindObjectOfType<PhotonRoom>().EnterOrRefreshRoom();

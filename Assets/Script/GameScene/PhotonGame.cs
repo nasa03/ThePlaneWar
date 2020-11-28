@@ -93,7 +93,10 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     {
         Global.returnState = Global.ReturnState.GameOver;
         PhotonNetwork.Destroy(LocalPlane);
-        SceneManager.LoadScene("StartScene");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            SceneManager.LoadScene("StartScene");
+        }
     }
 
     [PunRPC]

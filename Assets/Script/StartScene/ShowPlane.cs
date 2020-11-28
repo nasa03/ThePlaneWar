@@ -40,6 +40,8 @@ public class ShowPlane : MonoBehaviourPunCallbacks
     {
         base.OnPlayerPropertiesUpdate(target, changedProps);
 
+        if (Global.returnState == Global.ReturnState.GameOver) return;
+        
         for (int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
         {
             if (PhotonNetwork.PlayerListOthers[i] != target) continue;

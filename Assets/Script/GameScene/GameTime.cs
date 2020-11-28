@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.Serialization;
 
 public class GameTime : MonoBehaviourPun
 {
     [SerializeField] private Text text;
-    private int _time = 600;
+    [SerializeField] private int maxTime;
+    private int _time = 0;
 
     // Start is called before the first frame update
     private void Start()
     {
+        _time = maxTime;
         StartCoroutine(ShowTime());
     }
 
@@ -30,7 +33,7 @@ public class GameTime : MonoBehaviourPun
 
             text.text = $"{minutes}:{secondsStr}";
             yield return new WaitForSeconds(1.0f);
-            _time--;
+            _time = Mathf.Clamp(--_time, 0, maxTime);
 
             if (_time == 0 && PhotonNetwork.IsMasterClient && photonView.IsMine)
             {
