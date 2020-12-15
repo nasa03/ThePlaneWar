@@ -9,10 +9,18 @@ public class AIProperty : MonoBehaviour
     public void Initialize(string name)
     {
         gameObject.name = name;
+
         HP = 100;
         Kill = 0;
         Death = 0;
     }
+
+    public Global.AIPlaneScores aiPlaneScores => new Global.AIPlaneScores
+    {
+        name = gameObject.name,
+        kill = Kill,
+        death = Death
+    };
 
     public int HP
     {

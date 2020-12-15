@@ -127,3 +127,11 @@ The following packages were 已更新:
   com.unity.ide.vscode 从版本 1.2.2 到 1.2.3
   com.unity.purchasing 从版本 2.1.0 到 2.1.1
   com.unity.test-framework 从版本 1.1.16 到 1.1.18
+
+=== Tue Dec 15 09:46:11 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were 已更新:
+  com.unity.purchasing 从版本 2.1.1 到 2.2.1

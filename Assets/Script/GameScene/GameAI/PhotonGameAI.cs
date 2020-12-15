@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class PhotonGameAI : MonoBehaviourPun
 {
@@ -81,14 +80,7 @@ public class PhotonGameAI : MonoBehaviourPun
     {
         foreach (GameObject aiPlane in aiPlaneList)
         {
-            Global.AIPlaneScores aiPlaneScores = new Global.AIPlaneScores
-            {
-                name = aiPlane.name,
-                kill = aiPlane.GetComponent<AIProperty>().Kill,
-                death = aiPlane.GetComponent<AIProperty>().Death
-            };
-            
-            Global.aiPlaneScores.Add(aiPlaneScores);
+            Global.aiPlaneScores.Add(aiPlane.GetComponent<AIProperty>().aiPlaneScores);
         }
     }
 }
