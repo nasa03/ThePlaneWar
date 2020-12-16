@@ -102,9 +102,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
                 PhotonNetwork.CurrentRoom.SetMasterClient(playerOthers);
             }
         }
-
-        photonView.RPC("EnterOrRefreshRoom", RpcTarget.All);
-        photonView.RPC("EnterOrRefreshRoomOfAI", RpcTarget.All);
     }
 
     [PunRPC]
@@ -163,7 +160,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         EnterOrRefreshRoom();
-
         FindObjectOfType<PhotonAI>().EnterOrRefreshRoomOfAI();
     }
 
@@ -172,7 +168,14 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         base.OnPlayerLeftRoom(otherPlayer);
 
         EnterOrRefreshRoom();
+        FindObjectOfType<PhotonAI>().EnterOrRefreshRoomOfAI();
+    }
 
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+        
+        EnterOrRefreshRoom();
         FindObjectOfType<PhotonAI>().EnterOrRefreshRoomOfAI();
     }
 
