@@ -3,19 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using UnityEngine.Serialization;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class GameTime : MonoBehaviourPun
 {
     [SerializeField] private Text text;
     [SerializeField] private int maxTime;
+    [SerializeField] private GameObject gameOverButton;
     private int _time = 0;
 
     // Start is called before the first frame update
     private void Start()
     {
         _time = maxTime;
+        gameOverButton.SetActive(PhotonNetwork.IsMasterClient);
         StartCoroutine(ShowTime());
+    }
+    
+    // Update is called once per frame
+    private void Update()
+    {
+        if (CrossPlatformInputManager.GetButtonDown("GameOver") && PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("GameOver", RpcTarget.All);
+        }
     }
 
     private IEnumerator ShowTime()
