@@ -48,6 +48,8 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                         }
                     }
                     if (PhotonNetwork.PlayerList[i].IsLocal)
+                        scores[i].scoreText.color = Color.yellow;
+                    if (PhotonNetwork.PlayerList[i].IsMasterClient)
                         scores[i].scoreText.color = Color.red;
                 }
                 else

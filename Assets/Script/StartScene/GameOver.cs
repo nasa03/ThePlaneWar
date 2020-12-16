@@ -30,6 +30,8 @@ public class GameOver : MonoBehaviour {
 
                     planeInformation[i].nameLabel.text = PhotonNetwork.PlayerList[i].NickName;
                     if (PhotonNetwork.PlayerList[i].IsLocal)
+                        planeInformation[i].nameLabel.color = Color.yellow;
+                    if (PhotonNetwork.PlayerList[i].IsMasterClient)
                         planeInformation[i].nameLabel.color = Color.red;
 
                     planeInformation[i].killLabel.text =
