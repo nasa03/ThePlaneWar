@@ -135,3 +135,11 @@ Update Mode: updateDependencies
 
 The following packages were 已更新:
   com.unity.purchasing 从版本 2.1.1 到 2.2.1
+
+=== Thu Dec 17 14:43:16 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were 已更新:
+  com.unity.ide.rider 从版本 1.2.1 到 2.0.7
