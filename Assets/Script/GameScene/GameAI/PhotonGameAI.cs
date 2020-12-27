@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 
@@ -13,21 +11,10 @@ public class PhotonGameAI : MonoBehaviourPun
 
     public Transform[] RandomPositions => randomPositions;
 
-    public IEnumerator InitializeAI()
+    public void InitializeAI()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            while (true)
-            {
-                if (!PhotonNetwork.PlayerList.All(player => (bool) player.GetProperties("isLoadScene", false)))
-                {
-                    yield return new WaitForSeconds(1.0f);
-                    continue;
-                }
-
-                break;
-            }
-
             object[] aiPlaneIndex = (object[]) PhotonNetwork.CurrentRoom.GetProperties("ai_List");
 
             if (aiPlaneIndex != null)

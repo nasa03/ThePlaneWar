@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -19,9 +20,10 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject timeBar;
     [SerializeField] private Text timeText;
     [SerializeField] private Image timeImage;
+    [SerializeField] private Text loadingText;
     private bool _invincible = false;
     private bool _reconnected = false;
-    private float _time = 20.0f;
+    private float _time = 0;
     private int _maxTime = 20;
 
     public Camera MainCamera => mainCamera;
@@ -41,16 +43,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     private void Start()
     {
-        LocalPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
-            groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
-
-        SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-
-        PhotonNetwork.LocalPlayer.SetProperties("isLoadScene", true);
-
-        StartCoroutine(FindObjectOfType<PhotonGameAI>().InitializeAI());
-
-        StartCoroutine(InvincibleStart());
+        StartCoroutine(Initialize());
     }
 
     // Update is called once per frame
@@ -82,6 +75,36 @@ public class PhotonGame : MonoBehaviourPunCallbacks
                 SceneManager.LoadScene("StartScene");
             }
         }
+    }
+
+    private IEnumerator Initialize()
+    {
+        PhotonNetwork.LocalPlayer.SetProperties("isLoadScene", true);
+
+        while (true)
+        {
+            if (!PhotonNetwork.PlayerList.All(player => (bool) player.GetProperties("isLoadScene", false)))
+            {
+                yield return new WaitForSeconds(1.0f);
+                continue;
+            }
+
+            break;
+        }
+        
+        loadingText.enabled = false;
+        mainCamera.enabled = false;
+
+        LocalPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
+            groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
+        
+        FindObjectOfType<PhotonGameAI>().InitializeAI();
+
+        StartCoroutine(FindObjectOfType<GameTime>().ShowTime());
+
+        StartCoroutine(InvincibleStart());
+
+        SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
     }
 
     public void OnExitButtonClick()

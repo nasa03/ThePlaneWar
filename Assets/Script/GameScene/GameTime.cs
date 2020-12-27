@@ -17,7 +17,6 @@ public class GameTime : MonoBehaviourPun
     {
         _time = maxTime;
         gameOverButton.SetActive(PhotonNetwork.IsMasterClient);
-        StartCoroutine(ShowTime());
     }
     
     // Update is called once per frame
@@ -29,7 +28,7 @@ public class GameTime : MonoBehaviourPun
         }
     }
 
-    private IEnumerator ShowTime()
+    public IEnumerator ShowTime()
     {
         while (_time >= 0)
         {
