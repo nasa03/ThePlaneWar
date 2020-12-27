@@ -63,6 +63,7 @@ public class GameOver : MonoBehaviour {
 
     public void ResetInformation()
     {
+        PhotonNetwork.LocalPlayer.SetProperties("isReady", false);
         PhotonNetwork.LocalPlayer.SetProperties("kill", 0);
         PhotonNetwork.LocalPlayer.SetProperties("death", 0);
 

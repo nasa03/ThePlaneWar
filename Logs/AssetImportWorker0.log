@@ -1823,3 +1823,218 @@ System memory in use after: 247.8 MB.
 Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3199.
 Total: 2.757231 ms (FindLiveObjects: 0.309157 ms CreateObjectMapping: 0.127320 ms MarkObjects: 1.738060 ms  DeleteObjects: 0.581528 ms)
 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.004434 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.95 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.355 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 248.4 MB.
+System memory in use after: 248.1 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3202.
+Total: 4.362245 ms (FindLiveObjects: 0.567595 ms CreateObjectMapping: 0.264283 ms MarkObjects: 2.741403 ms  DeleteObjects: 0.786894 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005650 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.04 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.626 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.53 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 248.7 MB.
+System memory in use after: 248.5 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3205.
+Total: 3.143588 ms (FindLiveObjects: 0.348375 ms CreateObjectMapping: 0.132407 ms MarkObjects: 2.008000 ms  DeleteObjects: 0.653038 ms)
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 8.09 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 57 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 214.6 MB.
+System memory in use after: 214.3 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3205.
+Total: 2.485408 ms (FindLiveObjects: 0.343179 ms CreateObjectMapping: 0.104704 ms MarkObjects: 1.512257 ms  DeleteObjects: 0.523904 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005289 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.82 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.813 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.45 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2453 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 248.6 MB.
+System memory in use after: 248.3 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3208.
+Total: 4.290918 ms (FindLiveObjects: 0.743950 ms CreateObjectMapping: 0.247323 ms MarkObjects: 2.318636 ms  DeleteObjects: 0.979001 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005266 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.11 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.695 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.36 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 248.9 MB.
+System memory in use after: 248.6 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3211.
+Total: 2.989158 ms (FindLiveObjects: 0.359400 ms CreateObjectMapping: 0.134070 ms MarkObjects: 1.872084 ms  DeleteObjects: 0.621949 ms)
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 8.10 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 57 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 215.3 MB.
+System memory in use after: 215.0 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3211.
+Total: 3.159864 ms (FindLiveObjects: 0.533307 ms CreateObjectMapping: 0.180033 ms MarkObjects: 1.801039 ms  DeleteObjects: 0.644306 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005231 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.11 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.858 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.19 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2453 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 249.7 MB.
+System memory in use after: 249.5 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3214.
+Total: 4.241439 ms (FindLiveObjects: 0.852639 ms CreateObjectMapping: 0.318107 ms MarkObjects: 2.432320 ms  DeleteObjects: 0.633296 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005373 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.07 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.362 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.00 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 250.0 MB.
+System memory in use after: 249.8 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3217.
+Total: 4.339978 ms (FindLiveObjects: 0.489265 ms CreateObjectMapping: 0.173496 ms MarkObjects: 2.483795 ms  DeleteObjects: 1.192004 ms)
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 7.79 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 57 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 216.0 MB.
+System memory in use after: 215.8 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3217.
+Total: 2.822334 ms (FindLiveObjects: 0.317435 ms CreateObjectMapping: 0.123070 ms MarkObjects: 1.765972 ms  DeleteObjects: 0.614679 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005222 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.61 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.866 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.21 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2453 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 249.9 MB.
+System memory in use after: 249.6 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3220.
+Total: 2.983187 ms (FindLiveObjects: 0.360831 ms CreateObjectMapping: 0.156812 ms MarkObjects: 1.850793 ms  DeleteObjects: 0.613282 ms)
+

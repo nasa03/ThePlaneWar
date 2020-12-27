@@ -34,9 +34,17 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
         }
         else
         {
-            startGameButton.GetComponentInChildren<UILabel>().text = "准备";
-            usernameSprites[0].transform.Find("Name Label").GetComponent<UILabel>().color = Color.white;
-            PhotonNetwork.LocalPlayer.SetProperties("isReady", false);
+            if ((bool) PhotonNetwork.LocalPlayer.GetProperties("isReady", false))
+            {
+                usernameSprites[0].transform.Find("Name Label").GetComponent<UILabel>().color = Color.yellow;
+                startGameButton.GetComponentInChildren<UILabel>().text = "取消准备";
+            }
+            else
+            {
+                usernameSprites[0].transform.Find("Name Label").GetComponent<UILabel>().color = Color.white;
+                startGameButton.GetComponentInChildren<UILabel>().text = "准备";
+            }
+            
         }
 
         FindObjectOfType<ChoosePlane>().SetPlayerInt(localPlayer);
@@ -192,12 +200,17 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
         {
-            if (target != PhotonNetwork.PlayerListOthers[i]) continue;
+            if (!Equals(target, PhotonNetwork.PlayerListOthers[i])) continue;
 
-            if ((bool) target.GetProperties("isReady", false))
-                usernameSprites[i + 1].GetComponentInChildren<UILabel>().color = Color.yellow;
+            if (target.IsMasterClient)
+                usernameSprites[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.red;
             else
-                usernameSprites[i + 1].GetComponentInChildren<UILabel>().color = Color.white;
+            {
+                if ((bool) target.GetProperties("isReady", false))
+                    usernameSprites[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.yellow;
+                else
+                    usernameSprites[i + 1].transform.Find("Name Label").GetComponent<UILabel>().color = Color.white;
+            }
         }
     }
 }
