@@ -81,17 +81,9 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LocalPlayer.SetProperties("isLoadScene", true);
 
-        while (true)
-        {
-            if (!PhotonNetwork.PlayerList.All(player => (bool) player.GetProperties("isLoadScene", false)))
-            {
-                yield return new WaitForSeconds(1.0f);
-                continue;
-            }
+        yield return new WaitUntil(() =>
+            PhotonNetwork.PlayerList.All(player => (bool) player.GetProperties("isLoadScene", false)));
 
-            break;
-        }
-        
         loadingText.enabled = false;
         mainCamera.enabled = false;
 

@@ -20,11 +20,9 @@ public class ChooseMap : MonoBehaviourPunCallbacks
         int mapIndex = 0;
         for (int i = 0; i < list.Count; i++)
         {
-            if (list[i].name == mapSprite.spriteName)
-            {
-                mapIndex = i;
-                break;
-            }
+            if (list[i].name != mapSprite.spriteName) continue;
+            mapIndex = i;
+            break;
         }
 
         if (mapIndex == 0)

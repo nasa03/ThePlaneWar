@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,11 +29,12 @@ public class PowerSpeedButton : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        int maxTime = 0;
-        if (_speedType == SpeedType.PowerSpeed)
-            maxTime = PowerSpeedMaxTime;
-        else if (_speedType == SpeedType.Cooling)
-            maxTime = CoolingMaxTime;
+        int maxTime = _speedType switch
+        {
+            SpeedType.PowerSpeed => PowerSpeedMaxTime,
+            SpeedType.Cooling => CoolingMaxTime,
+            _ => 0
+        };
 
         if (_time > 0)
         {
@@ -41,13 +43,18 @@ public class PowerSpeedButton : MonoBehaviour
         }
         else
         {
-            if (_speedType == SpeedType.PowerSpeed)
+            switch (_speedType)
             {
-                CoolingStart();
-            }
-            else if (_speedType == SpeedType.Cooling)
-            {
-                PowerSpeedEnd();
+                case SpeedType.PowerSpeed:
+                    CoolingStart();
+                    break;
+                case SpeedType.Cooling:
+                    PowerSpeedEnd();
+                    break;
+                case SpeedType.Normal:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }
