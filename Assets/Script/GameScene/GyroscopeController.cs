@@ -9,6 +9,7 @@ public class GyroscopeController : MonoBehaviour
 {
     [SerializeField] private Image stickBackground;
     [SerializeField] private Image stickForeground;
+    [SerializeField] private Text stickText;
     [SerializeField] private MobileInputController mobileInputController;
     private bool _isEnabled = false;
 
@@ -30,5 +31,6 @@ public class GyroscopeController : MonoBehaviour
         stickBackground.enabled = !_isEnabled;
         stickForeground.enabled = !_isEnabled;
         mobileInputController.enabled = !_isEnabled;
+        stickText.text = _isEnabled ? "陀" : "摇";
     }
 }
