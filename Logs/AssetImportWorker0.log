@@ -12,43 +12,129 @@ AssetImportWorker0
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-50345
+49559
 Successfully changed project path to: /Volumes/项目/ThePlaneWar
 /Volumes/项目/ThePlaneWar
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 107.52 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 84.79 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.2.1f1c1 (252d8215dd99)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2020.2.1f1c1/Unity.app/Contents/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path /Volumes/项目/ThePlaneWar/Assets
 GfxDevice: creating device client; threaded=0
-2021-01-03 16:28:47.199 Unity[1189:15826] Display preferred device: Intel(R) UHD Graphics 630 (low power)
-2021-01-03 16:28:47.199 Unity[1189:15826] Metal devices available: 1
-2021-01-03 16:28:47.199 Unity[1189:15826] 0: Intel(R) UHD Graphics 630 (low power)
-2021-01-03 16:28:47.199 Unity[1189:15826] Using device Intel(R) UHD Graphics 630 (low power)
+2021-01-03 21:42:23.403 Unity[1214:18979] Display preferred device: Intel(R) UHD Graphics 630 (low power)
+2021-01-03 21:42:23.403 Unity[1214:18979] Metal devices available: 1
+2021-01-03 21:42:23.403 Unity[1214:18979] 0: Intel(R) UHD Graphics 630 (low power)
+2021-01-03 21:42:23.404 Unity[1214:18979] Using device Intel(R) UHD Graphics 630 (low power)
 Initializing Metal device caps: Intel(R) UHD Graphics 630
 Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/2020.2.1f1c1/Unity.app/Contents/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/2020.2.1f1c1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = '/Applications/Unity/Hub/Editor/2020.2.1f1c1/Unity.app/Contents/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56189
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56214
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/2020.2.1f1c1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/2020.2.1f1c1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.000850 seconds.
+Registered in 0.000651 seconds.
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 85.23 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 58.56 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.906 seconds
+- Completed reload, in  3.787 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.007354 seconds.
+Registered in 0.005332 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.97 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.381 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launching external process: /Applications/Unity/Hub/Editor/2020.2.1f1c1/Unity.app/Contents/Tools/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.02 seconds
+Refreshing native plugins compatible for Editor in 1.14 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2541 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 228.4 MB.
+System memory in use after: 228.2 MB.
+
+Unloading 65 unused Assets to reduce memory usage. Loaded Objects now: 3030.
+Total: 3.690172 ms (FindLiveObjects: 0.431215 ms CreateObjectMapping: 0.173779 ms MarkObjects: 2.467714 ms  DeleteObjects: 0.616329 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Script/GameScene/GyroscopeController.cs
+  artifactKey: Guid(f3238e5c4b30b464ebb2df4b75cf5263) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GyroscopeController.cs using Guid(f3238e5c4b30b464ebb2df4b75cf5263) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0ee81fcec1132d9382d6f793dc2f429a') in 0.396046 seconds
+  Import took 0.402698 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005277 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.66 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.736 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.93 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2453 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 212.3 MB.
+System memory in use after: 212.0 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3033.
+Total: 4.723933 ms (FindLiveObjects: 0.732743 ms CreateObjectMapping: 0.741536 ms MarkObjects: 2.468831 ms  DeleteObjects: 0.778059 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005240 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.66 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.694 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.14 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 211.7 MB.
+System memory in use after: 211.5 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3036.
+Total: 4.004893 ms (FindLiveObjects: 0.333868 ms CreateObjectMapping: 0.184503 ms MarkObjects: 2.686291 ms  DeleteObjects: 0.797474 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005315 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for WindowsStandalone target not found
@@ -59,172 +145,494 @@ Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.461 seconds
+- Completed reload, in  1.639 seconds
 Platform modules already initialized, skipping
-========================================================================
-Worker process is ready to serve import requests
-Launching external process: /Applications/Unity/Hub/Editor/2020.2.1f1c1/Unity.app/Contents/Tools/UnityShaderCompiler
-Launched and connected shader compiler UnityShaderCompiler after 0.02 seconds
-Refreshing native plugins compatible for Editor in 1.17 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.08 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2541 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 227.3 MB.
-System memory in use after: 227.1 MB.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 212.0 MB.
+System memory in use after: 211.8 MB.
 
-Unloading 65 unused Assets to reduce memory usage. Loaded Objects now: 3030.
-Total: 3.661995 ms (FindLiveObjects: 0.589618 ms CreateObjectMapping: 0.256048 ms MarkObjects: 2.202758 ms  DeleteObjects: 0.596349 ms)
-
-========================================================================
-Received Import Request.
-  path: Assets/Script/GameScene/PlaneAttack.cs
-  artifactKey: Guid(0428daedacdac4d44b552b0daa405fa5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/PlaneAttack.cs using Guid(0428daedacdac4d44b552b0daa405fa5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '897c2ece83967406ee11a01c4a272ce5') in 0.565466 seconds
-  Import took 0.572158 seconds .
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3039.
+Total: 2.831391 ms (FindLiveObjects: 0.336781 ms CreateObjectMapping: 0.144029 ms MarkObjects: 1.778284 ms  DeleteObjects: 0.570261 ms)
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.221253 seconds.
+Registered in 0.005751 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.43 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.14 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.481 seconds
+- Completed reload, in  1.777 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.34 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2453 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 211.9 MB.
-System memory in use after: 211.7 MB.
-
-Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3033.
-Total: 3.725160 ms (FindLiveObjects: 0.424927 ms CreateObjectMapping: 0.194656 ms MarkObjects: 2.489297 ms  DeleteObjects: 0.614242 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.021862 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
-Native extension for WindowsStandalone target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.96 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.135 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.85 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.46 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 212.3 MB.
 System memory in use after: 212.1 MB.
 
-Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3036.
-Total: 2.677698 ms (FindLiveObjects: 0.425892 ms CreateObjectMapping: 0.120265 ms MarkObjects: 1.624858 ms  DeleteObjects: 0.505674 ms)
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3042.
+Total: 3.730784 ms (FindLiveObjects: 0.512458 ms CreateObjectMapping: 0.190144 ms MarkObjects: 2.275256 ms  DeleteObjects: 0.749423 ms)
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.012902 seconds.
+Registered in 0.005374 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.90 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.07 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.098 seconds
+- Completed reload, in  1.724 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.86 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.25 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 212.7 MB.
-System memory in use after: 212.4 MB.
+System memory in use after: 212.5 MB.
 
-Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3039.
-Total: 2.271730 ms (FindLiveObjects: 0.268369 ms CreateObjectMapping: 0.104639 ms MarkObjects: 1.450852 ms  DeleteObjects: 0.447031 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 1484.144278 seconds.
-  path: Assets/Prefabs/warning.mp3
-  artifactKey: Guid(3f6d6530636a5410083c2f1d258eae40) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/warning.mp3 using Guid(3f6d6530636a5410083c2f1d258eae40) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6f804867fbed8113dceaf00a42bb6357') in 0.527432 seconds
-  Import took 0.532253 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 4.294072 seconds.
-  path: Assets/Scenes/GameScene.unity
-  artifactKey: Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/GameScene.unity using Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '09140c36db065e657502f5f882efb2a3') in 0.001735 seconds
-  Import took 0.007701 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 29.020404 seconds.
-  path: Assets/Scenes/GameScene2.unity
-  artifactKey: Guid(d67ac38d54f0d4d80add2ce0342b092a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/GameScene2.unity using Guid(d67ac38d54f0d4d80add2ce0342b092a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0b743138701ad76ce8ca7e46b84e9351') in 0.001713 seconds
-  Import took 0.007127 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 21.241708 seconds.
-  path: Assets/Scenes/StartScene.unity
-  artifactKey: Guid(1fc8090bb8629204dbe0857ea0764d86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/StartScene.unity using Guid(1fc8090bb8629204dbe0857ea0764d86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e580ab8744865d8c400a4ad703428715') in 0.001720 seconds
-  Import took 0.007062 seconds .
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3045.
+Total: 2.759869 ms (FindLiveObjects: 0.293612 ms CreateObjectMapping: 0.132712 ms MarkObjects: 1.716941 ms  DeleteObjects: 0.615377 ms)
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.006395 seconds.
+Registered in 0.016340 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.94 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.93 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.218 seconds
+- Completed reload, in  1.108 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.93 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.87 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 220.4 MB.
-System memory in use after: 220.1 MB.
+System memory in use before: 213.0 MB.
+System memory in use after: 212.8 MB.
 
-Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3051.
-Total: 4.931692 ms (FindLiveObjects: 0.521267 ms CreateObjectMapping: 0.279611 ms MarkObjects: 3.436432 ms  DeleteObjects: 0.692376 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 286.048073 seconds.
-  path: Assets/Scenes/GameScene.unity
-  artifactKey: Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/GameScene.unity using Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6f799e3cef8faf61fd7d71ce62b4e8e5') in 0.014535 seconds
-  Import took 0.019866 seconds .
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3048.
+Total: 5.255048 ms (FindLiveObjects: 0.640180 ms CreateObjectMapping: 0.256498 ms MarkObjects: 3.582333 ms  DeleteObjects: 0.773969 ms)
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.005734 seconds.
+Registered in 0.005269 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.98 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.424 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.00 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 213.3 MB.
+System memory in use after: 213.1 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3051.
+Total: 3.558174 ms (FindLiveObjects: 0.438930 ms CreateObjectMapping: 0.194456 ms MarkObjects: 2.285036 ms  DeleteObjects: 0.638097 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005470 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.22 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.391 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 213.6 MB.
+System memory in use after: 213.4 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3054.
+Total: 5.386214 ms (FindLiveObjects: 0.558702 ms CreateObjectMapping: 0.284935 ms MarkObjects: 3.750359 ms  DeleteObjects: 0.790142 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 2231.157560 seconds.
+  path: Assets/Script/StartScene/GameSetting.cs
+  artifactKey: Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/GameSetting.cs using Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c0515d24b13c4d617ebf7d9ad51a054c') in 0.010836 seconds
+  Import took 0.017293 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005414 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.86 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.112 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.89 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2455 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 214.0 MB.
+System memory in use after: 213.8 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3058.
+Total: 3.694315 ms (FindLiveObjects: 0.461907 ms CreateObjectMapping: 0.242676 ms MarkObjects: 2.360373 ms  DeleteObjects: 0.627978 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005374 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.00 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.370 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.98 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2455 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 214.3 MB.
+System memory in use after: 214.1 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3061.
+Total: 3.173584 ms (FindLiveObjects: 0.493435 ms CreateObjectMapping: 0.191662 ms MarkObjects: 1.913619 ms  DeleteObjects: 0.573585 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 419.563550 seconds.
+  path: Assets/Script/StartScene/GameSetting.cs
+  artifactKey: Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/GameSetting.cs using Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6651e5ac5e38d63975ed394bb147cdf5') in 0.005268 seconds
+  Import took 0.010103 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005317 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.23 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.558 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2455 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 214.6 MB.
+System memory in use after: 214.4 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3064.
+Total: 3.838306 ms (FindLiveObjects: 0.406714 ms CreateObjectMapping: 0.181725 ms MarkObjects: 2.610811 ms  DeleteObjects: 0.637593 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005795 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.49 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.402 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.08 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2455 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 214.9 MB.
+System memory in use after: 214.7 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3067.
+Total: 2.671560 ms (FindLiveObjects: 0.283689 ms CreateObjectMapping: 0.119186 ms MarkObjects: 1.711961 ms  DeleteObjects: 0.555318 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 502.878185 seconds.
+  path: Assets/Script/StartScene/GameSetting.cs
+  artifactKey: Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/GameSetting.cs using Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd46c884467d8f62dc8250d5619641f67') in 0.009904 seconds
+  Import took 0.015024 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003709 seconds.
+  path: Assets/Script/StartScene/GameSetting.cs
+  artifactKey: Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/GameSetting.cs using Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd46c884467d8f62dc8250d5619641f67') in 0.001772 seconds
+  Import took 0.008388 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.877297 seconds.
+  path: Assets/Script/StartScene/Choosegyroscope.cs
+  artifactKey: Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/Choosegyroscope.cs using Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c3b964cccaf89aeec71c63595937a479') in 0.002354 seconds
+  Import took 0.008233 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005320 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.97 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.295 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.96 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2455 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 214.3 MB.
+System memory in use after: 214.0 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3070.
+Total: 3.049720 ms (FindLiveObjects: 0.476485 ms CreateObjectMapping: 0.134460 ms MarkObjects: 1.845236 ms  DeleteObjects: 0.591846 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 9.151435 seconds.
+  path: Assets/Script/StartScene/ChooseGyroscope.cs
+  artifactKey: Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/ChooseGyroscope.cs using Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe02b9c71ea9e455aef8cae94d602fad') in 0.007642 seconds
+  Import took 0.017555 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005776 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.30 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.429 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.15 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2455 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 214.5 MB.
+System memory in use after: 214.3 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3073.
+Total: 3.486620 ms (FindLiveObjects: 0.403562 ms CreateObjectMapping: 0.163027 ms MarkObjects: 2.299619 ms  DeleteObjects: 0.619083 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005701 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.397 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.18 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2455 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 214.9 MB.
+System memory in use after: 214.7 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3076.
+Total: 3.682435 ms (FindLiveObjects: 0.419498 ms CreateObjectMapping: 0.178996 ms MarkObjects: 2.466097 ms  DeleteObjects: 0.616504 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 44.039300 seconds.
+  path: Assets/Script/StartScene/ChooseGyroscope.cs
+  artifactKey: Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/ChooseGyroscope.cs using Guid(6602e1852561e43ebb4d50441783315f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e4e064b8263b470852f970768ff95474') in 0.005187 seconds
+  Import took 0.010512 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005504 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.93 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.784 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.19 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2455 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 215.2 MB.
+System memory in use after: 215.0 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3079.
+Total: 4.219297 ms (FindLiveObjects: 0.636839 ms CreateObjectMapping: 0.302982 ms MarkObjects: 2.533670 ms  DeleteObjects: 0.722988 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 744.176840 seconds.
+  path: Assets/Scenes/GameScene.unity
+  artifactKey: Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/GameScene.unity using Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe0958240c7c3bdba0db9e53b15b4b31') in 0.015439 seconds
+  Import took 0.020538 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 19.649400 seconds.
+  path: Assets/Scenes/GameScene2.unity
+  artifactKey: Guid(d67ac38d54f0d4d80add2ce0342b092a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/GameScene2.unity using Guid(d67ac38d54f0d4d80add2ce0342b092a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '660cbd96b52ba49f0139ceb614cf74c6') in 0.001905 seconds
+  Import took 0.007104 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 14.416095 seconds.
+  path: Assets/Textures/Map
+  artifactKey: Guid(e81eac64f57ba43bf90720b3e328f6a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Map using Guid(e81eac64f57ba43bf90720b3e328f6a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '514de3cf599225124a7a41072ee9ba60') in 0.011299 seconds
+  Import took 0.017251 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.927213 seconds.
+  path: Assets/Textures/Game
+  artifactKey: Guid(059adc53e39af48f6ac2e1163292fad0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Game using Guid(059adc53e39af48f6ac2e1163292fad0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5ce9fe8ed7a931a3bb9c20911e29a97b') in 0.001642 seconds
+  Import took 0.008648 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.460301 seconds.
+  path: Assets/Textures/Controller
+  artifactKey: Guid(3c345b64a61d0424db550b3914cb38a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Controller using Guid(3c345b64a61d0424db550b3914cb38a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '860b736b3fe74bc69cbaa538bb9e7077') in 0.001614 seconds
+  Import took 0.007311 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.001530 seconds.
+  path: Assets/Textures/Controller
+  artifactKey: Guid(3c345b64a61d0424db550b3914cb38a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Controller using Guid(3c345b64a61d0424db550b3914cb38a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '860b736b3fe74bc69cbaa538bb9e7077') in 0.001066 seconds
+  Import took 0.007800 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.753771 seconds.
+  path: Assets/Scenes/StartScene.unity
+  artifactKey: Guid(1fc8090bb8629204dbe0857ea0764d86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/StartScene.unity using Guid(1fc8090bb8629204dbe0857ea0764d86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f870db6e007223cf1ec5191c1fb3539b') in 0.002240 seconds
+  Import took 0.007965 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.004586 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.97 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.404 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.11 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2455 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 215.6 MB.
+System memory in use after: 215.4 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3082.
+Total: 3.857309 ms (FindLiveObjects: 0.301135 ms CreateObjectMapping: 0.189790 ms MarkObjects: 2.668369 ms  DeleteObjects: 0.696224 ms)
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 6.96 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 57 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 184.2 MB.
+System memory in use after: 184.0 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3082.
+Total: 2.515568 ms (FindLiveObjects: 0.462626 ms CreateObjectMapping: 0.155525 ms MarkObjects: 1.405670 ms  DeleteObjects: 0.490584 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005473 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for WindowsStandalone target not found
@@ -235,159 +643,224 @@ Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.214 seconds
+- Completed reload, in  1.377 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.94 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.09 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 219.7 MB.
-System memory in use after: 219.5 MB.
+System memory in use before: 216.1 MB.
+System memory in use after: 215.9 MB.
 
-Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3054.
-Total: 5.139164 ms (FindLiveObjects: 0.543346 ms CreateObjectMapping: 0.273025 ms MarkObjects: 3.529090 ms  DeleteObjects: 0.791427 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 153.202658 seconds.
-  path: Assets/Scenes/GameScene2.unity
-  artifactKey: Guid(d67ac38d54f0d4d80add2ce0342b092a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/GameScene2.unity using Guid(d67ac38d54f0d4d80add2ce0342b092a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ff3b778c6bceb3fc7b813fb6df935e27') in 0.015852 seconds
-  Import took 0.021521 seconds .
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3085.
+Total: 2.753890 ms (FindLiveObjects: 0.303043 ms CreateObjectMapping: 0.141347 ms MarkObjects: 1.711557 ms  DeleteObjects: 0.595738 ms)
 
 ========================================================================
 Received Prepare
-Refreshing native plugins compatible for Editor in 6.43 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 7.80 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 57 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 188.6 MB.
-System memory in use after: 188.4 MB.
+System memory in use before: 184.8 MB.
+System memory in use after: 184.5 MB.
 
-Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3054.
-Total: 2.712859 ms (FindLiveObjects: 0.256451 ms CreateObjectMapping: 0.129587 ms MarkObjects: 1.822572 ms  DeleteObjects: 0.503240 ms)
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3085.
+Total: 5.612411 ms (FindLiveObjects: 0.796309 ms CreateObjectMapping: 0.266399 ms MarkObjects: 3.599162 ms  DeleteObjects: 0.948660 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 654.843967 seconds.
+  path: Assets/Scenes/StartScene.unity
+  artifactKey: Guid(1fc8090bb8629204dbe0857ea0764d86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/StartScene.unity using Guid(1fc8090bb8629204dbe0857ea0764d86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a51204b15e59aeddc074848ecba2c78f') in 0.013579 seconds
+  Import took 0.018866 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.005732 seconds.
+Registered in 0.005548 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.34 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.30 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.703 seconds
+- Completed reload, in  1.895 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.11 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 2.22 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 216.8 MB.
+System memory in use after: 216.5 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3088.
+Total: 3.316524 ms (FindLiveObjects: 0.526177 ms CreateObjectMapping: 0.219940 ms MarkObjects: 1.902249 ms  DeleteObjects: 0.666341 ms)
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 8.50 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 57 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 185.3 MB.
+System memory in use after: 185.1 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3088.
+Total: 2.826595 ms (FindLiveObjects: 0.317335 ms CreateObjectMapping: 0.131345 ms MarkObjects: 1.756137 ms  DeleteObjects: 0.620426 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005498 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.44 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.823 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.97 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 217.4 MB.
+System memory in use after: 217.1 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3091.
+Total: 4.023605 ms (FindLiveObjects: 0.501383 ms CreateObjectMapping: 0.249637 ms MarkObjects: 2.588256 ms  DeleteObjects: 0.682053 ms)
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 7.83 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 57 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 185.9 MB.
+System memory in use after: 185.7 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3091.
+Total: 2.833656 ms (FindLiveObjects: 0.290127 ms CreateObjectMapping: 0.101993 ms MarkObjects: 1.828340 ms  DeleteObjects: 0.611980 ms)
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 7.34 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 54 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 186.2 MB.
+System memory in use after: 185.9 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3091.
+Total: 2.499524 ms (FindLiveObjects: 0.259826 ms CreateObjectMapping: 0.102316 ms MarkObjects: 1.566081 ms  DeleteObjects: 0.570272 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005512 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.98 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.386 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.96 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 2453 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 221.2 MB.
-System memory in use after: 220.9 MB.
+System memory in use before: 218.2 MB.
+System memory in use after: 218.0 MB.
 
-Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3057.
-Total: 4.481844 ms (FindLiveObjects: 0.654351 ms CreateObjectMapping: 0.403769 ms MarkObjects: 2.857015 ms  DeleteObjects: 0.563825 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 549.320946 seconds.
-  path: Assets/Prefabs/warning 1.mp3
-  artifactKey: Guid(93506906141ca471896a76d0f6984dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/warning 1.mp3 using Guid(93506906141ca471896a76d0f6984dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '81e64b7a115b1755b13e52f90cde69f6') in 0.048574 seconds
-  Import took 0.053696 seconds .
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3094.
+Total: 3.384725 ms (FindLiveObjects: 0.392345 ms CreateObjectMapping: 0.179192 ms MarkObjects: 2.175785 ms  DeleteObjects: 0.635829 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.012753 seconds.
-  path: Assets/Prefabs/warning 1.mp3
-  artifactKey: Guid(93506906141ca471896a76d0f6984dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/warning 1.mp3 using Guid(93506906141ca471896a76d0f6984dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '81e64b7a115b1755b13e52f90cde69f6') in 0.008523 seconds
-  Import took 0.012967 seconds .
+  Time since last request: 598.872048 seconds.
+  path: Assets/Script/StartScene/PhotonLogin.cs
+  artifactKey: Guid(9d85429e0ad7842b7b7b1a8329e3004f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/PhotonLogin.cs using Guid(9d85429e0ad7842b7b7b1a8329e3004f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0f3ba26c8ce82dfd5a5e1b661a2b5ef2') in 0.005060 seconds
+  Import took 0.009913 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 27.630292 seconds.
-  path: Assets/Prefabs/warning.mp3
-  artifactKey: Guid(93506906141ca471896a76d0f6984dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/warning.mp3 using Guid(93506906141ca471896a76d0f6984dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e8dd4bd67bb0252608b6dbc4cbf84615') in 0.011346 seconds
-  Import took 0.016546 seconds .
+  Time since last request: 0.005402 seconds.
+  path: Assets/Script/StartScene/PhotonLogin.cs
+  artifactKey: Guid(9d85429e0ad7842b7b7b1a8329e3004f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/PhotonLogin.cs using Guid(9d85429e0ad7842b7b7b1a8329e3004f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0f3ba26c8ce82dfd5a5e1b661a2b5ef2') in 0.001493 seconds
+  Import took 0.006584 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.005289 seconds.
+Registered in 0.044520 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.25 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.85 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.366 seconds
+- Completed reload, in  1.152 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.91 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.86 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 220.6 MB.
-System memory in use after: 220.4 MB.
+System memory in use before: 218.5 MB.
+System memory in use after: 218.3 MB.
 
-Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3061.
-Total: 2.885829 ms (FindLiveObjects: 0.308068 ms CreateObjectMapping: 0.138476 ms MarkObjects: 1.764649 ms  DeleteObjects: 0.673658 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005674 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
-Native extension for WindowsStandalone target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.60 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.766 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.15 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2454 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 221.0 MB.
-System memory in use after: 220.7 MB.
-
-Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3064.
-Total: 4.759247 ms (FindLiveObjects: 0.451852 ms CreateObjectMapping: 0.301468 ms MarkObjects: 3.124720 ms  DeleteObjects: 0.877683 ms)
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3097.
+Total: 3.506842 ms (FindLiveObjects: 0.409141 ms CreateObjectMapping: 0.187706 ms MarkObjects: 2.272789 ms  DeleteObjects: 0.635795 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 123.903862 seconds.
-  path: Assets/Script/GameScene/ExplodingMissile.cs
-  artifactKey: Guid(7439ea723d607478f8a580528e550b2b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/ExplodingMissile.cs using Guid(7439ea723d607478f8a580528e550b2b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '090651780ea3aa0ad5f4d1600030b805') in 0.029229 seconds
-  Import took 0.034080 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.014120 seconds.
-  path: Assets/Script/GameScene/ExplodingMissile.cs
-  artifactKey: Guid(7439ea723d607478f8a580528e550b2b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/ExplodingMissile.cs using Guid(7439ea723d607478f8a580528e550b2b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '090651780ea3aa0ad5f4d1600030b805') in 0.003801 seconds
-  Import took 0.008863 seconds .
+  Time since last request: 123.004053 seconds.
+  path: Assets/Script/StartScene/PhotonLogin.cs
+  artifactKey: Guid(9d85429e0ad7842b7b7b1a8329e3004f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/StartScene/PhotonLogin.cs using Guid(9d85429e0ad7842b7b7b1a8329e3004f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f7388ffd1382cf7acf42c6038a7dd2bc') in 0.005704 seconds
+  Import took 0.012173 seconds .
 
 ========================================================================
 Received Prepare
-Refreshing native plugins compatible for Editor in 7.31 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 7.01 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 57 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 189.6 MB.
-System memory in use after: 189.4 MB.
+System memory in use before: 187.0 MB.
+System memory in use after: 186.8 MB.
 
-Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3064.
-Total: 2.557697 ms (FindLiveObjects: 0.274340 ms CreateObjectMapping: 0.125572 ms MarkObjects: 1.460515 ms  DeleteObjects: 0.696234 ms)
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3097.
+Total: 2.839338 ms (FindLiveObjects: 0.344677 ms CreateObjectMapping: 0.150412 ms MarkObjects: 1.750981 ms  DeleteObjects: 0.592323 ms)
 
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 6.32 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 54 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 187.3 MB.
+System memory in use after: 187.1 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3097.
+Total: 2.515452 ms (FindLiveObjects: 0.288255 ms CreateObjectMapping: 0.096481 ms MarkObjects: 1.533300 ms  DeleteObjects: 0.596342 ms)
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 7.33 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 54 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 187.7 MB.
+System memory in use after: 187.4 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3097.
+Total: 5.261836 ms (FindLiveObjects: 0.576172 ms CreateObjectMapping: 0.255943 ms MarkObjects: 3.577349 ms  DeleteObjects: 0.850624 ms)
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file

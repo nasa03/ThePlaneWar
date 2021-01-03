@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -10,6 +11,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject loginUI;
     [SerializeField] private GameObject lobbyUI;
     [SerializeField] private GameObject roomUI;
+    [SerializeField] private GameObject settingUI;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private UIInput nameInput;
     [SerializeField] private UIButton connectButton;
@@ -84,6 +86,29 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
         else
             PhotonNetwork.OfflineMode = true;
+    }
+
+    public void OnSettingButtonClick()
+    {
+        loginUI.SetActive(false);
+        lobbyUI.SetActive(false);
+        roomUI.SetActive(false);
+        settingUI.SetActive(true);
+        gameOverUI.SetActive(false);
+    }
+
+    public void OnSettingReturnButtonClick()
+    {
+        loginUI.SetActive(true);
+        lobbyUI.SetActive(false);
+        roomUI.SetActive(false);
+        settingUI.SetActive(false);
+        gameOverUI.SetActive(false);
+    }
+
+    public void OnExitGameButtonClick()
+    {
+        Application.Quit();
     }
 
     private void GameOver()
@@ -167,5 +192,10 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         FindObjectOfType<ChoosePlane>().Show(false);
         FindObjectOfType<ShowPlane>().DestroyAll();
         FindObjectOfType<PhotonAI>().LeftRoomOfAI();
+    }
+
+    private void OnApplicationQuit()
+    {
+        PhotonNetwork.Disconnect();
     }
 }

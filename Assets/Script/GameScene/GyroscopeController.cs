@@ -9,28 +9,25 @@ public class GyroscopeController : MonoBehaviour
 {
     [SerializeField] private Image stickBackground;
     [SerializeField] private Image stickForeground;
-    [SerializeField] private Text stickText;
     [SerializeField] private MobileInputController mobileInputController;
-    private bool _isEnabled = false;
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        stickBackground.enabled = !Global.bGyroscopeEnabled;
+        stickForeground.enabled = !Global.bGyroscopeEnabled;
+        mobileInputController.enabled = !Global.bGyroscopeEnabled;
+    }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (!_isEnabled) return;
+        if (!Global.bGyroscopeEnabled) return;
 
-        float horizontal = Mathf.Clamp(Input.acceleration.x, -1.0f, 1.0f);
-        float vertical = Mathf.Clamp(-Input.acceleration.y - 0.5f, -1.0f, 1.0f);
+        float horizontal = Mathf.Clamp(Input.acceleration.x * Global.gyroscopeMultiple, -1.0f, 1.0f);
+        float vertical = Mathf.Clamp((-Input.acceleration.y - 0.5f) * Global.gyroscopeMultiple, -1.0f, 1.0f);
         
         CrossPlatformInputManager.SetAxis("Horizontal", horizontal);
         CrossPlatformInputManager.SetAxis("Vertical", vertical);
-    }
-
-    public void Turn()
-    {
-        _isEnabled = !_isEnabled;
-        stickBackground.enabled = !_isEnabled;
-        stickForeground.enabled = !_isEnabled;
-        mobileInputController.enabled = !_isEnabled;
-        stickText.text = _isEnabled ? "陀" : "摇";
     }
 }

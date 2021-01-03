@@ -31,6 +31,8 @@ public static class Global {
     public static int totalPlayerInt = 0;
     public static int totalFireInt = 0;
     public static int totalMissileInt = 0;
+    public static bool bGyroscopeEnabled = false;
+    public static float gyroscopeMultiple = 1.0f;
     public static bool isOffline = false;
     public static ReturnState returnState = ReturnState.Normal;
     
