@@ -18,7 +18,7 @@ public class ExplodingMissile : MonoBehaviourPun
     private void Start()
     {
         Instantiate(muzzlePrefab);
-        _missileTarget = GetNearTargetTransform();
+        
     }
 
     // Update is called once per frame
@@ -33,7 +33,17 @@ public class ExplodingMissile : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        transform.LookAt(_missileTarget != null ? _missileTarget : transform);
+        _missileTarget = GetNearTargetTransform();
+        if (_missileTarget != null)
+        {
+            transform.LookAt(_missileTarget);
+
+            if (_missileTarget.transform.CompareTag("Plane"))
+                FindObjectOfType<PhotonGame>().photonView
+                    .RPC("PlayAudio", _missileTarget.GetComponent<PhotonView>().Controller, 4);
+
+        }
+        else transform.LookAt(transform);
 
         _thisRigidbody.AddForce(transform.forward * speed);
 

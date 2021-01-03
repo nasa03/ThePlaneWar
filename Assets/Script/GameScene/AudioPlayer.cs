@@ -17,6 +17,8 @@ public class AudioPlayer : MonoBehaviour
     [PunRPC]
     public void PlayAudio(int index)
     {
+        if (_audioSource.isPlaying) return;
+        
         _audioSource.clip = audioClips[index];
         _audioSource.Play();
     }
