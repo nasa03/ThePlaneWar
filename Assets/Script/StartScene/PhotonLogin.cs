@@ -95,6 +95,8 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         roomUI.SetActive(false);
         settingUI.SetActive(true);
         gameOverUI.SetActive(false);
+        
+        FindObjectOfType<JsonController>().ShowSettingUI();
     }
 
     public void OnSettingReturnButtonClick()
@@ -104,6 +106,8 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         roomUI.SetActive(false);
         settingUI.SetActive(false);
         gameOverUI.SetActive(false);
+        
+        FindObjectOfType<JsonController>().Save();
     }
 
     public void OnExitGameButtonClick()

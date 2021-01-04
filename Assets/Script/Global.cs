@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class Global {
     public static readonly string Path = $"{Application.persistentDataPath}/name";
+    public static readonly string JsonPath = $"{Application.persistentDataPath}/setting.json";
 
     public static readonly Vector3[] PlanePositions =
     {
