@@ -653,7 +653,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400010, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: aspectRatio
-      value: 0.35502958
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11400010, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: topAnchor.target
@@ -669,7 +669,11 @@ PrefabInstance:
       objectReference: {fileID: 542830358}
     - target: {fileID: 11400010, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: topAnchor.absolute
-      value: -280
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400010, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
+      propertyPath: topAnchor.relative
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 11400010, guid: ea7ea4be01fdadf45a93ce4ffd074f36, type: 3}
       propertyPath: bottomAnchor.target
