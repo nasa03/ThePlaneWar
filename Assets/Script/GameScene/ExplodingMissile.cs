@@ -18,6 +18,11 @@ public class ExplodingMissile : MonoBehaviourPun
     private void Start()
     {
         Instantiate(muzzlePrefab);
+        _missileTarget = GetNearTargetTransform();
+
+        if (_missileTarget.CompareTag("Plane"))
+            FindObjectOfType<PhotonGame>().photonView
+                .RPC("PlayAudio", _missileTarget.GetComponent<PhotonView>().Controller, 4);
         
     }
 
@@ -33,17 +38,7 @@ public class ExplodingMissile : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        _missileTarget = GetNearTargetTransform();
-        if (_missileTarget != null)
-        {
-            transform.LookAt(_missileTarget);
-
-            if (_missileTarget.transform.CompareTag("Plane"))
-                FindObjectOfType<PhotonGame>().photonView
-                    .RPC("PlayAudio", _missileTarget.GetComponent<PhotonView>().Controller, 4);
-
-        }
-        else transform.LookAt(transform);
+        transform.LookAt(_missileTarget != null ? _missileTarget : transform);
 
         _thisRigidbody.AddForce(transform.forward * speed);
 
