@@ -95,6 +95,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         StartCoroutine(FindObjectOfType<GameTime>().ShowTime());
 
         StartCoroutine(InvincibleStart());
+        
+        FindObjectOfType<PowerSpeedButton>().CoolingStart();
 
         SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
     }

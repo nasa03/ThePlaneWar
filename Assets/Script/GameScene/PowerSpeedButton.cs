@@ -20,12 +20,6 @@ public class PowerSpeedButton : MonoBehaviour
         Normal, PowerSpeed, Cooling
     }
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        CoolingStart();
-    }
-
     // Update is called once per frame
     private void Update()
     {
@@ -66,7 +60,7 @@ public class PowerSpeedButton : MonoBehaviour
         image.fillAmount = 1.0f;
     }
 
-    private void CoolingStart()
+    public void CoolingStart()
     {
         _speedType = SpeedType.Cooling;
         _time = CoolingMaxTime;

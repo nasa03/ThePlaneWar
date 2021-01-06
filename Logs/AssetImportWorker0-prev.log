@@ -81,3 +81,48 @@ Received Import Request.
 Start importing Assets/Script/GameScene/AudioPlayer.cs using Guid(f85e5d17e8290184991f840dccda0e71) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f634d34cabb1ac13364f06e4be02908e') in 0.342685 seconds
   Import took 0.346822 seconds .
 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.023987 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.87 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.111 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.88 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2457 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 212.4 MB.
+System memory in use after: 212.2 MB.
+
+Unloading 56 unused Assets to reduce memory usage. Loaded Objects now: 3037.
+Total: 2.833698 ms (FindLiveObjects: 0.273650 ms CreateObjectMapping: 0.142447 ms MarkObjects: 1.924050 ms  DeleteObjects: 0.492497 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 452.415417 seconds.
+  path: Assets/Script/GameScene/AudioPlayer.cs
+  artifactKey: Guid(f85e5d17e8290184991f840dccda0e71) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/AudioPlayer.cs using Guid(f85e5d17e8290184991f840dccda0e71) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '46ab143e318da955d007f3b71810ab5b') in 0.025944 seconds
+  Import took 0.033038 seconds .
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 7.29 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 57 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 180.4 MB.
+System memory in use after: 180.2 MB.
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 3037.
+Total: 2.657886 ms (FindLiveObjects: 0.309038 ms CreateObjectMapping: 0.129761 ms MarkObjects: 1.689436 ms  DeleteObjects: 0.528790 ms)
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file

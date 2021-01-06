@@ -5192,12 +5192,12 @@ MonoBehaviour:
     absolute: -200
   bottomAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -270
+    relative: 0.5
+    absolute: 90
   topAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -230
+    relative: 0.5
+    absolute: 130
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
@@ -8369,12 +8369,12 @@ MonoBehaviour:
     absolute: -200
   bottomAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -150
+    relative: 0.5
+    absolute: 210
   topAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -110
+    relative: 0.5
+    absolute: 250
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
@@ -8882,12 +8882,12 @@ MonoBehaviour:
     absolute: -200
   bottomAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -390
+    relative: 0.5
+    absolute: -30
   topAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -350
+    relative: 0.5
+    absolute: 10
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
@@ -9223,12 +9223,12 @@ MonoBehaviour:
     absolute: -200
   bottomAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -330
+    relative: 0.5
+    absolute: 30
   topAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -290
+    relative: 0.5
+    absolute: 70
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
@@ -15308,12 +15308,12 @@ MonoBehaviour:
     absolute: -200
   bottomAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -210
+    relative: 0.5
+    absolute: 150
   topAnchor:
     target: {fileID: 542830358}
-    relative: 1
-    absolute: -170
+    relative: 0.5
+    absolute: 190
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4

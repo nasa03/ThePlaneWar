@@ -20,10 +20,10 @@ public class ExplodingMissile : MonoBehaviourPun
         Instantiate(muzzlePrefab);
         _missileTarget = GetNearTargetTransform();
 
-        if (_missileTarget.CompareTag("Plane"))
+        if (_missileTarget != null && _missileTarget.CompareTag("Plane"))
             FindObjectOfType<PhotonGame>().photonView
                 .RPC("PlayAudio", _missileTarget.GetComponent<PhotonView>().Controller, 4);
-        
+
     }
 
     // Update is called once per frame
