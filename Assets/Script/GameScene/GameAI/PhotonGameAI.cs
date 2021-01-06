@@ -13,22 +13,21 @@ public class PhotonGameAI : MonoBehaviourPun
 
     public void InitializeAI()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient) return;
+        
+        object[] aiPlaneIndex = (object[]) PhotonNetwork.CurrentRoom.GetProperties("ai_List");
+
+        if (aiPlaneIndex != null)
         {
-            object[] aiPlaneIndex = (object[]) PhotonNetwork.CurrentRoom.GetProperties("ai_List");
-
-            if (aiPlaneIndex != null)
+            for (int i = 0; i < aiPlaneIndex.Length; i++)
             {
-                for (int i = 0; i < aiPlaneIndex.Length; i++)
-                {
-                    GameObject aiPlane = PhotonNetwork.InstantiateRoomObject(
-                        aiPlanePrefabs[(int) aiPlaneIndex[i]].name,
-                        FindObjectOfType<PhotonGame>().GroundRunwayPosition[PhotonNetwork.CurrentRoom.Players.Count + i]
-                            .position +
-                        new Vector3(0, 15, 0), Quaternion.identity);
+                GameObject aiPlane = PhotonNetwork.InstantiateRoomObject(
+                    aiPlanePrefabs[(int) aiPlaneIndex[i]].name,
+                    FindObjectOfType<PhotonGame>().GroundRunwayPosition[PhotonNetwork.CurrentRoom.Players.Count + i]
+                        .position +
+                    new Vector3(0, 15, 0), Quaternion.identity);
 
-                    photonView.RPC("HandleAIPlaneProperty", RpcTarget.All, aiPlane.name, i);
-                }
+                photonView.RPC("HandleAIPlaneProperty", RpcTarget.All, aiPlane.name, i);
             }
         }
     }

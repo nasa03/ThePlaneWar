@@ -1,6 +1,4 @@
-﻿//using System.Collections;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
@@ -29,14 +27,7 @@ public static class CustomProperties
     {
         Hashtable keyValues = player.CustomProperties;
 
-        if (keyValues.ContainsKey(key))
-        {
-            return keyValues[key];
-        }
-        else
-        {
-            return defaultValue;
-        }
+        return keyValues.ContainsKey(key) ? keyValues[key] : defaultValue;
     }
     
     public static void SetProperties(this Room room, string key, object value)
@@ -53,20 +44,12 @@ public static class CustomProperties
         }
 
         room.SetCustomProperties(keyValues);
-
     }
     
     public static object GetProperties(this Room room, string key, object defaultValue = null)
     {
         Hashtable keyValues = room.CustomProperties;
 
-        if (keyValues.ContainsKey(key))
-        {
-            return keyValues[key];
-        }
-        else
-        {
-            return defaultValue;
-        }
+        return keyValues.ContainsKey(key) ? keyValues[key] : defaultValue;
     }
 }

@@ -25,10 +25,7 @@ public class ChooseMap : MonoBehaviourPunCallbacks
             break;
         }
 
-        if (mapIndex == 0)
-        {
-            return;
-        }
+        if (mapIndex == 0) return;
 
         mapIndex--;
 
@@ -46,10 +43,7 @@ public class ChooseMap : MonoBehaviourPunCallbacks
             break;
         }
 
-        if (mapIndex == list.Count - 1)
-        {
-            return;
-        }
+        if (mapIndex == list.Count - 1) return;
 
         mapIndex++;
 
@@ -61,7 +55,7 @@ public class ChooseMap : MonoBehaviourPunCallbacks
     {
         mapSprite.spriteName = mapSprite.atlas.spriteList[index].name;
         mapLabel.text = _mapNames[index];
-        this.Index = (index);
+        Index = index;
     }
 
     public override void OnJoinedRoom()
