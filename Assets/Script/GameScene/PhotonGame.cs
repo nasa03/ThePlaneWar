@@ -137,6 +137,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         GetComponent<AudioPlayer>().PlayAudio(3);
 
         LocalPlane.GetComponent<MeshRenderer>().enabled = false;
+        LocalPlane.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
         ParticleSystem[] particleSystems = LocalPlane.GetComponentsInChildren<ParticleSystem>();
         foreach (var items in particleSystems)
