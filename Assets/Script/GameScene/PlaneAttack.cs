@@ -9,7 +9,6 @@ using Random = UnityEngine.Random;
 public class PlaneAttack : MonoBehaviourPun
 {
     [SerializeField] private Camera planeCamera;
-    private bool _isKilled = false;
 
     // Start is called before the first frame update
     private void Start()
@@ -38,7 +37,7 @@ public class PlaneAttack : MonoBehaviourPun
 
         if (totalHp <= 0)
         {
-            StartCoroutine(ShowKillSight(target));
+            StartCoroutine(ShowKillImage(target));
 
             int kill = (int) PhotonNetwork.LocalPlayer.GetProperties("kill", 0);
             kill++;
@@ -72,7 +71,7 @@ public class PlaneAttack : MonoBehaviourPun
 
         if (totalHp <= 0)
         {
-            StartCoroutine(ShowKillSight(target));
+            StartCoroutine(ShowKillImage(target));
 
             int kill = (int) PhotonNetwork.LocalPlayer.GetProperties("kill", 0);
             kill++;
@@ -87,37 +86,24 @@ public class PlaneAttack : MonoBehaviourPun
 
     private IEnumerator ShowSight(Transform target)
     {
-        if (!_isKilled)
-        {
-            FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[1];
-            FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
-                planeCamera.WorldToScreenPoint(target.position);
-        }
-
-        yield return new WaitForSeconds(0.5f);
-
-        if (!_isKilled)
-        {
-            FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[0];
-            FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
-                new Vector3(Screen.width / 2, Screen.height / 2, 0);
-        }
-    }
-
-    private IEnumerator ShowKillSight(Transform target)
-    {
-        _isKilled = true;
-
-        FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[2];
+        FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[1];
         FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
             planeCamera.WorldToScreenPoint(target.position);
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.5f);
 
         FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[0];
         FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
             new Vector3(Screen.width / 2, Screen.height / 2, 0);
 
-        _isKilled = false;
+    }
+
+    private IEnumerator ShowKillImage(Transform target)
+    {
+        FindObjectOfType<PhotonGame>().KillImage.enabled = true;
+
+        yield return new WaitForSeconds(1.5f);
+
+        FindObjectOfType<PhotonGame>().KillImage.enabled = false;
     }
 }
