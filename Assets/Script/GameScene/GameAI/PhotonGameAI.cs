@@ -5,11 +5,13 @@ using Photon.Pun;
 
 public class PhotonGameAI : MonoBehaviourPun
 {
-    [SerializeField] GameObject[] aiPlanePrefabs;
-    [SerializeField] Transform[] randomPositions;
-    [HideInInspector] public ArrayList aiPlaneList = new ArrayList();
+    [SerializeField] private GameObject[] aiPlanePrefabs;
+    [SerializeField] private Transform[] randomPositions;
+    private readonly ArrayList _aiPlaneList = new ArrayList();
 
     public Transform[] RandomPositions => randomPositions;
+
+    public ArrayList AiPlaneList => _aiPlaneList;
 
     public void InitializeAI()
     {
@@ -39,7 +41,7 @@ public class PhotonGameAI : MonoBehaviourPun
 
         aiPlane.GetComponent<AIAttack>().Index = PhotonNetwork.CurrentRoom.Players.Count + index;
         aiPlane.GetComponent<AIProperty>().Initialize($"机器人{index + 1}");
-        aiPlaneList.Add(aiPlane);
+        _aiPlaneList.Add(aiPlane);
     }
 
     [PunRPC]
@@ -64,7 +66,7 @@ public class PhotonGameAI : MonoBehaviourPun
 
     public void HandleAIPlaneScores()
     {
-        foreach (GameObject aiPlane in aiPlaneList)
+        foreach (GameObject aiPlane in _aiPlaneList)
         {
             Global.aiPlaneScores.Add(aiPlane.GetComponent<AIProperty>().aiPlaneScores);
         }

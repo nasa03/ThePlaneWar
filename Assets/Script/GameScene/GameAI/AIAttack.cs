@@ -128,6 +128,8 @@ public class AIAttack : MonoBehaviour
 
         _time = 10.0f;
         _maxTime = 10;
+        
+        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All);
 
         _reborn = true;
     }
@@ -148,6 +150,8 @@ public class AIAttack : MonoBehaviour
         {
             items.Play();
         }
+        
+        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All);
 
         _reborn = false;
     }

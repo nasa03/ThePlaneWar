@@ -16,6 +16,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
         public Image scoreImage;
         public Text scoreText;
         public GameObject scoreCamera;
+        public Transform target;
     }
 
     // Update is called once per frame
@@ -25,7 +26,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
         title.scoreText.enabled = true;
 
         int planeCount = PhotonNetwork.PlayerList.Length;
-        ArrayList aiPlaneList = FindObjectOfType<PhotonGameAI>().aiPlaneList;
+        ArrayList aiPlaneList = FindObjectOfType<PhotonGameAI>().AiPlaneList;
         GameObject[] planeObjs = GameObject.FindGameObjectsWithTag("Plane");
         for (int i = 0; i < 6; i++)
         {
@@ -45,6 +46,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                         if (planeObj.GetComponent<PhotonView>().Controller.NickName == name)
                         {
                             scores[i].scoreCamera = planeObj.GetComponent<CameraActive>().Camera;
+                            scores[i].target = planeObj.transform;
                         }
                     }
                     if (PhotonNetwork.PlayerList[i].IsLocal)
@@ -66,6 +68,7 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                     scores[i].scoreCamera = aiPlane.transform.Find("ShakeCamera")
                         .Find("MultipurposeCameraRig").gameObject;
                     scores[i].scoreText.color = Color.green;
+                    scores[i].target = aiPlane.transform;
                 }
                 
             }
@@ -94,12 +97,15 @@ public class PhotonScore : MonoBehaviourPunCallbacks
         if (showCamera)
         {
             showCamera.SetActive(true);
+
+            FindObjectOfType<LittleHealthBar>().CurrentPlane = scores[index].target;
         }
         else
         {
             mainCamera.enabled = true;
+            
+            FindObjectOfType<LittleHealthBar>().CurrentPlane = null;
         }
-        
     }
 
     public void Hide(int index)
@@ -120,10 +126,14 @@ public class PhotonScore : MonoBehaviourPunCallbacks
         if (showCamera)
         {
             showCamera.GetComponent<CameraActive>().Camera.SetActive(true);
+
+            FindObjectOfType<LittleHealthBar>().CurrentPlane = FindObjectOfType<PhotonGame>().LocalPlane.transform;
         }
         else
         {
             mainCamera.enabled = true;
+
+            FindObjectOfType<LittleHealthBar>().CurrentPlane = null;
         }
     }
 }
