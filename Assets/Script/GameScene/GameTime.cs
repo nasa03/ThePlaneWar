@@ -8,14 +8,14 @@ using UnityStandardAssets.CrossPlatformInput;
 public class GameTime : MonoBehaviourPun
 {
     [SerializeField] private Text text;
-    [SerializeField] private int maxTime;
     [SerializeField] private GameObject gameOverButton;
     private int _time = 0;
+    private const int MAXTime = 600;
 
     // Start is called before the first frame update
     private void Start()
     {
-        _time = maxTime;
+        _time = MAXTime;
         gameOverButton.SetActive(PhotonNetwork.IsMasterClient);
     }
     
@@ -43,7 +43,7 @@ public class GameTime : MonoBehaviourPun
 
             text.text = $"{minutes}:{secondsStr}";
             yield return new WaitForSeconds(1.0f);
-            _time = Mathf.Clamp(--_time, 0, maxTime);
+            _time = Mathf.Clamp(--_time, 0, MAXTime);
 
             if (_time == 0 && PhotonNetwork.IsMasterClient && photonView.IsMine)
             {

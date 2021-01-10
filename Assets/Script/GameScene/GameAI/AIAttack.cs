@@ -10,15 +10,10 @@ public class AIAttack : MonoBehaviour
 {
     private AIProperty _aiProperty;
     private bool _reborn = false;
-
     private float _time = 0.0f;
     private int _maxTime = 0;
-    private int _index;
 
-    public int Index
-    {
-        set => _index = value;
-    }
+    public int Index { private get; set; }
 
     // Update is called once per frame
     private void Update()
@@ -111,7 +106,7 @@ public class AIAttack : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
         {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[_index].position +
+            transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[Index].position +
                                  new Vector3(0, 15, 0);
             transform.rotation = Quaternion.identity;
         }

@@ -92,7 +92,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
 
     public void KickLabelOnClick(UILabel name)
     {
-        foreach (var playersOthers in PhotonNetwork.PlayerListOthers)
+        foreach (Player playersOthers in PhotonNetwork.PlayerListOthers)
         {
             if (playersOthers.NickName == name.text)
             {
@@ -103,7 +103,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
 
     public void MasterLabelOnClick(UILabel name)
     {
-        foreach (var playerOthers in PhotonNetwork.PlayerListOthers)
+        foreach (Player playerOthers in PhotonNetwork.PlayerListOthers)
         {
             if (playerOthers.NickName == name.text)
             {

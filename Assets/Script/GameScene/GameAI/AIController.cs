@@ -8,27 +8,23 @@ using Random = UnityEngine.Random;
 public class AIController : MonoBehaviour
 {
     private AeroplaneAiControl _aeroplaneAiControl;
-    private Transform _target;
     private int _random = -1;
 
-    public Transform Target
-    {
-        set => _target = value;
-    }
+    public Transform Target { private get; set; }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        if (_target) return;
+        if (Target) return;
 
         Transform tempTarget = GetNearTargetTransform();
         if (!tempTarget)
             tempTarget = GetRandomPosition();
 
-        _target = tempTarget;
-        _aeroplaneAiControl.SetTarget(_target);
+        Target = tempTarget;
+        _aeroplaneAiControl.SetTarget(Target);
     }
 
     private void Awake()

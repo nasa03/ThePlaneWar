@@ -7,12 +7,12 @@ public class ExplodingMissile : MonoBehaviourPun
 {
     [SerializeField] private GameObject muzzlePrefab;
     [SerializeField] private GameObject explosionPrefab;
-    [SerializeField] private float speed = 800;
-    [SerializeField] private float explosionTimer = 6;
     private Rigidbody _thisRigidbody;
     private Collider _thisCollider;
     private Transform _missileTarget;
     private float _timer;
+    private const float Speed = 800;
+    private const float ExplosionTimer = 6;
 
     // Start is called before the first frame update
     private void Start()
@@ -30,7 +30,7 @@ public class ExplodingMissile : MonoBehaviourPun
     private void Update()
     {
         _timer += Time.deltaTime;
-        if (!(_timer >= explosionTimer)) return;
+        if (!(_timer >= ExplosionTimer)) return;
 
         Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
         PhotonNetwork.Destroy(gameObject);
@@ -40,7 +40,7 @@ public class ExplodingMissile : MonoBehaviourPun
     {
         transform.LookAt(_missileTarget != null ? _missileTarget : transform);
 
-        _thisRigidbody.AddForce(transform.forward * speed);
+        _thisRigidbody.AddForce(transform.forward * Speed);
 
         if (_timer >= 0.05f)
             transform.rotation = Quaternion.LookRotation(_thisRigidbody.velocity);

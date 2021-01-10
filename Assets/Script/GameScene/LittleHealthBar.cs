@@ -9,18 +9,17 @@ public class LittleHealthBar : MonoBehaviour
 {
     [SerializeField] private Transform uiRoot;
     [SerializeField] private GameObject littleHealthBarPrefab;
-    private Transform _currentPlane = null;
     private readonly ArrayList _forwardTargetList = new ArrayList();
     private readonly ArrayList _littleHealthBarList = new ArrayList();
     private bool _isInitialize = false;
     private const float MAXDistance = 10000.0f;
 
-    public Transform CurrentPlane { set => _currentPlane = value; }
+    public Transform CurrentPlane { private get; set; }
 
     // Update is called once per frame
     void Update()
     {
-        if (!_isInitialize || !_currentPlane) return;
+        if (!_isInitialize || !CurrentPlane) return;
         
         GetForwardTargetsTransform();
 
@@ -30,7 +29,7 @@ public class LittleHealthBar : MonoBehaviour
             {
                 if (target.CompareTag("Plane") &&
                     target.GetComponent<PhotonView>().Controller.NickName == littleHealthBar.name &&
-                    !Equals(target, _currentPlane))
+                    !Equals(target, CurrentPlane))
                 {
                     littleHealthBar.transform.Find("Health").GetComponent<Image>().fillAmount =
                         (float) ((int) target.GetComponent<PhotonView>().Controller.GetProperties("HP", 100) / 100.0);
@@ -38,7 +37,7 @@ public class LittleHealthBar : MonoBehaviour
                         (float) ((int) target.GetComponent<PhotonView>().Controller.GetProperties("HP", 100) / 100.0),
                         littleHealthBar.transform.Find("HealthLerp").GetComponent<Image>().fillAmount, 0.95f);
 
-                    Vector3 rectPosition = _currentPlane.transform.Find("ShakeCamera").Find("MultipurposeCameraRig")
+                    Vector3 rectPosition = CurrentPlane.transform.Find("ShakeCamera").Find("MultipurposeCameraRig")
                         .Find("Pivot").Find("MainCamera").GetComponent<Camera>()
                         .WorldToScreenPoint(target.position);
                     littleHealthBar.GetComponent<Image>().rectTransform.position =
@@ -47,7 +46,7 @@ public class LittleHealthBar : MonoBehaviour
                 }
                 else if (target.CompareTag("AI") &&
                          target.name == littleHealthBar.name &&
-                         !Equals(target, _currentPlane))
+                         !Equals(target, CurrentPlane))
                 {
 
                     littleHealthBar.transform.Find("Health").GetComponent<Image>().fillAmount =
@@ -56,7 +55,7 @@ public class LittleHealthBar : MonoBehaviour
                         (float) (target.GetComponent<AIProperty>().HP / 100.0),
                         littleHealthBar.transform.Find("HealthLerp").GetComponent<Image>().fillAmount, 0.95f);
 
-                    Vector3 rectPosition = _currentPlane.transform.Find("ShakeCamera").Find("MultipurposeCameraRig")
+                    Vector3 rectPosition = CurrentPlane.transform.Find("ShakeCamera").Find("MultipurposeCameraRig")
                         .Find("Pivot").Find("MainCamera").GetComponent<Camera>()
                         .WorldToScreenPoint(target.position);
                     littleHealthBar.GetComponent<Image>().rectTransform.position =
@@ -73,7 +72,7 @@ public class LittleHealthBar : MonoBehaviour
         _littleHealthBarList.Clear();
 
         if (FindObjectOfType<PhotonGame>().LocalPlane != null)
-            _currentPlane = FindObjectOfType<PhotonGame>().LocalPlane.transform;
+            CurrentPlane = FindObjectOfType<PhotonGame>().LocalPlane.transform;
 
         foreach (Player target in PhotonNetwork.PlayerList)
         {
@@ -124,7 +123,7 @@ public class LittleHealthBar : MonoBehaviour
             missileTargets.Add(target.transform);
         }
 
-        Vector3 thisPosition = _currentPlane.position;
+        Vector3 thisPosition = CurrentPlane.position;
         float[] distances = new float[missileTargets.Count];
         for (int i = 0; i < missileTargets.Count; i++)
         {
