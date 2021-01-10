@@ -95,7 +95,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         
         FindObjectOfType<PhotonGameAI>().InitializeAI();
         
-        FindObjectOfType<LittleHealthBar>().Initialize();
+        FindObjectOfType<LittleHealthBar>().Initialize(LocalPlane.transform);
 
         StartCoroutine(FindObjectOfType<GameTime>().ShowTime());
 
@@ -170,8 +170,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         _time = 10.0f;
         _maxTime = 10;
         timeText.text = "重生";
-        
-        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All);
+
+        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
 
         yield return new WaitForSeconds(1.0f);
         Reborn = true;
@@ -188,8 +188,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         
         Reborn = false;
         _reconnected = false;
-        
-        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All);
+
+        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
 
         StartCoroutine(InvincibleStart());
     }
@@ -227,7 +227,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         _maxTime = 60;
         timeText.text = "正在重连";
         
-        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All);
+        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
 
         _reconnected = true;
     }

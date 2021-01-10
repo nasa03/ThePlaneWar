@@ -98,13 +98,13 @@ public class PhotonScore : MonoBehaviourPunCallbacks
         {
             showCamera.SetActive(true);
 
-            FindObjectOfType<LittleHealthBar>().CurrentPlane = scores[index].target;
+            FindObjectOfType<LittleHealthBar>().LittleHeathBarReload(true, scores[index].target);
         }
         else
         {
             mainCamera.enabled = true;
-            
-            FindObjectOfType<LittleHealthBar>().CurrentPlane = null;
+
+            FindObjectOfType<LittleHealthBar>().LittleHeathBarReload(true, null);
         }
     }
 
@@ -127,13 +127,14 @@ public class PhotonScore : MonoBehaviourPunCallbacks
         {
             showCamera.GetComponent<CameraActive>().Camera.SetActive(true);
 
-            FindObjectOfType<LittleHealthBar>().CurrentPlane = FindObjectOfType<PhotonGame>().LocalPlane.transform;
+            FindObjectOfType<LittleHealthBar>()
+                .LittleHeathBarReload(true, FindObjectOfType<PhotonGame>().LocalPlane.transform);
         }
         else
         {
             mainCamera.enabled = true;
 
-            FindObjectOfType<LittleHealthBar>().CurrentPlane = null;
+            FindObjectOfType<LittleHealthBar>().LittleHeathBarReload(true, null);
         }
     }
 }

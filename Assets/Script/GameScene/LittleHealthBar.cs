@@ -11,15 +11,14 @@ public class LittleHealthBar : MonoBehaviour
     [SerializeField] private GameObject littleHealthBarPrefab;
     private readonly ArrayList _forwardTargetList = new ArrayList();
     private readonly ArrayList _littleHealthBarList = new ArrayList();
+    private Transform _currentPlane = null;
     private bool _isInitialize = false;
     private const float MAXDistance = 10000.0f;
-
-    public Transform CurrentPlane { private get; set; }
 
     // Update is called once per frame
     void Update()
     {
-        if (!_isInitialize || !CurrentPlane) return;
+        if (!_isInitialize || !_currentPlane) return;
         
         GetForwardTargetsTransform();
 
@@ -29,7 +28,7 @@ public class LittleHealthBar : MonoBehaviour
             {
                 if (target.CompareTag("Plane") &&
                     target.GetComponent<PhotonView>().Controller.NickName == littleHealthBar.name &&
-                    !Equals(target, CurrentPlane))
+                    !Equals(target, _currentPlane))
                 {
                     littleHealthBar.transform.Find("Health").GetComponent<Image>().fillAmount =
                         (float) ((int) target.GetComponent<PhotonView>().Controller.GetProperties("HP", 100) / 100.0);
@@ -37,7 +36,7 @@ public class LittleHealthBar : MonoBehaviour
                         (float) ((int) target.GetComponent<PhotonView>().Controller.GetProperties("HP", 100) / 100.0),
                         littleHealthBar.transform.Find("HealthLerp").GetComponent<Image>().fillAmount, 0.95f);
 
-                    Vector3 rectPosition = CurrentPlane.transform.Find("ShakeCamera").Find("MultipurposeCameraRig")
+                    Vector3 rectPosition = _currentPlane.transform.Find("ShakeCamera").Find("MultipurposeCameraRig")
                         .Find("Pivot").Find("MainCamera").GetComponent<Camera>()
                         .WorldToScreenPoint(target.position);
                     littleHealthBar.GetComponent<Image>().rectTransform.position =
@@ -46,7 +45,7 @@ public class LittleHealthBar : MonoBehaviour
                 }
                 else if (target.CompareTag("AI") &&
                          target.name == littleHealthBar.name &&
-                         !Equals(target, CurrentPlane))
+                         !Equals(target, _currentPlane))
                 {
 
                     littleHealthBar.transform.Find("Health").GetComponent<Image>().fillAmount =
@@ -55,7 +54,7 @@ public class LittleHealthBar : MonoBehaviour
                         (float) (target.GetComponent<AIProperty>().HP / 100.0),
                         littleHealthBar.transform.Find("HealthLerp").GetComponent<Image>().fillAmount, 0.95f);
 
-                    Vector3 rectPosition = CurrentPlane.transform.Find("ShakeCamera").Find("MultipurposeCameraRig")
+                    Vector3 rectPosition = _currentPlane.transform.Find("ShakeCamera").Find("MultipurposeCameraRig")
                         .Find("Pivot").Find("MainCamera").GetComponent<Camera>()
                         .WorldToScreenPoint(target.position);
                     littleHealthBar.GetComponent<Image>().rectTransform.position =
@@ -65,14 +64,13 @@ public class LittleHealthBar : MonoBehaviour
         }
     }
 
-    public void Initialize()
+    public void Initialize(Transform currentPlane)
     {
         _isInitialize = false;
         
         _littleHealthBarList.Clear();
 
-        if (FindObjectOfType<PhotonGame>().LocalPlane != null)
-            CurrentPlane = FindObjectOfType<PhotonGame>().LocalPlane.transform;
+        _currentPlane = currentPlane;
 
         foreach (Player target in PhotonNetwork.PlayerList)
         {
@@ -123,7 +121,7 @@ public class LittleHealthBar : MonoBehaviour
             missileTargets.Add(target.transform);
         }
 
-        Vector3 thisPosition = CurrentPlane.position;
+        Vector3 thisPosition = _currentPlane.position;
         float[] distances = new float[missileTargets.Count];
         for (int i = 0; i < missileTargets.Count; i++)
         {
@@ -146,13 +144,13 @@ public class LittleHealthBar : MonoBehaviour
     }
 
     [PunRPC]
-    public void LittleHeathBarReload()
+    public void LittleHeathBarReload(bool changePlane, Transform currentPlane)
     {
         foreach (GameObject littleHealthBar in _littleHealthBarList)
         {
             Destroy(littleHealthBar);
         }
-        
-        Initialize();
+
+        Initialize(changePlane ? currentPlane : _currentPlane);
     }
 }
