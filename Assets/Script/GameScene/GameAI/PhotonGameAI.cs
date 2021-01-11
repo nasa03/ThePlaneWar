@@ -12,13 +12,13 @@ public class PhotonGameAI : MonoBehaviourPun
 
     public ArrayList AiPlaneList { get; } = new ArrayList();
 
-    public void InitializeAI()
+    public IEnumerator InitializeAI()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
-        
         object[] aiPlaneIndex = (object[]) PhotonNetwork.CurrentRoom.GetProperties("ai_List");
 
-        if (aiPlaneIndex != null)
+        if (aiPlaneIndex == null) yield break;
+        
+        if (PhotonNetwork.IsMasterClient)
         {
             for (int i = 0; i < aiPlaneIndex.Length; i++)
             {
@@ -31,6 +31,8 @@ public class PhotonGameAI : MonoBehaviourPun
                 photonView.RPC("HandleAIPlaneProperty", RpcTarget.All, aiPlane.name, i);
             }
         }
+
+        yield return new WaitUntil(() => AiPlaneList.Count == aiPlaneIndex.Length);
     }
 
     [PunRPC]
