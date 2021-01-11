@@ -96,6 +96,7 @@ public class LittleHealthBar : MonoBehaviour
                 (float) (aiTarget.GetComponent<AIProperty>().HP / 100.0);
 
             littleHealthBar.name = aiTarget.name;
+            littleHealthBar.SetActive(!aiTarget.GetComponent<AIProperty>().isDead);
 
             _littleHealthBarList.Add(littleHealthBar);
         }

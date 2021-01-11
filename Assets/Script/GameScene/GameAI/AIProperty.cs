@@ -13,6 +13,7 @@ public class AIProperty : MonoBehaviour
         HP = 100;
         Kill = 0;
         Death = 0;
+        isDead = false;
     }
 
     public Global.AIPlaneScores aiPlaneScores => new Global.AIPlaneScores
@@ -38,5 +39,11 @@ public class AIProperty : MonoBehaviour
     {
         get => (int) PhotonNetwork.CurrentRoom.GetProperties(name + "-death", 0);
         set => PhotonNetwork.CurrentRoom.SetProperties(name + "-death", value);
+    }
+
+    public bool isDead
+    {
+        get => (bool) PhotonNetwork.CurrentRoom.GetProperties(name + "-isDead", 0);
+        set => PhotonNetwork.CurrentRoom.SetProperties(name + "-isDead", value);
     }
 }

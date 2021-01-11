@@ -149,13 +149,13 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
         _invincible = false;
 
-        StartCoroutine(RebornStart());
-
         int death = (int) PhotonNetwork.LocalPlayer.GetProperties("death", 0);
         death++;
         PhotonNetwork.LocalPlayer.SetProperties("death", death);
 
         PhotonNetwork.LocalPlayer.SetProperties("HP", 100);
+        
+        StartCoroutine(RebornStart());
     }
 
     private IEnumerator RebornStart()

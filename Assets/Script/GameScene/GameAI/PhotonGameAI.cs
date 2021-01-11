@@ -55,14 +55,15 @@ public class PhotonGameAI : MonoBehaviourPun
         explosion.GetComponent<ParticleSystem>().Play();
         target.GetComponent<AudioPlayer>().PlayAudio(3);
 
-        target.GetComponent<AIAttack>().RebornStart();
-
         if (PhotonNetwork.IsMasterClient)
         {
             AIProperty aiProperty = target.GetComponent<AIProperty>();
             aiProperty.Death++;
             aiProperty.HP = 100;
+            aiProperty.isDead = true;
         }
+        
+        target.GetComponent<AIAttack>().RebornStart();
     }
 
     public void HandleAIPlaneScores()
