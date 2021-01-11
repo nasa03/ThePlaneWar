@@ -11,7 +11,7 @@ public class AIAttack : MonoBehaviour
     private AIProperty _aiProperty;
     private bool _reborn = false;
     private float _time = 0.0f;
-    private int _maxTime = 0;
+    private const int MAXTime = 10;
 
     public int Index { private get; set; }
 
@@ -121,11 +121,9 @@ public class AIAttack : MonoBehaviour
             items.Stop();
         }
 
-        _time = 10.0f;
-        _maxTime = 10;
-
         FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
-
+        
+        _time = MAXTime;
         _reborn = true;
     }
 
