@@ -35,7 +35,7 @@ public class ExplodingProjectile : MonoBehaviourPun
         thisRigidbody = GetComponent<Rigidbody>();
         if (Missile)
         {
-            missileTarget = GetNearTargetTransform();
+            missileTarget = GameObject.FindWithTag("Target").transform;
         }
         thisCollider = GetComponent<Collider>();
         previousPosition = transform.position;
@@ -54,50 +54,6 @@ public class ExplodingProjectile : MonoBehaviourPun
             Explode();
         }
 
-    }
-    
-    private Transform GetNearTargetTransform()
-    {
-        ArrayList projectileTargets = new ArrayList();
-        
-        GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
-        foreach (GameObject target in targets)
-        {
-            if (!target.GetComponent<PhotonView>().IsMine)
-                projectileTargets.Add(target.transform);
-        }
-
-        GameObject[] aiTargets = GameObject.FindGameObjectsWithTag("AI");
-        foreach (GameObject target in aiTargets)
-        {
-            projectileTargets.Add(target.transform);
-        }
-
-        Vector3 thisPosition = transform.position;
-        float[] distances = new float[projectileTargets.Count];
-        for (int i = 0; i < projectileTargets.Count; i++)
-        {
-            Vector3 targetPosition = (projectileTargets[i] as Transform).position;
-            Vector3 dir = targetPosition - thisPosition;
-            float dot = Vector3.Dot(Vector3.forward, dir);
-            if (dot > 0)
-                distances[i] = Vector3.Distance(thisPosition, targetPosition);
-            else
-                distances[i] = 0;
-        }
-
-        float minDistance = 0;
-        Transform minTarget = null;
-        for (int i = 0; i < distances.Length; i++)
-        {
-            if (distances[i] != 0 && (minDistance == 0 || distances[i] < minDistance))
-            {
-                minDistance = distances[i];
-                minTarget = projectileTargets[i] as Transform;
-            }
-        }
-
-        return minTarget;
     }
 
     void FixedUpdate()
