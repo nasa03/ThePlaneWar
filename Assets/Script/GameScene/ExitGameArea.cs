@@ -9,8 +9,6 @@ public class ExitGameArea : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Plane") && other.GetComponent<PhotonView>().IsMine)
-        {
             CrossPlatformInputManager.SetButtonDown("Suicide");
-        }
     }
 }

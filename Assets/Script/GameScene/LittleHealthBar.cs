@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -9,8 +10,8 @@ public class LittleHealthBar : MonoBehaviour
 {
     [SerializeField] private Transform uiRoot;
     [SerializeField] private GameObject littleHealthBarPrefab;
-    private readonly ArrayList _forwardTargetList = new ArrayList();
-    private readonly ArrayList _littleHealthBarList = new ArrayList();
+    private readonly List<Transform> _forwardTargetList = new List<Transform>();
+    private readonly List<GameObject> _littleHealthBarList = new List<GameObject>();
     private Transform _currentPlane = null;
     private bool _isInitialize = false;
     private const float MAXDistance = 10000.0f;
@@ -19,12 +20,12 @@ public class LittleHealthBar : MonoBehaviour
     void Update()
     {
         if (!_isInitialize || !_currentPlane) return;
-        
+
         GetForwardTargetsTransform();
 
-        foreach (GameObject littleHealthBar in _littleHealthBarList)
+        _littleHealthBarList.ForEach(delegate(GameObject littleHealthBar)
         {
-            foreach (Transform target in _forwardTargetList)
+            _forwardTargetList.ForEach(delegate(Transform target)
             {
                 if (target.CompareTag("Plane") &&
                     target.GetComponent<PhotonView>().Controller.NickName == littleHealthBar.name &&
@@ -60,8 +61,8 @@ public class LittleHealthBar : MonoBehaviour
                     littleHealthBar.GetComponent<Image>().rectTransform.position =
                         new Vector3(rectPosition.x, rectPosition.y + 10.0f, rectPosition.z);
                 }
-            }
-        }
+            });
+        });
     }
 
     public void Initialize(Transform currentPlane)
@@ -72,7 +73,7 @@ public class LittleHealthBar : MonoBehaviour
 
         _currentPlane = currentPlane;
 
-        foreach (Player target in PhotonNetwork.PlayerList)
+        PhotonNetwork.PlayerList.ToList().ForEach(delegate(Player target)
         {
             GameObject littleHealthBar = Instantiate(littleHealthBarPrefab, uiRoot);
             littleHealthBar.transform.Find("Name").GetComponent<Text>().text = target.NickName;
@@ -84,10 +85,10 @@ public class LittleHealthBar : MonoBehaviour
             littleHealthBar.name = target.NickName;
 
             _littleHealthBarList.Add(littleHealthBar);
-        }
-        
-        foreach (GameObject aiTarget in FindObjectOfType<PhotonGameAI>().AiPlaneList)
-        { 
+        });
+
+        FindObjectOfType<PhotonGameAI>().AiPlaneList.ForEach(delegate(GameObject aiTarget)
+        {
             GameObject littleHealthBar = Instantiate(littleHealthBarPrefab, uiRoot);
             littleHealthBar.transform.Find("Name").GetComponent<Text>().text = aiTarget.name;
             littleHealthBar.transform.Find("Health").GetComponent<Image>().fillAmount =
@@ -99,7 +100,7 @@ public class LittleHealthBar : MonoBehaviour
             littleHealthBar.SetActive(!aiTarget.GetComponent<AIProperty>().isDead);
 
             _littleHealthBarList.Add(littleHealthBar);
-        }
+        });
 
         _isInitialize = true;
     }
@@ -108,19 +109,10 @@ public class LittleHealthBar : MonoBehaviour
     {
         _forwardTargetList.Clear();
         
-        ArrayList missileTargets = new ArrayList();
+        List<Transform> missileTargets = new List<Transform>();
 
-        GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
-        foreach (GameObject target in targets)
-        {
-            missileTargets.Add(target.transform);
-        }
-
-        GameObject[] aiTargets = GameObject.FindGameObjectsWithTag("AI");
-        foreach (GameObject target in aiTargets)
-        {
-            missileTargets.Add(target.transform);
-        }
+        GameObject.FindGameObjectsWithTag("Plane").ToList().ForEach(target => missileTargets.Add(target.transform));
+        GameObject.FindGameObjectsWithTag("AI").ToList().ForEach(aiTarget => missileTargets.Add(aiTarget.transform));
 
         Vector3 thisPosition = _currentPlane.position;
         float[] distances = new float[missileTargets.Count];
@@ -138,19 +130,14 @@ public class LittleHealthBar : MonoBehaviour
         for (int i = 0; i < distances.Length; i++)
         {
             if (distances[i] != 0 && distances[i] < MAXDistance)
-            {
                 _forwardTargetList.Add(missileTargets[i] as Transform);
-            }
         }
     }
 
     [PunRPC]
     public void LittleHeathBarReload(bool changePlane, Transform currentPlane)
     {
-        foreach (GameObject littleHealthBar in _littleHealthBarList)
-        {
-            Destroy(littleHealthBar);
-        }
+        _littleHealthBarList.ForEach(Destroy);
 
         Initialize(changePlane ? currentPlane : _currentPlane);
     }

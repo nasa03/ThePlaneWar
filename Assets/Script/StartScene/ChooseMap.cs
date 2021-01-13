@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -63,19 +64,9 @@ public class ChooseMap : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            foreach (UIButton button in mapButtons)
-            {
-                button.gameObject.SetActive(true);
-            }
-        }
+            mapButtons.ToList().ForEach(button => button.gameObject.SetActive(true));
         else
-        {
-            foreach (UIButton button in mapButtons)
-            {
-                button.gameObject.SetActive(false);
-            }
-        }
+            mapButtons.ToList().ForEach(button => button.gameObject.SetActive(false));
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -83,18 +74,8 @@ public class ChooseMap : MonoBehaviourPunCallbacks
         base.OnMasterClientSwitched(newMasterClient);
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            foreach (UIButton button in mapButtons)
-            {
-                button.gameObject.SetActive(true);
-            }
-        }
+            mapButtons.ToList().ForEach(button => button.gameObject.SetActive(true));
         else
-        {
-            foreach (UIButton button in mapButtons)
-            {
-                button.gameObject.SetActive(false);
-            }
-        }
+            mapButtons.ToList().ForEach(button => button.gameObject.SetActive(false));
     }
 }

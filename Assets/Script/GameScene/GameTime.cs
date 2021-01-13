@@ -23,9 +23,7 @@ public class GameTime : MonoBehaviourPun
     private void Update()
     {
         if (CrossPlatformInputManager.GetButtonDown("GameOver") && PhotonNetwork.IsMasterClient)
-        {
             photonView.RPC("GameOver", RpcTarget.All);
-        }
     }
 
     public IEnumerator ShowTime()

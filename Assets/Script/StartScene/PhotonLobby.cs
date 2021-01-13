@@ -49,12 +49,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
 
         roomGrid.transform.DestroyChildren();
 
-        foreach (RoomInfo roomInfo in roomList)
+        roomList.ForEach(delegate(RoomInfo roomInfo)
         {
             GameObject room = Instantiate(roomPrefab, roomGrid.transform, true);
 
             if (!roomInfo.IsOpen)
-                continue;
+                return;
 
             room.transform.localPosition = Vector3.zero;
             room.transform.localScale = Vector3.one;
@@ -64,7 +64,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
                 $"人数：{roomInfo.PlayerCount}/{roomInfo.MaxPlayers}";
             room.GetComponent<UIDragScrollView>().scrollView = scrollView;
             room.GetComponent<ChooseRoom>().roomInfo = roomInfo;
-        }
+        });
 
         roomGrid.Reposition();
     }

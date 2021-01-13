@@ -10,7 +10,7 @@ public class PhotonGameAI : MonoBehaviourPun
 
     public Transform[] RandomPositions => randomPositions;
 
-    public ArrayList AiPlaneList { get; } = new ArrayList();
+    public List<GameObject> AiPlaneList { get; } = new List<GameObject>();
 
     public IEnumerator InitializeAI()
     {
@@ -68,9 +68,6 @@ public class PhotonGameAI : MonoBehaviourPun
 
     public void HandleAIPlaneScores()
     {
-        foreach (GameObject aiPlane in AiPlaneList)
-        {
-            Global.aiPlaneScores.Add(aiPlane.GetComponent<AIProperty>().aiPlaneScores);
-        }
+        AiPlaneList.ForEach(aiPlane => Global.aiPlaneScores.Add(aiPlane.GetComponent<AIProperty>().aiPlaneScores));
     }
 }

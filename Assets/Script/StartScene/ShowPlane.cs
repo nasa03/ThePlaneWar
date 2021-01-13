@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -32,8 +33,7 @@ public class ShowPlane : MonoBehaviourPunCallbacks
 
     public void DestroyAll()
     {
-        foreach (var obj in _otherPlaneObject)
-            Destroy(obj);
+        _otherPlaneObject.ToList().ForEach(Destroy);
     }
 
     public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
@@ -44,7 +44,7 @@ public class ShowPlane : MonoBehaviourPunCallbacks
         
         for (int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
         {
-            if (PhotonNetwork.PlayerListOthers[i] != target) continue;
+            if (!Equals(PhotonNetwork.PlayerListOthers[i], target)) continue;
             
             int planeInt = (int) target.GetProperties("totalPlaneInt", 0);
             Destroy(_otherPlaneObject[i]);

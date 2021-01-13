@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using UnityStandardAssets.Vehicles.Aeroplane;
@@ -36,20 +37,13 @@ public class AIController : MonoBehaviour
     {
         ArrayList list = new ArrayList();
 
-        GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
-        foreach (GameObject target in targets)
-        {
-            list.Add(target.transform);
-        }
+        GameObject.FindGameObjectsWithTag("Plane").ToList().ForEach(target => list.Add(target.transform));
 
-        GameObject[] aiTargets = GameObject.FindGameObjectsWithTag("AI");
-        foreach (GameObject target in aiTargets)
+        GameObject.FindGameObjectsWithTag("AI").ToList().ForEach(delegate(GameObject aiTarget)
         {
-            if (target != gameObject)
-            {
-                list.Add(target.transform);
-            }
-        }
+            if (aiTarget != gameObject)
+                list.Add(aiTarget.transform);
+        });
 
         Vector3 thisPosition = transform.position;
         float[] distances = new float[list.Count];
@@ -75,9 +69,7 @@ public class AIController : MonoBehaviour
         }
 
         if (minDistance <= 500.0f && minTarget)
-        {
             return minTarget;
-        }
 
         return null;
     }
@@ -85,10 +77,9 @@ public class AIController : MonoBehaviour
     private Transform GetRandomPosition()
     {
         int random = -1;
-        do
-        {
-            random = Random.Range(0, FindObjectOfType<PhotonGameAI>().RandomPositions.Length);
-        } while (random == _random);
+        
+        do random = Random.Range(0, FindObjectOfType<PhotonGameAI>().RandomPositions.Length);
+        while (random == _random);
 
         _random = random;
         return FindObjectOfType<PhotonGameAI>().RandomPositions[random];

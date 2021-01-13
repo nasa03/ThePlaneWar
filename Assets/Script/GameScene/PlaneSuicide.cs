@@ -13,9 +13,7 @@ public class PlaneSuicide : MonoBehaviourPun
     private void Update()
     {
         if (CrossPlatformInputManager.GetButtonDown("Suicide") && !_isSuicide)
-        {
             StartCoroutine(Suicide());
-        }
     }
 
     private IEnumerator Suicide()
@@ -40,8 +38,6 @@ public class PlaneSuicide : MonoBehaviourPun
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("FX") && !_isSuicide)
-        {
             StartCoroutine(Suicide());
-        }
     }
 }

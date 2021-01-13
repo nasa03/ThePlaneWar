@@ -92,24 +92,20 @@ public class PhotonRoom : MonoBehaviourPunCallbacks
 
     public void KickLabelOnClick(UILabel name)
     {
-        foreach (Player playersOthers in PhotonNetwork.PlayerListOthers)
+        PhotonNetwork.PlayerListOthers.ToList().ForEach(delegate(Player player)
         {
-            if (playersOthers.NickName == name.text)
-            {
-                photonView.RPC("KickPlayer", playersOthers);
-            }
-        }
+            if (player.NickName == name.text)
+                photonView.RPC("KickPlayer", player);
+        });
     }
 
     public void MasterLabelOnClick(UILabel name)
     {
-        foreach (Player playerOthers in PhotonNetwork.PlayerListOthers)
+        PhotonNetwork.PlayerListOthers.ToList().ForEach(delegate(Player player)
         {
-            if (playerOthers.NickName == name.text)
-            {
-                PhotonNetwork.CurrentRoom.SetMasterClient(playerOthers);
-            }
-        }
+            if (player.NickName == name.text)
+                PhotonNetwork.CurrentRoom.SetMasterClient(player);
+        });
     }
 
     [PunRPC]

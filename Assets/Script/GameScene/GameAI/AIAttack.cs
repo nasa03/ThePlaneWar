@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -115,11 +116,7 @@ public class AIAttack : MonoBehaviour
         GetComponent<BoxCollider>().enabled = false;
         GetComponent<SphereCollider>().enabled = false;
 
-        ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
-        foreach (var items in particleSystems)
-        {
-            items.Stop();
-        }
+        GetComponentsInChildren<ParticleSystem>().ToList().ForEach(item => item.Stop());
 
         FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
 
@@ -130,19 +127,13 @@ public class AIAttack : MonoBehaviour
     private void RebornEnd()
     {
         if (PhotonNetwork.IsMasterClient)
-        {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        }
-        
+
         GetComponent<MeshRenderer>().enabled = true;
         GetComponent<BoxCollider>().enabled = true;
         GetComponent<SphereCollider>().enabled = true;
 
-        ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
-        foreach (var items in particleSystems)
-        {
-            items.Play();
-        }
+        GetComponentsInChildren<ParticleSystem>().ToList().ForEach(item => item.Play());
 
         GetComponent<AIProperty>().isDead = false;
 
@@ -154,8 +145,6 @@ public class AIAttack : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("FX"))
-        {
             Suicide();
-        }
     }
 }

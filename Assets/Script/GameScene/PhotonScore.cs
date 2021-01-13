@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
@@ -26,8 +27,8 @@ public class PhotonScore : MonoBehaviourPunCallbacks
         title.scoreText.enabled = true;
 
         int planeCount = PhotonNetwork.PlayerList.Length;
-        ArrayList aiPlaneList = FindObjectOfType<PhotonGameAI>().AiPlaneList;
-        GameObject[] planeObjs = GameObject.FindGameObjectsWithTag("Plane");
+        List<GameObject> planeList = GameObject.FindGameObjectsWithTag("Plane").ToList();
+        List<GameObject> aiPlaneList = FindObjectOfType<PhotonGameAI>().AiPlaneList;
         for (int i = 0; i < 6; i++)
         {
             if (i < planeCount + aiPlaneList.Count)
@@ -41,14 +42,15 @@ public class PhotonScore : MonoBehaviourPunCallbacks
                     string kill = PhotonNetwork.PlayerList[i].GetProperties("kill", 0).ToString();
                     string dead = PhotonNetwork.PlayerList[i].GetProperties("death", 0).ToString();
                     scores[i].scoreText.text = $"{name} {kill}/{dead}";
-                    foreach (GameObject planeObj in planeObjs)
+                    planeList.ForEach(delegate(GameObject plane)
                     {
-                        if (planeObj.GetComponent<PhotonView>().Controller.NickName == name)
+                        if (plane.GetComponent<PhotonView>().Controller.NickName == name)
                         {
-                            scores[i].scoreCamera = planeObj.GetComponent<CameraActive>().Camera;
-                            scores[i].target = planeObj.transform;
+                            scores[i].scoreCamera = plane.GetComponent<CameraActive>().Camera;
+                            scores[i].target = plane.transform;
                         }
-                    }
+                    });
+                    
                     if (PhotonNetwork.PlayerList[i].IsLocal)
                         scores[i].scoreText.color = Color.yellow;
                     if (PhotonNetwork.PlayerList[i].IsMasterClient)

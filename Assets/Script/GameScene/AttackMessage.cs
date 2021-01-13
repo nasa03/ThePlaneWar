@@ -14,9 +14,7 @@ public class AttackMessage : MonoBehaviour
     public void AddAttackMessage(string message)
     {
         _queue.Enqueue(message);
-
         Show();
-
         StartCoroutine(RemoveLine());
     }
 
@@ -31,7 +29,6 @@ public class AttackMessage : MonoBehaviour
     {
         string[] array = _queue.ToArray();
         string data = array.Aggregate("", (current, str) => current + (str + "\n"));
-
         text.text = data;
     }
 }

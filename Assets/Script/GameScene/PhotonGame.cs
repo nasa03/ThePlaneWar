@@ -64,19 +64,13 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         else
         {
             if (Reborn)
-            {
                 RebornEndOrReconnect();
-            }
 
             if (_invincible)
-            {
                 InvincibleEnd();
-            }
 
             if (_reconnected)
-            {
                 SceneManager.LoadScene("StartScene");
-            }
         }
     }
 
@@ -125,9 +119,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         FindObjectOfType<PhotonGameAI>().HandleAIPlaneScores();
         
         if (PhotonNetwork.IsMasterClient)
-        {
             SceneManager.LoadScene("StartScene");
-        }
     }
 
     [PunRPC]
@@ -141,11 +133,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         LocalPlane.GetComponent<MeshRenderer>().enabled = false;
         LocalPlane.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
-        ParticleSystem[] particleSystems = LocalPlane.GetComponentsInChildren<ParticleSystem>();
-        foreach (var items in particleSystems)
-        {
-            items.Stop();
-        }
+        LocalPlane.GetComponentsInChildren<ParticleSystem>().ToList().ForEach(item => item.Stop());
 
         _invincible = false;
 
@@ -237,9 +225,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         base.OnPlayerPropertiesUpdate(target, changedProps);
 
         if (Equals(target, PhotonNetwork.LocalPlayer))
-        {
             hpImage.fillAmount = (float) ((int) target.GetProperties("HP", 100) / 100.0);
-        }
     }
 
     public override void OnLeftRoom()

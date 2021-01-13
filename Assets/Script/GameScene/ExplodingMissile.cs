@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 
@@ -54,20 +55,15 @@ public class ExplodingMissile : MonoBehaviourPun
 
     private Transform GetNearTargetTransform()
     {
-        ArrayList missileTargets = new ArrayList();
-        
-        GameObject[] targets = GameObject.FindGameObjectsWithTag("Plane");
-        foreach (GameObject target in targets)
-        {
-            if (!target.GetComponent<PhotonView>().IsMine)
-                missileTargets.Add(target.transform);
-        }
+        List<Transform> missileTargets = new List<Transform>();
 
-        GameObject[] aiTargets = GameObject.FindGameObjectsWithTag("AI");
-        foreach (GameObject target in aiTargets)
+        GameObject.FindGameObjectsWithTag("Plane").ToList().ForEach(delegate(GameObject target)
         {
-            missileTargets.Add(target.transform);
-        }
+            if (!target.GetComponent<PhotonView>().IsMine) 
+                missileTargets.Add(target.transform);
+        });
+
+        GameObject.FindGameObjectsWithTag("AI").ToList().ForEach(aiTarget => missileTargets.Add(aiTarget.transform));
 
         Vector3 thisPosition = transform.position;
         float[] distances = new float[missileTargets.Count];
@@ -113,8 +109,7 @@ public class ExplodingMissile : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!photonView.IsMine)
-            return;
+        if (!photonView.IsMine) return;
 
         AIBullet aiBullet = GetComponent<AIBullet>();
 

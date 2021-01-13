@@ -24,13 +24,9 @@ public class MissileActorButton : MonoBehaviour
             _time -= Time.deltaTime;
         }
         else if (_totalCount == MAXCount)
-        {
             image.fillAmount = 0.0f;
-        }
         else
-        {
             ShootEnd();
-        }
     }
 
     public void ShootStart()

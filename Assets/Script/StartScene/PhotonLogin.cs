@@ -162,10 +162,9 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
             TypedLobby typedLobby = new TypedLobby("MyLobby", LobbyType.SqlLobby);
             PhotonNetwork.JoinLobby(typedLobby);
         }
-        else
-        {
+        else 
             PhotonNetwork.CreateRoom("离线模式");
-        }
+        
     }
 
     public override void OnJoinedRoom()

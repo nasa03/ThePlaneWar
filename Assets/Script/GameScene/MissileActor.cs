@@ -27,9 +27,8 @@ public class MissileActor : MonoBehaviourPun
             !FindObjectOfType<MissileActorButton>().Missile) return;
 
         if (cameraShake)
-        {
             GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
-        }
+        
         PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
         FindObjectOfType<MissileActorButton>().ShootStart();
     }
