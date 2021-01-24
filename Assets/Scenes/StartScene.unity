@@ -7047,6 +7047,7 @@ GameObject:
   - component: {fileID: 954965998}
   - component: {fileID: 954966004}
   - component: {fileID: 954966003}
+  - component: {fileID: 954966005}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -7366,13 +7367,13 @@ MonoBehaviour:
   voiceDetection: 0
   voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
-  unityMicrophoneDevice: 
-  photonMicrophoneDeviceId: 52
+  unityMicrophoneDevice: Built-in Microphone
+  photonMicrophoneDeviceId: 116
   interestGroup: 0
   debugEchoMode: 0
   reliableMode: 0
   encrypt: 0
-  transmitEnabled: 0
+  transmitEnabled: 1
   samplingRate: 24000
   frameDuration: 20000
   bitrate: 30000
@@ -7450,6 +7451,19 @@ MonoBehaviour:
   WorkInOfflineMode: 1
   usePunAppSettings: 1
   usePunAuthValues: 1
+--- !u!114 &954966005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954965986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffad94f9f4c6e4b0a9a125746078c5bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recorder: {fileID: 954966003}
 --- !u!1 &1000353326
 GameObject:
   m_ObjectHideFlags: 0
