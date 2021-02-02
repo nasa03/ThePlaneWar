@@ -143,3 +143,12 @@ Update Mode: updateDependencies
 
 The following packages were 已更新:
   com.unity.ide.rider 从版本 1.2.1 到 2.0.7
+
+=== Fri Jan 29 16:56:31 2021
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were 已更新:
+  com.unity.test-framework 从版本 1.1.19 到 1.1.20
+  com.unity.xr.legacyinputhelpers 从版本 2.1.6 到 2.1.7

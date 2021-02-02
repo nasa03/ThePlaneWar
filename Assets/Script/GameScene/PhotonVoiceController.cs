@@ -9,6 +9,7 @@ using UnityEngine;
 public class PhotonVoiceController : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Recorder recorder;
+    [SerializeField] private UIToggle checkbox;
     private GameObject _speaker;
 
     // Start is called before the first frame update
@@ -24,6 +25,11 @@ public class PhotonVoiceController : MonoBehaviourPunCallbacks
     void Update()
     {
 
+    }
+
+    public void OnVoiceCheck()
+    {
+        recorder.TransmitEnabled = checkbox.value;
     }
 
     public override void OnJoinedRoom()
