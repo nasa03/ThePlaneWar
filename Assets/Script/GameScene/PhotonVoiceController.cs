@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -5,11 +6,13 @@ using Photon.Realtime;
 using Photon.Voice.PUN;
 using Photon.Voice.Unity;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PhotonVoiceController : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Recorder recorder;
-    [SerializeField] private UIToggle checkbox;
+    [SerializeField] private UIToggle mainToggle;
+    [SerializeField] private Button gameButton;
     private GameObject _speaker;
 
     // Start is called before the first frame update
@@ -17,37 +20,37 @@ public class PhotonVoiceController : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.InRoom) return;
         
+        Initialize();
+    }
+    
+    private void Initialize()
+    {
+        if (_speaker != null) return;
+        
         _speaker = PhotonNetwork.Instantiate("Speaker", new Vector3(), new Quaternion());
         _speaker.GetComponent<PhotonVoiceView>().RecorderInUse = recorder;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnMainVoiceCheck()
     {
-
+        recorder.TransmitEnabled = mainToggle.value;
     }
 
-    public void OnVoiceCheck()
+    public void OnGameVoiceEnter()
     {
-        recorder.TransmitEnabled = checkbox.value;
+        recorder.TransmitEnabled = true;
+    }
+
+    public void OnGameVoiceExit()
+    {
+        recorder.TransmitEnabled = false;
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-
-        _speaker = PhotonNetwork.Instantiate("Speaker", new Vector3(), new Quaternion());
-        _speaker.GetComponent<PhotonVoiceView>().RecorderInUse = recorder;
-    }
-    
-    public override void OnConnected()
-    {
-        base.OnConnected();
         
-        if (!PhotonNetwork.InRoom) return;
-        
-        _speaker = PhotonNetwork.Instantiate("Speaker", new Vector3(), new Quaternion());
-        _speaker.GetComponent<PhotonVoiceView>().RecorderInUse = recorder;
+        Initialize();
     }
 
     public override void OnLeftRoom()
@@ -57,10 +60,21 @@ public class PhotonVoiceController : MonoBehaviourPunCallbacks
         Destroy(_speaker);
     }
 
+    public override void OnConnected()
+    {
+        base.OnConnected();
+
+        if (PhotonNetwork.InRoom)
+            Initialize();
+        
+    }
+
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
+
+        if (_speaker != null)
+            Destroy(_speaker);
         
-        Destroy(_speaker);
     }
 }

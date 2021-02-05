@@ -7367,13 +7367,13 @@ MonoBehaviour:
   voiceDetection: 0
   voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
-  unityMicrophoneDevice: Built-in Microphone
+  unityMicrophoneDevice: 
   photonMicrophoneDeviceId: 52
   interestGroup: 0
   debugEchoMode: 0
   reliableMode: 0
   encrypt: 0
-  transmitEnabled: 1
+  transmitEnabled: 0
   samplingRate: 24000
   frameDuration: 20000
   bitrate: 30000
@@ -7464,7 +7464,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recorder: {fileID: 954966003}
-  checkbox: {fileID: 1948653921}
+  mainToggle: {fileID: 1948653921}
+  gameButton: {fileID: 0}
 --- !u!1 &1000353326
 GameObject:
   m_ObjectHideFlags: 0
@@ -8498,6 +8499,10 @@ PrefabInstance:
       value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
+      propertyPath: startsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: onChange.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -8507,11 +8512,11 @@ PrefabInstance:
       objectReference: {fileID: 954966005}
     - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: onChange.Array.data[0].mMethodName
-      value: OnVoiceCheck
+      value: OnMainVoiceCheck
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: onChange.Array.data[0].mParameters.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 8298f3014addb4740b073bab416a0335, type: 3}
       propertyPath: mFont
