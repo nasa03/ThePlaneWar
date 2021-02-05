@@ -27,8 +27,6 @@ public class AttackMessage : MonoBehaviour
 
     private void Show()
     {
-        string[] array = _queue.ToArray();
-        string data = array.Aggregate("", (current, str) => current + (str + "\n"));
-        text.text = data;
+        text.text = _queue.ToArray().Aggregate("", (current, str) => current + (str + "\n"));
     }
 }

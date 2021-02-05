@@ -18,9 +18,9 @@ public class PhotonVoiceController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if (!PhotonNetwork.InRoom) return;
+        if (PhotonNetwork.InRoom) 
+            Initialize();
         
-        Initialize();
     }
     
     private void Initialize()
