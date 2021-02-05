@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
-using Photon.Realtime;
 using Photon.Voice.PUN;
 using Photon.Voice.Unity;
 using UnityEngine;
@@ -57,24 +55,6 @@ public class PhotonVoiceController : MonoBehaviourPunCallbacks
     {
         base.OnLeftRoom();
         
-        Destroy(_speaker);
-    }
-
-    public override void OnConnected()
-    {
-        base.OnConnected();
-
-        if (PhotonNetwork.InRoom)
-            Initialize();
-        
-    }
-
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        base.OnDisconnected(cause);
-
-        if (_speaker != null)
-            Destroy(_speaker);
-        
+        PhotonNetwork.Destroy(_speaker);
     }
 }

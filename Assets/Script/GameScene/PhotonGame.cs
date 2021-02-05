@@ -104,10 +104,14 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     {
         Global.returnState = Global.ReturnState.ExitGame;
         
+        PhotonNetwork.Destroy(LocalPlane);
+        
         if (PhotonNetwork.OfflineMode)
             PhotonNetwork.Disconnect();
         else
             PhotonNetwork.LeaveRoom();
+
+        SceneManager.LoadScene("StartScene");
     }
 
     [PunRPC]
@@ -204,8 +208,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
     public void Disconnect()
     {
-        if (_reconnected)
-            return;
+        if (_reconnected) return;
 
         mainCamera.enabled = true;
         timeBar.SetActive(true);
@@ -226,13 +229,5 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
         if (Equals(target, PhotonNetwork.LocalPlayer))
             hpImage.fillAmount = (float) ((int) target.GetProperties("HP", 100) / 100.0);
-    }
-
-    public override void OnLeftRoom()
-    {
-        base.OnLeftRoom();
-        
-        PhotonNetwork.Destroy(LocalPlane);
-        SceneManager.LoadScene("StartScene");
     }
 }

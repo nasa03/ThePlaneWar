@@ -1,19 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
 public class ReConnected : MonoBehaviourPunCallbacks
 {
     private string _roomName;
-    private int _planeCount;
 
     // Start is called before the first frame update
     private void Start()
     {
         _roomName = PhotonNetwork.CurrentRoom.Name;
-        _planeCount = PhotonNetwork.CurrentRoom.PlayerCount;
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -22,13 +19,8 @@ public class ReConnected : MonoBehaviourPunCallbacks
 
         Global.returnState = Global.ReturnState.Disconnected;
 
-        if (_planeCount == 1)
-            SceneManager.LoadScene("StartScene");
-        else
-        {
-            PhotonNetwork.Reconnect();
-            FindObjectOfType<PhotonGame>().Disconnect();
-        }
+        PhotonNetwork.Reconnect();
+        FindObjectOfType<PhotonGame>().Disconnect();
     }
 
     public override void OnConnectedToMaster()
@@ -45,5 +37,19 @@ public class ReConnected : MonoBehaviourPunCallbacks
         FindObjectOfType<PhotonGame>().RebornEndOrReconnect();
 
         Global.returnState = Global.ReturnState.Normal;
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+        
+        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        
+        FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
     }
 }
