@@ -214,8 +214,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         timeBar.SetActive(true);
         sightImage.gameObject.SetActive(false);
 
-        _time = 60.0f;
-        _maxTime = 60;
+        _time = 10.0f;
+        _maxTime = 10;
         timeText.text = "正在重连";
         
         FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);

@@ -27,8 +27,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks {
         {
             MaxPlayers = (byte) maxPlayersSlider.MaxPlayers,
             IsOpen = openToggle.value,
-            PlayerTtl = 60000,
-            EmptyRoomTtl = 60000
+            PlayerTtl = 10000,
+            EmptyRoomTtl = 10000
         };
 
         PhotonNetwork.CreateRoom(roomName, options, PhotonNetwork.CurrentLobby);
