@@ -184,6 +184,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
 
         StartCoroutine(InvincibleStart());
+        FindObjectOfType<PowerSpeedButton>().CoolingStart();
+        FindObjectOfType<BreakButton>().CoolingStart();
     }
 
     private IEnumerator InvincibleStart()
