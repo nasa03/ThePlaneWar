@@ -14,6 +14,7 @@ public class AIProperty : MonoBehaviour
         Kill = 0;
         Death = 0;
         isDead = false;
+        isInvincible = true;
     }
 
     public Global.AIPlaneScores aiPlaneScores => new Global.AIPlaneScores
@@ -45,5 +46,11 @@ public class AIProperty : MonoBehaviour
     {
         get => (bool) PhotonNetwork.CurrentRoom.GetProperties(name + "-isDead", 0);
         set => PhotonNetwork.CurrentRoom.SetProperties(name + "-isDead", value);
+    }
+
+    public bool isInvincible
+    {
+        get => (bool) PhotonNetwork.CurrentRoom.GetProperties(name + "-isInvincible", 0);
+        set => PhotonNetwork.CurrentRoom.SetProperties(name + "-isInvincible", value);
     }
 }

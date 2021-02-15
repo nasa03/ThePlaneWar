@@ -25,7 +25,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     private bool _invincible = false;
     private bool _reconnected = false;
     private float _time = 0;
-    private int _maxTime = 20;
+    private const int MAXTime = 10;
 
     public Camera MainCamera => mainCamera;
 
@@ -58,7 +58,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
         if (_time > 0)
         {
-            timeImage.fillAmount = _time / _maxTime;
+            timeImage.fillAmount = _time / MAXTime;
             _time -= Time.deltaTime;
         }
         else
@@ -159,8 +159,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         timeBar.SetActive(true);
         sightImage.gameObject.SetActive(false);
 
-        _time = 10.0f;
-        _maxTime = 10;
+        _time = MAXTime;
         timeText.text = "重生";
 
         FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
@@ -192,8 +191,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LocalPlayer.SetProperties("invincible", true);
         timeBar.SetActive(true);
-        _time = 20.0f;
-        _maxTime = 20;
+        _time = MAXTime;
         timeText.text = "无敌状态";
 
         yield return new WaitForSeconds(1.0f);
@@ -216,8 +214,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         timeBar.SetActive(true);
         sightImage.gameObject.SetActive(false);
 
-        _time = 10.0f;
-        _maxTime = 10;
+        _time = MAXTime;
         timeText.text = "正在重连";
         
         FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);

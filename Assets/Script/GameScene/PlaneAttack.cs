@@ -14,7 +14,7 @@ public class PlaneAttack : MonoBehaviourPun
     private void Start()
     {
         if (!photonView.IsMine) return;
-        
+
         PhotonNetwork.LocalPlayer.SetProperties("HP", 100);
     }
 
@@ -60,8 +60,9 @@ public class PlaneAttack : MonoBehaviourPun
 
         AIProperty targetProperty = target.GetComponent<AIProperty>();
         int totalHp = targetProperty.HP;
+        bool invincible = targetProperty.isInvincible;
 
-        if (totalHp <= 0)
+        if (totalHp <= 0 || invincible)
             return;
 
         totalHp -= randomAttack;
@@ -97,7 +98,6 @@ public class PlaneAttack : MonoBehaviourPun
         FindObjectOfType<PhotonGame>().SightImage.sprite = FindObjectOfType<PhotonGame>().SightSprites[0];
         FindObjectOfType<PhotonGame>().SightImage.rectTransform.position =
             new Vector3(Screen.width / 2, Screen.height / 2, 0);
-
     }
 
     private IEnumerator ShowKillImage(Transform target)

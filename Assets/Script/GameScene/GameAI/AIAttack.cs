@@ -11,6 +11,7 @@ public class AIAttack : MonoBehaviour
 {
     private AIProperty _aiProperty;
     private bool _reborn = false;
+    private bool _invincible = false;
     private float _time = 0.0f;
     private const int MAXTime = 10;
 
@@ -26,9 +27,11 @@ public class AIAttack : MonoBehaviour
         else
         {
             if (_reborn)
-            {
                 RebornEnd();
-            }
+
+            if (_invincible)
+                InvincibleEnd();
+            
         }
     }
 
@@ -73,8 +76,9 @@ public class AIAttack : MonoBehaviour
 
         AIProperty targetProperty = target.GetComponent<AIProperty>();
         int totalHP = targetProperty.HP;
+        bool invincible = targetProperty.isInvincible;
 
-        if (totalHP <= 0)
+        if (totalHP <= 0 || invincible)
             return;
 
         totalHP -= randomAttack;
@@ -140,6 +144,25 @@ public class AIAttack : MonoBehaviour
         FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
 
         _reborn = false;
+        
+        StartCoroutine(InvincibleStart());
+    }
+    
+    private IEnumerator InvincibleStart()
+    {
+        _aiProperty.isInvincible = true;
+        _time = MAXTime;
+
+        yield return new WaitForSeconds(1.0f);
+        
+        _invincible = true;
+    }
+
+    private void InvincibleEnd()
+    {
+        _aiProperty.isInvincible = false;
+
+        _invincible = false;
     }
 
     private void OnCollisionEnter(Collision collision)
