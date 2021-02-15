@@ -37,7 +37,8 @@ public class PlaneSuicide : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("FX") && !_isSuicide)
+        if ((collision.collider.CompareTag("FX") || collision.collider.CompareTag("Plane") ||
+             collision.collider.CompareTag("AI")) && !_isSuicide)
             StartCoroutine(Suicide());
     }
 }

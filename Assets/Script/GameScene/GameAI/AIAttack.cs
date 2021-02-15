@@ -111,7 +111,7 @@ public class AIAttack : MonoBehaviour
                                  new Vector3(0, 15, 0);
             transform.rotation = Quaternion.identity;
         }
-        
+
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
         GetComponent<SphereCollider>().enabled = false;
@@ -144,7 +144,8 @@ public class AIAttack : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("FX"))
+        if (collision.collider.CompareTag("FX") || collision.collider.CompareTag("Plane") ||
+            collision.collider.CompareTag("AI"))
             Suicide();
     }
 }
