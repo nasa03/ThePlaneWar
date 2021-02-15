@@ -5,7 +5,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class PlaneSuicide : MonoBehaviourPun
+public class PlaneSuicide : MonoBehaviourPun, ISuicide
 {
     private bool _isSuicide = false;
 
@@ -16,7 +16,7 @@ public class PlaneSuicide : MonoBehaviourPun
             StartCoroutine(Suicide());
     }
 
-    private IEnumerator Suicide()
+    public IEnumerator Suicide()
     {
         if (!photonView.IsMine)
             yield break;
@@ -35,7 +35,7 @@ public class PlaneSuicide : MonoBehaviourPun
         _isSuicide = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
         if ((collision.collider.CompareTag("FX") || collision.collider.CompareTag("Plane") ||
              collision.collider.CompareTag("AI")) && !_isSuicide)

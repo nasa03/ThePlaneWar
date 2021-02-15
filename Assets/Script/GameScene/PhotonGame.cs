@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PhotonGame : MonoBehaviourPunCallbacks
+public class PhotonGame : MonoBehaviourPunCallbacks, IPlaneHandler
 {
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject[] planePrefabs;
@@ -64,7 +64,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         else
         {
             if (Reborn)
-                RebornEndOrReconnect();
+                RebornEnd();
 
             if (_invincible)
                 InvincibleEnd();
@@ -86,15 +86,15 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
         LocalPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
             groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
-        
+
         yield return FindObjectOfType<PhotonGameAI>().InitializeAI();
-        
+
         FindObjectOfType<LittleHealthBar>().Initialize(LocalPlane.transform);
 
         StartCoroutine(FindObjectOfType<GameTime>().ShowTime());
 
         StartCoroutine(InvincibleStart());
-        
+
         FindObjectOfType<PowerSpeedButton>().CoolingStart();
 
         SightImage.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
@@ -103,9 +103,9 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     public void OnExitButtonClick()
     {
         Global.returnState = Global.ReturnState.ExitGame;
-        
+
         PhotonNetwork.Destroy(LocalPlane);
-        
+
         if (PhotonNetwork.OfflineMode)
             PhotonNetwork.Disconnect();
         else
@@ -119,9 +119,9 @@ public class PhotonGame : MonoBehaviourPunCallbacks
     {
         Global.returnState = Global.ReturnState.GameOver;
         PhotonNetwork.Destroy(LocalPlane);
-        
+
         FindObjectOfType<PhotonGameAI>().HandleAIPlaneScores();
-        
+
         if (PhotonNetwork.IsMasterClient)
             SceneManager.LoadScene("StartScene");
     }
@@ -146,11 +146,11 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetProperties("death", death);
 
         PhotonNetwork.LocalPlayer.SetProperties("HP", 100);
-        
+
         StartCoroutine(RebornStart());
     }
 
-    private IEnumerator RebornStart()
+    public IEnumerator RebornStart()
     {
         yield return new WaitForSeconds(0.5f);
         PhotonNetwork.Destroy(LocalPlane);
@@ -168,7 +168,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         Reborn = true;
     }
 
-    public void RebornEndOrReconnect()
+    public void RebornEnd()
     {
         mainCamera.enabled = false;
         timeBar.SetActive(false);
@@ -176,7 +176,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
         LocalPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
             groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
-        
+
         Reborn = false;
         _reconnected = false;
 
@@ -187,7 +187,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         FindObjectOfType<BreakButton>().CoolingStart();
     }
 
-    private IEnumerator InvincibleStart()
+    public IEnumerator InvincibleStart()
     {
         PhotonNetwork.LocalPlayer.SetProperties("invincible", true);
         timeBar.SetActive(true);
@@ -198,7 +198,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
         _invincible = true;
     }
 
-    private void InvincibleEnd()
+    public void InvincibleEnd()
     {
         PhotonNetwork.LocalPlayer.SetProperties("invincible", false);
         timeBar.SetActive(false);
@@ -216,7 +216,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks
 
         _time = MAXTime;
         timeText.text = "正在重连";
-        
+
         FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
 
         _reconnected = true;

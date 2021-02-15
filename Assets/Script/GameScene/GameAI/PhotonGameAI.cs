@@ -63,7 +63,7 @@ public class PhotonGameAI : MonoBehaviourPun
             aiProperty.isDead = true;
         }
         
-        target.GetComponent<AIAttack>().RebornStart();
+        StartCoroutine(target.GetComponent<AIAttack>().RebornStart());
     }
 
     public void HandleAIPlaneScores()

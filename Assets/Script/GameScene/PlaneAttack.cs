@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Random = UnityEngine.Random;
 
-public class PlaneAttack : MonoBehaviourPun
+public class PlaneAttack : MonoBehaviourPun, IAttack
 {
     [SerializeField] private Camera planeCamera;
 

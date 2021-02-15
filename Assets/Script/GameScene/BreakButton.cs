@@ -6,20 +6,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class BreakButton : MonoBehaviour
-{
-    [SerializeField] private Image image;
-    [SerializeField] private GameObject button;
-    private BreakType _breakType = BreakType.Normal;
-    private float _time = 0.0f;
-    private const int CoolingMaxTime = 10;
-
-    private enum BreakType
-    {
-        Normal,
-        Cooling
-    }
-
+public class BreakButton : AbstractButton
+{ 
     // Start is called before the first frame update
     void Start()
     {
@@ -29,9 +17,9 @@ public class BreakButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int maxTime = _breakType switch
+        int maxTime = _buttonType switch
         {
-            BreakType.Cooling => CoolingMaxTime,
+            ButtonType.Cooling => CoolingMaxTime,
             _ => 0
         };
         
@@ -42,12 +30,12 @@ public class BreakButton : MonoBehaviour
         }
         else
         {
-            switch (_breakType)
+            switch (_buttonType)
             {
-                case BreakType.Cooling:
+                case ButtonType.Cooling:
                     CoolingEnd();
                     break;
-                case BreakType.Normal:
+                case ButtonType.Normal:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -55,9 +43,14 @@ public class BreakButton : MonoBehaviour
         }
     }
 
-    public void CoolingStart()
+    public override void ProcessingStart()
     {
-        _breakType = BreakType.Cooling;
+        throw new NotImplementedException();
+    }
+
+    public override void CoolingStart()
+    {
+        _buttonType = ButtonType.Cooling;
         _time = CoolingMaxTime;
         image.fillAmount = 1.0f;
         button.GetComponent<Button>().enabled = false;
@@ -65,9 +58,9 @@ public class BreakButton : MonoBehaviour
         button.GetComponent<ButtonHandler>().SetUpState();
     }
     
-    private void CoolingEnd()
+    public override void CoolingEnd()
     {
-        _breakType = BreakType.Normal;
+        _buttonType = ButtonType.Normal;
         button.GetComponent<Button>().enabled = true;
         button.GetComponent<EventTrigger>().enabled = true;
     }

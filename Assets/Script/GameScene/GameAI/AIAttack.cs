@@ -7,7 +7,7 @@ using Photon.Realtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AIAttack : MonoBehaviour
+public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
 {
     private AIProperty _aiProperty;
     private bool _reborn = false;
@@ -31,7 +31,6 @@ public class AIAttack : MonoBehaviour
 
             if (_invincible)
                 InvincibleEnd();
-            
         }
     }
 
@@ -97,16 +96,16 @@ public class AIAttack : MonoBehaviour
         }
     }
 
-    private void Suicide()
+    public IEnumerator Suicide()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        if (!PhotonNetwork.IsMasterClient) yield break;
 
         FindObjectOfType<PhotonGame>().photonView
             .RPC("AddAttackMessage", RpcTarget.All, $"{gameObject.name}自杀了");
         FindObjectOfType<PhotonGame>().photonView.RPC("DeadAI", RpcTarget.All, transform.name);
     }
 
-    public void RebornStart()
+    public IEnumerator RebornStart()
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -126,9 +125,11 @@ public class AIAttack : MonoBehaviour
 
         _time = MAXTime;
         _reborn = true;
+
+        yield return null;
     }
 
-    private void RebornEnd()
+    public void RebornEnd()
     {
         if (PhotonNetwork.IsMasterClient)
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -144,31 +145,31 @@ public class AIAttack : MonoBehaviour
         FindObjectOfType<PhotonGame>().photonView.RPC("LittleHeathBarReload", RpcTarget.All, false, null);
 
         _reborn = false;
-        
+
         StartCoroutine(InvincibleStart());
     }
-    
-    private IEnumerator InvincibleStart()
+
+    public IEnumerator InvincibleStart()
     {
         _aiProperty.isInvincible = true;
         _time = MAXTime;
 
         yield return new WaitForSeconds(1.0f);
-        
+
         _invincible = true;
     }
 
-    private void InvincibleEnd()
+    public void InvincibleEnd()
     {
         _aiProperty.isInvincible = false;
 
         _invincible = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("FX") || collision.collider.CompareTag("Plane") ||
             collision.collider.CompareTag("AI"))
-            Suicide();
+            StartCoroutine(Suicide());
     }
 }

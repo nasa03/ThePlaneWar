@@ -21,7 +21,7 @@ public class ReConnected : MonoBehaviourPunCallbacks
 
         Global.returnState = Global.ReturnState.Normal;
         
-        FindObjectOfType<PhotonGame>().RebornEndOrReconnect();
+        FindObjectOfType<PhotonGame>().RebornEnd();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
