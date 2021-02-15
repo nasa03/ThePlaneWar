@@ -955,3 +955,12 @@ System memory in use after: 230.7 MB.
 Unloading 82 unused Assets to reduce memory usage. Loaded Objects now: 3248.
 Total: 2.798258 ms (FindLiveObjects: 0.315416 ms CreateObjectMapping: 0.138555 ms MarkObjects: 1.683927 ms  DeleteObjects: 0.659374 ms)
 
+========================================================================
+Received Import Request.
+  Time since last request: 3456.527411 seconds.
+  path: Assets/Script/GameScene/PowerSpeedButton.cs
+  artifactKey: Guid(179906f9c0f8e484ead9e50187995100) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/PowerSpeedButton.cs using Guid(179906f9c0f8e484ead9e50187995100) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '11863e0d0c95fcd7b1d49d2ab44e5446') in 0.019759 seconds
+  Import took 0.024831 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
