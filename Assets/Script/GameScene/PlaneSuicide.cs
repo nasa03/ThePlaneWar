@@ -38,7 +38,8 @@ public class PlaneSuicide : MonoBehaviourPun, ISuicide
     public void OnCollisionEnter(Collision collision)
     {
         if ((collision.collider.CompareTag("FX") || collision.collider.CompareTag("Plane") ||
-             collision.collider.CompareTag("AI")) && !_isSuicide)
+             collision.collider.CompareTag("AI")) && !_isSuicide &&
+            !(bool) PhotonNetwork.LocalPlayer.GetProperties("invincible"))
             StartCoroutine(Suicide());
     }
 }

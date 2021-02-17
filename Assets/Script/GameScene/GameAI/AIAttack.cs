@@ -174,8 +174,8 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("FX") || collision.collider.CompareTag("Plane") ||
-            collision.collider.CompareTag("AI"))
+        if ((collision.collider.CompareTag("FX") || collision.collider.CompareTag("Plane") ||
+            collision.collider.CompareTag("AI")) && !_aiProperty.isInvincible)
             StartCoroutine(Suicide());
     }
 }
