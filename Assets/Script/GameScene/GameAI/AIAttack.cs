@@ -15,6 +15,12 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
     private float _time = 0.0f;
     private const int MAXTime = 10;
 
+    // Start is called before the first frame update
+    private void Start()
+    {
+        StartCoroutine(InvincibleStart());
+    }
+
     public int Index { private get; set; }
 
     // Update is called once per frame
