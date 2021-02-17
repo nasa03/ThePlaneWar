@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Photon.Pun;
 using UnityEngine;
 
 public static class Global {
@@ -38,4 +40,43 @@ public static class Global {
     public static ReturnState returnState = ReturnState.Normal;
     
     public static readonly ArrayList aiPlaneScores = new ArrayList();
+    
+    public static Transform GetNearTargetTransform(Transform current)
+    {
+        List<Transform> missileTargets = new List<Transform>();
+
+        GameObject.FindGameObjectsWithTag("Plane").ToList().ForEach(delegate(GameObject target)
+        {
+            if (!target.GetComponent<PhotonView>().IsMine) 
+                missileTargets.Add(target.transform);
+        });
+
+        GameObject.FindGameObjectsWithTag("AI").ToList().ForEach(aiTarget => missileTargets.Add(aiTarget.transform));
+
+        Vector3 thisPosition = current.position;
+        float[] distances = new float[missileTargets.Count];
+        for (int i = 0; i < missileTargets.Count; i++)
+        {
+            Vector3 targetPosition = (missileTargets[i]).position;
+            Vector3 dir = targetPosition - thisPosition;
+            float dot = Vector3.Dot(Vector3.forward, dir);
+            if (dot > 0)
+                distances[i] = Vector3.Distance(thisPosition, targetPosition);
+            else
+                distances[i] = 0;
+        }
+
+        float minDistance = 0;
+        Transform minTarget = null;
+        for (int i = 0; i < distances.Length; i++)
+        {
+            if (distances[i] != 0 && (minDistance == 0 || distances[i] < minDistance))
+            {
+                minDistance = distances[i];
+                minTarget = missileTargets[i];
+            }
+        }
+
+        return minTarget;
+    }
 }

@@ -187,7 +187,7 @@ MonoBehaviour:
   thisRigidbody: {fileID: 54453457801900860}
   particleKillGroup: {fileID: 0}
   LookRotation: 1
-  Missile: 0
+  Missile: 1
   missileTarget: {fileID: 0}
   projectileSpeed: 0
   projectileSpeedMultiplier: 0

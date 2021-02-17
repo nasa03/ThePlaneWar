@@ -1,0 +1,243 @@
+Using pre-set license
+
+ COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/2020.2.3f1c1/Unity.app/Contents/MacOS/Unity
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+/Volumes/项目/ThePlaneWar
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+58032
+Successfully changed project path to: /Volumes/项目/ThePlaneWar
+/Volumes/项目/ThePlaneWar
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 102.44 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.2.3f1c1 (0868e01cc8b5)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2020.2.3f1c1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Volumes/项目/ThePlaneWar/Assets
+GfxDevice: creating device client; threaded=0
+2021-02-16 14:08:34.858 Unity[2373:68431] Display preferred device: Intel(R) UHD Graphics 630 (low power)
+2021-02-16 14:08:34.858 Unity[2373:68431] Metal devices available: 1
+2021-02-16 14:08:34.858 Unity[2373:68431] 0: Intel(R) UHD Graphics 630 (low power)
+2021-02-16 14:08:34.858 Unity[2373:68431] Using device Intel(R) UHD Graphics 630 (low power)
+Initializing Metal device caps: Intel(R) UHD Graphics 630
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/2020.2.3f1c1/Unity.app/Contents/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/2020.2.3f1c1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = '/Applications/Unity/Hub/Editor/2020.2.3f1c1/Unity.app/Contents/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56373
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/2020.2.3f1c1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/2020.2.3f1c1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.000686 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 67.27 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.468 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.005888 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.42 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.392 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launching external process: /Applications/Unity/Hub/Editor/2020.2.3f1c1/Unity.app/Contents/Tools/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
+Refreshing native plugins compatible for Editor in 1.03 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2700 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 235.0 MB.
+System memory in use after: 234.8 MB.
+
+Unloading 93 unused Assets to reduce memory usage. Loaded Objects now: 3161.
+Total: 2.809941 ms (FindLiveObjects: 0.298300 ms CreateObjectMapping: 0.129409 ms MarkObjects: 1.776941 ms  DeleteObjects: 0.604416 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs
+  artifactKey: Guid(af557a47dae08a94cb2839384fe7ac98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs using Guid(af557a47dae08a94cb2839384fe7ac98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'faa5271840787ab5a77da7870d2841c6') in 0.004922 seconds
+  Import took 0.009393 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000187 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects
+  artifactKey: Guid(9c9c292c9091a7d4fbaf34fdd81b85fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects using Guid(9c9c292c9091a7d4fbaf34fdd81b85fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1e7368dec7c9945ac6ba205079161f00') in 0.000735 seconds
+  Import took 0.004906 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 9.996038 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/FlamesEffects.prefab
+  artifactKey: Guid(b9e167e31f640b34f87caab122fca598) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/FlamesEffects.prefab using Guid(b9e167e31f640b34f87caab122fca598) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3e0c9645e0d094f4dc37f51144d89373') in 1.589955 seconds
+  Import took 1.595297 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.355099 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/FlamesParticleEffect.prefab
+  artifactKey: Guid(3228a22491941734bb83ad691d17fcb9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/FlamesParticleEffect.prefab using Guid(3228a22491941734bb83ad691d17fcb9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0ffdbc8430b3fa50ee0261d1557b84a4') in 0.004316 seconds
+  Import took 0.010065 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.106370 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/FlamesParticleEffect.prefab
+  artifactKey: Guid(3228a22491941734bb83ad691d17fcb9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/FlamesParticleEffect.prefab using Guid(3228a22491941734bb83ad691d17fcb9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0ffdbc8430b3fa50ee0261d1557b84a4') in 0.003228 seconds
+  Import took 0.007665 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.040858 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Materials/FlameRoundYellowParticle.mat
+  artifactKey: Guid(d7f098ed9997e714193be5e86df013f4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Materials/FlameRoundYellowParticle.mat using Guid(d7f098ed9997e714193be5e86df013f4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a3a3fe68104791fa5c93de28c59a0a6c') in 0.502579 seconds
+  Import took 0.507270 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.850662 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/FlameThrowerEffect.prefab
+  artifactKey: Guid(3123da49cb81147489b444f2749aba47) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/FlameThrowerEffect.prefab using Guid(3123da49cb81147489b444f2749aba47) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '48c83f7cf91154978d36a2fc2500acfb') in 0.074818 seconds
+  Import took 0.080385 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.690796 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/RibbonSmoke.prefab
+  artifactKey: Guid(4d35711ba17dcd4409264568d9155360) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/RibbonSmoke.prefab using Guid(4d35711ba17dcd4409264568d9155360) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '71ed830b2465e1ff4ec448ea7038b9d4') in 0.006782 seconds
+  Import took 0.013042 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000598 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/RibbonSmoke.prefab
+  artifactKey: Guid(4d35711ba17dcd4409264568d9155360) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/RibbonSmoke.prefab using Guid(4d35711ba17dcd4409264568d9155360) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '71ed830b2465e1ff4ec448ea7038b9d4') in 0.005491 seconds
+  Import took 0.010619 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.350658 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/SmallExplosionEffect.prefab
+  artifactKey: Guid(ecdd96beb7f93494880c052dfccf9dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/SmallExplosionEffect.prefab using Guid(ecdd96beb7f93494880c052dfccf9dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b0290f02a09d214ecfb98ba3bcddd351') in 0.006941 seconds
+  Import took 0.012817 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014326 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/SmallExplosionEffect.prefab
+  artifactKey: Guid(ecdd96beb7f93494880c052dfccf9dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/SmallExplosionEffect.prefab using Guid(ecdd96beb7f93494880c052dfccf9dc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b0290f02a09d214ecfb98ba3bcddd351') in 0.006069 seconds
+  Import took 0.012485 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000273 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Materials/SmokeDarkParticle.mat
+  artifactKey: Guid(698a8134f4ebbbd4e848648685f68067) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Materials/SmokeDarkParticle.mat using Guid(698a8134f4ebbbd4e848648685f68067) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8492680ba40a6be2fca4b32c2e8dc0fd') in 0.337506 seconds
+  Import took 0.344226 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.560413 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/SmokeEffect.prefab
+  artifactKey: Guid(85a8865d1bf4a63478038fae23776de8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/SmokeEffect.prefab using Guid(85a8865d1bf4a63478038fae23776de8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '77e8ee23c3265d7471bac96af72a41fb') in 0.005543 seconds
+  Import took 0.009958 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002138 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Prefabs/SmokeEffect.prefab
+  artifactKey: Guid(85a8865d1bf4a63478038fae23776de8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Prefabs/SmokeEffect.prefab using Guid(85a8865d1bf4a63478038fae23776de8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '77e8ee23c3265d7471bac96af72a41fb') in 0.004690 seconds
+  Import took 0.010177 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000357 seconds.
+  path: Assets/EffectExamples/FireExplosionEffects/Materials/SmokeLightParticle.mat
+  artifactKey: Guid(f06455b167e1b0b428c9af62d7aa6832) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/EffectExamples/FireExplosionEffects/Materials/SmokeLightParticle.mat using Guid(f06455b167e1b0b428c9af62d7aa6832) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '985b44a72eea150f4aa4c63529777194') in 0.113626 seconds
+  Import took 0.120291 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 62.979062 seconds.
+  path: Assets/Resources/Plasma_LightBlue_Small_Projectile.prefab
+  artifactKey: Guid(6cc183c0aaf06eb4e953092b441c6a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Plasma_LightBlue_Small_Projectile.prefab using Guid(6cc183c0aaf06eb4e953092b441c6a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '61aaea9e9d36561e471525447fd56118') in 0.014187 seconds
+  Import took 0.021005 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.010450 seconds.
+  path: Assets/Resources/Plasma_LightBlue_Small_Projectile.prefab
+  artifactKey: Guid(6cc183c0aaf06eb4e953092b441c6a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Plasma_LightBlue_Small_Projectile.prefab using Guid(6cc183c0aaf06eb4e953092b441c6a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '61aaea9e9d36561e471525447fd56118') in 0.010326 seconds
+  Import took 0.016668 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 11.831734 seconds.
+  path: Assets/Resources/Plasma_PurpleHaze_Medium_Projectile.prefab
+  artifactKey: Guid(44b0798f8b718d8438a4e83ab28d42a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Plasma_PurpleHaze_Medium_Projectile.prefab using Guid(44b0798f8b718d8438a4e83ab28d42a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef853782afef41bc0350a0576c939dda') in 0.016003 seconds
+  Import took 0.022888 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004718 seconds.
+  path: Assets/Resources/Plasma_PurpleHaze_Medium_Projectile.prefab
+  artifactKey: Guid(44b0798f8b718d8438a4e83ab28d42a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Plasma_PurpleHaze_Medium_Projectile.prefab using Guid(44b0798f8b718d8438a4e83ab28d42a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef853782afef41bc0350a0576c939dda') in 0.011737 seconds
+  Import took 0.020149 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.761556 seconds.
+  path: Assets/Resources/Plasma_RagingRed_Medium_Projectile.prefab
+  artifactKey: Guid(46bf08350ee566542b0bb087e35a1020) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Plasma_RagingRed_Medium_Projectile.prefab using Guid(46bf08350ee566542b0bb087e35a1020) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0974d852b701506105fe4642bda3b323') in 0.008834 seconds
+  Import took 0.014226 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.008254 seconds.
+  path: Assets/Resources/Plasma_RagingRed_Medium_Projectile.prefab
+  artifactKey: Guid(46bf08350ee566542b0bb087e35a1020) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Plasma_RagingRed_Medium_Projectile.prefab using Guid(46bf08350ee566542b0bb087e35a1020) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0974d852b701506105fe4642bda3b323') in 0.008902 seconds
+  Import took 0.015502 seconds .
+

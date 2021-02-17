@@ -9829,7 +9829,7 @@ MonoBehaviour:
   thisRigidbody: {fileID: 54212628334827884}
   particleKillGroup: {fileID: 0}
   LookRotation: 1
-  Missile: 0
+  Missile: 1
   missileTarget: {fileID: 0}
   projectileSpeed: 0
   projectileSpeedMultiplier: 0

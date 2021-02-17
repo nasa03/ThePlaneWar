@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 
 /* THIS CODE IS JUST FOR PREVIEW AND TESTING */
@@ -16,7 +18,7 @@ public class ExplodingProjectile : MonoBehaviourPun
     private Collider thisCollider;
 
     public bool LookRotation = true;
-    public bool Missile = false;
+    public bool Missile = true;
     public Transform missileTarget;
     public float projectileSpeed;
     public float projectileSpeedMultiplier;
@@ -35,7 +37,7 @@ public class ExplodingProjectile : MonoBehaviourPun
         thisRigidbody = GetComponent<Rigidbody>();
         if (Missile)
         {
-            missileTarget = GameObject.FindWithTag("Target").transform;
+            missileTarget = Global.GetNearTargetTransform(transform);
         }
         thisCollider = GetComponent<Collider>();
         previousPosition = transform.position;

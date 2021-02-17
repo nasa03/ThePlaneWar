@@ -19,7 +19,7 @@ public class ExplodingMissile : MonoBehaviourPun
     private void Start()
     {
         Instantiate(muzzlePrefab);
-        _missileTarget = GetNearTargetTransform();
+        _missileTarget = Global.GetNearTargetTransform(transform);
 
         if (_missileTarget != null && _missileTarget.CompareTag("Plane"))
             FindObjectOfType<PhotonGame>().photonView
@@ -51,45 +51,6 @@ public class ExplodingMissile : MonoBehaviourPun
     {
         _thisRigidbody = GetComponent<Rigidbody>();
         _thisCollider = GetComponent<Collider>();
-    }
-
-    private Transform GetNearTargetTransform()
-    {
-        List<Transform> missileTargets = new List<Transform>();
-
-        GameObject.FindGameObjectsWithTag("Plane").ToList().ForEach(delegate(GameObject target)
-        {
-            if (!target.GetComponent<PhotonView>().IsMine) 
-                missileTargets.Add(target.transform);
-        });
-
-        GameObject.FindGameObjectsWithTag("AI").ToList().ForEach(aiTarget => missileTargets.Add(aiTarget.transform));
-
-        Vector3 thisPosition = transform.position;
-        float[] distances = new float[missileTargets.Count];
-        for (int i = 0; i < missileTargets.Count; i++)
-        {
-            Vector3 targetPosition = ((Transform) missileTargets[i]).position;
-            Vector3 dir = targetPosition - thisPosition;
-            float dot = Vector3.Dot(Vector3.forward, dir);
-            if (dot > 0)
-                distances[i] = Vector3.Distance(thisPosition, targetPosition);
-            else
-                distances[i] = 0;
-        }
-
-        float minDistance = 0;
-        Transform minTarget = null;
-        for (int i = 0; i < distances.Length; i++)
-        {
-            if (distances[i] != 0 && (minDistance == 0 || distances[i] < minDistance))
-            {
-                minDistance = distances[i];
-                minTarget = missileTargets[i] as Transform;
-            }
-        }
-
-        return minTarget;
     }
 
     private void OnCollisionEnter(Collision collision)
