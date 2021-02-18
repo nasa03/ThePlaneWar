@@ -19,19 +19,20 @@ Unity3D制作的飞机大战小游戏
 * JSON Object
 
 ## 应用技术
-* Unity3D游戏引擎
-* .Net Mono C# 游戏脚本
-* Linq语法糖
-* NGUI和UGUI两套UI界面
-* Gaia自动生成地形
+* Unity3D 游戏引擎
+* .NET Mono C# 游戏脚本
+* Linq 语法糖
+* NGUI 和 UGUI 两套UI界面
+* Gaia 自动生成地形
 * Photon Pun 2 多人在线游戏引擎
 * Photon Voice 2 多人在线游戏语音
 * 飞机飞行与子弹导弹物理引擎算法
 * 飞机模型与子弹导弹粒子系统
+* 手机摇杆和陀螺仪控制飞机偏航角与摄像机视角
 * JSON 保存游戏设置
 * 引擎自带水面材质与天空盒
 * PostProcessing 2 视觉效果强化
-* 基于Android手机的图形优化
+* 基于 Android 手机的图形优化
 
 ## 尚未实现功能
 * 机器人AI战斗逻辑
