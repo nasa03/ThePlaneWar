@@ -131,7 +131,7 @@ public class PunStartup : MonoBehaviour
 				path = path.Replace ('\\', '/');
 				//Debug.Log(path);
 
-				if (path.Contains ("PUNGuide_M2H"))
+				if (path.Contains ("PUNGuide_M2H") || path.Contains("DemoLoadBalancing"))
 				{
 					continue;
 				}

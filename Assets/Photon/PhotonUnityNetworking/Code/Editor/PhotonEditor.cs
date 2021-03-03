@@ -21,6 +21,9 @@ using UnityEngine;
 
 namespace Photon.Pun
 {
+    using Realtime;
+
+
     public class PunWizardText
     {
         public string WindowTitle = "PUN Wizard";
@@ -278,6 +281,15 @@ namespace Photon.Pun
             this.minSize = this.preferredSize;
         }
 
+        protected void Awake()
+        {  
+            // check if some appid is set. if so, we can avoid registration calls.
+            if (PhotonNetwork.PhotonServerSettings != null && PhotonNetwork.PhotonServerSettings.AppSettings != null && !string.IsNullOrEmpty(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime))
+            {
+                this.mailOrAppId = PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime;
+            }
+        }
+
         /// <summary>Creates an Editor window, showing the cloud-registration wizard for Photon (entry point to setup PUN).</summary>
         protected static void ShowRegistrationWizard()
         {
@@ -286,6 +298,7 @@ namespace Photon.Pun
             {
                 return;
             }
+
             win.photonSetupState = PhotonSetupStates.RegisterForPhotonCloud;
             win.isSetupWizard = true;
         }
@@ -336,6 +349,9 @@ namespace Photon.Pun
             }
         }
 
+        private string emailSentToAccount;
+        private bool emailSentToAccountIsRegistered;
+
 
         protected virtual void UiSetupApp()
         {
@@ -372,15 +388,17 @@ namespace Photon.Pun
                 this.mailOrAppId = this.mailOrAppId.Trim(); // note: we trim all input
                 if (AccountService.IsValidEmail(this.mailOrAppId))
                 {
-                    // this should be a mail address
-                    this.minimumInput = true;
-                    this.useMail = this.minimumInput;
+                    // input should be a mail address
+                    this.useMail = true;
+                    
+                    // check if the current input equals earlier input, which is known to be registered already
+                    this.minimumInput = !this.mailOrAppId.Equals(this.emailSentToAccount) || !this.emailSentToAccountIsRegistered;
                 }
                 else if (ServerSettings.IsAppId(this.mailOrAppId))
                 {
                     // this should be an appId
                     this.minimumInput = true;
-                    this.useAppId = this.minimumInput;
+                    this.useAppId = true;
                 }
             }
 
@@ -403,7 +421,7 @@ namespace Photon.Pun
                 GUIUtility.keyboardControl = 0;
                 if (this.useMail)
                 {
-                    this.RegisterWithEmail(this.mailOrAppId); // sets state
+                    this.RegisterWithEmail(this.mailOrAppId);       // sets state
                 }
                 else if (this.useAppId)
                 {
@@ -566,12 +584,9 @@ namespace Photon.Pun
         #endregion
 
 
+        private AccountService serviceClient;
         protected virtual void RegisterWithEmail(string email)
         {
-            AccountService client = new AccountService();
-            client.CustomToken = CustomToken;
-            client.CustomContext = CustomContext;
-
             List<ServiceTypes> types = new List<ServiceTypes>();
             types.Add(ServiceTypes.Pun);
             if (PhotonEditorUtils.HasChat)
@@ -583,7 +598,27 @@ namespace Photon.Pun
                 types.Add(ServiceTypes.Voice);
             }
 
-            if (client.RegisterByEmail(email, types, RegisterWithEmailSuccessCallback, RegisterWithEmailErrorCallback))
+
+            if (this.serviceClient == null)
+            {
+                this.serviceClient = new AccountService();
+                this.serviceClient.CustomToken = CustomToken;
+                this.serviceClient.CustomContext = CustomContext;
+            }
+            else
+            {
+                // while RegisterByEmail will check RequestPendingResult below, it would also display an error message. no needed in this case
+                if (this.serviceClient.RequestPendingResult)
+                {
+                    Debug.LogWarning("Registration request is pending a response. Please wait.");
+                    return;
+                }
+            }
+            
+            this.emailSentToAccount = email;
+            this.emailSentToAccountIsRegistered = false;
+
+            if (this.serviceClient.RegisterByEmail(email, types, RegisterWithEmailSuccessCallback, RegisterWithEmailErrorCallback))
             {
                 this.photonSetupState = PhotonSetupStates.EmailRegistrationPending;
                 EditorUtility.DisplayProgressBar(CurrentLang.ConnectionTitle, CurrentLang.ConnectionInfo, 0.5f);
@@ -597,6 +632,8 @@ namespace Photon.Pun
         private void RegisterWithEmailSuccessCallback(AccountServiceResponse res)
         {
             EditorUtility.ClearProgressBar();
+            this.emailSentToAccountIsRegistered = true; // email is either registered now, or was already
+
             if (res.ReturnCode == AccountServiceReturnCodes.Success)
             {
                 string key = ((int) ServiceTypes.Pun).ToString();

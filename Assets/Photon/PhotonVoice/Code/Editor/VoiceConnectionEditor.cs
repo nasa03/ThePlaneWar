@@ -95,7 +95,7 @@ namespace Photon.Voice.Unity.Editor
                 EditorGUILayout.PropertyField(this.keepAliveInBackgroundSp, new GUIContent("Background Timeout (ms)", "Defines for how long the Fallback Thread should keep the connection, before it may time out as usual."));
                 #endif
                 EditorGUILayout.PropertyField(this.applyDontDestroyOnLoadSp, new GUIContent("Don't Destroy On Load", "Persists the GameObject across scenes using Unity's GameObject.DontDestroyOnLoad"));
-                if (this.applyDontDestroyOnLoadSp.boolValue && !PhotonVoiceEditorUtils.IsPrefab(this.connection.gameObject))
+                if (this.applyDontDestroyOnLoadSp.boolValue && !PhotonEditorUtils.IsPrefab(this.connection.gameObject))
                 {
                     if (this.connection.transform.parent != null)
                     {

@@ -30,6 +30,9 @@ namespace Photon.Pun
         public bool m_SynchronizeRotation = true;
         public bool m_SynchronizeScale = false;
 
+        [Tooltip("Indicates if localPosition and localRotation should be used. Scale ignores this setting, and always uses localScale to avoid issues with lossyScale.")]
+        public bool m_UseLocal;
+
         bool m_firstTake = false;
 
         public void Awake()
@@ -40,6 +43,12 @@ namespace Photon.Pun
             m_NetworkRotation = Quaternion.identity;
         }
 
+        private void Reset()
+        {
+            // Only default to true with new instances. useLocal will remain false for old projects that are updating PUN.
+            m_UseLocal = true;
+        }
+
         void OnEnable()
         {
             m_firstTake = true;
@@ -47,40 +56,69 @@ namespace Photon.Pun
 
         public void Update()
         {
+            var tr = transform;
+
             if (!this.photonView.IsMine)
             {
-                transform.localPosition = Vector3.MoveTowards(transform.localPosition, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
-                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, this.m_NetworkRotation, this.m_Angle * (1.0f / PhotonNetwork.SerializationRate));
+                if (m_UseLocal)
+
+                {
+                    tr.localPosition = Vector3.MoveTowards(tr.localPosition, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
+                    tr.localRotation = Quaternion.RotateTowards(tr.localRotation, this.m_NetworkRotation, this.m_Angle * (1.0f / PhotonNetwork.SerializationRate));
+                }
+                else
+                {
+                    tr.position = Vector3.MoveTowards(tr.position, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
+                    tr.rotation = Quaternion.RotateTowards(tr.rotation, this.m_NetworkRotation, this.m_Angle * (1.0f / PhotonNetwork.SerializationRate));
+                }
             }
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
+            var tr = transform;
+
+            // Write
             if (stream.IsWriting)
             {
                 if (this.m_SynchronizePosition)
                 {
-                    this.m_Direction = transform.localPosition - this.m_StoredPosition;
-                    this.m_StoredPosition = transform.localPosition;
-
-                    stream.SendNext(transform.localPosition);
-                    stream.SendNext(this.m_Direction);
+                    if (m_UseLocal)
+                    {
+                        this.m_Direction = tr.localPosition - this.m_StoredPosition;
+                        this.m_StoredPosition = tr.localPosition;
+                        stream.SendNext(tr.localPosition);
+                        stream.SendNext(this.m_Direction);
+                    }
+                    else
+                    {
+                        this.m_Direction = tr.position - this.m_StoredPosition;
+                        this.m_StoredPosition = tr.position;
+                        stream.SendNext(tr.position);
+                        stream.SendNext(this.m_Direction);
+                    }
                 }
 
                 if (this.m_SynchronizeRotation)
                 {
-                    stream.SendNext(transform.localRotation);
+                    if (m_UseLocal)
+                    {
+                        stream.SendNext(tr.localRotation);
+                    }
+                    else
+                    {
+                        stream.SendNext(tr.rotation);
+                    }
                 }
 
                 if (this.m_SynchronizeScale)
                 {
-                    stream.SendNext(transform.localScale);
+                    stream.SendNext(tr.localScale);
                 }
             }
+            // Read
             else
             {
-
-
                 if (this.m_SynchronizePosition)
                 {
                     this.m_NetworkPosition = (Vector3)stream.ReceiveNext();
@@ -88,16 +126,26 @@ namespace Photon.Pun
 
                     if (m_firstTake)
                     {
-                        transform.localPosition = this.m_NetworkPosition;
+                        if (m_UseLocal)
+                            tr.localPosition = this.m_NetworkPosition;
+                        else
+                            tr.position = this.m_NetworkPosition;
+
                         this.m_Distance = 0f;
                     }
                     else
                     {
                         float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
                         this.m_NetworkPosition += this.m_Direction * lag;
-                        this.m_Distance = Vector3.Distance(transform.localPosition, this.m_NetworkPosition);
+                        if (m_UseLocal)
+                        {
+                            this.m_Distance = Vector3.Distance(tr.localPosition, this.m_NetworkPosition);
+                        }
+                        else
+                        {
+                            this.m_Distance = Vector3.Distance(tr.position, this.m_NetworkPosition);
+                        }
                     }
-
 
                 }
 
@@ -108,17 +156,32 @@ namespace Photon.Pun
                     if (m_firstTake)
                     {
                         this.m_Angle = 0f;
-                        transform.localRotation = this.m_NetworkRotation;
+
+                        if (m_UseLocal)
+                        {
+                            tr.localRotation = this.m_NetworkRotation;
+                        }
+                        else
+                        {
+                            tr.rotation = this.m_NetworkRotation;
+                        }
                     }
                     else
                     {
-                        this.m_Angle = Quaternion.Angle(transform.localRotation, this.m_NetworkRotation);
+                        if (m_UseLocal)
+                        {
+                            this.m_Angle = Quaternion.Angle(tr.localRotation, this.m_NetworkRotation);
+                        }
+                        else
+                        {
+                            this.m_Angle = Quaternion.Angle(tr.rotation, this.m_NetworkRotation);
+                        }
                     }
                 }
 
                 if (this.m_SynchronizeScale)
                 {
-                    transform.localScale = (Vector3)stream.ReceiveNext();
+                    tr.localScale = (Vector3)stream.ReceiveNext();
                 }
 
                 if (m_firstTake)

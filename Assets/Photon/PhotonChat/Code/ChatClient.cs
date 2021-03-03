@@ -1079,7 +1079,7 @@ namespace Photon.Chat
                             this.chatPeer.NameServerPortOverride = 0;   // resets a value in the peer only (as we change the protocol, the port has to change, too)
                             this.chatPeer.TransportProtocol = (this.chatPeer.TransportProtocol == ConnectionProtocol.Tcp) ? ConnectionProtocol.Udp : ConnectionProtocol.Tcp;
                             this.Connect(this.AppId, this.AppVersion, null);
-                            
+
                             // the client now has to return, instead of break, to avoid further processing of the disconnect call
                             return;
 
@@ -1126,7 +1126,7 @@ namespace Photon.Chat
                     {
                         this.Disconnect(ChatDisconnectCause.ExceptionOnConnect);
                     }
-                    
+
                     break;
                 case StatusCode.Exception:
                 case StatusCode.ExceptionOnReceive:
@@ -1471,11 +1471,11 @@ namespace Photon.Chat
         {
             if (this.AuthValues != null)
             {
-                if (string.IsNullOrEmpty(this.AuthValues.Token))
+                if (this.AuthValues.Token == null)
                 {
                     if (this.DebugOut >= DebugLevel.ERROR)
                     {
-                        this.listener.DebugReturn(DebugLevel.ERROR, "Can't authenticate on front end server. Secret is not set");
+                        this.listener.DebugReturn(DebugLevel.ERROR, "Can't authenticate on front end server. Secret (AuthValues.Token) is not set");
                     }
                     return false;
                 }
@@ -1485,7 +1485,7 @@ namespace Photon.Chat
                     if (this.PrivateChatHistoryLength > -1)
                     {
                         opParameters[(byte)ChatParameterCode.HistoryLength] = this.PrivateChatHistoryLength;
-                    } 
+                    }
 
                     return this.chatPeer.SendOperation(ChatOperationCode.Authenticate, opParameters, SendOptions.SendReliable);
                 }
@@ -1749,7 +1749,7 @@ namespace Photon.Chat
             }
             return this.SetUserProperties(channelName, userId, null);
         }
-        
+
         internal bool SetUserProperties(string channelName, string userId, Dictionary<object, object> channelProperties, Dictionary<object, object> expectedProperties = null, bool httpForward = false)
         {
             if (!this.CanChat)

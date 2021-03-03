@@ -271,7 +271,7 @@ namespace Photon.Pun
         /// <summary>
         /// Cleans up anything that was instantiated in-game (not loaded with the scene). Resets views that are not destroyed.
         /// </summary>
-        // TODO: This method name no longer matches is function. It also resets scene object's views.
+        // TODO: This method name no longer matches is function. It also resets room object's views.
         internal static void LocalCleanupAnythingInstantiated(bool destroyInstantiatedGameObjects)
         {
             //if (tempInstantiationData.Count > 0)
@@ -723,11 +723,8 @@ namespace Photon.Pun
                 if (view.OwnerActorNr == playerId)
                 {
                     var previousOwner = view.Owner;
-
-                    var newOwnerId = view.CreatorActorNr;
-                    var newOwner = CurrentRoom.GetPlayer(newOwnerId);
-
-                    view.SetOwnerInternal(newOwner, newOwnerId);
+                    view.OwnerActorNr = view.CreatorActorNr;
+                    view.ControllerActorNr = view.CreatorActorNr;
 
                     // This callback was not originally here. Added with the IsMine caching changes.
                     if (PhotonNetwork.OnOwnershipTransferedEv != null)
@@ -792,6 +789,7 @@ namespace Photon.Pun
                 if (!viewZero.IsMine)
                 {
                     Debug.LogError("Failed to 'network-remove' GameObject. Client is neither owner nor MasterClient taking over for owner who left: " + viewZero);
+                    foundPVs.Clear();   // as foundPVs is re-used, clean it to avoid lingering references
                     return;
                 }
             }
@@ -843,11 +841,13 @@ namespace Photon.Pun
             {
                 Debug.Log("Network destroy Instantiated GO: " + go.name);
             }
+            
+            foundPVs.Clear();           // as foundPVs is re-used, clean it to avoid lingering references
 
-            go.SetActive(false);            // PUN 2 disables objects before the return to the pool
-
+            go.SetActive(false);        // PUN 2 disables objects before the return to the pool
             prefabPool.Destroy(go);     // PUN 2 always uses a PrefabPool (even for the default implementation)
         }
+
 
         private static readonly ExitGames.Client.Photon.Hashtable removeFilter = new ExitGames.Client.Photon.Hashtable();
         private static readonly ExitGames.Client.Photon.Hashtable ServerCleanDestroyEvent = new ExitGames.Client.Photon.Hashtable();
@@ -1069,7 +1069,7 @@ namespace Photon.Pun
         {
             if (view.OwnerActorNr != NetworkingClient.LocalPlayer.ActorNumber && !NetworkingClient.LocalPlayer.IsMasterClient)
             {
-                Debug.LogError("Cannot remove cached RPCs on a PhotonView thats not ours! " + view.Owner + " scene: " + view.IsSceneView);
+                Debug.LogError("Cannot remove cached RPCs on a PhotonView thats not ours! " + view.Owner + " scene: " + view.IsRoomView);
                 return;
             }
 
@@ -1107,6 +1107,45 @@ namespace Photon.Pun
             }
         }
 
+        /// <summary>
+        /// Clear buffered RPCs based on filter parameters.
+        /// </summary>
+        /// <param name="viewId">The viewID of the PhotonView where the RPC has been called on. We actually need its ViewID. If 0 (default) is provided, all PhotonViews/ViewIDs are considered.</param>
+        /// <param name="methodName">The RPC method name, if possible we will use its hash shortcut for efficiency. If none (null or empty string) is provided all RPC method names are considered.</param>
+        /// <param name="callersActorNumbers">The actor numbers of the players who called/buffered the RPC. For example if two players buffered the same RPC you can clear the buffered RPC of one and keep the other. If none (null or empty array) is provided all senders are considered.</param>
+        /// <returns>If the operation could be sent to the server.</returns>
+        public static bool RemoveBufferedRPCs(int viewId = 0, string methodName = null, int[] callersActorNumbers = null/*, params object[] parameters*/)
+        {
+            Hashtable filter = new Hashtable(2);
+            if (viewId != 0)
+            {
+                filter[keyByteZero] = viewId;
+            }
+            if (!string.IsNullOrEmpty(methodName))
+            {
+                // send name or shortcut (if available)
+                int shortcut;
+                if (rpcShortcuts.TryGetValue(methodName, out shortcut))
+                {
+                    filter[keyByteFive] = (byte)shortcut; // LIMITS RPC COUNT
+                }
+                else
+                {
+                    filter[keyByteThree] = methodName;
+                }
+            }
+            //if (parameters != null && parameters.Length > 0)
+            //{
+            //    filter[keyByteFour] = parameters;
+            //}
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
+            raiseEventOptions.CachingOption = EventCaching.RemoveFromRoomCache;
+            if (callersActorNumbers != null)
+            {
+                raiseEventOptions.TargetActors = callersActorNumbers;
+            }
+            return RaiseEventInternal(PunEvent.RPC, filter, raiseEventOptions, SendOptions.SendReliable);
+        }
 
         /// <summary>
         /// Sets level prefix for PhotonViews instantiated later on. Don't set it if you need only one!
@@ -2278,9 +2317,9 @@ namespace Photon.Pun
                                 {
                                     // a takeover is successful automatically, if taken from current owner
                                     Player prevOwner = requestedView.Owner;
-                                    Player newOwner = CurrentRoom.GetPlayer(actorNr);
 
-                                    requestedView.SetOwnerInternal(newOwner, actorNr);
+                                    requestedView.OwnerActorNr = actorNr;
+                                    requestedView.ControllerActorNr = actorNr;
 
                                     if (PhotonNetwork.OnOwnershipTransferedEv != null)
                                     {
@@ -2336,9 +2375,9 @@ namespace Photon.Pun
                                 (requestedView.OwnershipTransfer == OwnershipOption.Request && (originatingPlayer == requestedView.Controller || originatingPlayer == requestedView.Owner)))
                             {
                                 Player prevOwner = requestedView.Owner;
-                                Player newOwner = CurrentRoom.GetPlayer(newOwnerId);
 
-                                requestedView.SetOwnerInternal(newOwner, newOwnerId);
+                                requestedView.OwnerActorNr= newOwnerId;
+                                requestedView.ControllerActorNr = newOwnerId;
 
                                 if (PhotonNetwork.OnOwnershipTransferedEv != null)
                                 {
@@ -2381,7 +2420,8 @@ namespace Photon.Pun
                             Player prevOwner = view.Owner;
                             Player newOwner = CurrentRoom.GetPlayer(newOwnerId);
 
-                            view.SetOwnerInternal(newOwner, newOwnerId);
+                            view.OwnerActorNr= newOwnerId;
+                            view.ControllerActorNr = newOwnerId;
 
                             reusablePVHashset.Add(view);
                             // If this produces an owner change locally, fire the OnOwnershipTransfered callbacks

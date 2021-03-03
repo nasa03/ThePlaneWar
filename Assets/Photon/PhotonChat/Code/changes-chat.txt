@@ -4,6 +4,10 @@ Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
 
+Version 4.1.5.0 ()
+    Internal: AuthenticationValues.Token is now an object instead of a string (so some internal code changed). This enables the server to send a byte[], which is more effective than a string.
+
+
 Version 4.1.4.6 (16. November 2020)
     Added: ChatClient.PrivateChatHistoryLength field. If set before you connect, this can be used to limit the number of private messages when the server (re)subscribes the client to (still alive) a private chat channel.
     Added: Protocol Fallback option for Chat. Analog to the Realtime API, Chat can now try another protocol, if the initial connect to the Name Server fails. After the timeout or when an error happened, UDP will fallback to TCP. TCP will fallback to UDP.
@@ -12,7 +16,6 @@ Version 4.1.4.6 (16. November 2020)
     Changed: ChatAppSettings field AppId is now AppIdChat (matching the value in Realtime API AppSettings). The old name is currently just obsolete.
     Added: ChatAppSettings.Port to override the Name Server Port if needed. Note: Chat does not support "Alternative Ports" yet (ports pre-defined per server).
     Added: ChatPeer.NameServerPortOverride value to replace/override the default per-protocol port value (by the one in the AppSettings, e.g.).
-
 
 Version 4.1.4.5 (02. September 2020)
     Added: Option for extended features: Channels may send a user list, channels and users can have custom properties and there are web-forwarding flags. Needs compile define CHAT_EXTENDED. This also adds new methods to the IChatClientListener.

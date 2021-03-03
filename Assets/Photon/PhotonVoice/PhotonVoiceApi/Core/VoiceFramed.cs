@@ -222,7 +222,7 @@ namespace Photon.Voice
 
             if (!dataEncodeThreadStarted)
             {
-                voiceClient.transport.LogInfo(LogPrefix + ": Starting data encode thread");
+                voiceClient.logger.LogInfo(LogPrefix + ": Starting data encode thread");
 #if NETFX_CORE
                 Windows.System.Threading.ThreadPool.RunAsync((x) =>
                 {
@@ -252,7 +252,7 @@ namespace Photon.Voice
                 this.bufferFactory.Free(buf, buf.Length);
                 if (framesSkipped == framesSkippedNextLog)
                 {
-                    voiceClient.transport.LogWarning(LogPrefix + ": PushData queue overflow. Frames skipped: " + (framesSkipped + 1));
+                    voiceClient.logger.LogWarning(LogPrefix + ": PushData queue overflow. Frames skipped: " + (framesSkipped + 1));
                     framesSkippedNextLog = framesSkipped + 10;
                 }
                 framesSkipped++;
@@ -309,7 +309,7 @@ namespace Photon.Voice
             }
             catch (Exception e)
             {
-                voiceClient.transport.LogError(LogPrefix + ": Exception in encode thread: " + e);
+                voiceClient.logger.LogError(LogPrefix + ": Exception in encode thread: " + e);
                 throw e;
             }
             finally
@@ -323,7 +323,7 @@ namespace Photon.Voice
                 pushDataQueueReady.Close();
 #endif
 
-                voiceClient.transport.LogInfo(LogPrefix + ": Exiting data encode thread");
+                voiceClient.logger.LogInfo(LogPrefix + ": Exiting data encode thread");
 
 //#if UNITY_5_3_OR_NEWER
 //                UnityEngine.Profiling.Profiler.EndThreadProfiling();

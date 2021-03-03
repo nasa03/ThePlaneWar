@@ -21,7 +21,7 @@ namespace Photon.Voice
     /// </summary>
     public class LoadBalancingTransport2 : LoadBalancingTransport
     {
-        public LoadBalancingTransport2(ConnectionProtocol connectionProtocol = ConnectionProtocol.Udp) : base(connectionProtocol)
+        public LoadBalancingTransport2(ILogger logger = null, ConnectionProtocol connectionProtocol = ConnectionProtocol.Udp) : base(logger, connectionProtocol)
         {
             this.LoadBalancingPeer.UseByteArraySlicePoolForEvents = true; // incoming byte[] events can be deserialized to a pooled ByteArraySlice
             this.LoadBalancingPeer.ReuseEventInstance = true;             // this won't store references to the event anyways

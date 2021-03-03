@@ -12,9 +12,12 @@ public class PointersController : MonoBehaviour
     #pragma warning restore 649
 
     private PhotonVoiceView photonVoiceView;
-    private void Start()
+
+    private void Awake()
     {
         this.photonVoiceView = this.GetComponent<PhotonVoiceView>();
+        this.SetActiveSafe(this.pointerUp, false);
+        this.SetActiveSafe(this.pointerDown, false);
     }
 
     private void Update()

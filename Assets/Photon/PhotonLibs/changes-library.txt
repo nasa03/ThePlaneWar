@@ -4,6 +4,41 @@ Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
 
+Version 4.1.5.1 (25. February 2021 - rev5991)
+    Fixed: Handling of IPv6 addresses (bug was introduced in v4.1.5.0).
+
+Version 4.1.5.0 (23. February 2021 - rev5986)
+    Added: Optional parameter CustomInitData to Connect() methods. This data/object is used in InitV3.
+    Changed: Parameter name for photonToken (was "customdata" or similar).
+    Internal: PrepareInitV3ConnectData(...) is now WriteInitRequest() without the bunch of parameters which were all coming from the PeerBase anyways.
+    Fixed: NonAllocDictionary.Remove will also remove the value-reference by setting a default.
+    Changed: Handling of server IP addresses. IpAddress.TryParse has a few false positives. Those are double-checked and may cause ServerAddressInvalid.
+    Changed: Failed DNS lookup uses status code: DnsExceptionOnConnect. This clarifies a set of runtime errors, which were hard to identify.
+    Added: StatusCode ServerAddressInvalid = 1050 and DnsExceptionOnConnect = 1051. Used in IPhotonPeerListener.OnStatusChanged().
+    Changed: Native Encryptor API v2 is now required. This affects native Datagram Encryption plugins (and allows GCM / Mode 13).
+    Changed: PDB files are now in "portable" format. This should be equivalent to "full" (previously used) but compatible with latest Unity versions.
+
+
+Version 4.1.4.9 (11. January 2021 - rev5966)
+    Fixed: EnetPeer to reset values for unsequenced commands on connect. Before, clients would send illegal command numbers after switching connections.
+    Added: Special handling for StructWrapper in DictionaryToString(). Pretty-prints type and value.
+    Added: StructWrapper<T>.ToString() and and ParameterDictionary.ToStringFull() to simplify logging.
+    Fixed: Add overload in ParameterDictionary was sending ints to byte, rather than object.
+    Changed: NonAllocDictionary<K, V> now implements IDictionary<K,V>.
+    Changed: ValueIterator and KeyIterator now implement IEnumerator<V>, System.Collections.IEnumerator.
+    Changed: PairIterator now implement IEnumerator<KeyValuePair<K, V>>.
+
+Version 4.1.4.8 (03. December 2020 - rev5915)
+    Fixed: Issue with DisconnectTimeout, which could be set to int.MaxValue and force a timeout.
+    Note: The maximum value that is applied as DisconnectTimeout is now 65535 (ushort.MaxValue). Negative values set to default timeout.
+    Added: PhotonPeer.RemoveAppIdFromWebSocketPath option to skip the appid in websocket connects. Defaults to false.
+    Internal: PeerBase.PepareWebSocketUrl to skip the appid when RemoveAppIdFromWebSocketPath is true. Changed order of parameters.
+    Note: The AppId is not mandatory on the PhotonCloud but might be needed to connect to Photon OnPremise when the port does not define the app type.
+
+Version 4.1.4.7 (26. November 2020 - rev5893)
+    Fixed: PhotonClientWebSocket handling of messages > MTU. Incoming messages may be incomplete and are now reassembled. Before the fix, common result was that deserialization failed with incorrect / incomplete data.
+    Added: ExitGames.Client.Photon.Hashtable Add() and Remove() for byte keys. This makes sure ht.Add(0, obj) and ht.Remove(0) match how the access via ht[0] works.
+
 Version 4.1.4.6 (17. November 2020 - rev5865)
     Changed: The EventData.Paramters dictionary is now readonly. It does not need to be settable and can no longer be null. So null-checks are removed.
     Changed: If the ByteArrayPool is used for reading events, the sender's actorNumber will not longer be in the EventData parameter-table. Instead, only the Sender property is used.

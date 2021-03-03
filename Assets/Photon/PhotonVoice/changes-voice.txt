@@ -1,5 +1,28 @@
 Photon Voice 2 Change Log
 
+v2.23.1 (February 25th, 2021)
+   PUN2: v2.28.1 (433550f)
+   PhotonVoiceApi: revision 5982
+
+v2.23 (February 24th, 2021)
+   PUN2: v2.28 (0a0ddf5)
+   PhotonVoiceApi: revision 5982
+   FIXED: Recorder.IsCurrentlyTransmitting in some cases starts true although it should be false.
+   FIXED: Speaker.IsPlaying in some cases remains returns true although it should be false.
+   FIXED: [Editor only] CS0414 warnings in Android or iOS context in Unity Editor.
+   FIXED: CS649 warnings in for obsolete Speaker.playDelayMs and VoiceConnection.globalPlaybackDelay.
+   FIXED: Speaker.Lag is -1 when Speaker is not playing.
+   CHANGED: [Editor only] Recorder custom editor will recommend WebRtcAudioDsp.VAD instead of Recorder.VAD.
+   CHANGED: Recorder.IsCurrentlyTransmitting property checks Recorder.IsRecording and Recorder.TransmitEnabled inside.
+   FIXED: [DemoProximityVoiceChat] proximity voice chat's character pointer up status
+   CHANGED: [DemoProximityVoiceChat] Recorder.TransmitEnabled disabled by default in scene for PrimaryRecorder
+   CHANGED: making use of the new LoadBalancingClient.ClientType in LoadBalancingTransport and removing AppId switch workaround in VoiceConnection.ConnectUsingSettings.
+   ADDED: DisallowMultipleComponents to VoiceConnection.
+   CHANGED: Voice core is now using its own logger and log level decoupled from Realtime.
+   CHANGED: [Editor only] Recorder.ReactOnSystemChanges & Recorder.SkipDeviceChangeChecks hidden from custom inspector when in Android or iOS.
+   CHANGED: [Editor only] obsolete serialized fields hidden from inspector.
+   CHANGED: [Editor only] allow ReactOnSystemChanges in Editor even if target platform is Android or iOS.
+
 v2.22.3 (December 10th, 2020)
    PUN2: v2.26 (1bb4b17)
    PhotonVoiceApi: revision 5901

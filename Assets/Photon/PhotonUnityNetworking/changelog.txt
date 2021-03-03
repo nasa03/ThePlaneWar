@@ -3,6 +3,51 @@ PUN 2 Change Log
 Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
+v2.28.1 (25. February 2021)
+Updated: Library to v4.1.5.1. which fixes a problem with IPv6 addresses which was introduced in v4.1.5.0.
+
+v2.28 (23. February 2021)
+Changed: PhotonView code to cache Owner and Controller, as well as storing the sceneViewId for objects which load with the scene. This is a bigger change and complex, so it may break some projects, despite the testing! Mail us, if you run into issues with ViewIDs, Ownership, etc: developer@photonengine.com.
+Added: DisconnectCause DnsExceptionOnConnect and ServerAddressInvalid (which might be renamed).
+Changed: Inspector to trim the values of AppId fields.
+Fixed: Likely fixes issue with Resources.Load failing to find prefabs in latest Unity versions. This is more of a workaround for Unity problems/changes.
+Changed: The re-usable list of PhotonViews in RemoveInstantiatedGO() is now cleared when it's no longer needed to avoid lingering PhotonView references (memory leaking).
+Added: OfflineMode to StaticReset(). So fast play mode (without domain reload) will not keep the client in offline mode.
+Changed: PhotonNetwork.Server for offline mode. It will now report the GameServer when an offlineroom is existing.
+Added: In OfflineMode, PhotonNetwork.LeaveRoom() will now also call the OnConnectedToMaster() callback. As the OfflineMode changes values immediately, the timing of callbacks might be slightly different than in online mode. Joining a room offline is instantaneous.
+Updated: Library to v4.1.5.0. which includes using the new Native Encryptor API (v2), a fix for NonAllocDictionary.Remove() and new StatusCode entries for DNS and IP issues.
+
+v2.27 (12. January 2021)
+Removed: "Simple" networking. Due to the progress on an upcoming networkin solution (Fusion), we will keep this set of components an external addon in maintenance mode (supported but not improved/extended).
+Updated: The Realtime API and Photon3Unity3d.dll to v4.1.4.9.
+
+v2.26.1 (15. December 2020)
+Note: This fix release does not have a new PhotonNetwork.PunVersion. The changes were just for the Editor.
+Fixed: Some edge cases for the included "Simple" addon. 
+Added: Changelog for Simple.
+
+v2.26 (09. December 2020)
+Fixed: Possible IndexOutOfRangeException causing import issues when cached best region summary is not in expected format.
+Changed: Wizard will load Realtime AppId from settings, if present. This should avoid surplus "registrations".
+Changed: PhotonEditor will not call RegisterByEmail, if a request is pending some result. For that, the serviceClient is now a class variable and not a local one.
+Added: AccountService.RequestPendingResult. It's reset when the request ends (fail or success).
+Added: extra check to avoid sending useless (empty array payload) OwnershipUpdate event.
+Updated: The Realtime API and Photon3Unity3d.dll (v4.1.4.8) with smaller improvements and changes. Check the respective changelogs.
+
+v2.25 (30. November 2020)
+Added: Simple Network Sync for PUN2 a.k.a. "Simple" and PhotonUtilities.
+Note: extends PUN2 to operate on a simulation-based tick timing system that uses circular buffers. So far, Simple was distributed as addon, now it's included.
+Note: See: https://doc.photonengine.com/en-us/pun/current/gameplay/simple
+Updated: Realtime API in a few ways. See respective changelog.
+
+v2.24 (25. November 2020)
+Added: PhotonTransformView.UseLocal. It defaults to true for any new PhotonTransformView but allows to get the "old" behaviour with world position and rotation data being synced.
+Fixed: Inspector UI for PhotonTransformView and PhotonAnimatorView. Warning box for using triggers broke horizonal bounds, causing horizontal scrollbars on inspector. Switched to standard helpbox.
+Changed: Drastically lowered the MaxDatagrams value, to not send too much in one frame. 
+Changed: Default sendFrequency to 33ms. PUN will send in more frames but less datagrams in each.
+Changed: SendRate does not affect the SerializationRate value anymore. Also, SerializationRate can be set independent from the SendRate.
+Updated: Documentation about SerializationRate and SendRate. This now explains more details about sending.
+
 v2.23 (17. November 2020)
 Changed: CustomTypes are now split into CustomTypes and CustomTypesUnity. The latter is part of the Realtime API and registers automatically for Unity projects (in LoadBalancingClient constructor). This only changes internals for PUN. The Player class is only a de/serializable type in PUN.
 Changed: DebugLog info in case an RPC was not found. Making it clear that RPCs should return null or an IEnumerator (if you enable RunRpcCoroutines).
@@ -18,7 +63,6 @@ Changed: Loading and creation of the PhotonServerSettings file. We got several r
 Added: BestRegion now checks if the operation GetRegions was successful. If it returned an error, it skips pinging (and the client will get disconnected anyways).
 Updated: The Realtime API and Photon3Unity3d.dll (v4.1.4.6) with lots of improvements and changes. Check the respective changelogs.
 
-
 v2.22 (07. September 2020)
 Changed: Default observe option for PhotonView is Unreliable On Change.
 Fixed: PhotonView.Get wouldn't work if object was disabled. This fixes that.
@@ -29,7 +73,7 @@ Added: AmOwner property to cached ownership values.
 Added: SetControllerInternal method for use with advanced SNS ownership handling. Not used currently by Pun2.
 Changed: Photonhander for client disconnects fixed to only change owner to null rather than Master.
 Changed: Only change owner of objects that will survive autoCleanup.
-Fixed: Mispelling of Owner as Onwer.
+Fixed: Misspelling of Owner as Onwer.
 Changed: Only rebuild controller cache on JoinRoom if client is the master. Otherwise leaves the controller as -1 indicating the current controller isn't known yet.
 Changed: PhotonView custom inspector. Default observe option for PhotonView is "Unreliable On Change" again.
 Added: OnSerializeView now checks components, so list items being null in Observables are not breaking anymore.

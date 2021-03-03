@@ -33,8 +33,8 @@ public class ProximityVoiceTrigger : VoiceComponent
     {
         this.photonVoiceView = this.GetComponentInParent<PhotonVoiceView>();
         this.photonView = this.GetComponentInParent<PhotonView>();
-        Collider collider = this.GetComponent<Collider>();
-        collider.isTrigger = true;
+        Collider tmpCollider = this.GetComponent<Collider>();
+        tmpCollider.isTrigger = true;
     }
 
     private void ToggleTransmission()
@@ -59,6 +59,7 @@ public class ProximityVoiceTrigger : VoiceComponent
                 }
                 this.photonVoiceView.RecorderInUse.TransmitEnabled = transmitEnabled;
             }
+            this.photonVoiceView.RecorderInUse.IsRecording = true;
         }
     }
 

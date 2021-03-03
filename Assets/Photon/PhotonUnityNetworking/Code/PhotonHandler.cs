@@ -50,7 +50,7 @@ namespace Photon.Pun
 
         /// <summary>Limits the number of datagrams that are created in each LateUpdate.</summary>
         /// <remarks>Helps spreading out sending of messages minimally.</remarks>
-        public static int MaxDatagrams = 10;
+        public static int MaxDatagrams = 3;
 
         /// <summary>Signals that outgoing messages should be sent in the next LateUpdate call.</summary>
         /// <remarks>Up to MaxDatagrams are created to send queued messages.</remarks>
@@ -278,8 +278,7 @@ namespace Photon.Pun
                 int viewOwnerId = view.OwnerActorNr;
                 int viewCreatorId = view.CreatorActorNr;
 
-                // Scene objects need to set their controller to the master.
-                if (PhotonNetwork.IsMasterClient)
+                // on join / rejoin, assign control to either the Master Client (for room objects) or the owner (for anything else)
                     view.RebuildControllerCache();
 
                 // Rejoining master should enforce its world view, and override any changes that happened while it was soft disconnected
@@ -341,11 +340,12 @@ namespace Photon.Pun
                 // Master rejoined - reset all ownership. The master will be broadcasting non-creator ownership shortly
                 else if (isRejoiningMaster)
                 {
+                    Debug.LogError("It's unexpected that the Master Client rejoins. Someone else should be (and stay) Master Client by now.");
                     view.ResetOwnership();
                 }
             }
 
-            if (amMasterClient)
+            if (amMasterClient && reusableIntList.Count > 0)
             {
                 PhotonNetwork.OwnershipUpdate(reusableIntList.ToArray(), newPlayer.ActorNumber);
             }
@@ -365,8 +365,9 @@ namespace Photon.Pun
             {
                 foreach (var view in views)
                 {
-                    if (view.OwnerActorNr == leavingPlayerId)
-                        view.RebuildControllerCache(true);
+                    // v2.27: changed from owner-check to controller-check
+                    if (view.ControllerActorNr == leavingPlayerId)
+                        view.ControllerActorNr = PhotonNetwork.MasterClient.ActorNumber;
                 }
 
             }
@@ -384,11 +385,11 @@ namespace Photon.Pun
                     // Any views owned by the leaving player, default to null owner (which will become master controlled).
                     if (view.OwnerActorNr == leavingPlayerId || view.ControllerActorNr == leavingPlayerId)
                     {
-                        view.SetOwnerInternal(null, 0);
+                        view.OwnerActorNr = 0;
+                        view.ControllerActorNr = PhotonNetwork.MasterClient.ActorNumber;
                     }
                 }
             }
-
         }
     }
 }

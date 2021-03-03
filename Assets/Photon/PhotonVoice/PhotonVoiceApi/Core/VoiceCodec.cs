@@ -46,6 +46,12 @@ namespace Photon.Voice
         void Input(B buf);
     }
 
+    /// <summary>Interface for an encoder which consumes images via explicit call.</summary>
+    public interface IEncoderDirectImage : IEncoderDirect<ImageInputBuf>
+    {
+        ImageFormat ImageFormat { get; }
+    }
+
     /// <summary>Generic decoder interface.</summary>
     public interface IDecoder : IDisposable
     {
@@ -83,6 +89,7 @@ namespace Photon.Voice
         public int Width;
         public int Height;
         public int Stride;
+        public ImageFormat ImageFormat;
     }
 
     public interface IDecoderQueuedOutputImageNative : IDecoderDirect<ImageOutputBuf>

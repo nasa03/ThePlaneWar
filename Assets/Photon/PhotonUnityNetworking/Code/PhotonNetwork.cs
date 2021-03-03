@@ -64,7 +64,7 @@ namespace Photon.Pun
     public static partial class PhotonNetwork
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
-        public const string PunVersion = "2.23";
+        public const string PunVersion = "2.28";
 
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
@@ -250,7 +250,17 @@ namespace Photon.Pun
 
         /// <summary>The server (type) this client is currently connected or connecting to.</summary>
         /// <remarks>Photon uses 3 different roles of servers: Name Server, Master Server and Game Server.</remarks>
-        public static ServerConnection Server { get { return (PhotonNetwork.NetworkingClient != null) ? PhotonNetwork.NetworkingClient.Server : ServerConnection.NameServer; } }
+        public static ServerConnection Server
+        {
+            get
+            {
+                if (OfflineMode)
+                {
+                    return CurrentRoom == null ? ServerConnection.MasterServer : ServerConnection.GameServer;
+                }
+                return (PhotonNetwork.NetworkingClient != null) ? PhotonNetwork.NetworkingClient.Server : ServerConnection.NameServer;
+            }
+        }
 
         /// <summary>
         /// A user's authentication values used during connect.
@@ -541,14 +551,33 @@ namespace Photon.Pun
             }
         }
 
+
         /// <summary>
-        /// Defines how many times per second PhotonNetwork should send a package. If you change
-        /// this, do not forget to also change 'SerializationRate'.
+        /// Defines how many times per second the PhotonHandler should send data, if any is queued. Default: 30.
         /// </summary>
         /// <remarks>
-        /// Less packages are less overhead but more delay.
-        /// Setting the SendRate to 50 will create up to 50 packages per second (which is a lot!).
-        /// Keep your target platform in mind: mobile networks are slower and less reliable.
+        /// This value defines how often PUN will call the low level PhotonPeer to put queued outgoing messages
+        /// into a datagram to be sent. This is implemented in the PhotonHandler component, which integrates PUN
+        /// into the Unity game loop.
+        /// The PhotonHandler.MaxDatagrams value defines how many datagrams can be sent in one iteration.
+        ///
+        /// This value does not affect how often updates are written by PhotonViews. That is controlled by the
+        /// SerializationRate. To avoid send-delays for PhotonView updates, PUN will also send data at the end
+        /// of frames that wrote data in OnPhotonSerializeView, so sending may actually be more frequent than
+        /// the SendRate.
+        ///
+        /// Messages queued due to RPCs and RaiseEvent, will be sent with at least SendRate frequency. They
+        /// are included, when OnPhotonSerialize wrote updates and triggers early sending.
+        ///
+        /// Setting this value does not adjust the SerializationRate anymore (as of PUN 2.24).
+        ///
+        /// Sending less often will aggregate messages in datagrams, which avoids overhead on the network.
+        /// It is also important to not push too many datagrams per frame. Three to five seem to be the sweet spot.
+        ///
+        /// Keep your target platform in mind: mobile networks are usually slower.
+        /// WiFi is slower with more variance and bursts of loss.
+        ///
+        /// A low framerate (as in Update calls) will affect sending of messages.
         /// </remarks>
         public static int SendRate
         {
@@ -564,23 +593,28 @@ namespace Photon.Pun
                 {
                     PhotonHandler.Instance.UpdateInterval = sendFrequency;
                 }
-
-                if (value < SerializationRate)
-                {
-                    // SerializationRate needs to be <= SendRate
-                    SerializationRate = value;
-                }
             }
         }
 
-        private static int sendFrequency = 50; // in milliseconds.
+        private static int sendFrequency = 33; // in milliseconds.
 
         /// <summary>
-        /// Defines how many times per second OnPhotonSerialize should be called on PhotonViews.
+        /// Defines how many times per second OnPhotonSerialize should be called on PhotonViews for controlled objects.
         /// </summary>
         /// <remarks>
-        /// Choose this value in relation to PhotonNetwork.SendRate. OnPhotonSerialize will create updates and messages to be sent.<br/>
-        /// A lower rate takes up less performance but will cause more lag.
+        /// This value defines how often PUN will call OnPhotonSerialize on controlled network objects.
+        /// This is implemented in the PhotonHandler component, which integrates PUN into the Unity game loop.
+        ///
+        /// The updates written in OnPhotonSerialize will be queued temporarily and sent in the next LateUpdate,
+        /// so a high SerializationRate also causes more sends. The idea is to keep the delay short during
+        /// which written updates are queued.
+        ///
+        /// Calling RPCs will not trigger a send.
+        ///
+        /// A low framerate will affect how frequent updates are written and how "on time" they are.
+        ///
+        /// A lower rate takes up less performance but the receiving side needs to interpolate longer times
+        /// between updates.
         /// </remarks>
         public static int SerializationRate
         {
@@ -591,12 +625,6 @@ namespace Photon.Pun
 
             set
             {
-                if (value > SendRate)
-                {
-                    Debug.LogError("Error: Can not set the OnSerialize rate higher than the overall SendRate.");
-                    value = SendRate;
-                }
-
                 serializationFrequency = 1000 / value;
                 if (PhotonHandler.Instance != null)
                 {
@@ -606,6 +634,7 @@ namespace Photon.Pun
         }
 
         private static int serializationFrequency = 100; // in milliseconds. I.e. 100 = 100ms which makes 10 times/second
+
 
         /// <summary>
         /// Can be used to pause dispatching of incoming events (RPCs, Instantiates and anything else incoming).
@@ -746,10 +775,10 @@ namespace Photon.Pun
         /// <summary>Affects if the PhotonHandler dispatches incoming messages in LateUpdate or FixedUpdate (default).</summary>
         /// <remarks>
         /// By default the PhotonHandler component dispatches incoming messages in FixedUpdate.
-        /// 
+        ///
         /// When the Time.timeScale is low, FixedUpdate is called less frequently up to a point where updates may get paused.
         /// PUN can automatically dispatch messages in LateUpdate for low timeScale values (when Time.timeScale is lower than this value).
-        /// 
+        ///
         /// PUN will use either FixedUpdate or LateUpdate but not both (as of v2.23).
         ///
         /// When you use this value, be aware that Instantiates and RPCs execute with a changed timing within a frame.
@@ -964,7 +993,7 @@ namespace Photon.Pun
         /// <summary>Replaced by ServerPortOverrides.</summary>
         [Obsolete("Set port overrides in ServerPortOverrides. Not used anymore!")]
         public static bool UseAlternativeUdpPorts { get; set; }
-        
+
         /// <summary>Defines overrides for server ports. Used per server-type if > 0. Important: If you change the transport protocol, adjust the overrides, too.</summary>
         /// <see cref="LoadBalancingClient.ServerPortOverrides"/>
         public static PhotonPortDefinition ServerPortOverrides
@@ -987,7 +1016,7 @@ namespace Photon.Pun
             StaticReset();
             #endif
         }
-        
+
         #if UNITY_2019_4_OR_NEWER && UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         #endif
@@ -1000,6 +1029,7 @@ namespace Photon.Pun
             monoRPCMethodsCache.Clear();
 
             // set up the NetworkingClient, protocol, etc
+            OfflineMode = false;
             ConnectionProtocol protocol = PhotonNetwork.PhotonServerSettings.AppSettings.Protocol;
             NetworkingClient = new LoadBalancingClient(protocol);
             NetworkingClient.LoadBalancingPeer.QuickResendAttempts = 2;
@@ -1120,7 +1150,7 @@ namespace Photon.Pun
 
             NetworkingClient.EnableLobbyStatistics = appSettings.EnableLobbyStatistics;
             NetworkingClient.ProxyServerAddress = appSettings.ProxyServer;
-            
+
 
             if (appSettings.IsMasterServerAddress)
             {
@@ -1136,7 +1166,7 @@ namespace Photon.Pun
                 return ConnectToMaster(appSettings.Server, appSettings.Port, appSettings.AppIdRealtime);
             }
 
-            
+
             NetworkingClient.NameServerPortInAppSettings = appSettings.Port;
 			if (!appSettings.IsDefaultNameServer)
             {
@@ -1736,11 +1766,10 @@ namespace Photon.Pun
             opParams.RoomName = roomName;
             opParams.RoomOptions = roomOptions;
             opParams.Lobby = typedLobby;
-            opParams.CreateIfNotExists = true;
             opParams.PlayerProperties = LocalPlayer.CustomProperties;
             opParams.ExpectedUsers = expectedUsers;
 
-            return NetworkingClient.OpJoinRoom(opParams);
+            return NetworkingClient.OpJoinOrCreateRoom(opParams);
         }
 
 
@@ -1843,12 +1872,7 @@ namespace Photon.Pun
                 return false;
             }
 
-            EnterRoomParams opParams = new EnterRoomParams(); // the this.enterRoomParamsCache is updated in OpJoinRoom, so this method does not do it.
-            opParams.RoomName = roomName;
-            opParams.RejoinOnly = true;
-            opParams.PlayerProperties = LocalPlayer.CustomProperties;
-
-            return NetworkingClient.OpJoinRoom(opParams);
+            return NetworkingClient.OpRejoinRoom(roomName);
         }
 
 
@@ -1908,8 +1932,8 @@ namespace Photon.Pun
             if (OfflineMode)
             {
                 offlineModeRoom = null;
-                //SendMonoMessage(PhotonNetworkingMessage.OnLeftRoom);
                 NetworkingClient.MatchMakingCallbackTargets.OnLeftRoom();
+                NetworkingClient.ConnectionCallbackTargets.OnConnectedToMaster();
             }
             else
             {
@@ -2069,9 +2093,10 @@ namespace Photon.Pun
             return NetworkingClient.OpFindFriends(friendsToFind);
         }
 
-        /// <summary>Fetches a custom list of games from the server, matching a SQL-like "where" clause, then triggers OnRoomListUpdate callback.</summary>
+        /// <summary>Fetches a custom list of games from the server, matching a (non-empty) SQL-like filter. Triggers OnRoomListUpdate callback.</summary>
         /// <remarks>
-        /// Operation is only available for lobbies of type SqlLobby.
+        /// Operation is only available for lobbies of type SqlLobby and the filter can not be empty.
+        /// It will check those conditions and fail locally, returning false.
         /// This is an async request.
         ///
         /// Note: You don't have to join a lobby to query it. Rooms need to be "attached" to a lobby, which can be done
@@ -2190,7 +2215,7 @@ namespace Photon.Pun
                 {
                     return true;
                 }
-                
+
                 EventData evData = new EventData { Code = eventCode };  // creates the equivalent of a received event
                 evData.Parameters[ParameterCode.Data] = eventContent;
                 evData.Parameters[ParameterCode.ActorNr] = 1;
@@ -2248,21 +2273,27 @@ namespace Photon.Pun
             return true;
         }
 
+        [Obsolete("Renamed. Use AllocateRoomViewID instead")]
+        public static bool AllocateSceneViewID(PhotonView view)
+        {
+            return AllocateRoomViewID(view);
+        }
+
         /// <summary>
-        /// Enables the Master Client to allocate a viewID for scene objects.
+        /// Enables the Master Client to allocate a viewID for room objects.
         /// </summary>
         /// <returns>True if a viewId was assigned. False if the PhotonView already had a non-zero viewID or if this client is not the Master Client.</returns>
-        public static bool AllocateSceneViewID(PhotonView view)
+        public static bool AllocateRoomViewID(PhotonView view)
         {
             if (!PhotonNetwork.IsMasterClient)
             {
-                Debug.LogError("Only the Master Client can AllocateSceneViewID(). Check PhotonNetwork.IsMasterClient!");
+                Debug.LogError("Only the Master Client can AllocateRoomViewID(). Check PhotonNetwork.IsMasterClient!");
                 return false;
             }
 
             if (view.ViewID != 0)
             {
-                Debug.LogError("AllocateSceneViewID() can't be used for PhotonViews that already have a viewID. This view is: " + view.ToString());
+                Debug.LogError("AllocateRoomViewID() can't be used for PhotonViews that already have a viewID. This view is: " + view.ToString());
                 return false;
             }
 
@@ -2271,24 +2302,24 @@ namespace Photon.Pun
             return true;
         }
 
-        /// <summary>Allocates a viewID for the current/local player or the scene.</summary>
-        /// <param name="sceneObject">Use true, to allocate a scene viewID and false to allocate a viewID for the local player.</param>
-        /// <returns>Returns a viewID (combined owner and sequential number) that can be assigend as PhotonView.ViewID.</returns>
-        public static int AllocateViewID(bool sceneObject)
+        /// <summary>Allocates a viewID for the current/local player or the room.</summary>
+        /// <param name="roomObject">Use true, to allocate a room viewID and false to allocate a viewID for the local player.</param>
+        /// <returns>Returns a viewID (combined owner and sequential number) that can be assigned as PhotonView.ViewID.</returns>
+        public static int AllocateViewID(bool roomObject)
         {
-            if (sceneObject && !LocalPlayer.IsMasterClient)
+            if (roomObject && !LocalPlayer.IsMasterClient)
             {
-                Debug.LogError("Only a Master Client can AllocateViewID() for scene objects. This client/player is not a Master Client. Returning an invalid viewID: -1.");
+                Debug.LogError("Only a Master Client can AllocateViewID() for room objects. This client/player is not a Master Client. Returning an invalid viewID: -1.");
                 return 0;
             }
 
-            int ownerActorNumber = sceneObject ? 0 : LocalPlayer.ActorNumber;
+            int ownerActorNumber = roomObject ? 0 : LocalPlayer.ActorNumber;
             return AllocateViewID(ownerActorNumber);
         }
 
-        /// <summary>Allocates a viewID for the current/local player or the scene.</summary>
+        /// <summary>Allocates a viewID for the current/local player or the room.</summary>
         /// <param name="ownerId">ActorNumber to allocate a viewID for.</param>
-        /// <returns>Returns a viewID (combined owner and sequential number) that can be assigend as PhotonView.ViewID.</returns>
+        /// <returns>Returns a viewID (combined owner and sequential number) that can be assigned as PhotonView.ViewID.</returns>
         public static int AllocateViewID(int ownerId)
         {
             if (ownerId == 0)
@@ -2314,7 +2345,7 @@ namespace Photon.Pun
                 }
 
                 // this is the error case: we didn't find any (!) free subId for this user
-                throw new Exception(string.Format("AllocateViewID() failed. The room (user {0}) is out of 'scene' viewIDs. It seems all available are in use.", ownerId));
+                throw new Exception(string.Format("AllocateViewID() failed. The room (user {0}) is out of 'room' viewIDs. It seems all available are in use.", ownerId));
             }
             else
             {
@@ -2448,7 +2479,7 @@ namespace Photon.Pun
 
         private static readonly HashSet<string> PrefabsWithoutMagicCallback = new HashSet<string>();
 
-        private static GameObject NetworkInstantiate(Pun.InstantiateParameters parameters, bool sceneObject = false, bool instantiateEvent = false)
+        private static GameObject NetworkInstantiate(Pun.InstantiateParameters parameters, bool roomObject = false, bool instantiateEvent = false)
         {
             //Instantiate(name, pos, rot)
             //pv[] GetPhotonViewsInChildren()
@@ -2495,20 +2526,18 @@ namespace Photon.Pun
                 if (localInstantiate)
                 {
                     // when this client instantiates a GO, it has to allocate viewIDs accordingly.
-                    // SCENE objects are created as actorNumber 0 (no matter which number this player has).
-                    parameters.viewIDs[i] = (sceneObject) ? AllocateViewID(0) : AllocateViewID(parameters.creator.ActorNumber);
+                    // ROOM objects are created as actorNumber 0 (no matter which number this player has).
+                    parameters.viewIDs[i] = (roomObject) ? AllocateViewID(0) : AllocateViewID(parameters.creator.ActorNumber);
                 }
 
                 var view = photonViews[i];
 
-                view.didAwake = false;
                 view.ViewID = 0;
+                view.sceneViewId = 0;
+                view.isRuntimeInstantiated = true;
                 view.Prefix = parameters.objLevelPrefix;
                 view.InstantiationId = parameters.viewIDs[0];
-                view.isRuntimeInstantiated = true;
                 view.InstantiationData = parameters.data;
-                view.ownershipCacheIsValid = PhotonView.OwnershipCacheState.Invalid;
-                view.didAwake = true;
                 view.ViewID = parameters.viewIDs[i];    // with didAwake true and viewID == 0, this will also register the view
 
                 view.Group = parameters.group;
@@ -2517,7 +2546,7 @@ namespace Photon.Pun
             if (localInstantiate)
             {
                 // send instantiate network event
-                SendInstantiate(parameters, sceneObject);
+                SendInstantiate(parameters, roomObject);
             }
 
             go.SetActive(true);
@@ -2547,7 +2576,7 @@ namespace Photon.Pun
         private static readonly Hashtable SendInstantiateEvHashtable = new Hashtable();                             // SendInstantiate reuses this to reduce GC
         private static readonly RaiseEventOptions SendInstantiateRaiseEventOptions = new RaiseEventOptions();       // SendInstantiate reuses this to reduce GC
 
-        internal static bool SendInstantiate(Pun.InstantiateParameters parameters, bool sceneObject = false)
+        internal static bool SendInstantiate(Pun.InstantiateParameters parameters, bool roomObject = false)
         {
             // first viewID is now also the gameobject's instantiateId
             int instantiateId = parameters.viewIDs[0];   // LIMITS PHOTONVIEWS&PLAYERS
@@ -2591,7 +2620,7 @@ namespace Photon.Pun
             SendInstantiateEvHashtable[keyByteSeven] = instantiateId;
 
 
-            SendInstantiateRaiseEventOptions.CachingOption = (sceneObject) ? EventCaching.AddToRoomCacheGlobal : EventCaching.AddToRoomCache;
+            SendInstantiateRaiseEventOptions.CachingOption = (roomObject) ? EventCaching.AddToRoomCacheGlobal : EventCaching.AddToRoomCache;
 
             return PhotonNetwork.RaiseEventInternal(PunEvent.Instantiation, SendInstantiateEvHashtable, SendInstantiateRaiseEventOptions, SendOptions.SendReliable);
         }
@@ -2615,7 +2644,7 @@ namespace Photon.Pun
         /// The GameObject must be under this client's control:
         /// - Instantiated and owned by this client.
         /// - Instantiated objects of players who left the room are controlled by the Master Client.
-        /// - Scene-owned game objects are controlled by the Master Client.
+        /// - Room-owned game objects are controlled by the Master Client.
         /// - GameObject can be destroyed while client is not in a room.
         /// </remarks>
         /// <returns>Nothing. Check error debug log for any issues.</returns>
@@ -2649,7 +2678,7 @@ namespace Photon.Pun
         /// The GameObject must be under this client's control:
         /// - Instantiated and owned by this client.
         /// - Instantiated objects of players who left the room are controlled by the Master Client.
-        /// - Scene-owned game objects are controlled by the Master Client.
+        /// - Room-owned game objects are controlled by the Master Client.
         /// - GameObject can be destroyed while client is not in a room.
         /// </remarks>
         /// <returns>Nothing. Check error debug log for any issues.</returns>
@@ -3040,7 +3069,7 @@ namespace Photon.Pun
             }
         }
 
-        
+
         public static void LoadOrCreateSettings()
         {
             if (photonServerSettings != null)
@@ -3057,16 +3086,16 @@ namespace Photon.Pun
                 //Debug.LogWarning("Settings from Resources.");  // DEBUG
                 return;
             }
-            
+
 
             #if UNITY_EDITOR
             // let's check if the AssetDatabase finds the file; aimed to avoid multiple files being created, potentially a futile step
             AssetDatabase.Refresh();
-            
+
             // another little check: Does AssetDatabase.Refresh() affect loading Resources?!
             photonServerSettings = (ServerSettings)Resources.Load(PhotonNetwork.ServerSettingsFileName, typeof(ServerSettings));
             //Debug.LogWarning("Loaded from Resources after AssetDatabase.Refresh(): "+(photonServerSettings != null)); // DEBUG
-            
+
 
             var foundSettings = AssetDatabase.FindAssets("t:ServerSettings");
 
@@ -3098,7 +3127,7 @@ namespace Photon.Pun
                     Debug.LogError("Failed to create ServerSettings. PUN is unable to run this way. If you deleted it from the project, reload the Editor.");
                     return;
                 }
-                //Debug.LogWarning("Settings created!"); // DEBUG 
+                //Debug.LogWarning("Settings created!"); // DEBUG
             }
 
 
@@ -3125,7 +3154,7 @@ namespace Photon.Pun
             #endif
         }
 
-        
+
         #if UNITY_EDITOR
 
         /// <summary>

@@ -156,6 +156,7 @@ namespace Photon.Voice.PUN
 
         protected override void Awake()
         {
+            base.Awake();
             this.photonView = this.GetComponent<PhotonView>();
             this.Init();
         }

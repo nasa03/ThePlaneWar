@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using Photon.Realtime;
 using UnityEditor;
 using UnityEngine;
 
@@ -40,7 +39,7 @@ namespace Photon.Voice.Unity.Editor
             DeleteDirectory("Assets/Photon/PhotonVoice/Demos/DemoVoicePun");
             DeleteDirectory("Assets/Photon/PhotonVoice/Code/PUN");
             DeleteDirectory("Assets/Photon/PhotonUnityNetworking");
-            CleanUpPunDefineSymbols();
+            PhotonEditorUtils.CleanUpPunDefineSymbols();
         }
         #endif
 
@@ -91,67 +90,10 @@ namespace Photon.Voice.Unity.Editor
                 Debug.LogWarningFormat("File \"{0}\" does not exist.", path);
             }
         }
-
-        // from PhotonEditorUtils.CleanUpPunDefineSymbols, copied as we do not want to reference PUN from Voice
-        /// <summary>
-        /// Removes PUN2's Script Define Symbols from project
-        /// </summary>
-        public static void CleanUpPunDefineSymbols()
-        {
-            foreach (BuildTarget target in Enum.GetValues(typeof(BuildTarget)))
-            {
-                BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
-
-                if (group == BuildTargetGroup.Unknown)
-                {
-                    continue;
-                }
-
-                var defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(group)
-                    .Split(';')
-                    .Select(d => d.Trim())
-                    .ToList();
-
-                List<string> newDefineSymbols = new List<string>();
-                foreach (var symbol in defineSymbols)
-                {
-                    if ("PHOTON_UNITY_NETWORKING".Equals(symbol, StringComparison.OrdinalIgnoreCase) || symbol.StartsWith("PUN_2_", StringComparison.OrdinalIgnoreCase))
-                    {
-                        Debug.LogFormat("Cleaning up PUN's scripting symbol: \"{0}\" for build target: {1} group: {2}", symbol, target, group);
-                        continue;
-                    }
-
-                    newDefineSymbols.Add(symbol);
-                }
-
-                try
-                {
-                    PlayerSettings.SetScriptingDefineSymbolsForGroup(group, string.Join(";", newDefineSymbols.ToArray()));
-                }
-                catch (Exception e)
-                {
-                    Debug.LogErrorFormat("Could not clean up PUN2's define symbols for build target: {0} group: {1}, {2}", target, group, e);
-                }
-            }
-        }
-
-        /// <summary>
-		/// Check if a GameObject is a prefab asset or part of a prefab asset, as opposed to an instance in the scene hierarchy
-		/// </summary>
-		/// <returns><c>true</c>, if a prefab asset or part of it, <c>false</c> otherwise.</returns>
-		/// <param name="go">The GameObject to check</param>
-		public static bool IsPrefab(GameObject go)
-		{
-            #if UNITY_2018_3_OR_NEWER
-            return UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetPrefabStage(go) != null || EditorUtility.IsPersistent(go);
-            #else
-            return EditorUtility.IsPersistent(go);
-			#endif
-		}
-
+        
         public static bool IsInTheSceneInPlayMode(GameObject go)
         {
-            return Application.isPlaying && !IsPrefab(go);
+            return Application.isPlaying && !PhotonEditorUtils.IsPrefab(go);
         }
     }
 }

@@ -44,10 +44,8 @@ namespace Photon.Voice.Unity.Editor
         private SerializedProperty microphoneTypeSp;
         private SerializedProperty audioClipSp;
         private SerializedProperty loopAudioClipSp;
-        private SerializedProperty reactOnSystemChangesSp;
         private SerializedProperty autoStartSp;
         private SerializedProperty recordOnlyWhenEnabledSp;
-        private SerializedProperty skipDeviceChecksSp;
         private SerializedProperty stopRecordingWhenPausedSp;
         private SerializedProperty useMicrophoneTypeFallbackSp;
 
@@ -64,6 +62,9 @@ namespace Photon.Voice.Unity.Editor
             {AudioSessionParametersPresets.Game, AudioSessionParametersPresets.VoIP};
         #elif UNITY_ANDROID
         private SerializedProperty nativeAndroidMicrophoneSettingsSp;
+        #else
+        private SerializedProperty reactOnSystemChangesSp;
+        private SerializedProperty skipDeviceChecksSp;
         #endif
 
         private void OnEnable()
@@ -88,10 +89,8 @@ namespace Photon.Voice.Unity.Editor
             this.microphoneTypeSp = this.serializedObject.FindProperty("microphoneType");
             this.audioClipSp = this.serializedObject.FindProperty("audioClip");
             this.loopAudioClipSp = this.serializedObject.FindProperty("loopAudioClip");
-            this.reactOnSystemChangesSp = this.serializedObject.FindProperty("reactOnSystemChanges");
             this.autoStartSp = this.serializedObject.FindProperty("autoStart");
             this.recordOnlyWhenEnabledSp = this.serializedObject.FindProperty("recordOnlyWhenEnabled");
-            this.skipDeviceChecksSp = this.serializedObject.FindProperty("skipDeviceChangeChecks");
             this.stopRecordingWhenPausedSp = this.serializedObject.FindProperty("stopRecordingWhenPaused");
             this.useMicrophoneTypeFallbackSp = this.serializedObject.FindProperty("useMicrophoneTypeFallback");
             #if UNITY_IOS
@@ -103,6 +102,9 @@ namespace Photon.Voice.Unity.Editor
             this.audioSessionParametersCategoryOptionsSp = this.audioSessionParametersSp.FindPropertyRelative("CategoryOptions");
             #elif UNITY_ANDROID
             this.nativeAndroidMicrophoneSettingsSp = this.serializedObject.FindProperty("nativeAndroidMicrophoneSettings");
+            #else
+            this.reactOnSystemChangesSp = this.serializedObject.FindProperty("reactOnSystemChanges");
+            this.skipDeviceChecksSp = this.serializedObject.FindProperty("skipDeviceChangeChecks");
             #endif
         }
 
@@ -117,7 +119,8 @@ namespace Photon.Voice.Unity.Editor
         {
             this.serializedObject.UpdateIfRequiredOrScript();
             //serializedObject.Update();
-
+            WebRtcAudioDsp webRtcAudioDsp = this.recorder.GetComponent<WebRtcAudioDsp>();
+            bool webRtcAudioDspAttached = webRtcAudioDsp && webRtcAudioDsp != null && webRtcAudioDsp.enabled;
             if (PhotonVoiceEditorUtils.IsInTheSceneInPlayMode(this.recorder.gameObject))
             {
                 if (this.recorder.RequiresRestart)
@@ -138,6 +141,7 @@ namespace Photon.Voice.Unity.Editor
             EditorGUI.BeginChangeCheck();
             if (PhotonVoiceEditorUtils.IsInTheSceneInPlayMode(this.recorder.gameObject))
             {
+                #if !UNITY_ANDROID && !UNITY_IOS
                 this.recorder.ReactOnSystemChanges = EditorGUILayout.Toggle(new GUIContent("React On System Changes", "If true, recording is restarted when Unity detects Audio Config. changes."), this.recorder.ReactOnSystemChanges);
                 if (this.recorder.ReactOnSystemChanges)
                 {
@@ -145,6 +149,7 @@ namespace Photon.Voice.Unity.Editor
                     EditorGUILayout.PropertyField(this.skipDeviceChecksSp, new GUIContent("Skip Device Checks", "If true, restarts recording without checking if audio config/device changes affected recording."));
                     EditorGUI.indentLevel--;
                 }
+                #endif
                 this.recorder.RecordOnlyWhenEnabled = EditorGUILayout.Toggle(new GUIContent("Record Only When Enabled", "If true, component will work only when enabled and active in hierarchy."),
                     this.recorder.RecordOnlyWhenEnabled);
                 EditorGUILayout.PropertyField(this.stopRecordingWhenPausedSp,
@@ -306,9 +311,25 @@ namespace Photon.Voice.Unity.Editor
                         throw new ArgumentOutOfRangeException();
                 }
                 EditorGUILayout.LabelField("Voice Activity Detection (VAD)", EditorStyles.boldLabel);
+                if (webRtcAudioDspAttached)
+                {
+                    if (webRtcAudioDsp.VAD)
+                    {
+                        EditorGUILayout.HelpBox("WebRtcAudioDsp.VAD is already enabled no need to use the built-in Recorder VAD", MessageType.Info);
+                    }
+                    else
+                    {
+                        EditorGUILayout.HelpBox("It's recommended to use VAD from WebRtcAudioDsp instead of built-in Recorder VAD", MessageType.Info);
+                    }
+                }
                 this.recorder.VoiceDetection = EditorGUILayout.Toggle(new GUIContent("Detect", "If true, voice detection enabled."), this.recorder.VoiceDetection);
                 if (this.recorder.VoiceDetection)
                 {
+                    if (webRtcAudioDspAttached && !webRtcAudioDsp.VAD && GUILayout.Button("Use WebRtcAudioDsp.VAD instead"))
+                    {
+                        this.recorder.VoiceDetection = false;
+                        webRtcAudioDsp.VAD = true;
+                    }
                     this.recorder.VoiceDetectionThreshold =
                         EditorGUILayout.Slider(
                             new GUIContent("Threshold", "Voice detection threshold (0..1, where 1 is full amplitude)."),
@@ -335,6 +356,7 @@ namespace Photon.Voice.Unity.Editor
             }
             else
             {
+                #if !UNITY_ANDROID && !UNITY_IOS
                 EditorGUILayout.PropertyField(this.reactOnSystemChangesSp,
                     new GUIContent("React On System Changes",
                         "If true, recording is restarted when Unity detects Audio Config. changes."));
@@ -344,6 +366,7 @@ namespace Photon.Voice.Unity.Editor
                     EditorGUILayout.PropertyField(this.skipDeviceChecksSp, new GUIContent("Skip Device Checks", "If true, restarts recording without checking if audio config/device changes affected recording."));
                     EditorGUI.indentLevel--;
                 }
+                #endif
                 EditorGUILayout.PropertyField(this.recordOnlyWhenEnabledSp,
                     new GUIContent("Record Only When Enabled",
                         "If true, component will work only when enabled and active in hierarchy."));
@@ -501,10 +524,26 @@ namespace Photon.Voice.Unity.Editor
                         throw new ArgumentOutOfRangeException();
                 }
                 EditorGUILayout.LabelField("Voice Activity Detection (VAD)", EditorStyles.boldLabel);
+                if (webRtcAudioDspAttached)
+                {
+                    if (webRtcAudioDsp.VAD)
+                    {
+                        EditorGUILayout.HelpBox("WebRtcAudioDsp.VAD is already enabled no need to use the built-in Recorder VAD", MessageType.Info);
+                    }
+                    else
+                    {
+                        EditorGUILayout.HelpBox("It's recommended to use VAD from WebRtcAudioDsp instead of built-in Recorder VAD", MessageType.Info);
+                    }
+                }
                 EditorGUILayout.PropertyField(this.voiceDetectionSp,
                     new GUIContent("Detect", "If true, voice detection enabled."));
                 if (this.voiceDetectionSp.boolValue)
                 {
+                    if (webRtcAudioDspAttached && !webRtcAudioDsp.VAD && GUILayout.Button("Use WebRtcAudioDsp.VAD instead"))
+                    {
+                        this.recorder.VoiceDetection = false;
+                        webRtcAudioDsp.VAD = true;
+                    }
                     this.voiceDetectionThresholdSp.floatValue = EditorGUILayout.Slider(
                             new GUIContent("Threshold", "Voice detection threshold (0..1, where 1 is full amplitude)."),
                             this.voiceDetectionThresholdSp.floatValue, 0f, 1f);

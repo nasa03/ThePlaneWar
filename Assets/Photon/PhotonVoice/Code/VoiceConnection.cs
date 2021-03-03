@@ -24,6 +24,7 @@ namespace Photon.Voice.Unity
 {
     /// <summary> Component that represents a client voice connection to Photon Servers. </summary>
     [AddComponentMenu("Photon Voice/Voice Connection")]
+    [DisallowMultipleComponent]
     [HelpURL("https://doc.photonengine.com/en-us/voice/v2/getting-started/voice-intro")]
     public class VoiceConnection : ConnectionHandler, ILoggable
     {
@@ -86,8 +87,11 @@ namespace Photon.Voice.Unity
         [SerializeField]
         private DebugLevel globalSpeakersLogLevel = DebugLevel.INFO;
 
+        #pragma warning disable 649
         [SerializeField]
+        [HideInInspector]
         private int globalPlaybackDelay = 200;
+        #pragma warning restore 649
 
         [SerializeField]
         private PlaybackDelaySettings globalPlaybackDelaySettings = new PlaybackDelaySettings
@@ -181,10 +185,11 @@ namespace Photon.Voice.Unity
                 if (this.client == null)
                 {
                     #if USE_NEW_TRANSPORT
-                    this.client = new LoadBalancingTransport2();
+                    this.client = new LoadBalancingTransport2(this.Logger);
                     #else
-                    this.client = new LoadBalancingTransport();
+                    this.client = new LoadBalancingTransport(this.Logger);
                     #endif
+                    this.client.ClientType = ClientAppType.Voice;
                     this.client.VoiceClient.OnRemoteVoiceInfoAction += this.OnRemoteVoiceInfo;
                     this.client.StateChanged += this.OnVoiceStateChanged;
                     if (this.Settings != null && this.LogLevel < this.Settings.NetworkLogging)
@@ -415,11 +420,6 @@ namespace Photon.Voice.Unity
                 }
                 return false;
             }
-            DebugLevel originalDebugLevel = this.Settings.NetworkLogging;
-            if (this.LogLevel > this.Settings.NetworkLogging)
-            {
-                this.Settings.NetworkLogging = this.LogLevel; // this is a trick to set PhotonVoiceApi (Photon Voice Core, [PV]) log level which shares the PhotonPeer one
-            }
             if (this.Settings.IsMasterServerAddress && string.IsNullOrEmpty(this.Client.UserId))
             {
                 this.Client.UserId = Guid.NewGuid().ToString(); // this is a workaround to use when connecting to self-hosted Photon Server v4, which does not return a UserId to the client if generated randomly server side
@@ -428,14 +428,7 @@ namespace Photon.Voice.Unity
             {
                 this.Settings.BestRegionSummaryFromStorage = this.BestRegionSummaryInPreferences;
             }
-            string originalVoiceAppId = this.Settings.AppIdVoice;
-            string originalRealtimeAppId = this.Settings.AppIdRealtime;
-            this.Settings.AppIdRealtime = this.Settings.AppIdVoice;
-            bool result = this.client.ConnectUsingSettings(this.Settings);
-            this.Settings.AppIdVoice = originalVoiceAppId;
-            this.Settings.AppIdRealtime = originalRealtimeAppId;
-            this.Settings.NetworkLogging = originalDebugLevel;
-            return result;
+            return this.client.ConnectUsingSettings(this.Settings);
         }
 
         /// <summary>

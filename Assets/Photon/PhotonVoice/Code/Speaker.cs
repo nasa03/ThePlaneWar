@@ -42,8 +42,11 @@ namespace Photon.Voice.Unity
         private int outputSampleRate;
         #endif
 
+        #pragma warning disable 649
         [SerializeField]
+        [HideInInspector]
         private int playDelayMs = 200;
+        #pragma warning restore 649
 
         [SerializeField] 
         private PlaybackDelaySettings playbackDelaySettings = new PlaybackDelaySettings
@@ -97,7 +100,7 @@ namespace Photon.Voice.Unity
         /// <summary>Smoothed difference between (jittering) stream and (clock-driven) audioOutput.</summary>
         public int Lag
         {
-            get { return this.audioOutput != null ? this.audioOutput.Lag : -1; }
+            get { return this.IsPlaying ? this.audioOutput.Lag : -1; }
         }
 
         /// <summary>

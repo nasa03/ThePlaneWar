@@ -1,4 +1,3 @@
-using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,7 +8,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 {
     [ExecuteInEditMode]
     public class MobileControlRig : MonoBehaviour
-#if UNITY_EDITOR
+#if UNITY_EDITOR && UNITY_2017_1_OR_NEWER
         , UnityEditor.Build.IActiveBuildTargetChanged
 #endif
     {
@@ -57,12 +56,18 @@ namespace UnityStandardAssets.CrossPlatformInput
 
         private void OnEnable()
         {
+            #if !UNITY_2017_1_OR_NEWER
+            EditorUserBuildSettings.activeBuildTargetChanged += Update;
+            #endif
             EditorApplication.update += Update;
         }
 
 
         private void OnDisable()
         {
+            #if !UNITY_2017_1_OR_NEWER
+            EditorUserBuildSettings.activeBuildTargetChanged -= Update;
+            #endif
             EditorApplication.update -= Update;
         }
 
@@ -92,7 +97,7 @@ namespace UnityStandardAssets.CrossPlatformInput
             }
         }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && UNITY_2017_1_OR_NEWER
         public void OnActiveBuildTargetChanged(BuildTarget previousTarget, BuildTarget newTarget)
         {
             CheckEnableControlRig();

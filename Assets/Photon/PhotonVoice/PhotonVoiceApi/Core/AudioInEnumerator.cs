@@ -37,7 +37,7 @@ namespace Photon.Voice
 
         IntPtr handle;
         public AudioInEnumerator(ILogger logger)
-        {            
+        {
             Refresh();
             if (Error != null)
             {
@@ -79,7 +79,7 @@ namespace Photon.Voice
         /// <summary>Returns the microphone name by index in the microphones list.
         /// </summary>
         /// <param name="idx">Position in the list.</param>
-        /// <returns>Microphone ID.</returns>
+        /// <returns>Microphone name.</returns>
         public string NameAtIndex(int idx)
         {
             return Error == null ? Marshal.PtrToStringAuto(Photon_Audio_In_MicEnumerator_NameAtIndex(handle, idx)) : "";
@@ -88,10 +88,30 @@ namespace Photon.Voice
         /// <summary>Returns the microphone ID by index in the microphones list.
         /// </summary>
         /// <param name="idx">Position in the list.</param>
-        /// <returns>Microphone name.</returns>
+        /// <returns>Microphone ID.</returns>
         public int IDAtIndex(int idx)
         {
             return Error == null ? Photon_Audio_In_MicEnumerator_IDAtIndex(handle, idx) : -2;
+        }
+
+        /// <summary>Returns the microphone ID by device name.
+        /// </summary>
+        /// <param name="name">Microphone name.</param>
+        /// <returns>Microphone ID.</returns>
+        public int IDByName(string name)
+        {
+            if (Error == null)
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    if (NameAtIndex(i) == name)
+                    {
+                        return IDAtIndex(i);
+                    }
+                }
+            }
+
+            return -2;
         }
 
         /// <summary>Checks if microphone with given ID exists.
@@ -100,7 +120,33 @@ namespace Photon.Voice
         /// <returns>True if ID is valid.</returns>
         public bool IDIsValid(int id)
         {
-            return id >= -1;// TODO: cache devices IDs and check the value against the cache
+            if (Error == null)
+            {
+                if(id == -1) // default
+                {
+                    return true;
+                }
+                for (int i = 0; i < Count; i++)
+                {
+                    if (IDAtIndex(i) == id)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>Returns the list of available microphones, identified by name.</summary>
+        public IEnumerable<string> Names
+        {
+            get
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    yield return NameAtIndex(i);
+                }
+            }
         }
 
         /// <summary>Disposes enumerator.
@@ -139,9 +185,19 @@ namespace Photon.Voice
             return -1;
         }
 
+        public int IDByName(string name)
+        {
+            return -1;
+        }
+
         public bool IDIsValid(int id)
         {
             return id >= -1;
+        }
+
+        public IEnumerable<string> Names
+        {
+            get { return System.Linq.Enumerable.Empty<string>(); }
         }
 
         public void Dispose()

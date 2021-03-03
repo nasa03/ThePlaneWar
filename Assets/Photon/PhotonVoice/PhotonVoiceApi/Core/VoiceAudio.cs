@@ -138,7 +138,7 @@ namespace Photon.Voice
             if (audioSourceDesc.SamplingRate != voiceInfo.SamplingRate)
             {
                 this.resampleSource = true;
-                this.voiceClient.transport.LogWarning("[PV] Local voice #" + this.id + " audio source frequency " + audioSourceDesc.SamplingRate + " and encoder sampling rate " + voiceInfo.SamplingRate + " do not match. Resampling will occur before encoding.");
+                this.voiceClient.logger.LogWarning("[PV] Local voice #" + this.id + " audio source frequency " + audioSourceDesc.SamplingRate + " and encoder sampling rate " + voiceInfo.SamplingRate + " do not match. Resampling will occur before encoding.");
             }
         }
         protected void initBuiltinProcessors()

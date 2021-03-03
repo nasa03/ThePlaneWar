@@ -1,4 +1,4 @@
-#if UNITY_WEBGL || WEBSOCKET || (UNITY_XBOXONE && UNITY_EDITOR)
+#if UNITY_WEBGL || WEBSOCKET || ((UNITY_XBOXONE || UNITY_GAMECORE) && UNITY_EDITOR)
 
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SocketWebTcp.cs" company="Exit Games GmbH">

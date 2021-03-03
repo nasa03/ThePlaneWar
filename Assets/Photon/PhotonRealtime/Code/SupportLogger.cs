@@ -98,6 +98,11 @@ namespace Photon.Realtime
             }
         }
 
+        protected void OnDestroy()
+        {
+            this.Client = null; // will remove this SupportLogger as callback target 
+        }
+
         protected void OnApplicationPause(bool pause)
         {
             Debug.Log(this.GetFormattedTimestamp() + " SupportLogger OnApplicationPause: " + pause + " connected: " + (this.client == null ? "no (client is null)" : this.client.IsConnected.ToString()));

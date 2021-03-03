@@ -558,7 +558,7 @@ namespace Photon.Voice.Unity
         /// <summary>Returns true if audio stream broadcasts.</summary>
         public bool IsCurrentlyTransmitting
         {
-            get { return this.voice.IsCurrentlyTransmitting; }
+            get { return this.IsRecording && this.TransmitEnabled && this.voice.IsCurrentlyTransmitting; }
         }
 
         /// <summary>Level meter utility.</summary>
@@ -1598,12 +1598,12 @@ namespace Photon.Voice.Unity
 
         private void SubscribeToSystemChanges()
         {
-            #if UNITY_ANDROID || UNITY_IOS
+            #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
             if (this.SourceType == InputSourceType.Microphone && this.MicrophoneType == MicType.Photon)
             {
-                if (this.Logger.IsWarningEnabled)
+                if (this.Logger.IsInfoEnabled)
                 {
-                    this.Logger.LogWarning("ReactOnSystemChanges ignored when using Photon microphone type as this is handled internally for iOS and Android via native plugins.");
+                    this.Logger.LogInfo("ReactOnSystemChanges ignored when using Photon microphone type as this is handled internally for iOS and Android via native plugins.");
                 }
                 return;
             }

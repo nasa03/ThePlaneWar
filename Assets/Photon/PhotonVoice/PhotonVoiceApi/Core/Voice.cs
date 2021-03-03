@@ -89,7 +89,10 @@ namespace Photon.Voice
         private bool transmitEnabled = true;
 
         /// <summary>Returns true if stream broadcasts.</summary>
-        public bool IsCurrentlyTransmitting { get; protected set; }
+        public bool IsCurrentlyTransmitting 
+        { 
+            get { return Environment.TickCount - lastTransmitTime < NO_TRANSMIT_TIMEOUT_MS; } 
+        }
 
         /// <summary>Sent frames counter.</summary>
         public int FramesSent { get; private set; }
@@ -139,8 +142,6 @@ namespace Photon.Voice
         }
         bool debugEchoMode;
 
-        internal ILogger Logger { get { return voiceClient.transport; } }
-
         #region nonpublic
 
         protected VoiceInfo info;
@@ -166,7 +167,7 @@ namespace Photon.Voice
             if (encoder == null)
             {
                 var m = LogPrefix + ": encoder is null";
-                voiceClient.transport.LogError(m);
+                voiceClient.logger.LogError(m);
                 throw new ArgumentNullException("encoder");
             }
             this.encoder = encoder;
@@ -176,11 +177,9 @@ namespace Photon.Voice
         internal string Name { get { return "Local " + info.Codec + " v#" + id + " ch#" + voiceClient.channelStr(channelId); } }
         internal string LogPrefix { get { return "[PV] " + Name; } }
 
-        private int noTransmitCnt;
-        protected void resetNoTransmitCnt()
-        {
-            noTransmitCnt = 10; // timeout * service() calls frequency
-        }
+        private const int NO_TRANSMIT_TIMEOUT_MS = 100; // should be greater than SendFrame() call interval
+        private int lastTransmitTime = Environment.TickCount - NO_TRANSMIT_TIMEOUT_MS;
+        
         internal virtual void service()
         {
             if (this.voiceClient.transport.IsChannelJoined(this.channelId) && this.TransmitEnabled)
@@ -199,16 +198,7 @@ namespace Photon.Voice
                     }
                 }
             }
-            if (noTransmitCnt == 0)
-            {
-                this.IsCurrentlyTransmitting = false;
-            }
-            else
-            {
-                this.IsCurrentlyTransmitting = true;
-                noTransmitCnt--;
-            }
-
+            
             if (LocalUserServiceable != null)
             {
                 LocalUserServiceable.Service(this);
@@ -219,7 +209,7 @@ namespace Photon.Voice
         {
             if (configFrame.Count != 0)
             {
-                this.voiceClient.transport.LogInfo(LogPrefix + " Sending config frame to pl " + targetPlayerId);
+                this.voiceClient.logger.LogInfo(LogPrefix + " Sending config frame to pl " + targetPlayerId);
                 sendFrame0(configFrame, FrameFlags.Config, targetPlayerId, true);
             }
         }
@@ -232,7 +222,7 @@ namespace Photon.Voice
                 Buffer.BlockCopy(compressed.Array, compressed.Offset, a, 0, compressed.Count);
                 configFrame = new ArraySegment<byte>(a, 0, compressed.Count);
 
-                this.voiceClient.transport.LogInfo(LogPrefix + " Got config frame " + configFrame.Count + " bytes");
+                this.voiceClient.logger.LogInfo(LogPrefix + " Got config frame " + configFrame.Count + " bytes");
             }
             sendFrame0(compressed, flags, 0, Reliable);
         }
@@ -263,9 +253,12 @@ namespace Photon.Voice
             {
                 this.eventTimestamps[evNumber] = Environment.TickCount;
             }
-            evNumber++;
+            evNumber++;            
 
-            resetNoTransmitCnt();
+            if (compressed.Count > 0 && (flags & FrameFlags.Config) == 0) // otherwise the frame is config or control (EOS)
+            {
+                lastTransmitTime = Environment.TickCount;
+            }
         }
 
         internal Dictionary<byte, int> eventTimestamps = new Dictionary<byte, int>();
@@ -335,6 +328,7 @@ namespace Photon.Voice
         internal VoiceInfo Info { get; private set; }
         internal RemoteVoiceOptions options;
         internal int channelId;
+        internal int DelayFrames { get; set; }
         private int playerId;
         private byte voiceId;
         volatile private bool disposed;
@@ -401,7 +395,7 @@ namespace Photon.Voice
                 }
                 else if (missing < 127)
                 {
-                    this.voiceClient.transport.LogWarning(LogPrefix + " evNumer: " + evNumber + " playerVoice.lastEvNumber: " + this.lastEvNumber + " missing: " + missing + " r/b " + receivedBytes.Length);
+                    this.voiceClient.logger.LogWarning(LogPrefix + " evNumer: " + evNumber + " playerVoice.lastEvNumber: " + this.lastEvNumber + " missing: " + missing + " r/b " + receivedBytes.Length);
                     this.voiceClient.FramesLost += missing;
                     this.lastEvNumber = evNumber;
                     // restoring missing frames
@@ -409,7 +403,7 @@ namespace Photon.Voice
                 } else {
                     // late (out of order) frames, just ignore them
                     // these frames already counted in FramesLost
-                    this.voiceClient.transport.LogWarning(LogPrefix + " evNumer: " + evNumber + " playerVoice.lastEvNumber: " + this.lastEvNumber + " late: " + (255 - missing) + " r/b " + receivedBytes.Length);
+                    this.voiceClient.logger.LogWarning(LogPrefix + " evNumer: " + evNumber + " playerVoice.lastEvNumber: " + this.lastEvNumber + " late: " + (255 - missing) + " r/b " + receivedBytes.Length);
                 }
             }
             this.receiveFrame(receivedBytes, flags);
@@ -418,6 +412,7 @@ namespace Photon.Voice
         Queue<byte[]> frameQueue = new Queue<byte[]>();
         Queue<FrameFlags> frameFlagsQueue = new Queue<FrameFlags>();
         AutoResetEvent frameQueueReady = new AutoResetEvent(false);
+        private byte[] flushingFrame = null; // if not null, we are flushing since this frame received: process the queue w/o delays until this frame encountered
 
         void receiveFrame(byte[] frame, FrameFlags flags)
         {
@@ -430,6 +425,11 @@ namespace Photon.Voice
                     receiveSpacingProfile.Update(false, (flags & FrameFlags.EndOfStream) != 0);
                     frameQueue.Enqueue(frame);
                     frameFlagsQueue.Enqueue(flags);
+                    if ((flags & FrameFlags.EndOfStream) != 0)
+                    {
+                        flushingFrame = frame;
+                    }
+
                 }
                 frameQueueReady.Set();
             }
@@ -461,44 +461,44 @@ namespace Photon.Voice
                 case RemoteVoiceOptions.OutputType.Float:
                     if (Info.Codec == Codec.AudioOpus)
                     {
-                        voiceClient.transport.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
-                        return new OpusCodec.Decoder<float>(options.output as Action<FrameOut<float>>, voiceClient.transport);
+                        voiceClient.logger.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
+                        return new OpusCodec.Decoder<float>(options.output as Action<FrameOut<float>>, voiceClient.logger);
                     }
                     else if (Info.Codec == Codec.Raw)
 					{
-						voiceClient.transport.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
+						voiceClient.logger.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
 						return new RawCodec.Decoder<float>(options.output as Action<FrameOut<float>>);
 					}
 					else
 					{
-                        voiceClient.transport.LogError(LogPrefix + ": Action<float[]> output set for not audio decoder (output type = " + options.outType + ")");
+                        voiceClient.logger.LogError(LogPrefix + ": Action<float[]> output set for not audio decoder (output type = " + options.outType + ")");
                         return null;
                     }
                 case RemoteVoiceOptions.OutputType.Short:
                     if (Info.Codec == Codec.AudioOpus)
                     {
-                        voiceClient.transport.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
-                        return new OpusCodec.Decoder<short>(options.output as Action<FrameOut<short>>, voiceClient.transport);
+                        voiceClient.logger.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
+                        return new OpusCodec.Decoder<short>(options.output as Action<FrameOut<short>>, voiceClient.logger);
                     }
 					else if (Info.Codec == Codec.Raw)
 					{
-						voiceClient.transport.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
+						voiceClient.logger.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
 						return new RawCodec.Decoder<short>(options.output as Action<FrameOut<short>>);
 					}
 					else
 					{
-                        voiceClient.transport.LogError(LogPrefix + ": Action<short[]> output set for not audio decoder (output type = " + options.outType + ")");
+                        voiceClient.logger.LogError(LogPrefix + ": Action<short[]> output set for not audio decoder (output type = " + options.outType + ")");
                         return null;
                     }
 #if PHOTON_VOICE_VIDEO_ENABLE
                 case RemoteVoiceOptions.OutputType.Image:
-                    voiceClient.transport.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
+                    voiceClient.logger.LogInfo(LogPrefix + ": Creating default decoder for output type = " + options.outType);
                     IDecoderQueuedOutputImageNative vd = null;
                     switch (Info.Codec)
                     {
                         case Codec.VideoVP8:
                         case Codec.VideoVP9:
-                            vd = new VPxCodec.Decoder(voiceClient.transport);
+                            vd = new VPxCodec.Decoder(voiceClient.logger);
                             vd.Output = options.output as Action<ImageOutputBuf>;
                             break;
                         case Codec.VideoH264:
@@ -506,7 +506,7 @@ namespace Photon.Voice
                             //vd.Output = options.output as Action<ImageOutputBuf>;
                             break;
                         default:
-                            voiceClient.transport.LogError(LogPrefix + ": Action<ImageOutputBuf> output set for not video decoder (output type = " + options.outType + ")");
+                            voiceClient.logger.LogError(LogPrefix + ": Action<ImageOutputBuf> output set for not video decoder (output type = " + options.outType + ")");
                             return null;
                     }
                     if (vd != null && options.OutputImageFormat != ImageFormat.Undefined)
@@ -517,7 +517,7 @@ namespace Photon.Voice
 #endif
                 case RemoteVoiceOptions.OutputType.None:
                 default:
-                    voiceClient.transport.LogError(LogPrefix + ": Output must be set in RemoteVoiceOptions with SetOutput call (output type = " + options.outType + ")");
+                    voiceClient.logger.LogError(LogPrefix + ": Output must be set in RemoteVoiceOptions with SetOutput call (output type = " + options.outType + ")");
                     return null;
             }
         }
@@ -543,7 +543,7 @@ namespace Photon.Voice
                 else
                 {
                     decoder = null;
-                    voiceClient.transport.LogError(LogPrefix + ": Setting decoder output with RemoteVoiceOptions SetOutput is not supported for custom decoders (set via RemoteVoiceOptions Decoder property). Assign output directly to decoder (output type = " + options.outType + ")");
+                    voiceClient.logger.LogError(LogPrefix + ": Setting decoder output with RemoteVoiceOptions SetOutput is not supported for custom decoders (set via RemoteVoiceOptions Decoder property). Assign output directly to decoder (output type = " + options.outType + ")");
                 }
             }
 
@@ -556,7 +556,7 @@ namespace Photon.Voice
                 return;
             }
 
-            voiceClient.transport.LogInfo(LogPrefix + ": Starting decode thread");
+            voiceClient.logger.LogInfo(LogPrefix + ": Starting decode thread");
 
             try
             {
@@ -582,11 +582,22 @@ namespace Photon.Voice
                         bool ok = false;
                         lock (frameQueue)
                         {
-                            if (frameQueue.Count > 0)
+                            var df = 0;
+                            // if flushing, process all frames in the queue
+                            // otherwise keep the queue length equal DelayFrames, also check DelayFrames for validity                            
+                            if (flushingFrame == null && DelayFrames > 0 && DelayFrames < 300) // 10 sec. of video or max 3 sec. audio
+                            {
+                                df = DelayFrames;
+                            }
+                            if (frameQueue.Count > df)
                             {
                                 ok = true;
                                 f = frameQueue.Dequeue();
                                 flags = frameFlagsQueue.Dequeue();
+                                if (f == flushingFrame)
+                                {
+                                    flushingFrame = null;
+                                }
                             }
                         }
                         if (ok)
@@ -607,7 +618,7 @@ namespace Photon.Voice
             }
             catch (Exception e)
             {
-                voiceClient.transport.LogError(LogPrefix + ": Exception in decode thread: " + e);
+                voiceClient.logger.LogError(LogPrefix + ": Exception in decode thread: " + e);
                 throw e;
             }
             finally
@@ -631,7 +642,7 @@ namespace Photon.Voice
 #if UNITY_ANDROID
                 UnityEngine.AndroidJNI.DetachCurrentThread();
 #endif
-                voiceClient.transport.LogInfo(LogPrefix + ": Exiting decode thread");
+                voiceClient.logger.LogInfo(LogPrefix + ": Exiting decode thread");
 
 //#if UNITY_5_3_OR_NEWER
 //                UnityEngine.Profiling.Profiler.EndThreadProfiling();

@@ -12,96 +12,146 @@ AssetImportWorker0
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-63543
+56702
 Successfully changed project path to: /Volumes/项目/ThePlaneWar
 /Volumes/项目/ThePlaneWar
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 89.97 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 83.88 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.2.5f1c1 (5e98a53e36cd)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path /Volumes/项目/ThePlaneWar/Assets
 GfxDevice: creating device client; threaded=0
-2021-03-03 20:26:26.929 Unity[4931:116430] Display preferred device: Intel(R) UHD Graphics 630 (low power)
-2021-03-03 20:26:26.929 Unity[4931:116430] Metal devices available: 1
-2021-03-03 20:26:26.929 Unity[4931:116430] 0: Intel(R) UHD Graphics 630 (low power)
-2021-03-03 20:26:26.930 Unity[4931:116430] Using device Intel(R) UHD Graphics 630 (low power)
+2021-03-03 21:21:13.625 Unity[11554:219747] Display preferred device: Intel(R) UHD Graphics 630 (low power)
+2021-03-03 21:21:13.625 Unity[11554:219747] Metal devices available: 1
+2021-03-03 21:21:13.625 Unity[11554:219747] 0: Intel(R) UHD Graphics 630 (low power)
+2021-03-03 21:21:13.627 Unity[11554:219747] Using device Intel(R) UHD Graphics 630 (low power)
 Initializing Metal device caps: Intel(R) UHD Graphics 630
 Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = '/Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56931
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56554
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
-Registered in 0.000540 seconds.
+Registered in 0.014971 seconds.
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 102.17 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 73.20 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  4.118 seconds
+- Completed reload, in  3.402 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.025412 seconds.
+Registered in 0.137576 seconds.
 Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.22 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.09 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.853 seconds
+- Completed reload, in  1.372 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
 Launching external process: /Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/Tools/UnityShaderCompiler
 Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
-Refreshing native plugins compatible for Editor in 1.07 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.51 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2701 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 227.7 MB.
-System memory in use after: 227.5 MB.
+Unloading 2704 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 228.1 MB.
+System memory in use after: 227.9 MB.
 
-Unloading 93 unused Assets to reduce memory usage. Loaded Objects now: 3162.
-Total: 2.517693 ms (FindLiveObjects: 0.299502 ms CreateObjectMapping: 0.137462 ms MarkObjects: 1.633798 ms  DeleteObjects: 0.445791 ms)
+Unloading 92 unused Assets to reduce memory usage. Loaded Objects now: 3166.
+Total: 5.173324 ms (FindLiveObjects: 0.594005 ms CreateObjectMapping: 0.314701 ms MarkObjects: 3.453564 ms  DeleteObjects: 0.809143 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/Script/GameScene/Interface/IShootActor.cs
-  artifactKey: Guid(35cf9c5d71c314c39b9ed07cfa2a0fbc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/Interface/IShootActor.cs using Guid(35cf9c5d71c314c39b9ed07cfa2a0fbc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '868849966343f07d8934fa5db159560a') in 0.451418 seconds
-  Import took 0.457853 seconds .
+  path: Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset
+  artifactKey: Guid(c6f6f4a8457524691b3a6e7a22c8ba9b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset using Guid(c6f6f4a8457524691b3a6e7a22c8ba9b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8fb995562eab7364d9d0f0bff09b8009') in 0.924013 seconds
+  Import took 0.930537 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.006175 seconds.
+Registered in 0.005852 seconds.
 Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.20 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.39 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.305 seconds
+- Completed reload, in  1.396 seconds
 Platform modules already initialized, skipping
 Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
-Refreshing native plugins compatible for Editor in 1.05 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.32 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2614 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 215.2 MB.
-System memory in use after: 214.9 MB.
+Unloading 2617 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 215.4 MB.
+System memory in use after: 215.2 MB.
 
-Unloading 84 unused Assets to reduce memory usage. Loaded Objects now: 3165.
-Total: 5.303772 ms (FindLiveObjects: 0.564482 ms CreateObjectMapping: 0.290125 ms MarkObjects: 3.719134 ms  DeleteObjects: 0.728186 ms)
+Unloading 83 unused Assets to reduce memory usage. Loaded Objects now: 3169.
+Total: 4.510014 ms (FindLiveObjects: 0.995431 ms CreateObjectMapping: 0.610159 ms MarkObjects: 2.389990 ms  DeleteObjects: 0.512283 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.004854 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.36 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.243 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.30 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2617 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 215.7 MB.
+System memory in use after: 215.5 MB.
+
+Unloading 83 unused Assets to reduce memory usage. Loaded Objects now: 3172.
+Total: 4.311789 ms (FindLiveObjects: 0.596372 ms CreateObjectMapping: 0.311296 ms MarkObjects: 2.631375 ms  DeleteObjects: 0.770584 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006009 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.88 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.783 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.74 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2617 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 216.0 MB.
+System memory in use after: 215.7 MB.
+
+Unloading 83 unused Assets to reduce memory usage. Loaded Objects now: 3175.
+Total: 4.513858 ms (FindLiveObjects: 0.527139 ms CreateObjectMapping: 0.279032 ms MarkObjects: 3.004554 ms  DeleteObjects: 0.700117 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000

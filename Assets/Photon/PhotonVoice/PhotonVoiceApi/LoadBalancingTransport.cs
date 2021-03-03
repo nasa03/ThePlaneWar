@@ -3,7 +3,7 @@
 //   Photon Voice API Framework for Photon - Copyright (C) 2015 Exit Games GmbH
 // </copyright>
 // <summary>
-//   Extends Photon Realtime API with audio streaming functionality.
+//   Extends Photon Realtime API with media streaming functionality.
 // </summary>
 // <author>developer@photonengine.com</author>
 // ----------------------------------------------------------------------------
@@ -28,19 +28,14 @@ namespace Photon.Voice
     }
 
     /// <summary>
-    /// Extends LoadBalancingClient with audio streaming functionality.
+    /// Extends LoadBalancingClient with media streaming functionality.
     /// </summary>
     /// <remarks>
     /// Use your normal LoadBalancing workflow to join a Voice room. 
     /// All standard LoadBalancing features are available.
-    ///
-    /// To work with audio:
-    /// - Create outgoing audio streams with Client.CreateLocalVoice.
-    /// - Handle new incoming audio streams info with <see cref="OnRemoteVoiceInfoAction"/> .
-    /// - Handle incoming audio streams data with <see cref="OnAudioFrameAction"/> .
-    /// - Handle closing of incoming audio streams with <see cref="OnRemoteVoiceRemoved">.
+    /// Use <see cref="VoiceClient"/> to work with media streams.
     /// </remarks>
-    public class LoadBalancingTransport : LoadBalancingClient, IVoiceTransport, IDisposable
+    public class LoadBalancingTransport : LoadBalancingClient, IVoiceTransport, ILogger, IDisposable
     {
         internal const int VOICE_CHANNEL = 0;
 
@@ -66,18 +61,23 @@ namespace Photon.Voice
         /// <summary>
         /// Initializes a new <see cref="LoadBalancingTransport"/>.
         /// </summary>
+        /// <param name="logger">ILogger instance. If null, this instance LoadBalancingClient.DebugReturn implementation is used.<see cref="ConnectionProtocol"></see></param>
         /// <param name="connectionProtocol">Connection protocol (UDP or TCP). <see cref="ConnectionProtocol"></see></param>
-        public LoadBalancingTransport(ConnectionProtocol connectionProtocol = ConnectionProtocol.Udp) : base(connectionProtocol)
+        public LoadBalancingTransport(ILogger logger = null, ConnectionProtocol connectionProtocol = ConnectionProtocol.Udp) : base(connectionProtocol)
         {
+            if (logger == null)
+            {
+                logger = this;
+            }
             base.EventReceived += onEventActionVoiceClient;
             base.StateChanged += onStateChangeVoiceClient;
-            this.voiceClient = new VoiceClient(this);
+            this.voiceClient = new VoiceClient(this, logger);
             var voiceChannelsCount = Enum.GetValues(typeof(Codec)).Length + 1; // channel per stream type, channel 0 is for user events
             if (LoadBalancingPeer.ChannelCount < voiceChannelsCount)
             {
                 this.LoadBalancingPeer.ChannelCount = (byte)voiceChannelsCount;
             }
-            this.protocol = new PhotonTransportProtocol(voiceClient, this);
+            this.protocol = new PhotonTransportProtocol(voiceClient, logger);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Photon.Voice
             set { GlobalInterestGroup = value; }
         }
         /// <summary>
-        /// Set global audio group for this client. This call sets InterestGroup for existing local voices and for created later to given value.
+        /// Set global interest group for this client. This call sets InterestGroup for existing local voices and for created later to given value.
         /// Client set as listening to this group only until LoadBalancingPeer.OpChangeGroups() called. This method can be called any time.
         /// </summary>
         /// <see cref="LocalVoice.InterestGroup"/>

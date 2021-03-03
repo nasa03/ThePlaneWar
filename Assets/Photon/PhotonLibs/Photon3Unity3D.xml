@@ -185,33 +185,6 @@
         <member name="M:ExitGames.Client.Photon.Encryption.IPhotonEncryptor.Init(System.Byte[],System.Byte[],System.Byte[],System.Boolean)">
             <summary>Initialize the encryptor.</summary>
         </member>
-        <member name="M:ExitGames.Client.Photon.Encryption.IPhotonEncryptor.Encrypt(System.Byte[],System.Int32,System.Byte[],System.Int32@,System.Boolean)">
-            <summary>Encrypt data.</summary>
-        </member>
-        <member name="M:ExitGames.Client.Photon.Encryption.IPhotonEncryptor.Decrypt(System.Byte[],System.Int32,System.Int32,System.Int32@,System.Boolean)">
-            <summary>Decrypt data.</summary>
-        </member>
-        <member name="M:ExitGames.Client.Photon.Encryption.IPhotonEncryptor.CreateHMAC(System.Byte[],System.Int32,System.Int32)">
-            <summary>Calculates the HMAC for given data.</summary>
-        </member>
-        <member name="M:ExitGames.Client.Photon.Encryption.IPhotonEncryptor.CheckHMAC(System.Byte[],System.Int32)">
-            <summary>Checks if the HMAC of the provided data is correct.</summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.Encryption.EncryptorNet.BLOCK_SIZE">
-            <summary>
-            Defines block size for encryption/decryption algorithm
-            </summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.Encryption.EncryptorNet.IV_SIZE">
-            <summary>
-            Defines reusedIvBytes size for encryption/decryption algorithm
-            </summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.Encryption.EncryptorNet.HMAC_SIZE">
-            <summary>
-            Defines HMAC size for packet authentication algorithm
-            </summary>
-        </member>
         <member name="F:ExitGames.Client.Photon.Encryption.EncryptorNet.encryptorIn">
             <summary>
             Encryption/decryption algorithm implementation
@@ -227,21 +200,6 @@
             Implementation of encryption for "Datagram Encryption".
             </summary>
         </member>
-        <member name="F:ExitGames.Client.Photon.Encryption.EncryptorNative.BLOCK_SIZE">
-            <summary>
-            Defines block size for encryption/decryption algorithm
-            </summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.Encryption.EncryptorNative.IV_SIZE">
-            <summary>
-            Defines IV size for encryption/decryption algorithm
-            </summary>
-        </member>
-        <member name="F:ExitGames.Client.Photon.Encryption.EncryptorNative.HMAC_SIZE">
-            <summary>
-            Defines HMAC size for packet authentication algorithm
-            </summary>
-        </member>
         <member name="M:ExitGames.Client.Photon.Encryption.EncryptorNative.Init(System.Byte[],System.Byte[],System.Byte[],System.Boolean)">
             <summary>
             Initialize
@@ -249,42 +207,6 @@
             <param name="encryptionSecret"></param>
             <param name="hmacSecret"></param>
             <param name="ivBytes"></param>
-        </member>
-        <member name="M:ExitGames.Client.Photon.Encryption.EncryptorNative.Encrypt(System.Byte[],System.Int32,System.Byte[],System.Int32@,System.Boolean)">
-            <summary>
-            Encrypts data. puts them into output buffer and prepends with IV
-            </summary>
-            <param name="data"></param>
-            <param name="len"></param>
-            <param name="output"></param>
-            <param name="offset"></param>
-            <param name="ivPrefix"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ExitGames.Client.Photon.Encryption.EncryptorNative.CreateHMAC(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            Finishes current HMAC
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ExitGames.Client.Photon.Encryption.EncryptorNative.Decrypt(System.Byte[],System.Int32,System.Int32,System.Int32@,System.Boolean)">
-            <summary>
-            Decrypts buffer containing HMAC
-            </summary>
-            <param name="data">encrypted data prepened by IV</param>
-            <param name="offset">offset in the buffer</param>
-            <param name="len">len of data to decrypt</param>
-            /// <param name="outLen">len of decrypted data</param>
-            <param name="ivPrefix"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ExitGames.Client.Photon.Encryption.EncryptorNative.CheckHMAC(System.Byte[],System.Int32)">
-            <summary>
-            Checkes wheter data have corect HMAC or not
-            </summary>
-            <param name="data">buffer with data and HMAC</param>
-            <param name="len">len of data including HMAC</param>
-            <returns>true if check pass, false otherwise</returns>
         </member>
         <member name="F:ExitGames.Client.Photon.EnetChannel.outgoingReliableUnsequencedNumber">
             <summary>Number for reliable unsequenced commands (separate from "standard" reliable sequenced). Used to avoid duplicates.</summary>
@@ -763,7 +685,7 @@
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapper`1.Box">
             <summary>
-            Boxes the value and returns boxed object. Releaeses the wrapper.
+            Boxes the value and returns boxed object. Releases the wrapper.
             </summary>
             <returns></returns>
         </member>
@@ -772,6 +694,14 @@
             Removes this WrapperStruct from pooling.
             </summary>
         </member>
+        <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapper`1.ToString">
+            <summary>Returns a String which represents the value of this instance.</summary>
+            <returns>String which represents the value of this instance.</returns>
+        </member>
+        <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapper`1.ToString(System.Boolean)">
+            <summary>Returns a String which represents the type (in brackets and value of this instance.</summary>
+            <returns>String which represents the type (in brackets) and value of this instance.</returns>
+        </member>
         <member name="F:ExitGames.Client.Photon.StructWrapping.StructWrapper`1.staticPool">
             <summary>
             staticPool is used for implicit casting. This is not threadsafe, so casting between T and StructWrapper should only be done on the Unity main thread.
@@ -779,7 +709,7 @@
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.GetWrappedType(System.Object)">
             <summary>
-            Replacement for object.GetType() that first checks to see if object is a WrappedStruct. 
+            Replacement for object.GetType() that first checks to see if object is a WrappedStruct.
             If so returns the StructWrapper T type, otherwise just returns object.GetType().
             </summary>
             <param name="obj"></param>
@@ -814,53 +744,53 @@
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.Unwrap``1(System.Object)">
             <summary>
-            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T. 
+            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T.
             Wrapper is returned to the wrapper pool if applicable, so it is not considered safe to Unwrap multiple times, as the wrapper may be recycled.
             </summary>
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.Get``1(System.Object)">
             <summary>
-            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T. 
+            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T.
             Wrapper is will not be returned to its pool until it is Unwrapped, or the pool is cleared.
             </summary>
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.Unwrap``1(ExitGames.Client.Photon.Hashtable,System.Object)">
             <summary>
-            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T. 
+            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T.
             Wrapper is returned to the wrapper pool if applicable, so it is not considered safe to Unwrap multiple times, as the wrapper may be recycled.
             </summary>
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.TryUnwrapValue``1(ExitGames.Client.Photon.Hashtable,System.Byte,``0@)">
             <summary>
-            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T. 
+            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T.
             Wrapper is returned to the wrapper pool if applicable, so it is not considered safe to Unwrap multiple times, as the wrapper may be recycled.
             </summary>
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.TryGetValue``1(ExitGames.Client.Photon.Hashtable,System.Byte,``0@)">
             <summary>
-            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T. 
+            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T.
             </summary>
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.TryGetValue``1(ExitGames.Client.Photon.Hashtable,System.Object,``0@)">
             <summary>
-            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T. 
+            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T.
             </summary>
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.TryUnwrapValue``1(ExitGames.Client.Photon.Hashtable,System.Object,``0@)">
             <summary>
-            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T. 
+            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T.
             Wrapper is returned to the wrapper pool if applicable, so it is not considered safe to Unwrap multiple times, as the wrapper may be recycled.
             </summary>
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.Unwrap``1(ExitGames.Client.Photon.Hashtable,System.Byte)">
             <summary>
-            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T. 
+            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T.
             Wrapper is returned to the wrapper pool if applicable, so it is not considered safe to Unwrap multiple times, as the wrapper may be recycled.
             </summary>
         </member>
         <member name="M:ExitGames.Client.Photon.StructWrapping.StructWrapperUtility.Get``1(ExitGames.Client.Photon.Hashtable,System.Byte)">
             <summary>
-            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T. 
+            If object is a StructWrapper, the value will be extracted. If not, the object will be cast to T.
             Wrapper is will not be returned to its pool until it is Unwrapped, or the pool is cleared.
             </summary>
         </member>
@@ -869,6 +799,13 @@
             Will get the object using the key. If the key is invalid, will return null.
             </summary>
             <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ExitGames.Client.Photon.ParameterDictionary.ToStringFull(System.Boolean)">
+            <summary>
+            Returns 
+            </summary>
+            <param name="includeTypes"></param>
             <returns></returns>
         </member>
         <member name="F:ExitGames.Client.Photon.PhotonCodes.ClientKey">
@@ -955,8 +892,11 @@
             Count of all bytes coming in (including headers)
             </summary>
         </member>
-        <member name="F:ExitGames.Client.Photon.PeerBase.CustomInitData">
+        <member name="F:ExitGames.Client.Photon.PeerBase.PhotonToken">
             <summary>Set via Connect(..., customObject) and sent in Init-Request.</summary>
+        </member>
+        <member name="F:ExitGames.Client.Photon.PeerBase.CustomInitData">
+            <summary>Sent on connect in an Init Request.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.PeerBase.AppId">
             <summary>Temporary cache of AppId. Used in Connect() to keep the AppId until we send the Init-Request (after the network-level (and Enet) connect).</summary>
@@ -973,6 +913,13 @@
             You must check the socket's IsConnected state. Otherwise, this value is not initialized.
             Sent to server in Init-Request.
             </remarks>
+        </member>
+        <member name="M:ExitGames.Client.Photon.PeerBase.WriteInitRequest">
+            <summary>
+            Writes and "Init Request", which initializes the connection / application used server-side.
+            </summary>
+            <remarks>Uses this.ServerAddress, this.AppId, this.PhotonToken and CustomInitData and some more values.</remarks>
+            <returns>Bytes of the init request.</returns>
         </member>
         <member name="M:ExitGames.Client.Photon.PeerBase.InitCallback">
             <summary>Called when the server's Init Response arrived.</summary>
@@ -1167,6 +1114,9 @@
         <member name="F:ExitGames.Client.Photon.PhotonPeer.NoNativeCallbacks">
             <summary>Global toggle to avoid callbacks from native plugins. Defaults to false, meaning: "callbacks enabled".</summary>
             <remarks>Callbacks from native code will fail on some platforms, which is why you can disable them.</remarks>
+        </member>
+        <member name="F:ExitGames.Client.Photon.PhotonPeer.RemoveAppIdFromWebSocketPath">
+            <summary>Can be used to remove/hide the AppId from websocket connect paths.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.PhotonPeer.ClientSdkId">
             <summary>A simplified identifier for client SDKs. Photon's APIs might modify this (as a dll can be used in more than one product). Helps debugging.</summary>
@@ -1496,27 +1446,31 @@
              </remarks>
         </member>
         <member name="F:ExitGames.Client.Photon.PhotonPeer.TimePingInterval">
-            <summary>
-            Sets the milliseconds without reliable command before a ping command (reliable) will be sent (Default: 1000ms).
-            </summary>
-            <remarks>
-            The ping command is used to keep track of the connection in case the client does not send reliable commands
-            by itself.
-            A ping (or reliable commands) will update the RoundTripTime calculation.
-            </remarks>
-        </member>
-        <member name="F:ExitGames.Client.Photon.PhotonPeer.DisconnectTimeout">
              <summary>
-             Milliseconds before an individual command must be ACKed by server - after this a timeout-disconnect is triggered.
+             Sets the time between pings being sent automatically. They measure the roundtrip time and keep connections from closing. Default: 1000.
+             </summary>
+             <remarks>
+             For Photon's reliable UDP connections, pings are skipped if any reliable command was sent during the specified TimePingInterval.
+             Any reliable command is used to update the RoundTripTime and RoundTripTimeVariance.
+            
+             When using TCP and WebSockets, the ping is of interest to measure the roundtrip and to keep a connection open, should nothing else
+             With those two protocols, the ping is used to update the RoundTripTime and RoundTripTimeVariance.
+             </remarks>
+        </member>
+        <member name="P:ExitGames.Client.Photon.PhotonPeer.DisconnectTimeout">
+             <summary>
+             Time in milliseconds before any sent reliable command triggers a timeout disconnect, unless acknowledged by the receiver. Default: 10000.
              </summary>
              <remarks>
              DisconnectTimeout is not an exact value for a timeout. The exact timing of the timeout depends on the frequency
-             of Service() calls and commands that are sent with long roundtrip-times and variance are checked less often for
-             re-sending!
+             of Service() calls and the roundtrip time. Commands sent with long roundtrip-times and variance are checked less
+             often for re-sending.
             
              DisconnectTimeout and SentCountAllowance are competing settings: either might trigger a disconnect on the
              client first, depending on the values and Roundtrip Time.
-             Default: 10000 ms.
+            
+             Default: 10000 ms. Maximum setting: 65535.
+             Setting a negative value will apply the default timeout.
              </remarks>
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.ServerTimeInMilliSeconds">
@@ -1764,7 +1718,7 @@
             <param name="listener">a IPhotonPeerListener implementation</param>
             <param name="protocolType">Protocol to use to connect to Photon.</param>
         </member>
-        <member name="M:ExitGames.Client.Photon.PhotonPeer.Connect(System.String,System.String,System.Object)">
+        <member name="M:ExitGames.Client.Photon.PhotonPeer.Connect(System.String,System.String,System.Object,System.Object)">
             <summary>
             Starts connecting to the given Photon server. Non-blocking.
             </summary>
@@ -1778,16 +1732,17 @@
             <param name="appId">
             The ID of the app to use. Typically this is a guid (for the Photon Cloud). Max 32 characters.
             </param>
-            <param name="custom">
+            <param name="photonToken">
             Optional custom data to be used by server during peer creation.
             If used for authentication, the server is able to reject a client without creating a peer.
             Must be a serializable data type of Photon.
             </param>
+            <param name="customInitData">Custom data to send to the server in the Init request. Might be used to identify a client / user.</param>
             <returns>
             True if a connection attempt will be made. False if some error could be detected early-on.
             </returns>
         </member>
-        <member name="M:ExitGames.Client.Photon.PhotonPeer.Connect(System.String,System.String,System.String,System.Object)">
+        <member name="M:ExitGames.Client.Photon.PhotonPeer.Connect(System.String,System.String,System.String,System.Object,System.Object)">
             <summary>
             Starts connecting to the given Photon server. Non-blocking.
             </summary>
@@ -1804,11 +1759,12 @@
             <param name="appId">
             The ID of the app to use. Typically this is a guid (for the Photon Cloud). Max 32 characters.
             </param>
-            <param name="custom">
-            Optional custom data to be used by server during peer creation.
+            <param name="photonToken">
+            Optional Photon token data to be used by server during peer creation.
             If used for authentication, the server is able to reject a client without creating a peer.
-            Must be a serializable data type of Photon.
+            Must be of type string or byte[] (as provided by server).
             </param>
+            <param name="customInitData">Custom data to send to the server in the Init request. Might be used to identify a client / user.</param>
             <returns>
             True if a connection attempt will be made. False if some error could be detected early-on.
             </returns>

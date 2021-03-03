@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 namespace Photon.Voice.Unity
 {
@@ -40,6 +41,9 @@ namespace Photon.Voice.Unity
         private int maxDelaySamples;               // set delay to this value if delay is higher
         private int resampleRampEndDelaySamples;   // the more delay deviates from target, the higher resampling factor: after this value the factor remains constant
 
+        private const int NO_PUSH_TIMEOUT_MS = 100; // should be greater than Push() call interval
+        int lastPushTime = Environment.TickCount - NO_PUSH_TIMEOUT_MS;
+
         private readonly ILogger logger;
         private readonly string logPrefix;
         private readonly bool debugInfo;
@@ -56,9 +60,14 @@ namespace Photon.Voice.Unity
         }
         public int Lag { get { return this.clipWriteSamplePos - (this.started ? this.playLoopCount * this.bufferSamples + this.source.timeSamples : 0); } }
 
+        public bool IsFlushed
+        {
+            get { return !started || this.flushed; }
+        }
+
         public bool IsPlaying
         {
-            get { return started && !this.flushed; }
+            get { return Environment.TickCount - lastPushTime < NO_PUSH_TIMEOUT_MS; }
         }
 
         public void Start(int frequency, int channels, int frameSamples)
@@ -273,6 +282,8 @@ namespace Photon.Voice.Unity
             {
                 this.frameQueue.Enqueue(b);
             }
+
+            lastPushTime = Environment.TickCount;
         }
 
         public void Flush()
