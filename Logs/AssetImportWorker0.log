@@ -12,104 +12,69 @@ AssetImportWorker0
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-57872
+63543
 Successfully changed project path to: /Volumes/项目/ThePlaneWar
 /Volumes/项目/ThePlaneWar
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 74.41 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 89.97 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.2.5f1c1 (5e98a53e36cd)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path /Volumes/项目/ThePlaneWar/Assets
 GfxDevice: creating device client; threaded=0
-2021-03-03 19:55:47.441 Unity[3876:96518] Display preferred device: Intel(R) UHD Graphics 630 (low power)
-2021-03-03 19:55:47.441 Unity[3876:96518] Metal devices available: 1
-2021-03-03 19:55:47.441 Unity[3876:96518] 0: Intel(R) UHD Graphics 630 (low power)
-2021-03-03 19:55:47.441 Unity[3876:96518] Using device Intel(R) UHD Graphics 630 (low power)
+2021-03-03 20:26:26.929 Unity[4931:116430] Display preferred device: Intel(R) UHD Graphics 630 (low power)
+2021-03-03 20:26:26.929 Unity[4931:116430] Metal devices available: 1
+2021-03-03 20:26:26.929 Unity[4931:116430] 0: Intel(R) UHD Graphics 630 (low power)
+2021-03-03 20:26:26.930 Unity[4931:116430] Using device Intel(R) UHD Graphics 630 (low power)
 Initializing Metal device caps: Intel(R) UHD Graphics 630
 Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = '/Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56876
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56931
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
-Registered in 0.000503 seconds.
+Registered in 0.000540 seconds.
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 76.67 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 102.17 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.200 seconds
+- Completed reload, in  4.118 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.004910 seconds.
+Registered in 0.025412 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.07 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.22 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.191 seconds
+- Completed reload, in  1.853 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
 Launching external process: /Applications/Unity/Hub/Editor/2020.2.5f1c1/Unity.app/Contents/Tools/UnityShaderCompiler
 Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
-Refreshing native plugins compatible for Editor in 1.08 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.07 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2700 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 227.8 MB.
+Unloading 2701 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 227.7 MB.
 System memory in use after: 227.5 MB.
 
-Unloading 93 unused Assets to reduce memory usage. Loaded Objects now: 3161.
-Total: 2.827297 ms (FindLiveObjects: 0.344604 ms CreateObjectMapping: 0.122998 ms MarkObjects: 1.890235 ms  DeleteObjects: 0.467163 ms)
+Unloading 93 unused Assets to reduce memory usage. Loaded Objects now: 3162.
+Total: 2.517693 ms (FindLiveObjects: 0.299502 ms CreateObjectMapping: 0.137462 ms MarkObjects: 1.633798 ms  DeleteObjects: 0.445791 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/Script/GameScene/GameAI/AIController.cs
-  artifactKey: Guid(10e31091e368b45308581ea8e10a731b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/GameAI/AIController.cs using Guid(10e31091e368b45308581ea8e10a731b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '54ea69018bd37cd3d6cde5c890e1d753') in 0.444520 seconds
-  Import took 0.453310 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.030914 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image /Volumes/项目/ThePlaneWar/Assets/Photon/PhotonLibs/Photon3Unity3D.dll
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.12 ms, found 5 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.132 seconds
-Platform modules already initialized, skipping
-Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
-Refreshing native plugins compatible for Editor in 1.14 ms, found 5 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2613 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 215.1 MB.
-System memory in use after: 214.9 MB.
-
-Unloading 84 unused Assets to reduce memory usage. Loaded Objects now: 3164.
-Total: 2.782120 ms (FindLiveObjects: 0.305918 ms CreateObjectMapping: 0.176031 ms MarkObjects: 1.785429 ms  DeleteObjects: 0.513325 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
-========================================================================
-Received Import Request.
-  Time since last request: 1319.901337 seconds.
-  path: Assets/Script/GameScene/GameAI/AIController.cs
-  artifactKey: Guid(10e31091e368b45308581ea8e10a731b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/GameAI/AIController.cs using Guid(10e31091e368b45308581ea8e10a731b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd0c74cf55cff21c83adf96e61206d55b') in 0.006205 seconds
-  Import took 0.012384 seconds .
+  path: Assets/Script/GameScene/Interface/IShootActor.cs
+  artifactKey: Guid(35cf9c5d71c314c39b9ed07cfa2a0fbc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/Interface/IShootActor.cs using Guid(35cf9c5d71c314c39b9ed07cfa2a0fbc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '868849966343f07d8934fa5db159560a') in 0.451418 seconds
+  Import took 0.457853 seconds .
 

@@ -5,7 +5,7 @@ using UnityStandardAssets.CrossPlatformInput;
 using Photon.Pun;
 using UnityEngine.Serialization;
 
-public class MissileActor : MonoBehaviourPun
+public class MissileActor : MonoBehaviourPun, IShootActor
 {
     [SerializeField] private GameObject[] missiles;
     [SerializeField] private float interval = 10;
@@ -23,12 +23,16 @@ public class MissileActor : MonoBehaviourPun
     {
         if (!photonView.IsMine || CompareTag("AI")) return;
 
-        if (!CrossPlatformInputManager.GetButtonDown("Fire2") ||
-            !FindObjectOfType<MissileActorButton>().Missile) return;
+        if (!FindObjectOfType<MissileActorButton>().Missile) return;
 
+        if (CrossPlatformInputManager.GetButtonDown("Fire2")) Fire();
+    }
+
+    public void Fire()
+    {
         if (cameraShake)
             GetComponent<projectileActor>().CameraShakeCaller.ShakeCamera();
-        
+
         PhotonNetwork.Instantiate(missiles[missileType].name, transform.position, transform.rotation);
         FindObjectOfType<MissileActorButton>().ShootStart();
     }

@@ -4,9 +4,9 @@ using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 using Photon.Pun;
 
-public class projectileActor : MonoBehaviour {
-
-    public Transform spawnLocator; 
+public class projectileActor : MonoBehaviour, IShootActor
+{
+    public Transform spawnLocator;
     public Transform spawnLocatorMuzzleFlare;
     public Transform shellLocator;
     public Animator recoilAnimator;
@@ -21,13 +21,14 @@ public class projectileActor : MonoBehaviour {
         public GameObject muzzleflare;
         public float min, max;
         public bool rapidFire;
-        public float rapidFireCooldown;   
+        public float rapidFireCooldown;
 
         public bool shotgunBehavior;
         public int shotgunPellets;
         public GameObject shellPrefab;
         public bool hasShells;
     }
+
     public projectile[] bombList;
 
 
@@ -43,7 +44,7 @@ public class projectileActor : MonoBehaviour {
     public bool firing;
     public int bombType = 0;
 
-   // public ParticleSystem muzzleflare;
+    // public ParticleSystem muzzleflare;
 
     public bool swarmMissileLauncher = false;
     int projectileSimFire = 1;
@@ -56,28 +57,29 @@ public class projectileActor : MonoBehaviour {
     int seq = 0;
 
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         if (UImaster)
         {
             UiText.text = bombList[bombType].name.ToString();
         }
+
         if (swarmMissileLauncher)
         {
             projectileSimFire = 5;
         }
 
         Switch(Global.totalFireInt);
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         if (!GetComponent<PhotonView>().IsMine || CompareTag("AI")) return;
 
         //Movement
-        if(Input.GetButton("Horizontal"))
+        if (Input.GetButton("Horizontal"))
         {
             if (Input.GetAxis("Horizontal") < 0)
             {
@@ -100,12 +102,13 @@ public class projectileActor : MonoBehaviour {
             Switch(1);
         }
         */
-        
-	    if (CrossPlatformInputManager.GetButtonDown("Fire1"))
+
+        if (CrossPlatformInputManager.GetButtonDown("Fire1"))
         {
             firing = true;
             Fire();
         }
+
         if (CrossPlatformInputManager.GetButtonUp("Fire1"))
         {
             firing = false;
@@ -114,18 +117,18 @@ public class projectileActor : MonoBehaviour {
 
         if (bombList[bombType].rapidFire && firing)
         {
-            if(firingTimer > bombList[bombType].rapidFireCooldown+rapidFireDelay)
+            if (firingTimer > bombList[bombType].rapidFireCooldown + rapidFireDelay)
             {
                 Fire();
                 firingTimer = 0;
             }
         }
 
-        if(firing)
+        if (firing)
         {
             firingTimer += Time.deltaTime;
         }
-	}
+    }
 
     public void Switch(int value)
     {
@@ -150,10 +153,11 @@ public class projectileActor : MonoBehaviour {
 
     public void Fire()
     {
-        if(CameraShake)
+        if (CameraShake)
         {
             CameraShakeCaller.ShakeCamera();
         }
+
         Instantiate(bombList[bombType].muzzleflare, spawnLocatorMuzzleFlare.position, spawnLocatorMuzzleFlare.rotation);
         //   bombList[bombType].muzzleflare.Play();
 
@@ -161,21 +165,26 @@ public class projectileActor : MonoBehaviour {
         {
             Instantiate(bombList[bombType].shellPrefab, shellLocator.position, shellLocator.rotation);
         }
+
         recoilAnimator.SetTrigger("recoil_trigger");
 
         Rigidbody rocketInstance;
-        rocketInstance = PhotonNetwork.Instantiate(bombList[bombType].bombPrefab.name, spawnLocator.position, spawnLocator.rotation).GetComponent<Rigidbody>();
+        rocketInstance = PhotonNetwork
+            .Instantiate(bombList[bombType].bombPrefab.name, spawnLocator.position, spawnLocator.rotation)
+            .GetComponent<Rigidbody>();
         // Quaternion.Euler(0,90,0)
         rocketInstance.AddForce(spawnLocator.forward * Random.Range(bombList[bombType].min, bombList[bombType].max));
 
         if (bombList[bombType].shotgunBehavior)
         {
-            for(int i = 0; i < bombList[bombType].shotgunPellets ;i++ )
+            for (int i = 0; i < bombList[bombType].shotgunPellets; i++)
             {
                 Rigidbody rocketInstanceShotgun;
-                rocketInstanceShotgun = PhotonNetwork.Instantiate(bombList[bombType].bombPrefab.name, shotgunLocator[i].position, shotgunLocator[i].rotation).GetComponent<Rigidbody>();
+                rocketInstanceShotgun = PhotonNetwork.Instantiate(bombList[bombType].bombPrefab.name,
+                    shotgunLocator[i].position, shotgunLocator[i].rotation).GetComponent<Rigidbody>();
                 // Quaternion.Euler(0,90,0)
-                rocketInstanceShotgun.AddForce(shotgunLocator[i].forward * Random.Range(bombList[bombType].min, bombList[bombType].max));
+                rocketInstanceShotgun.AddForce(shotgunLocator[i].forward *
+                                               Random.Range(bombList[bombType].min, bombList[bombType].max));
             }
         }
 
@@ -183,10 +192,12 @@ public class projectileActor : MonoBehaviour {
         {
             rocketInstance.AddTorque(spawnLocator.up * Random.Range(Tor_min, Tor_max));
         }
+
         if (MinorRotate)
         {
             RandomizeRotation();
         }
+
         if (MajorRotate)
         {
             Major_RandomizeRotation();
@@ -200,9 +211,12 @@ public class projectileActor : MonoBehaviour {
         if (PhotonNetwork.IsMasterClient)
         {
             Rigidbody rocketInstance;
-            rocketInstance = PhotonNetwork.Instantiate(bombList[bombType].bombPrefab.name, spawnLocator.position, spawnLocator.rotation).GetComponent<Rigidbody>();
+            rocketInstance = PhotonNetwork
+                .Instantiate(bombList[bombType].bombPrefab.name, spawnLocator.position, spawnLocator.rotation)
+                .GetComponent<Rigidbody>();
             // Quaternion.Euler(0,90,0)
-            rocketInstance.AddForce(spawnLocator.forward * Random.Range(bombList[bombType].min, bombList[bombType].max));
+            rocketInstance.AddForce(spawnLocator.forward *
+                                    Random.Range(bombList[bombType].min, bombList[bombType].max));
 
             rocketInstance.gameObject.AddComponent<AIBullet>().aiTarget = transform;
         }
@@ -216,27 +230,27 @@ public class projectileActor : MonoBehaviour {
             seq++;
             transform.Rotate(0, 1, 0);
         }
-      else if (seq == 1)
+        else if (seq == 1)
         {
             seq++;
             transform.Rotate(1, 1, 0);
         }
-      else if (seq == 2)
+        else if (seq == 2)
         {
             seq++;
             transform.Rotate(1, -3, 0);
         }
-      else if (seq == 3)
+        else if (seq == 3)
         {
             seq++;
             transform.Rotate(-2, 1, 0);
         }
-       else if (seq == 4)
+        else if (seq == 4)
         {
             seq++;
             transform.Rotate(1, 1, 1);
         }
-       else if (seq == 5)
+        else if (seq == 5)
         {
             seq = 0;
             transform.Rotate(-1, -1, -1);
