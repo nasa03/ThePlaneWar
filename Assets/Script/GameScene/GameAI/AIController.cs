@@ -31,7 +31,10 @@ public class AIController : MonoBehaviour
                 _projectileActor.AIShoot();
 
             if (_missileCount > 0)
+            {
+                _missileCount--;
                 _missileActor.AIShoot();
+            }
 
             return;
         };
