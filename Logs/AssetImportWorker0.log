@@ -12,100 +12,68 @@ AssetImportWorker0
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-49692
+51184
 Successfully changed project path to: /Volumes/项目/ThePlaneWar
 /Volumes/项目/ThePlaneWar
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 76.21 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 84.61 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.2.7f1c1 (90377d9151b9)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path /Volumes/项目/ThePlaneWar/Assets
 GfxDevice: creating device client; threaded=0
-2021-03-08 12:34:19.611 Unity[827:9337] Display preferred device: Intel(R) UHD Graphics 630 (low power)
-2021-03-08 12:34:19.611 Unity[827:9337] Metal devices available: 1
-2021-03-08 12:34:19.611 Unity[827:9337] 0: Intel(R) UHD Graphics 630 (low power)
-2021-03-08 12:34:19.611 Unity[827:9337] Using device Intel(R) UHD Graphics 630 (low power)
+2021-03-08 23:21:59.810 Unity[12866:292735] Display preferred device: Intel(R) UHD Graphics 630 (low power)
+2021-03-08 23:21:59.810 Unity[12866:292735] Metal devices available: 1
+2021-03-08 23:21:59.810 Unity[12866:292735] 0: Intel(R) UHD Graphics 630 (low power)
+2021-03-08 23:21:59.810 Unity[12866:292735] Using device Intel(R) UHD Graphics 630 (low power)
 Initializing Metal device caps: Intel(R) UHD Graphics 630
 Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = '/Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56827
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56866
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
-Registered in 0.000490 seconds.
+Registered in 0.000565 seconds.
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 64.09 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 66.74 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.760 seconds
+- Completed reload, in  1.894 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.004606 seconds.
+Registered in 0.015703 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.10 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.14 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.187 seconds
+- Completed reload, in  1.199 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
 Launching external process: /Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/Tools/UnityShaderCompiler
 Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
-Refreshing native plugins compatible for Editor in 1.16 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.30 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2738 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 220.8 MB.
-System memory in use after: 220.5 MB.
+Unloading 3274 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 237.7 MB.
+System memory in use after: 237.4 MB.
 
-Unloading 92 unused Assets to reduce memory usage. Loaded Objects now: 3201.
-Total: 2.892825 ms (FindLiveObjects: 0.293457 ms CreateObjectMapping: 0.137054 ms MarkObjects: 1.958884 ms  DeleteObjects: 0.501395 ms)
-
-========================================================================
-Received Import Request.
-  path: Assets/Resources/StarSparrowAI.prefab
-  artifactKey: Guid(96c4d6a79d6504848af2009ddc64e8df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/StarSparrowAI.prefab using Guid(96c4d6a79d6504848af2009ddc64e8df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1c91916ecd40ac6d8c3e04196737e288') in 1.622851 seconds
-  Import took 1.669226 seconds .
+Unloading 94 unused Assets to reduce memory usage. Loaded Objects now: 3762.
+Total: 3.237987 ms (FindLiveObjects: 0.392735 ms CreateObjectMapping: 0.166852 ms MarkObjects: 2.165725 ms  DeleteObjects: 0.511661 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 14.066969 seconds.
-  path: Assets/Resources/StarSparrow.prefab
-  artifactKey: Guid(89523218a573e0d43ab18f38e69d0a84) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/StarSparrow.prefab using Guid(89523218a573e0d43ab18f38e69d0a84) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd75d2061058cfb378e38258b8c7c5595') in 0.288836 seconds
-  Import took 0.351194 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 152.914588 seconds.
-  path: Assets/Script/GameScene/PlaneSuicide.cs
-  artifactKey: Guid(456b2120add8e4a65adb32c869756e47) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/PlaneSuicide.cs using Guid(456b2120add8e4a65adb32c869756e47) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '54ee0243c622170d97afb6599bb6da8b') in 0.348012 seconds
-  Import took 0.353329 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 13.167868 seconds.
-  path: Assets/Scenes/GameScene.unity
-  artifactKey: Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/GameScene.unity using Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'da6f2ef0c8a7d74e8bbe21ce695da93a') in 0.005788 seconds
-  Import took 0.010912 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 505.406365 seconds.
-  path: Assets/Standard Assets/Vehicles/Aircraft/Scripts/AeroplaneAiControl.cs
-  artifactKey: Guid(6f947e56d54f4274896478766fef616c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Standard Assets/Vehicles/Aircraft/Scripts/AeroplaneAiControl.cs using Guid(6f947e56d54f4274896478766fef616c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dbe610162842fa9485b732ab6f78f785') in 0.003740 seconds
-  Import took 0.008036 seconds .
+  path: Assets/Behavior Designer/Runtime/Tasks/Actions
+  artifactKey: Guid(91c6a439cec3003498369e01301ee57a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Behavior Designer/Runtime/Tasks/Actions using Guid(91c6a439cec3003498369e01301ee57a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b601df0017d5aa65f8c7f1c7e343ce6c') in 0.005695 seconds
+  Import took 0.011910 seconds .
 
