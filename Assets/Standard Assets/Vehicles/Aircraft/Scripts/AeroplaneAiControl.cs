@@ -26,8 +26,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         [SerializeField]
         private float m_SpeedEffect = 0.01f; // This increases the effect of the controls based on the plane's speed.
 
-        [SerializeField]
-        private float
+        [SerializeField] private float
             m_TakeoffHeight = 20; // the AI will fly straight and only pitch upwards until reaching this height
 
         [SerializeField] private Transform m_Target; // the target to fly towards
@@ -39,6 +38,9 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
 
         private bool m_TakenOff; // Has the plane taken off yet
 
+        public bool m_powerSpeed = false;
+
+        public bool m_airBreaks = false;
 
         // setup script properties
         private void Awake()
@@ -126,7 +128,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 yawInput *= currentSpeedEffect;
 
                 // pass the current input to the plane (false = because AI never uses air brakes!)
-                m_AeroplaneController.Move(rollInput, pitchInput, yawInput, throttleInput, false);
+                m_AeroplaneController.Move(rollInput, pitchInput, yawInput, throttleInput, m_airBreaks);
+                m_AeroplaneController.m_MaxEnginePower = m_powerSpeed ? 1200f : 40f;
             }
             else
             {
