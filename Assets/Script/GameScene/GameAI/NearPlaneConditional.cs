@@ -2,16 +2,24 @@ using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class IsLessThanDistanceConditional : Conditional
+public class NearPlaneConditional : Conditional
 {
     public float maxDistance = 0.0f;
+    private BehaviorTree _behaviorTree;
 
     public override TaskStatus OnUpdate()
     {
-        Transform target = (Transform) GlobalVariables.Instance.GetVariable("target").GetValue();
+        Transform tempTarget = Global.GetNearTargetTransform(transform);
 
-        if (GetDistance(target) < maxDistance && GetDistance(target) != 0)
+        if (!tempTarget)
+            return TaskStatus.Failure;
+        
+        if (GetDistance(tempTarget) < maxDistance && GetDistance(tempTarget) != 0)
+        {
+            _behaviorTree.GetVariable("target").SetValue(tempTarget);
+
             return TaskStatus.Success;
+        }
         else
             return TaskStatus.Failure;
     }
@@ -31,5 +39,10 @@ public class IsLessThanDistanceConditional : Conditional
         }
 
         return distance;
+    }
+
+    public override void OnAwake()
+    {
+        _behaviorTree = GetComponent<BehaviorTree>();
     }
 }
