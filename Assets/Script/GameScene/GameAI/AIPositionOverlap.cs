@@ -9,6 +9,6 @@ public class AIPositionOverlap : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("AI") && PhotonNetwork.IsMasterClient)
-            other.GetComponent<BehaviorTree>().ExternalBehavior.SetVariable("target", null);
+            other.GetComponent<BehaviorTree>().SetVariableValue("target", null);
     }
 }
