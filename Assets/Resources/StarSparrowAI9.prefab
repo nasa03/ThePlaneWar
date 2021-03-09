@@ -4754,6 +4754,7 @@ GameObject:
   - component: {fileID: 1201968616174243007}
   - component: {fileID: 6147993998943608979}
   - component: {fileID: 7897448163260126508}
+  - component: {fileID: 8276894342051601807}
   m_Layer: 0
   m_Name: StarSparrowAI9
   m_TagString: AI
@@ -4906,6 +4907,8 @@ MonoBehaviour:
   m_SpeedEffect: 0.3
   m_TakeoffHeight: 800
   m_Target: {fileID: 0}
+  m_powerSpeed: 0
+  m_airBreaks: 0
 --- !u!114 &2836725206599957026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5458,12 +5461,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 0
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 0
   ObservedComponents:
   - {fileID: 8457128060457546441}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &8457128060457546441
@@ -5481,6 +5484,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 1
+  m_UseLocal: 0
 --- !u!114 &1805259577759105660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5656,6 +5660,46 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d057c3310454a72408a5b65c5d654cd0, type: 3}
   - {fileID: 8300000, guid: ec7c004922335ed44ab15f909a477043, type: 3}
   - {fileID: 8300000, guid: bd3f3a27a685f47608d31286f25175d4, type: 3}
+--- !u!114 &8276894342051601807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311379639167522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 1
+  restartWhenComplete: 0
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 11400000, guid: b2980a499dfe54a0ca1e526018b16cc0, type: 2}
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: 
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.6.6
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!1 &1351430696781956
 GameObject:
   m_ObjectHideFlags: 0
