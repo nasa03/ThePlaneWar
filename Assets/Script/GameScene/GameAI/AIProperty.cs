@@ -44,7 +44,7 @@ public class AIProperty : MonoBehaviour
 
     public bool isDead
     {
-        get => (bool) PhotonNetwork.CurrentRoom.GetProperties(name + "-isDead", 0);
+        get => (bool) PhotonNetwork.CurrentRoom.GetProperties(name + "-isDead", false);
         set => PhotonNetwork.CurrentRoom.SetProperties(name + "-isDead", value);
     }
 

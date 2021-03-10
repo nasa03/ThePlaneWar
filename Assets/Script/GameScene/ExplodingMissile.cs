@@ -24,7 +24,6 @@ public class ExplodingMissile : MonoBehaviourPun
         if (_missileTarget != null && _missileTarget.CompareTag("Plane"))
             FindObjectOfType<PhotonGame>().photonView
                 .RPC("PlayAudio", _missileTarget.GetComponent<PhotonView>().Controller, 4);
-
     }
 
     // Update is called once per frame
@@ -94,19 +93,18 @@ public class ExplodingMissile : MonoBehaviourPun
         }
         else
         {
-            switch (other.gameObject.tag)
+            if (other.gameObject.CompareTag("Plane") && !other.GetComponent<PhotonView>().IsMine)
             {
-                case "Plane" when !other.GetComponent<PhotonView>().IsMine:
-                    aiBullet.aiTarget.GetComponent<AIAttack>()
-                        .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
+                aiBullet.aiTarget.GetComponent<AIAttack>()
+                    .Attack(other.GetComponent<PhotonView>().Controller, other.transform);
 
-                    PhotonNetwork.Destroy(gameObject);
-                    break;
-                case "AI":
-                    aiBullet.aiTarget.GetComponent<AIAttack>().AttackAI(other.transform);
+                PhotonNetwork.Destroy(gameObject);
+            }
+            else if (other.gameObject.CompareTag("AI") && other.transform != aiBullet.aiTarget)
+            {
+                aiBullet.aiTarget.GetComponent<AIAttack>().AttackAI(other.transform);
 
-                    PhotonNetwork.Destroy(gameObject);
-                    break;
+                PhotonNetwork.Destroy(gameObject);
             }
         }
     }

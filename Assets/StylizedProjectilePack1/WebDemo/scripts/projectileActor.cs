@@ -208,18 +208,15 @@ public class projectileActor : MonoBehaviour, IShootActor
 
     public void AIShoot()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Rigidbody rocketInstance;
-            rocketInstance = PhotonNetwork
-                .Instantiate(bombList[bombType].bombPrefab.name, spawnLocator.position, spawnLocator.rotation)
-                .GetComponent<Rigidbody>();
-            // Quaternion.Euler(0,90,0)
-            rocketInstance.AddForce(spawnLocator.forward *
-                                    Random.Range(bombList[bombType].min, bombList[bombType].max));
+        Rigidbody rocketInstance;
+        rocketInstance = PhotonNetwork
+            .Instantiate(bombList[bombType].bombPrefab.name, spawnLocator.position, spawnLocator.rotation)
+            .GetComponent<Rigidbody>();
+        // Quaternion.Euler(0,90,0)
+        rocketInstance.AddForce(spawnLocator.forward *
+                                Random.Range(bombList[bombType].min, bombList[bombType].max));
 
-            rocketInstance.gameObject.AddComponent<AIBullet>().aiTarget = transform;
-        }
+        rocketInstance.gameObject.AddComponent<AIBullet>().aiTarget = transform;
     }
 
 

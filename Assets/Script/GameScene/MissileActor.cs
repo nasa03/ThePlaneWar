@@ -39,8 +39,6 @@ public class MissileActor : MonoBehaviourPun, IShootActor
 
     public void AIShoot()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
-
         GameObject missile = PhotonNetwork.Instantiate(missiles[0].name, transform.position, transform.rotation);
         missile.AddComponent<AIBullet>().aiTarget = transform;
     }

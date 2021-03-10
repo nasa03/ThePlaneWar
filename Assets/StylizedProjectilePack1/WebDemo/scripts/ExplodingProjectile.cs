@@ -39,6 +39,7 @@ public class ExplodingProjectile : MonoBehaviourPun
         {
             missileTarget = Global.GetNearTargetTransform(transform);
         }
+
         thisCollider = GetComponent<Collider>();
         previousPosition = transform.position;
     }
@@ -55,7 +56,6 @@ public class ExplodingProjectile : MonoBehaviourPun
         {
             Explode();
         }
-
     }
 
     void FixedUpdate()
@@ -82,7 +82,6 @@ public class ExplodingProjectile : MonoBehaviourPun
 
     void CheckCollision(Vector3 prevPos)
     {
-
         RaycastHit hit;
         Vector3 direction = transform.position - prevPos;
         Ray ray = new Ray(prevPos, direction);
@@ -111,7 +110,7 @@ public class ExplodingProjectile : MonoBehaviourPun
     {
         if (collision.gameObject.CompareTag("FX") || collision.gameObject.CompareTag("Plane") ||
             collision.gameObject.CompareTag("AI")) return;
-        
+
         ContactPoint contact = collision.contacts[0];
         Quaternion rot = Quaternion.FromToRotation(Vector3.forward, contact.normal);
         if (ignorePrevRotation)
@@ -127,13 +126,11 @@ public class ExplodingProjectile : MonoBehaviourPun
         }
         else if (Missile == true)
         {
-
             thisCollider.enabled = false;
             particleKillGroup.SetActive(false);
             thisRigidbody.velocity = Vector3.zero;
 
             StartCoroutine(DestroyAfterTime(5));
-
         }
     }
 
@@ -169,7 +166,7 @@ public class ExplodingProjectile : MonoBehaviourPun
 
                 PhotonNetwork.Destroy(gameObject);
             }
-            else if (other.gameObject.CompareTag("AI"))
+            else if (other.gameObject.CompareTag("AI") && other.transform != aiBullet.aiTarget)
             {
                 aiBullet.aiTarget.GetComponent<AIAttack>().AttackAI(other.transform);
 
@@ -189,5 +186,4 @@ public class ExplodingProjectile : MonoBehaviourPun
         yield return new WaitForSeconds(t);
         PhotonNetwork.Destroy(gameObject);
     }
-
 }

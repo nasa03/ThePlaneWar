@@ -13,10 +13,10 @@ public class NearPlaneConditional : Conditional
 
         if (!tempTarget)
             return TaskStatus.Failure;
-        
+
         if (GetDistance(tempTarget) < maxDistance && GetDistance(tempTarget) != 0)
         {
-            _behaviorTree.GetVariable("target").SetValue(tempTarget);
+            _behaviorTree.SetVariableValue("target", tempTarget);
 
             return TaskStatus.Success;
         }
@@ -28,7 +28,7 @@ public class NearPlaneConditional : Conditional
     {
         float distance = 0;
 
-        if (target.CompareTag("Plane") && target.CompareTag("AI"))
+        if (target.CompareTag("Plane") || target.CompareTag("AI"))
         {
             Vector3 thisPosition = transform.position;
             Vector3 targetPosition = target.position;
