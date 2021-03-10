@@ -43745,8 +43745,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startWhenEnabled: 1
   asynchronousLoad: 0
-  pauseWhenDisabled: 1
-  restartWhenComplete: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 1
   logTaskChanges: 0
   group: 0
   resetValuesOnRestart: 0
@@ -43758,16 +43758,16 @@ MonoBehaviour:
       types: []
       parentIndex: 
       startIndex: 
-      variableStartIndex: 
+      variableStartIndex: 00000000
       JSONSerialization: 
       fieldSerializationData:
         typeName: []
-        fieldNameHash: 
-        startIndex: 
-        dataPosition: 
+        fieldNameHash: f9be55564aaa52567707a104
+        startIndex: 000000000100000002000000
+        dataPosition: 00000000280000002e000000
         unityObjects: []
-        byteData: 
-        byteDataArray: 
+        byteData: 4265686176696f7244657369676e65722e52756e74696d652e5368617265645472616e73666f726d74617267657401
+        byteDataArray: 4265686176696f7244657369676e65722e52756e74696d652e5368617265645472616e73666f726d74617267657401
       Version: 1.6.6
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1

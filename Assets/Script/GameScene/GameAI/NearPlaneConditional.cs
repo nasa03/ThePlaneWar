@@ -14,7 +14,7 @@ public class NearPlaneConditional : Conditional
         if (!tempTarget)
             return TaskStatus.Failure;
 
-        if (GetDistance(tempTarget) < maxDistance && GetDistance(tempTarget) != 0)
+        if (Global.GetDistance(transform, tempTarget) < maxDistance && Global.GetDistance(transform, tempTarget) != 0)
         {
             _behaviorTree.SetVariableValue("target", tempTarget);
 
@@ -22,23 +22,6 @@ public class NearPlaneConditional : Conditional
         }
         else
             return TaskStatus.Failure;
-    }
-
-    private float GetDistance(Transform target)
-    {
-        float distance = 0;
-
-        if (target.CompareTag("Plane") || target.CompareTag("AI"))
-        {
-            Vector3 thisPosition = transform.position;
-            Vector3 targetPosition = target.position;
-            Vector3 dir = targetPosition - thisPosition;
-            float dot = Vector3.Dot(Vector3.forward, dir);
-            if (dot > 0)
-                distance = Vector3.Distance(thisPosition, targetPosition);
-        }
-
-        return distance;
     }
 
     public override void OnAwake()
