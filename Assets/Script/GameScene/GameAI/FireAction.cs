@@ -8,10 +8,10 @@ public class FireAction : Action
     private MissileActor _missileActor;
     private AIProperty _aiProperty;
     private BehaviorTree _behaviorTree;
-    private float _projectileTime = 0.0f;
-    private const float MAXProjectileTime = 0.2f;
+    private float _projectileTime = MAXProjectileTime;
     private float _missileTime = MAXMissileTime;
     private int _missileCount = MAXMissileCount;
+    private const float MAXProjectileTime = 0.2f;
     private const float MAXMissileTime = 10.0f;
     private const int MAXMissileCount = 3;
 
@@ -25,13 +25,13 @@ public class FireAction : Action
 
         if (!_aiProperty.isDead)
         {
-            _projectileTime += Time.deltaTime;
-            if (_projectileTime >= MAXProjectileTime)
+            _projectileTime -= Time.deltaTime;
+            if (_projectileTime <= 0)
             {
                 _projectileActor.AIShoot();
-                _projectileTime = 0.0f;
+                _projectileTime = MAXProjectileTime;
             }
-            
+
             if (_missileTime > 0 && _missileCount < MAXMissileCount)
                 _missileTime -= Time.deltaTime;
             else
