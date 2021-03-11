@@ -10,5 +10,8 @@ public class ExitGameArea : MonoBehaviour
     {
         if (other.CompareTag("Plane") && other.GetComponent<PhotonView>().IsMine)
             CrossPlatformInputManager.SetButtonDown("Suicide");
+
+        if (other.CompareTag("AI") && PhotonNetwork.IsMasterClient)
+            other.GetComponent<AIAttack>().Suicide();
     }
 }

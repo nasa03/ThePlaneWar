@@ -13,7 +13,7 @@ public class FireAction : Action
     private int _missileCount = MAXMissileCount;
     private const float MAXProjectileTime = 0.2f;
     private const float MAXMissileTime = 10.0f;
-    private const int MAXMissileCount = 3;
+    private const int MAXMissileCount = 1;
 
     public override void OnStart()
     {
@@ -48,6 +48,9 @@ public class FireAction : Action
                 _missileCount--;
             }
         }
+
+        if (_aiProperty.isDead)
+            return TaskStatus.Success;
 
         if (Global.GetDistance(transform, target) <= 0)
             return TaskStatus.Success;

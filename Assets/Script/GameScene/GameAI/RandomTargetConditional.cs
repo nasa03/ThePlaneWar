@@ -11,14 +11,10 @@ public class RandomTargetConditional : Conditional
     {
         SharedVariable target = _behaviorTree.GetVariable("target");
 
-        if ((Transform) target.GetValue())
-            return TaskStatus.Failure;
-        else
-        {
+        if (!(Transform) target.GetValue())
             target.SetValue(GetRandomPosition());
-
-            return TaskStatus.Success;
-        }
+        
+        return TaskStatus.Success;
     }
 
     public override void OnAwake()
