@@ -10,13 +10,12 @@ public class NullTargetAction : Action
 
     public override void OnStart()
     {
+        _behaviorTree.SetVariableValue("target", null);
+        _aeroplaneAiControl.SetTarget(null);
     }
 
     public override TaskStatus OnUpdate()
     {
-        _behaviorTree.SetVariableValue("target", null);
-        _aeroplaneAiControl.SetTarget(null);
-
         return TaskStatus.Success;
     }
 

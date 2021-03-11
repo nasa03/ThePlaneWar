@@ -10,13 +10,12 @@ public class SetTargetAction : Action
 
     public override void OnStart()
     {
+        Transform target = (Transform) _behaviorTree.GetVariable("target").GetValue();
+        _aeroplaneAiControl.SetTarget(target);
     }
 
     public override TaskStatus OnUpdate()
     {
-        Transform target = (Transform) _behaviorTree.GetVariable("target").GetValue();
-        _aeroplaneAiControl.SetTarget(target);
-
         return TaskStatus.Success;
     }
 

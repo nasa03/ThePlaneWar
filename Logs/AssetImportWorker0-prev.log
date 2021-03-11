@@ -12,75 +12,41 @@ AssetImportWorker0
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-62645
+53160
 Successfully changed project path to: /Volumes/项目/ThePlaneWar
 /Volumes/项目/ThePlaneWar
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 86.23 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 82.19 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.2.7f1c1 (90377d9151b9)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path /Volumes/项目/ThePlaneWar/Assets
 GfxDevice: creating device client; threaded=0
-2021-03-10 17:58:59.605 Unity[13457:266431] Display preferred device: Intel(R) UHD Graphics 630 (low power)
-2021-03-10 17:58:59.605 Unity[13457:266431] Metal devices available: 1
-2021-03-10 17:58:59.605 Unity[13457:266431] 0: Intel(R) UHD Graphics 630 (low power)
-2021-03-10 17:58:59.605 Unity[13457:266431] Using device Intel(R) UHD Graphics 630 (low power)
+2021-03-10 18:42:41.476 Unity[14673:293231] Display preferred device: Intel(R) UHD Graphics 630 (low power)
+2021-03-10 18:42:41.476 Unity[14673:293231] Metal devices available: 1
+2021-03-10 18:42:41.476 Unity[14673:293231] 0: Intel(R) UHD Graphics 630 (low power)
+2021-03-10 18:42:41.477 Unity[14673:293231] Using device Intel(R) UHD Graphics 630 (low power)
 Initializing Metal device caps: Intel(R) UHD Graphics 630
 Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = '/Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56457
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56673
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
-Registered in 0.000534 seconds.
+Registered in 0.000610 seconds.
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 70.39 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 77.18 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.913 seconds
+- Completed reload, in  2.822 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.005315 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.24 ms, found 5 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.345 seconds
-Platform modules already initialized, skipping
-========================================================================
-Worker process is ready to serve import requests
-Launching external process: /Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/Tools/UnityShaderCompiler
-Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
-Refreshing native plugins compatible for Editor in 1.28 ms, found 5 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3281 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 242.3 MB.
-System memory in use after: 242.1 MB.
-
-Unloading 94 unused Assets to reduce memory usage. Loaded Objects now: 3769.
-Total: 3.072609 ms (FindLiveObjects: 0.368427 ms CreateObjectMapping: 0.187848 ms MarkObjects: 2.070152 ms  DeleteObjects: 0.444905 ms)
-
-========================================================================
-Received Import Request.
-  path: Assets/Script/GameScene/GameAI/bPlaneConditional.cs
-  artifactKey: Guid(f5e60239ea339452c94fcd02f52f2d37) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/GameAI/bPlaneConditional.cs using Guid(f5e60239ea339452c94fcd02f52f2d37) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '52af4f164834522894044b8896f6e916') in 0.336040 seconds
-  Import took 0.342098 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.024531 seconds.
+Registered in 0.023057 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for OSXStandalone target not found
 Refreshing native plugins compatible for Editor in 1.12 ms, found 5 plugins.
@@ -89,108 +55,448 @@ Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.111 seconds
+- Completed reload, in  1.187 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launching external process: /Applications/Unity/Hub/Editor/2020.2.7f1c1/Unity.app/Contents/Tools/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
+Refreshing native plugins compatible for Editor in 1.21 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3281 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 242.4 MB.
+System memory in use after: 242.2 MB.
+
+Unloading 94 unused Assets to reduce memory usage. Loaded Objects now: 3769.
+Total: 2.580072 ms (FindLiveObjects: 0.335400 ms CreateObjectMapping: 0.136309 ms MarkObjects: 1.689324 ms  DeleteObjects: 0.418048 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fa59fc3e19fa10b158b2266ea82090bb') in 0.723628 seconds
+  Import took 0.728395 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.395374 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fa59fc3e19fa10b158b2266ea82090bb') in 0.002481 seconds
+  Import took 0.007726 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006101 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.44 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.345 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.14 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 231.9 MB.
+System memory in use after: 231.7 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3774.
+Total: 3.234130 ms (FindLiveObjects: 0.348234 ms CreateObjectMapping: 0.179988 ms MarkObjects: 2.123158 ms  DeleteObjects: 0.581585 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 41.555474 seconds.
+  path: Assets/Scenes/GameScene2.unity
+  artifactKey: Guid(d67ac38d54f0d4d80add2ce0342b092a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/GameScene2.unity using Guid(d67ac38d54f0d4d80add2ce0342b092a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c547cea77c86a44d9de8711e2102cc1d') in 0.013863 seconds
+  Import took 0.019664 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.619130 seconds.
+  path: Assets/Scenes/GameScene.unity
+  artifactKey: Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/GameScene.unity using Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bf143c096006f1eb74a68c3fb6637b01') in 0.002188 seconds
+  Import took 0.009258 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.001070 seconds.
+  path: Assets/Scenes/GameScene.unity
+  artifactKey: Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/GameScene.unity using Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bf143c096006f1eb74a68c3fb6637b01') in 0.001314 seconds
+  Import took 0.007973 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006143 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 2.48 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.602 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 2.32 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 232.2 MB.
+System memory in use after: 232.0 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3778.
+Total: 5.254457 ms (FindLiveObjects: 0.692667 ms CreateObjectMapping: 0.714821 ms MarkObjects: 3.009286 ms  DeleteObjects: 0.835931 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 261.362975 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '30412ac4641803d7069af2400bade201') in 0.068479 seconds
+  Import took 0.074846 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.021582 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.13 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.429 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.14 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 232.5 MB.
+System memory in use after: 232.3 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3782.
+Total: 2.832971 ms (FindLiveObjects: 0.331830 ms CreateObjectMapping: 0.182860 ms MarkObjects: 1.808329 ms  DeleteObjects: 0.509125 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 285.456540 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f3db7bcc2e9009bcb20491c933c3a7ec') in 0.013561 seconds
+  Import took 0.018640 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006206 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.22 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.257 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.26 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 234.2 MB.
+System memory in use after: 234.0 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3786.
+Total: 4.007086 ms (FindLiveObjects: 0.459192 ms CreateObjectMapping: 0.272014 ms MarkObjects: 2.490634 ms  DeleteObjects: 0.783518 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006611 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 3.06 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.032 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.28 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 234.5 MB.
+System memory in use after: 234.3 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3790.
+Total: 2.832741 ms (FindLiveObjects: 0.333248 ms CreateObjectMapping: 0.186413 ms MarkObjects: 1.769301 ms  DeleteObjects: 0.542906 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 216.095528 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7c1e31f80a4b0c8a1e3d8aea840bbc91') in 0.034507 seconds
+  Import took 0.045152 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006723 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.34 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.962 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.91 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 234.7 MB.
+System memory in use after: 234.5 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3794.
+Total: 5.339580 ms (FindLiveObjects: 0.514575 ms CreateObjectMapping: 0.376840 ms MarkObjects: 3.716432 ms  DeleteObjects: 0.729414 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006764 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.28 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.319 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.23 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 235.0 MB.
+System memory in use after: 234.8 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3798.
+Total: 3.591202 ms (FindLiveObjects: 0.468168 ms CreateObjectMapping: 0.258276 ms MarkObjects: 2.235110 ms  DeleteObjects: 0.628470 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006255 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 2.81 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.932 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.37 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 235.2 MB.
+System memory in use after: 235.0 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3802.
+Total: 3.120720 ms (FindLiveObjects: 0.365003 ms CreateObjectMapping: 0.191541 ms MarkObjects: 1.989368 ms  DeleteObjects: 0.573896 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006853 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 2.23 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.991 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 2.36 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 235.4 MB.
+System memory in use after: 235.2 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3806.
+Total: 6.166137 ms (FindLiveObjects: 0.593494 ms CreateObjectMapping: 0.311817 ms MarkObjects: 4.149133 ms  DeleteObjects: 1.109120 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 263.811958 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2fc3067e9501f11e15d4bac55100827c') in 0.040396 seconds
+  Import took 0.053192 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006120 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.24 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.270 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.28 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 235.8 MB.
+System memory in use after: 235.6 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3811.
+Total: 3.454353 ms (FindLiveObjects: 0.465794 ms CreateObjectMapping: 0.262731 ms MarkObjects: 2.097983 ms  DeleteObjects: 0.626292 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 107.597650 seconds.
+  path: Assets/Script/GameScene/GameAI/NullTargetConditional.cs
+  artifactKey: Guid(10260ef1453754a748dde64b0fdd78f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/NullTargetConditional.cs using Guid(10260ef1453754a748dde64b0fdd78f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f754e83c2469f898e50d6245013860a6') in 0.357394 seconds
+  Import took 0.363531 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.040252 seconds.
+  path: Assets/Script/GameScene/GameAI/NullTargetConditional.cs
+  artifactKey: Guid(10260ef1453754a748dde64b0fdd78f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/NullTargetConditional.cs using Guid(10260ef1453754a748dde64b0fdd78f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f754e83c2469f898e50d6245013860a6') in 0.002317 seconds
+  Import took 0.009045 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006393 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.39 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.466 seconds
 Platform modules already initialized, skipping
 Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
 Refreshing native plugins compatible for Editor in 1.34 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 231.8 MB.
-System memory in use after: 231.6 MB.
+System memory in use before: 240.3 MB.
+System memory in use after: 240.1 MB.
 
-Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3774.
-Total: 3.650199 ms (FindLiveObjects: 0.452285 ms CreateObjectMapping: 0.232443 ms MarkObjects: 2.404449 ms  DeleteObjects: 0.559773 ms)
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3815.
+Total: 3.023128 ms (FindLiveObjects: 0.352719 ms CreateObjectMapping: 0.197454 ms MarkObjects: 1.858383 ms  DeleteObjects: 0.613219 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
 ========================================================================
 Received Import Request.
-  Time since last request: 1504.217544 seconds.
+  Time since last request: 208.017727 seconds.
   path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
   artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e02371e646d994560f148aabaa5947d3') in 1.263866 seconds
-  Import took 1.269200 seconds .
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b61223a6a19c7780bd4cfac685a54a12') in 0.017490 seconds
+  Import took 0.023571 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000181 seconds.
-  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
-  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e02371e646d994560f148aabaa5947d3') in 0.003049 seconds
-  Import took 0.007543 seconds .
+  Time since last request: 0.000240 seconds.
+  path: Assets/Script/GameScene/GameAI/NullTargetConditional.cs
+  artifactKey: Guid(10260ef1453754a748dde64b0fdd78f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/NullTargetConditional.cs using Guid(10260ef1453754a748dde64b0fdd78f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2b8385e2bdd6d55e60d3b3ae7d45af38') in 0.001549 seconds
+  Import took 0.007414 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.006219 seconds.
+Registered in 0.008055 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.23 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 2.86 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.290 seconds
+- Completed reload, in  2.250 seconds
 Platform modules already initialized, skipping
 Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
-Refreshing native plugins compatible for Editor in 1.24 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.35 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 236.3 MB.
-System memory in use after: 236.1 MB.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 240.6 MB.
+System memory in use after: 240.4 MB.
 
-Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3778.
-Total: 3.350885 ms (FindLiveObjects: 0.414353 ms CreateObjectMapping: 0.179175 ms MarkObjects: 2.165386 ms  DeleteObjects: 0.590583 ms)
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3819.
+Total: 2.907613 ms (FindLiveObjects: 0.349605 ms CreateObjectMapping: 0.192136 ms MarkObjects: 1.809810 ms  DeleteObjects: 0.554964 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
 ========================================================================
 Received Import Request.
-  Time since last request: 95.309447 seconds.
+  Time since last request: 218.410959 seconds.
   path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
   artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f1b0ee43df663890845b5c5d46f6edce') in 0.017444 seconds
-  Import took 0.023779 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.083934 seconds.
-  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
-  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f1b0ee43df663890845b5c5d46f6edce') in 0.004095 seconds
-  Import took 0.009608 seconds .
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8655164ad0b39f23a9c854b7e8be5253') in 0.016930 seconds
+  Import took 0.022816 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.006087 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.26 ms, found 5 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.356 seconds
-Platform modules already initialized, skipping
-Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
-Refreshing native plugins compatible for Editor in 1.22 ms, found 5 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 236.6 MB.
-System memory in use after: 236.4 MB.
-
-Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3782.
-Total: 3.686456 ms (FindLiveObjects: 0.631217 ms CreateObjectMapping: 0.234197 ms MarkObjects: 2.220360 ms  DeleteObjects: 0.599425 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.006196 seconds.
+Registered in 0.006166 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for OSXStandalone target not found
 Refreshing native plugins compatible for Editor in 1.29 ms, found 5 plugins.
@@ -199,18 +505,438 @@ Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.283 seconds
+- Completed reload, in  1.349 seconds
 Platform modules already initialized, skipping
 Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
-Refreshing native plugins compatible for Editor in 1.24 ms, found 5 plugins.
+Refreshing native plugins compatible for Editor in 1.27 ms, found 5 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3193 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 236.9 MB.
-System memory in use after: 236.7 MB.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 240.8 MB.
+System memory in use after: 240.6 MB.
 
-Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3786.
-Total: 3.696105 ms (FindLiveObjects: 0.449715 ms CreateObjectMapping: 0.234311 ms MarkObjects: 2.383857 ms  DeleteObjects: 0.626815 ms)
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3823.
+Total: 4.060954 ms (FindLiveObjects: 0.478040 ms CreateObjectMapping: 0.264477 ms MarkObjects: 2.669353 ms  DeleteObjects: 0.647921 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 227.863538 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '613cd24addb2c8b131c3bcfb9cbc1d1e') in 0.016652 seconds
+  Import took 0.022601 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.048108 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '613cd24addb2c8b131c3bcfb9cbc1d1e') in 0.002346 seconds
+  Import took 0.007971 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006340 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.48 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.964 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.12 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 241.0 MB.
+System memory in use after: 240.8 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3827.
+Total: 2.534052 ms (FindLiveObjects: 0.317062 ms CreateObjectMapping: 0.151473 ms MarkObjects: 1.605041 ms  DeleteObjects: 0.459665 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 117.079475 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '69bf429f47e2370010ff8000d9c3e4cc') in 0.013852 seconds
+  Import took 0.018593 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006463 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 2.84 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.100 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 2.08 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 241.3 MB.
+System memory in use after: 241.1 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3831.
+Total: 6.192134 ms (FindLiveObjects: 0.926294 ms CreateObjectMapping: 0.648447 ms MarkObjects: 3.779253 ms  DeleteObjects: 0.835220 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 390.657437 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c606e2a3c2c0d8c0c157175bf71e23c9') in 0.032994 seconds
+  Import took 0.046332 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 503.662482 seconds.
+  path: Assets/Resources/StarSparrowAI2.prefab
+  artifactKey: Guid(c6f41d900477b43c5a4f59de7864b1d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI2.prefab using Guid(c6f41d900477b43c5a4f59de7864b1d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3977dd1d329197353d5de4ffb6a4b4e0') in 1.592266 seconds
+  Import took 1.640196 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000196 seconds.
+  path: Assets/Resources/StarSparrowAI2.prefab
+  artifactKey: Guid(c6f41d900477b43c5a4f59de7864b1d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI2.prefab using Guid(c6f41d900477b43c5a4f59de7864b1d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c2eda6833f31bfaa5d6df112c25bd527') in 0.248213 seconds
+  Import took 0.300722 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.878717 seconds.
+  path: Assets/Resources/StarSparrowAI3.prefab
+  artifactKey: Guid(0f62f678189fa47eea37e472fdc51369) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI3.prefab using Guid(0f62f678189fa47eea37e472fdc51369) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0822357686c3190960c9be8cf91e7dd4') in 0.246600 seconds
+  Import took 0.299641 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000728 seconds.
+  path: Assets/Resources/StarSparrowAI3.prefab
+  artifactKey: Guid(0f62f678189fa47eea37e472fdc51369) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI3.prefab using Guid(0f62f678189fa47eea37e472fdc51369) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9e30be32d558073f7c8c162cec2bf38d') in 0.339255 seconds
+  Import took 0.401722 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.499902 seconds.
+  path: Assets/Resources/StarSparrowAI5.prefab
+  artifactKey: Guid(539b3347563c747f6b757be297c36d95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI5.prefab using Guid(539b3347563c747f6b757be297c36d95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5327af98f723c3298ecbd2d373d8b284') in 0.316425 seconds
+  Import took 0.378229 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000208 seconds.
+  path: Assets/Resources/StarSparrowAI5.prefab
+  artifactKey: Guid(539b3347563c747f6b757be297c36d95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI5.prefab using Guid(539b3347563c747f6b757be297c36d95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5f897a6dd34b067374d6e2c963bec208') in 0.311704 seconds
+  Import took 0.362488 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.010761 seconds.
+  path: Assets/Resources/StarSparrowAI4.prefab
+  artifactKey: Guid(267755183d09a4087bf741249f611fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI4.prefab using Guid(267755183d09a4087bf741249f611fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '31c3708f13d46cf5f36739f5c81403af') in 0.307365 seconds
+  Import took 0.372434 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.643727 seconds.
+  path: Assets/Resources/StarSparrowAI4.prefab
+  artifactKey: Guid(267755183d09a4087bf741249f611fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI4.prefab using Guid(267755183d09a4087bf741249f611fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '78426c7db7260009869e93f3772eaf8e') in 0.308923 seconds
+  Import took 0.372504 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.079603 seconds.
+  path: Assets/Resources/StarSparrowAI4.prefab
+  artifactKey: Guid(267755183d09a4087bf741249f611fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI4.prefab using Guid(267755183d09a4087bf741249f611fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'beef0f43d781751b17da190c1fb4ea31') in 0.311425 seconds
+  Import took 0.378434 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.464983 seconds.
+  path: Assets/Resources/StarSparrowAI3.prefab
+  artifactKey: Guid(0f62f678189fa47eea37e472fdc51369) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI3.prefab using Guid(0f62f678189fa47eea37e472fdc51369) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f7ab8aa978094f1659f595bd49871c8') in 0.300651 seconds
+  Import took 0.364458 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.053290 seconds.
+  path: Assets/Resources/StarSparrowAI6.prefab
+  artifactKey: Guid(0f844ac0fae83446bb6da85c47b737dc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI6.prefab using Guid(0f844ac0fae83446bb6da85c47b737dc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e067451e7bae4e14d43bcc4f2a34455d') in 0.310343 seconds
+  Import took 0.377786 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000190 seconds.
+  path: Assets/Resources/StarSparrowAI6.prefab
+  artifactKey: Guid(0f844ac0fae83446bb6da85c47b737dc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI6.prefab using Guid(0f844ac0fae83446bb6da85c47b737dc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5c9f5a75e80943928ec7b56d10f97555') in 0.324135 seconds
+  Import took 0.396307 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.084092 seconds.
+  path: Assets/Resources/StarSparrowAI7.prefab
+  artifactKey: Guid(b57ad38b4e21b4246a26511b884d9b0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI7.prefab using Guid(b57ad38b4e21b4246a26511b884d9b0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3bc7e0a096bc866efd28b9051e80fbf0') in 0.314792 seconds
+  Import took 0.378486 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000216 seconds.
+  path: Assets/Resources/StarSparrowAI7.prefab
+  artifactKey: Guid(b57ad38b4e21b4246a26511b884d9b0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI7.prefab using Guid(b57ad38b4e21b4246a26511b884d9b0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '84cc287052144ebc90428e3f640bde73') in 0.320692 seconds
+  Import took 0.395008 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.950801 seconds.
+  path: Assets/Resources/StarSparrowAI8.prefab
+  artifactKey: Guid(35b0744138f2e4bf88f578e824fafe5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI8.prefab using Guid(35b0744138f2e4bf88f578e824fafe5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4fff5a515a3a7e80b4282379fcaa42e5') in 0.320111 seconds
+  Import took 0.387944 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.360390 seconds.
+  path: Assets/Resources/StarSparrowAI8.prefab
+  artifactKey: Guid(35b0744138f2e4bf88f578e824fafe5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI8.prefab using Guid(35b0744138f2e4bf88f578e824fafe5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7d1cd6690d9f54e74528038443aa8098') in 0.311503 seconds
+  Import took 0.376693 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.871482 seconds.
+  path: Assets/Resources/StarSparrowAI9.prefab
+  artifactKey: Guid(2d549bf0c67674e239e3890cb86e43d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI9.prefab using Guid(2d549bf0c67674e239e3890cb86e43d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '67311a9cae0e4eadcc8d85f006de2043') in 0.328259 seconds
+  Import took 0.394205 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000183 seconds.
+  path: Assets/Resources/StarSparrowAI9.prefab
+  artifactKey: Guid(2d549bf0c67674e239e3890cb86e43d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI9.prefab using Guid(2d549bf0c67674e239e3890cb86e43d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0291b998e3a0f0c3233076f57d8dca3d') in 0.336720 seconds
+  Import took 0.405853 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 27.543921 seconds.
+  path: Assets/Resources/StarSparrowAI.prefab
+  artifactKey: Guid(96c4d6a79d6504848af2009ddc64e8df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI.prefab using Guid(96c4d6a79d6504848af2009ddc64e8df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '185f885570d7878556264ac41ea2bc7c') in 0.325214 seconds
+  Import took 0.393221 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.168112 seconds.
+  path: Assets/Resources/StarSparrowAI2.prefab
+  artifactKey: Guid(c6f41d900477b43c5a4f59de7864b1d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI2.prefab using Guid(c6f41d900477b43c5a4f59de7864b1d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd727c5ef0e5076a62192491f43b10d2e') in 0.304365 seconds
+  Import took 0.369933 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.831693 seconds.
+  path: Assets/Resources/StarSparrowAI5.prefab
+  artifactKey: Guid(539b3347563c747f6b757be297c36d95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI5.prefab using Guid(539b3347563c747f6b757be297c36d95) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '914c2659409b928dce91e9a752e1a264') in 0.306897 seconds
+  Import took 0.377062 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.093340 seconds.
+  path: Assets/Resources/StarSparrowAI6.prefab
+  artifactKey: Guid(0f844ac0fae83446bb6da85c47b737dc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI6.prefab using Guid(0f844ac0fae83446bb6da85c47b737dc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '46a795f55966114e8ce508a943b2d5e3') in 0.304128 seconds
+  Import took 0.371846 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.690807 seconds.
+  path: Assets/Resources/StarSparrowAI7.prefab
+  artifactKey: Guid(b57ad38b4e21b4246a26511b884d9b0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI7.prefab using Guid(b57ad38b4e21b4246a26511b884d9b0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '053dc7d32fd798a459f986b0e45c96f0') in 0.310539 seconds
+  Import took 0.381790 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.828568 seconds.
+  path: Assets/Resources/StarSparrowAI8.prefab
+  artifactKey: Guid(35b0744138f2e4bf88f578e824fafe5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI8.prefab using Guid(35b0744138f2e4bf88f578e824fafe5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '551c1fe83792f88655cc5f5069f47937') in 0.304358 seconds
+  Import took 0.374628 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.146121 seconds.
+  path: Assets/Resources/StarSparrowAI9.prefab
+  artifactKey: Guid(2d549bf0c67674e239e3890cb86e43d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StarSparrowAI9.prefab using Guid(2d549bf0c67674e239e3890cb86e43d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cc333ab5b1259b70dd44b659f10c6b79') in 0.310480 seconds
+  Import took 0.379874 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006881 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.58 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.191 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 2.48 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 251.2 MB.
+System memory in use after: 251.0 MB.
+
+Unloading 86 unused Assets to reduce memory usage. Loaded Objects now: 3844.
+Total: 6.750555 ms (FindLiveObjects: 0.922547 ms CreateObjectMapping: 0.830354 ms MarkObjects: 3.986454 ms  DeleteObjects: 1.004922 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006543 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.88 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.013 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.68 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 251.4 MB.
+System memory in use after: 251.2 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3848.
+Total: 6.279787 ms (FindLiveObjects: 0.765555 ms CreateObjectMapping: 0.426777 ms MarkObjects: 4.216600 ms  DeleteObjects: 0.867822 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 331.687336 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ab32a116c62cc76191996c60d487bb90') in 0.031515 seconds
+  Import took 0.044461 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008831 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 2.21 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.851 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.86 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 251.6 MB.
+System memory in use after: 251.5 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3852.
+Total: 4.587733 ms (FindLiveObjects: 0.455857 ms CreateObjectMapping: 0.285366 ms MarkObjects: 3.054258 ms  DeleteObjects: 0.790204 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 201.385825 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '88343662db963de3fb6411826ce620a1') in 0.033807 seconds
+  Import took 0.045229 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008464 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 2.57 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.950 seconds
+Platform modules already initialized, skipping
+Switching build target platform(2) subTarget(0) extendedPlatform(0) -> platform(13) subTarget(537395200) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 2.14 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3194 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 251.9 MB.
+System memory in use after: 251.7 MB.
+
+Unloading 85 unused Assets to reduce memory usage. Loaded Objects now: 3856.
+Total: 5.510409 ms (FindLiveObjects: 1.111094 ms CreateObjectMapping: 0.386745 ms MarkObjects: 3.142186 ms  DeleteObjects: 0.866736 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 190.029527 seconds.
+  path: Assets/Script/GameScene/GameAI/AIBehaviorTree.asset
+  artifactKey: Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/GameScene/GameAI/AIBehaviorTree.asset using Guid(b2980a499dfe54a0ca1e526018b16cc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '163dc4d30f701fb3d997c1cf55abd809') in 0.032596 seconds
+  Import took 0.044098 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 176.350508 seconds.
+  path: Assets/Scenes/GameScene.unity
+  artifactKey: Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/GameScene.unity using Guid(99c9720ab356a0642a771bea13969a05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b3138680e76b052aff236a7abee0d413') in 0.048718 seconds
+  Import took 0.055311 seconds .
+
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file
