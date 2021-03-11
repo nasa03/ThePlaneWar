@@ -5,10 +5,15 @@ using BehaviorDesigner.Runtime.Tasks;
 public class FireAction : Action
 {
     private projectileActor _projectileActor;
+    private MissileActor _missileActor;
     private AIProperty _aiProperty;
     private BehaviorTree _behaviorTree;
-    private float _time = 0.0f;
-    private const float MAXTime = 0.2f;
+    private float _projectileTime = 0.0f;
+    private const float MAXProjectileTime = 0.2f;
+    private float _missileTime = MAXMissileTime;
+    private int _missileCount = MAXMissileCount;
+    private const float MAXMissileTime = 10.0f;
+    private const int MAXMissileCount = 3;
 
     public override void OnStart()
     {
@@ -20,11 +25,27 @@ public class FireAction : Action
 
         if (!_aiProperty.isDead)
         {
-            _time += Time.deltaTime;
-            if (_time >= MAXTime)
+            _projectileTime += Time.deltaTime;
+            if (_projectileTime >= MAXProjectileTime)
             {
                 _projectileActor.AIShoot();
-                _time = 0.0f;
+                _projectileTime = 0.0f;
+            }
+            
+            if (_missileTime > 0 && _missileCount < MAXMissileCount)
+                _missileTime -= Time.deltaTime;
+            else
+            {
+                if (_missileCount < MAXMissileCount)
+                    _missileCount++;
+
+                _missileTime = MAXMissileTime;
+            }
+
+            if (_missileCount > 0)
+            {
+                _missileActor.AIShoot();
+                _missileCount--;
             }
         }
 
@@ -43,6 +64,7 @@ public class FireAction : Action
     public override void OnAwake()
     {
         _projectileActor = GetComponent<projectileActor>();
+        _missileActor = GetComponent<MissileActor>();
         _aiProperty = GetComponent<AIProperty>();
         _behaviorTree = GetComponent<BehaviorTree>();
     }
