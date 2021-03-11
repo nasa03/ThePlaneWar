@@ -16,24 +16,7 @@ public class AIController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
 
-        //if (Target)
-        //{
-        //    if (GetDistance(Target) == 0) return;
-        //    
-        //    if (GetDistance(Target) < 500.0f)
-        //        _projectileActor.AIShoot();
-//
-        //    if (_missileCount > 0)
-        //    {
-        //        _missileCount--;
-        //        _missileActor.AIShoot();
-        //    }
-//
-        //    return;
-        //};
-        
     }
     
     // Update is called once per frame

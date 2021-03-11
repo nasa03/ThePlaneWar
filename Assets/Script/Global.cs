@@ -88,7 +88,7 @@ public static class Global
     {
         float distance = 0;
 
-        if (target.CompareTag("Plane") || target.CompareTag("AI"))
+        if (target && (target.CompareTag("Plane") || target.CompareTag("AI")))
         {
             Vector3 thisPosition = current.position;
             Vector3 targetPosition = target.position;

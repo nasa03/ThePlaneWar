@@ -7,6 +7,6 @@ public class bMasterClientConditional : Conditional
 {
 	public override TaskStatus OnUpdate()
 	{
-		return PhotonNetwork.IsMasterClient ? TaskStatus.Success : TaskStatus.Failure;
+		return PhotonNetwork.IsMasterClient ? TaskStatus.Success : TaskStatus.Running;
 	}
 }
