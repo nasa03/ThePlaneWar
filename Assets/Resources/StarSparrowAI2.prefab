@@ -19,11 +19,11 @@ GameObject:
   - component: {fileID: 8740543571680075288}
   - component: {fileID: 6525400082803183959}
   - component: {fileID: 4883053878326730451}
-  - component: {fileID: 2785193182348604657}
   - component: {fileID: 982572883022974335}
   - component: {fileID: 5576771689124080680}
   - component: {fileID: 2459956533707796639}
   - component: {fileID: 5218352499876254408}
+  - component: {fileID: 2274649680139366933}
   - component: {fileID: 1055000258674300392}
   - component: {fileID: 7766769274973361010}
   - component: {fileID: 7936234417571274408}
@@ -731,30 +731,14 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 0
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 2785193182348604657}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2785193182348604657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073763574398454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 0
 --- !u!114 &982572883022974335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,6 +787,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cac9aa86add9644889a20566774b077e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2274649680139366933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073763574398454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da5bef18d1b643688214be953b66553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!82 &1055000258674300392

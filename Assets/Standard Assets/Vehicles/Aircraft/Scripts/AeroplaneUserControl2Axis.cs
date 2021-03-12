@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using Photon.Pun;
 
 namespace UnityStandardAssets.Vehicles.Aeroplane
 {
     [RequireComponent(typeof (AeroplaneController))]
-    public class AeroplaneUserControl2Axis : MonoBehaviour
+    public class AeroplaneUserControl2Axis : MonoBehaviourPun
     {
         // these max angles are only used on mobile, due to the way pitch and roll input are handled
         public float maxRollAngle = 80;
@@ -24,6 +25,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
 
         private void FixedUpdate()
         {
+            if (!photonView.IsMine) return;
+            
             // Read input for the pitch, yaw, roll and throttle of the aeroplane.
             //float roll = CrossPlatformInputManager.GetAxis("Horizontal");
             float yaw = CrossPlatformInputManager.GetAxis("Horizontal");

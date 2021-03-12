@@ -5,13 +5,16 @@ using BehaviorDesigner.Runtime.Tasks;
 public class bPlaneConditional : Conditional
 {
     public float maxDistance = 0.0f;
+    public float minDistance = 0.0f;
     private BehaviorTree _behaviorTree;
 
     public override TaskStatus OnUpdate()
     {
         Transform target = (Transform) _behaviorTree.GetVariable("target").GetValue();
 
-        if (target && Global.GetDistance(transform, target) < maxDistance && Global.GetDistance(transform, target) != 0)
+        if (target && Global.GetDistance(transform, target) < maxDistance
+                   && Global.GetDistance(transform, target) > minDistance
+                   && Global.GetDistance(transform, target) != 0)
         {
             if (target.CompareTag("Plane"))
                 return TaskStatus.Success;

@@ -114,13 +114,10 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
 
     public IEnumerator RebornStart()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[Index].position +
-                                 new Vector3(0, 15, 0);
-            transform.rotation = Quaternion.identity;
-        }
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[Index].position +
+                             new Vector3(0, 15, 0);
+        transform.rotation = Quaternion.identity;
 
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
@@ -138,8 +135,7 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
 
     public void RebornEnd()
     {
-        if (PhotonNetwork.IsMasterClient)
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 
         GetComponent<MeshRenderer>().enabled = true;
         GetComponent<BoxCollider>().enabled = true;
@@ -176,7 +172,7 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
     public void OnCollisionEnter(Collision collision)
     {
         if ((collision.collider.CompareTag("FX") || collision.collider.CompareTag("Plane") ||
-            collision.collider.CompareTag("AI")) && !_aiProperty.isInvincible)
+             collision.collider.CompareTag("AI")) && !_aiProperty.isInvincible)
             StartCoroutine(Suicide());
     }
 }

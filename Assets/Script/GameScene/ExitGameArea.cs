@@ -12,6 +12,6 @@ public class ExitGameArea : MonoBehaviour
             CrossPlatformInputManager.SetButtonDown("Suicide");
 
         if (other.CompareTag("AI") && PhotonNetwork.IsMasterClient)
-            other.GetComponent<AIAttack>().Suicide();
+            StartCoroutine(other.GetComponent<AIAttack>().Suicide());
     }
 }

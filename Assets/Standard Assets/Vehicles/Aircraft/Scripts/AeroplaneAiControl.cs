@@ -1,4 +1,5 @@
 using System;
+using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -63,6 +64,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         // fixed update is called in time with the physics system update
         private void FixedUpdate()
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+            
             if (m_Target != null)
             {
                 // make the plane wander from the path, useful for making the AI seem more human, less robotic.

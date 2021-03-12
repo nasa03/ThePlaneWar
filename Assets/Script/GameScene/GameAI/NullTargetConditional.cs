@@ -8,13 +8,9 @@ public class NullTargetConditional : Conditional
 
     public override TaskStatus OnUpdate()
     {
-        Transform tempTarget = Global.GetNearTargetTransform(transform);
         Transform target = (Transform) _behaviorTree.GetVariable("target").GetValue();
-        
-        if (tempTarget || !target)
-            return TaskStatus.Success;
-        else
-            return TaskStatus.Running;
+
+        return !target ? TaskStatus.Success : TaskStatus.Failure;
     }
 
     public override void OnAwake()

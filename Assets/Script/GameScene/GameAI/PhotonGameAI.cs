@@ -17,16 +17,15 @@ public class PhotonGameAI : MonoBehaviourPun
         object[] aiPlaneIndex = (object[]) PhotonNetwork.CurrentRoom.GetProperties("ai_List");
 
         if (aiPlaneIndex == null) yield break;
-        
+
         if (PhotonNetwork.IsMasterClient)
         {
             for (int i = 0; i < aiPlaneIndex.Length; i++)
             {
-                GameObject aiPlane = PhotonNetwork.InstantiateRoomObject(
+                GameObject aiPlane = PhotonNetwork.Instantiate(
                     aiPlanePrefabs[(int) aiPlaneIndex[i]].name,
                     FindObjectOfType<PhotonGame>().GroundRunwayPosition[PhotonNetwork.CurrentRoom.Players.Count + i]
-                        .position +
-                    new Vector3(0, 15, 0), Quaternion.identity);
+                        .position + new Vector3(0, 15, 0), Quaternion.identity);
 
                 photonView.RPC("HandleAIPlaneProperty", RpcTarget.All, aiPlane.name, i);
             }
@@ -62,7 +61,7 @@ public class PhotonGameAI : MonoBehaviourPun
             aiProperty.HP = 100;
             aiProperty.isDead = true;
         }
-        
+
         StartCoroutine(target.GetComponent<AIAttack>().RebornStart());
     }
 

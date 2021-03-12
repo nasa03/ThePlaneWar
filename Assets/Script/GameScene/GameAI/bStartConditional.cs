@@ -4,13 +4,13 @@ using BehaviorDesigner.Runtime.Tasks;
 
 public class bStartConditional : Conditional
 {
-	public bool start = true;
+	private bool _start = true;
 
 	public override TaskStatus OnUpdate()
 	{
-		if (start)
+		if (_start)
 		{
-			start = !start;
+			_start = !_start;
 			
 			return TaskStatus.Success;
 		}

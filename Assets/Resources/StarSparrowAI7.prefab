@@ -19,11 +19,11 @@ GameObject:
   - component: {fileID: 6500036731626704738}
   - component: {fileID: 2760551582535331017}
   - component: {fileID: 2163612971224830068}
-  - component: {fileID: 280568760475085539}
   - component: {fileID: 1176442400233475379}
   - component: {fileID: 7082506787992765124}
   - component: {fileID: 4150943108095482267}
   - component: {fileID: 4676947201410563786}
+  - component: {fileID: 4032283417855878114}
   - component: {fileID: 8984177990672343884}
   - component: {fileID: 3686455763669337355}
   - component: {fileID: 1878665191898455689}
@@ -731,30 +731,14 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 0
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 280568760475085539}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &280568760475085539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058240963411080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 0
 --- !u!114 &1176442400233475379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,6 +787,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cac9aa86add9644889a20566774b077e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4032283417855878114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058240963411080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da5bef18d1b643688214be953b66553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!82 &8984177990672343884
