@@ -9687,6 +9687,7 @@ MonoBehaviour:
   m_SpeedEffect: 0.3
   m_TakeoffHeight: 800
   m_Target: {fileID: 0}
+  m_MaxEnginePower: 60
 --- !u!114 &5232192097999546791
 MonoBehaviour:
   m_ObjectHideFlags: 0

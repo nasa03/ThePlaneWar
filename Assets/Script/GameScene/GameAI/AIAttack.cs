@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BehaviorDesigner.Runtime;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -11,6 +10,7 @@ using Random = UnityEngine.Random;
 public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
 {
     private AIProperty _aiProperty;
+    private Rigidbody _rigidbody;
     private bool _reborn = false;
     private bool _invincible = false;
     private float _time = 0.0f;
@@ -44,6 +44,7 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
     private void Awake()
     {
         _aiProperty = GetComponent<AIProperty>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     public void Attack(Player player, Transform target)
@@ -114,10 +115,13 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
 
     public IEnumerator RebornStart()
     {
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[Index].position +
-                             new Vector3(0, 15, 0);
-        transform.rotation = Quaternion.identity;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            transform.position = FindObjectOfType<PhotonGame>().GroundRunwayPosition[Index].position +
+                                 new Vector3(0, 15, 0);
+            transform.rotation = Quaternion.identity;
+        }
 
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
@@ -135,7 +139,8 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
 
     public void RebornEnd()
     {
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        if (PhotonNetwork.IsMasterClient)
+            _rigidbody.constraints = RigidbodyConstraints.None;
 
         GetComponent<MeshRenderer>().enabled = true;
         GetComponent<BoxCollider>().enabled = true;

@@ -22,7 +22,7 @@ public class PhotonGameAI : MonoBehaviourPun
         {
             for (int i = 0; i < aiPlaneIndex.Length; i++)
             {
-                GameObject aiPlane = PhotonNetwork.Instantiate(
+                GameObject aiPlane = PhotonNetwork.InstantiateRoomObject(
                     aiPlanePrefabs[(int) aiPlaneIndex[i]].name,
                     FindObjectOfType<PhotonGame>().GroundRunwayPosition[PhotonNetwork.CurrentRoom.Players.Count + i]
                         .position + new Vector3(0, 15, 0), Quaternion.identity);
