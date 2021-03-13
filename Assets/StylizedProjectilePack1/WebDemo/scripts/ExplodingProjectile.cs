@@ -25,7 +25,7 @@ public class ExplodingProjectile : MonoBehaviourPun
 
     public bool ignorePrevRotation = false;
 
-    public bool explodeOnTimer = false;
+    public bool explodeOnTimer = true;
     public float explosionTimer;
     float timer;
 

@@ -192,7 +192,7 @@ MonoBehaviour:
   projectileSpeed: 0
   projectileSpeedMultiplier: 0
   ignorePrevRotation: 0
-  explodeOnTimer: 0
+  explodeOnTimer: 1
   explosionTimer: 0
 --- !u!199 &199567567772610642
 ParticleSystemRenderer:
@@ -4993,12 +4993,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 0
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 0
   ObservedComponents:
   - {fileID: 8863587361458920101}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &8863587361458920101

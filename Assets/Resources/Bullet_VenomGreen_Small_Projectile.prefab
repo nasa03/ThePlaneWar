@@ -242,7 +242,7 @@ MonoBehaviour:
   projectileSpeed: 0
   projectileSpeedMultiplier: 0
   ignorePrevRotation: 0
-  explodeOnTimer: 0
+  explodeOnTimer: 1
   explosionTimer: 0
 --- !u!198 &198228151580939694
 ParticleSystem:
