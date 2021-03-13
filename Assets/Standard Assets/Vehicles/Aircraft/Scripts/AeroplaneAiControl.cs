@@ -38,10 +38,14 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             m_RandomPerlin; // Used for generating random point on perlin noise so that the plane will wander off path slightly
 
         private bool m_TakenOff; // Has the plane taken off yet
+        
+        [SerializeField] private float m_MaxEnginePower = 60.0f;
 
-        public bool m_powerSpeed = false;
-
-        public bool m_airBreaks = false;
+        // Start is called before the first frame update
+        private void Start()
+        {
+            m_AeroplaneController.m_MaxEnginePower = m_MaxEnginePower;
+        }
 
         // setup script properties
         private void Awake()
@@ -65,7 +69,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         private void FixedUpdate()
         {
             if (!PhotonNetwork.IsMasterClient) return;
-            
+
             if (m_Target != null)
             {
                 // make the plane wander from the path, useful for making the AI seem more human, less robotic.
@@ -131,8 +135,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 yawInput *= currentSpeedEffect;
 
                 // pass the current input to the plane (false = because AI never uses air brakes!)
-                m_AeroplaneController.Move(rollInput, pitchInput, yawInput, throttleInput, m_airBreaks);
-                m_AeroplaneController.m_MaxEnginePower = m_powerSpeed ? 1200f : 40f;
+                m_AeroplaneController.Move(rollInput, pitchInput, yawInput, throttleInput, false);
             }
             else
             {
