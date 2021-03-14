@@ -29,15 +29,21 @@ public class ExplodingMissile : MonoBehaviourPun
     // Update is called once per frame
     private void Update()
     {
+        if (!photonView.IsMine) return;
+        
         _timer += Time.deltaTime;
         if (!(_timer >= ExplosionTimer)) return;
 
-        Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
+        if (explosionPrefab)
+            Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
+        
         PhotonNetwork.Destroy(gameObject);
     }
 
     private void FixedUpdate()
     {
+        if (!photonView.IsMine) return;
+        
         transform.LookAt(_missileTarget != null ? _missileTarget : transform);
 
         _thisRigidbody.AddForce(transform.forward * Speed);

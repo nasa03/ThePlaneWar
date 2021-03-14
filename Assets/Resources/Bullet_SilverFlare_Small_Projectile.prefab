@@ -193,7 +193,7 @@ MonoBehaviour:
   projectileSpeedMultiplier: 0
   ignorePrevRotation: 0
   explodeOnTimer: 1
-  explosionTimer: 0
+  explosionTimer: 5
 --- !u!199 &199567567772610642
 ParticleSystemRenderer:
   serializedVersion: 6

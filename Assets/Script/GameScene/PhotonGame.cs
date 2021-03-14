@@ -145,7 +145,7 @@ public class PhotonGame : MonoBehaviourPunCallbacks, IPlaneHandler
         death++;
         PhotonNetwork.LocalPlayer.SetProperties("death", death);
 
-        PhotonNetwork.LocalPlayer.SetProperties("HP", 100);
+        PhotonNetwork.LocalPlayer.SetProperties("HP", 0);
 
         StartCoroutine(RebornStart());
     }
@@ -176,6 +176,8 @@ public class PhotonGame : MonoBehaviourPunCallbacks, IPlaneHandler
 
         LocalPlane = PhotonNetwork.Instantiate(planePrefabs[Global.totalPlaneInt].name,
             groundRunwayPosition[Global.totalPlayerInt].position + new Vector3(0, 15, 0), Quaternion.identity);
+        
+        PhotonNetwork.LocalPlayer.SetProperties("HP", 100);
 
         Reborn = false;
         _reconnected = false;

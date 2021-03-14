@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using Photon.Pun;
-using UnityEngine.Serialization;
 
 public class MissileActor : MonoBehaviourPun, IShootActor
 {

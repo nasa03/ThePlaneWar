@@ -26,7 +26,7 @@ public class ExplodingProjectile : MonoBehaviourPun
     public bool ignorePrevRotation = false;
 
     public bool explodeOnTimer = true;
-    public float explosionTimer;
+    public float explosionTimer = 5.0f;
     float timer;
 
     private Vector3 previousPosition;
@@ -47,6 +47,8 @@ public class ExplodingProjectile : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine) return;
+        
         /*     if(Input.GetButtonUp("Fire2"))
              {
                  Explode();
@@ -60,6 +62,8 @@ public class ExplodingProjectile : MonoBehaviourPun
 
     void FixedUpdate()
     {
+        if (!photonView.IsMine) return;
+        
         if (Missile)
         {
             projectileSpeed += projectileSpeed * projectileSpeedMultiplier;
@@ -177,7 +181,9 @@ public class ExplodingProjectile : MonoBehaviourPun
 
     void Explode()
     {
-        Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
+        if (explosionPrefab)
+            Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
+        
         PhotonNetwork.Destroy(gameObject);
     }
 
