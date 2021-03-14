@@ -8,8 +8,8 @@ public class MissileActorButton : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private Button button;
     [SerializeField] private Text text;
-    private float _time = 10.0f;
-    private int _totalCount = 3;
+    private float _time = MAXTime;
+    private int _totalCount = MAXCount;
     private const float MAXTime = 10.0f;
     private const int MAXCount = 3;
 

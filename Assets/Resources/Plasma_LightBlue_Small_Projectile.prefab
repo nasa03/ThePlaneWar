@@ -9532,6 +9532,8 @@ MonoBehaviour:
     type: 3}
   explosionPrefab: {fileID: 1879272669879180, guid: 2eeb0daa944232844a4ab7bfe23faa67,
     type: 3}
+  speed: 800
+  explosionTimer: 6
 --- !u!114 &114493403153355018
 MonoBehaviour:
   m_ObjectHideFlags: 0

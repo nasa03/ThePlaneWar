@@ -47,12 +47,6 @@ public class ExplodingProjectile : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine) return;
-        
-        /*     if(Input.GetButtonUp("Fire2"))
-             {
-                 Explode();
-             }*/
         timer += Time.deltaTime;
         if (timer >= explosionTimer && explodeOnTimer == true)
         {
@@ -62,8 +56,6 @@ public class ExplodingProjectile : MonoBehaviourPun
 
     void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
-        
         if (Missile)
         {
             projectileSpeed += projectileSpeed * projectileSpeedMultiplier;
