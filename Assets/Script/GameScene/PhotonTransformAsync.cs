@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class AITransformAsync : MonoBehaviour, IPunObservable
+public class PhotonTransformAsync : MonoBehaviour, IPunObservable
 {
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
