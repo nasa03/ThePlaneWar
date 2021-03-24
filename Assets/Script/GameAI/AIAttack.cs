@@ -7,7 +7,7 @@ using Photon.Realtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AIAttack : MonoBehaviourPunCallbacks, IPlaneHandler, IAttack, ISuicide
+public class AIAttack : MonoBehaviourPunCallbacks, IPlaneHandler, IAttack
 {
     private AIProperty _aiProperty;
     private Rigidbody _rigidbody;

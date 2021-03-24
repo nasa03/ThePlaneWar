@@ -42791,7 +42791,6 @@ GameObject:
   - component: {fileID: 1308863052201616953}
   - component: {fileID: 139961920098445648}
   - component: {fileID: 888352002597009561}
-  - component: {fileID: 1982023522178701738}
   - component: {fileID: 8550297152496513152}
   m_Layer: 0
   m_Name: StarSparrow6
@@ -43581,18 +43580,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planeCamera: {fileID: 9205930967282373561}
---- !u!114 &1982023522178701738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781775965045562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 456b2120add8e4a65adb32c869756e47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8550297152496513152
 MonoBehaviour:
   m_ObjectHideFlags: 0
