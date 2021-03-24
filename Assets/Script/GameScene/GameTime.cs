@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class GameTime : MonoBehaviourPun
+public class GameTime : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Text text;
     [SerializeField] private GameObject gameOverButton;
@@ -48,5 +49,12 @@ public class GameTime : MonoBehaviourPun
                 photonView.RPC("GameOver", RpcTarget.All);
             }
         }
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+        
+        gameOverButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 }
