@@ -38060,12 +38060,12 @@ GameObject:
   - component: {fileID: 8393401490908642908}
   - component: {fileID: 9184601468994845905}
   - component: {fileID: 3275984420865786499}
-  - component: {fileID: 3270969583747491145}
   - component: {fileID: 6634072871722651355}
   - component: {fileID: 1946623348723219662}
   - component: {fileID: 7941338748108320944}
   - component: {fileID: 7126290206613666532}
   - component: {fileID: 76480395443161261}
+  - component: {fileID: 6354981257054576154}
   m_Layer: 0
   m_Name: StarSparrow4
   m_TagString: Plane
@@ -38798,22 +38798,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 3270969583747491145}
+  - {fileID: 6354981257054576154}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &3270969583747491145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1817626638657306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3da5bef18d1b643688214be953b66553, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6634072871722651355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38878,6 +38866,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 456b2120add8e4a65adb32c869756e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6354981257054576154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817626638657306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!1 &1871057050754726
 GameObject:
   m_ObjectHideFlags: 0

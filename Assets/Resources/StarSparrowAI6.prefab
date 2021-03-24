@@ -42819,10 +42819,10 @@ GameObject:
   - component: {fileID: 139961920098445648}
   - component: {fileID: 1674217043940401387}
   - component: {fileID: 1980172350247125903}
-  - component: {fileID: 5769479579861252901}
   - component: {fileID: 1065379630055267254}
   - component: {fileID: 8634604603220819458}
   - component: {fileID: 5545922460900720699}
+  - component: {fileID: 5416066237004600925}
   m_Layer: 0
   m_Name: StarSparrowAI6
   m_TagString: AI
@@ -43534,7 +43534,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 5769479579861252901}
+  - {fileID: 5416066237004600925}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -43586,18 +43586,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cac9aa86add9644889a20566774b077e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5769479579861252901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781775965045562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3da5bef18d1b643688214be953b66553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!82 &1065379630055267254
@@ -43753,6 +43741,22 @@ MonoBehaviour:
       Version: 1.6.6
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
+--- !u!114 &5416066237004600925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781775965045562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &1787490433798280
 GameObject:
   m_ObjectHideFlags: 0

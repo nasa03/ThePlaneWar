@@ -13,7 +13,11 @@ public class PlaneAttack : MonoBehaviourPun, IAttack
     // Start is called before the first frame update
     private void Start()
     {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine)
+        {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            return;
+        }
 
         PhotonNetwork.LocalPlayer.SetProperties("HP", 100);
     }

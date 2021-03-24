@@ -7,7 +7,7 @@ using Photon.Realtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
+public class AIAttack : MonoBehaviourPunCallbacks, IPlaneHandler, IAttack, ISuicide
 {
     private AIProperty _aiProperty;
     private Rigidbody _rigidbody;
@@ -19,6 +19,9 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
     // Start is called before the first frame update
     private void Start()
     {
+        if (!PhotonNetwork.IsMasterClient)
+            _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+
         StartCoroutine(InvincibleStart());
     }
 
@@ -179,5 +182,15 @@ public class AIAttack : MonoBehaviour, IPlaneHandler, IAttack, ISuicide
         if ((collision.collider.CompareTag("FX") || collision.collider.CompareTag("Plane") ||
              collision.collider.CompareTag("AI")) && !_aiProperty.isInvincible)
             StartCoroutine(Suicide());
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+
+        if (PhotonNetwork.IsMasterClient)
+            _rigidbody.constraints = _reborn ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
+        else
+            _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
     }
 }
