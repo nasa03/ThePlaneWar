@@ -29,6 +29,11 @@ public class ExplodingMissile : MonoBehaviourPun
     // Update is called once per frame
     private void Update()
     {
+        if (!photonView.IsMine) return;
+
+        if (GetComponent<AIBullet>() && GetComponent<AIBullet>().aiTarget.CompareTag("AI") &&
+            !PhotonNetwork.IsMasterClient) return;
+        
         _timer += Time.deltaTime;
         if (!(_timer >= explosionTimer)) return;
 
@@ -40,6 +45,11 @@ public class ExplodingMissile : MonoBehaviourPun
 
     private void FixedUpdate()
     {
+        if (!photonView.IsMine) return;
+
+        if (GetComponent<AIBullet>() && GetComponent<AIBullet>().aiTarget.CompareTag("AI") &&
+            !PhotonNetwork.IsMasterClient) return;
+        
         transform.LookAt(_missileTarget != null ? _missileTarget : transform);
 
         _thisRigidbody.AddForce(transform.forward * speed);
