@@ -18,8 +18,6 @@ namespace Photon.Realtime.Demo
         {
             this.lbc = new LoadBalancingClient();
             this.lbc.AddCallbackTarget(this);
-            this.lbc.SerializationProtocol = SerializationProtocol.GpBinaryV16;
-            //this.lbc.LoadBalancingPeer.SocketImplementationConfig[ConnectionProtocol.Udp] = typeof(SocketUdpSrc);
 
             if (!this.lbc.ConnectUsingSettings(appSettings))
             {

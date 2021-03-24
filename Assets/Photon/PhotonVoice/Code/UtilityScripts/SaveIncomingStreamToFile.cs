@@ -12,7 +12,7 @@
         private VoiceConnection voiceConnection;
 
         [SerializeField]
-        private bool muteLocalSpeaker;
+        private bool muteLocalSpeaker = false;
 
         protected override void Awake()
         {

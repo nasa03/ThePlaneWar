@@ -5,7 +5,7 @@
 // <summary>
 // Component that should be attached to a networked PUN prefab that has 
 // PhotonView. It will bind remote Recorder with local Speaker of the same 
-// networked perfab. This component makes automatic voice stream routing easy 
+// networked prefab. This component makes automatic voice stream routing easy 
 // for players' characters/avatars.
 // </summary>
 // <author>developer@photonengine.com</author>
@@ -225,6 +225,10 @@ namespace Photon.Voice.PUN
                 if (this.UsePrimaryRecorder)
                 {
                     this.recorderInUse = PhotonVoiceNetwork.Instance.PrimaryRecorder;
+                    if (this.recorderInUse == null && this.Logger.IsErrorEnabled)
+                    {
+                        this.Logger.LogError("PrimaryRecorder is not set");
+                    }
                 }
                 else
                 {

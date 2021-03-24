@@ -329,7 +329,7 @@ namespace Photon.Pun
                 if (amMasterClient)
                 {
                     int viewOwnerId = view.OwnerActorNr;
-                    // TODO: Ideally all of this would only be targetted at the new player.
+                    // TODO: Ideally all of this would only be targeted at the new player.
                     if (viewOwnerId != view.CreatorActorNr)
                     {
                         reusableIntList.Add(view.ViewID);

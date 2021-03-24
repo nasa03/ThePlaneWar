@@ -233,7 +233,7 @@ namespace Photon.Voice
             if (ev.Code == VoiceEvent.Code)
             {
                 // Payloads are arrays. If first array element is 0 than next is event subcode. Otherwise, the event is data frame with voiceId in 1st element.                    
-                protocol.onVoiceEvent(ev[(byte)ParameterCode.CustomEventContent], VOICE_CHANNEL, (int)ev[ParameterCode.ActorNr], this.LocalPlayer.ActorNumber);
+                protocol.onVoiceEvent(ev[(byte)ParameterCode.CustomEventContent], VOICE_CHANNEL, ev.Sender, this.LocalPlayer.ActorNumber);
             }
             else
             {
@@ -241,7 +241,7 @@ namespace Photon.Voice
                 switch (ev.Code)
                 {
                     case (byte)EventCode.Join:
-                        playerId = (int)ev[ParameterCode.ActorNr];
+                        playerId = ev.Sender;
                         if (playerId == this.LocalPlayer.ActorNumber)
                         {
                         }
@@ -252,7 +252,7 @@ namespace Photon.Voice
                         break;
                     case (byte)EventCode.Leave:
                         {
-                            playerId = (int)ev[ParameterCode.ActorNr];
+                            playerId = ev.Sender;
                             if (playerId == this.LocalPlayer.ActorNumber)
                             {
                                 this.voiceClient.onLeaveAllChannels();

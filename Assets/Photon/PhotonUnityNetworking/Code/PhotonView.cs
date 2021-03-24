@@ -29,6 +29,24 @@ namespace Photon.Pun
     public class PhotonView : MonoBehaviour
     {
         #if UNITY_EDITOR
+        [UnityEditor.InitializeOnLoadMethod]
+        private static void SetPhotonViewExecutionOrder()
+        {
+            int photonViewExecutionOrder = -16000;
+            GameObject go = new GameObject();
+            PhotonView pv = go.AddComponent<PhotonView>();
+            MonoScript monoScript = MonoScript.FromMonoBehaviour(pv);
+
+            if (photonViewExecutionOrder != MonoImporter.GetExecutionOrder(monoScript))
+            {
+                MonoImporter.SetExecutionOrder(monoScript, photonViewExecutionOrder); // very early but allows other scripts to run even earlier...
+            }
+
+            DestroyImmediate(go); 
+        }
+        #endif
+
+        #if UNITY_EDITOR
         [ContextMenu("Open PUN Wizard")]
         void OpenPunWizard()
         {
@@ -173,7 +191,7 @@ namespace Photon.Pun
 
         
         /// <summary>
-        /// The owner of a PhotonView is the player who created the GameObject with that view. Objects in the scene don't have an owner.
+        /// The owner of a PhotonView is the creator of an object by default Ownership can be transferred and the owner may not be in the room anymore. Objects in the scene don't have an owner.
         /// </summary>
         /// <remarks>
         /// The owner/controller of a PhotonView is also the client which sends position updates of the GameObject.
@@ -201,7 +219,8 @@ namespace Photon.Pun
 
                 Player prevOwner = this.Owner;
                 this.ownerActorNr = value;
-                this.Owner = PhotonNetwork.CurrentRoom == null ? null : PhotonNetwork.CurrentRoom.GetPlayer(this.ownerActorNr);
+                this.Owner = PhotonNetwork.CurrentRoom == null ? null : PhotonNetwork.CurrentRoom.GetPlayer(this.ownerActorNr, true);
+                this.AmOwner = PhotonNetwork.LocalPlayer != null && PhotonNetwork.LocalPlayer.ActorNumber == value;
 
                 this.UpdateCallbackLists();
                 if (!ReferenceEquals(this.OnOwnerChangeCallbacks, null))
@@ -230,8 +249,8 @@ namespace Photon.Pun
 
                 Player prevController = this.Controller;
                 this.controllerActorNr = value;
-                this.Controller = PhotonNetwork.CurrentRoom == null ? null : PhotonNetwork.CurrentRoom.GetPlayer(this.controllerActorNr);
-                this.IsMine = this.controllerActorNr == PhotonNetwork.LocalPlayer.ActorNumber;
+                this.Controller = PhotonNetwork.CurrentRoom == null ? null : PhotonNetwork.CurrentRoom.GetPlayer(this.controllerActorNr, true);
+                this.IsMine = PhotonNetwork.LocalPlayer != null && this.controllerActorNr == PhotonNetwork.LocalPlayer.ActorNumber;
 
                 this.UpdateCallbackLists();
 

@@ -47,7 +47,7 @@ namespace Photon.Voice
     }
 
     /// <summary>Interface for an encoder which consumes images via explicit call.</summary>
-    public interface IEncoderDirectImage : IEncoderDirect<ImageInputBuf>
+    public interface IEncoderDirectImage : IEncoderDirect<ImageBufferNative>
     {
         ImageFormat ImageFormat { get; }
     }
@@ -68,18 +68,6 @@ namespace Photon.Voice
     public interface IDecoderDirect<B> : IDecoder
     {
         Action<B> Output { get; set; }
-    }
-
-    // Buffer for IEncoderDirect encoding images
-    public struct ImageInputBuf
-    {
-        public IntPtr[] Buf;
-        public int Width;
-        public int Height;
-        public int[] Stride;
-        public ImageFormat ImageFormat;
-        public Rotation Rotation;
-        public Flip Flip;
     }
 
     // Buffer for output actions of image decoders
@@ -188,6 +176,7 @@ namespace Photon.Voice
         public ImageBufferNative(ImageBufferInfo info)
         {
             Info = info;
+            Planes = new IntPtr[info.Stride.Length];
         }
         public ImageBufferInfo Info { get; protected set; }
         public IntPtr[] Planes { get; protected set; }
@@ -206,8 +195,7 @@ namespace Photon.Voice
         public ImageBufferNativeAlloc(ImageBufferNativePool<ImageBufferNativeAlloc> pool, ImageBufferInfo info) : base(info)
         {
             this.pool = pool;
-
-            Planes = new IntPtr[info.Stride.Length];
+            
             for (int i = 0; i < info.Stride.Length; i++)
             {
                 Planes[i] = System.Runtime.InteropServices.Marshal.AllocHGlobal(info.Stride[i] * info.Height);

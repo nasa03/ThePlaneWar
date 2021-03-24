@@ -1350,7 +1350,7 @@ namespace Photon.Voice.Unity
                             {
                                 this.Logger.LogInfo("Setting recorder's source to UnityAndroidAudioInAEC");
                             }
-                            this.inputSource = new UnityAndroidAudioInAEC(this.Logger, this.nativeAndroidMicrophoneSettings.AcousticEchoCancellation, this.nativeAndroidMicrophoneSettings.AutomaticGainControl, this.nativeAndroidMicrophoneSettings.NoiseSuppression);
+                            this.inputSource = new AndroidAudioInAEC(this.Logger, this.nativeAndroidMicrophoneSettings.AcousticEchoCancellation, this.nativeAndroidMicrophoneSettings.AutomaticGainControl, this.nativeAndroidMicrophoneSettings.NoiseSuppression);
                             #else
                             if (this.Logger.IsErrorEnabled)
                             {
@@ -1490,12 +1490,20 @@ namespace Photon.Voice.Unity
 
         private void OnDestroy()
         {
+            if (this.Logger.IsDebugEnabled)
+            {
+                this.Logger.LogDebug("Recorder is about to be destroyed, removing local voice.");
+            }
             // no need to send PhotonVoiceRemoved since object is destroyed
             this.RemoveVoice(false);
         }
 
         private void RemoveVoice(bool sendUnityMsg)
         {
+            if (this.Logger.IsDebugEnabled)
+            {
+                this.Logger.LogDebug("RemovingVoice(sendUnityMsg:{0})", sendUnityMsg);
+            }
             if (this.subscribedToSystemChanges)
             {
                 this.UnsubscribeFromSystemChanges();

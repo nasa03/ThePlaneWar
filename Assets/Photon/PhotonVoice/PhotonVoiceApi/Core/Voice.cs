@@ -383,7 +383,7 @@ namespace Photon.Voice
             return (byte)(latest - (last + 1));
         }
 
-        internal void receiveBytes(byte[] receivedBytes, FrameFlags flags, byte evNumber)
+        internal void receiveBytes(FrameBuffer receivedBytes, byte evNumber)
         {            
             // receive-gap detection and compensation
             if (evNumber != this.lastEvNumber) // skip check for 1st event 
@@ -406,15 +406,15 @@ namespace Photon.Voice
                     this.voiceClient.logger.LogWarning(LogPrefix + " evNumer: " + evNumber + " playerVoice.lastEvNumber: " + this.lastEvNumber + " late: " + (255 - missing) + " r/b " + receivedBytes.Length);
                 }
             }
-            this.receiveFrame(receivedBytes, flags);
+            this.receiveFrame(receivedBytes);
         }
 
-        Queue<byte[]> frameQueue = new Queue<byte[]>();
-        Queue<FrameFlags> frameFlagsQueue = new Queue<FrameFlags>();
+        Queue<FrameBuffer> frameQueue = new Queue<FrameBuffer>();
         AutoResetEvent frameQueueReady = new AutoResetEvent(false);
-        private byte[] flushingFrame = null; // if not null, we are flushing since this frame received: process the queue w/o delays until this frame encountered
+        int flushingFramePosInQueue = -1; // if >= 0, we are flushing since the frame at this (dynamic) position got into the queue: process the queue w/o delays until this frame encountered
+        FrameBuffer nullFrame = new FrameBuffer(null, 0);
 
-        void receiveFrame(byte[] frame, FrameFlags flags)
+        void receiveFrame(FrameBuffer frame)
         {
             lock (disposeLock) // sync with Dispose and decodeThread 'finally'
             {
@@ -422,12 +422,11 @@ namespace Photon.Voice
 
                 lock (frameQueue)
                 {
-                    receiveSpacingProfile.Update(false, (flags & FrameFlags.EndOfStream) != 0);
+                    receiveSpacingProfile.Update(false, (frame.Flags & FrameFlags.EndOfStream) != 0);
                     frameQueue.Enqueue(frame);
-                    frameFlagsQueue.Enqueue(flags);
-                    if ((flags & FrameFlags.EndOfStream) != 0)
+                    if ((frame.Flags & FrameFlags.EndOfStream) != 0)
                     {
-                        flushingFrame = frame;
+                        flushingFramePosInQueue = frameQueue.Count - 1;
                     }
 
                 }
@@ -446,8 +445,7 @@ namespace Photon.Voice
                     for (int i = 0; i < count; i++)
                     {
                         receiveSpacingProfile.Update(true, false);
-                        frameQueue.Enqueue(null);
-                        frameFlagsQueue.Enqueue(0);
+                        frameQueue.Enqueue(nullFrame);
                     }
                 }
                 frameQueueReady.Set();
@@ -565,6 +563,7 @@ namespace Photon.Voice
 #endif                
                 decoder.Open(Info);
 
+                byte[] arrCopy = null;
                 while (!disposed)
                 {
                     frameQueueReady.WaitOne(); // Wait until data is pushed to the queue or Dispose signals.
@@ -577,36 +576,33 @@ namespace Photon.Voice
                     {
                         if (disposed) break; // early exit to save few resources
 
-                        byte[] f = null;
-                        FrameFlags flags = 0;
-                        bool ok = false;
                         lock (frameQueue)
                         {
                             var df = 0;
                             // if flushing, process all frames in the queue
                             // otherwise keep the queue length equal DelayFrames, also check DelayFrames for validity                            
-                            if (flushingFrame == null && DelayFrames > 0 && DelayFrames < 300) // 10 sec. of video or max 3 sec. audio
+                            if (flushingFramePosInQueue < 0 && DelayFrames > 0 && DelayFrames < 300) // 10 sec. of video or max 3 sec. audio
                             {
                                 df = DelayFrames;
                             }
                             if (frameQueue.Count > df)
                             {
-                                ok = true;
-                                f = frameQueue.Dequeue();
-                                flags = frameFlagsQueue.Dequeue();
-                                if (f == flushingFrame)
+                                FrameBuffer f = frameQueue.Dequeue();
+                                flushingFramePosInQueue--; // -1 if f is flushing frame (f.Flags == FrameFlags.EndOfStream), the next frame will be processed with delay
+
+                                // leave it decrementing to have an idea when the last flush was triggered
+                                // but avoid overflow which will happen in 248.5 days for 100 input frames per sec
+                                if (flushingFramePosInQueue == Int32.MinValue)
                                 {
-                                    flushingFrame = null;
+                                    flushingFramePosInQueue = -1;
                                 }
+                                
+                                decoder.Input(f.GetArrayAndRelease(ref arrCopy), f.Flags);
                             }
-                        }
-                        if (ok)
-                        {
-                            decoder.Input(f, flags);
-                        }
-                        else
-                        {
-                            break;
+                            else
+                            {
+                                break;
+                            }
                         }
                     }
 
@@ -636,7 +632,6 @@ namespace Photon.Voice
                 lock (frameQueue)
                 {
                     frameQueue.Clear();
-                    frameFlagsQueue.Clear();
                 }
                 decoder.Dispose();
 #if UNITY_ANDROID

@@ -1,7 +1,26 @@
 
-PUN 2 Change Log
+PUN 2 - Changelog
 Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
+
+v2.29 (15. March 2021)
+Updated: Minimum supported Unity version to 2018.4.x. We develop PUN 2 in Unity 2018.4.22 from now on. Also the language compatibility level '.Net Standard 2.0' is now being expected.
+Updated: Export settings for the dlls in Assets\PhotonLibs. All platforms will use .Net Standard 2.0, except the UWP export with .Net Runtime (which uses Metro with a placeholder being the lib in PhotonLibs\).
+Removed: Setting of protocol 1.6 when connecting directly to a Master Server. This was a workaround for older Photon Server SDKs.
+Note: If you host Photon yourself, you can set the LoadBalancingClient.SerializationProtocol to SerializationProtocol.GpBinaryV16, before you connect.
+Added: IPunOwnershipCallbacks.OnOwnershipTransferFailed. This helps react when an Ownership Transfer request failed (due to earlier changes). This might mean you have to implement OnOwnershipTransferFailed in some scripts.
+Changed: PhotonView OwnerActorNr and ControllerActorNr to make use of the new Room.GetPlayer() option (to get the Master Client instance if the owner/controller is set to 0).
+Fixed: The PhotonView's "Find" button was not saving the observed components in scenes, which meant the script wasn't called at runtime. 
+Updated: Library to 4.1.5.2.
+
+v2.28.3 (03. March 2021)
+Fixed: PhotonView.AmOwner was not updated ever.
+
+v2.28.2 (03. March 2021)
+Fixed: A potential issue with the execution order of the PhotonView component. It now sets it's own execution order to -16000 to get initialized before other scripts (especially on scene loading).
+Changed: Conditionals and logging output for Xbox builds. In the Editor, it's impossible to get a token, so PUN should not enforce this.
+Changed: PhotonView.ControllerActorNr will make sure the PhotonNetwork.LocalPlayer is not null when accessing the actorNumber through that.
+Changed: Instantiate will set PhotonView lastOnSerializeDataSent and lastOnSerializeDataReceived to null (which keeps instantiation for reused objects cleaner).
 
 v2.28.1 (25. February 2021)
 Updated: Library to v4.1.5.1. which fixes a problem with IPv6 addresses which was introduced in v4.1.5.0.
@@ -23,7 +42,7 @@ Updated: The Realtime API and Photon3Unity3d.dll to v4.1.4.9.
 
 v2.26.1 (15. December 2020)
 Note: This fix release does not have a new PhotonNetwork.PunVersion. The changes were just for the Editor.
-Fixed: Some edge cases for the included "Simple" addon. 
+Fixed: Some edge cases for the included "Simple" addon.
 Added: Changelog for Simple.
 
 v2.26 (09. December 2020)
@@ -43,7 +62,7 @@ Updated: Realtime API in a few ways. See respective changelog.
 v2.24 (25. November 2020)
 Added: PhotonTransformView.UseLocal. It defaults to true for any new PhotonTransformView but allows to get the "old" behaviour with world position and rotation data being synced.
 Fixed: Inspector UI for PhotonTransformView and PhotonAnimatorView. Warning box for using triggers broke horizonal bounds, causing horizontal scrollbars on inspector. Switched to standard helpbox.
-Changed: Drastically lowered the MaxDatagrams value, to not send too much in one frame. 
+Changed: Drastically lowered the MaxDatagrams value, to not send too much in one frame.
 Changed: Default sendFrequency to 33ms. PUN will send in more frames but less datagrams in each.
 Changed: SendRate does not affect the SerializationRate value anymore. Also, SerializationRate can be set independent from the SendRate.
 Updated: Documentation about SerializationRate and SendRate. This now explains more details about sending.

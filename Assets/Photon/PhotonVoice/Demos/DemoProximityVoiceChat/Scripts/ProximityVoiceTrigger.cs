@@ -35,6 +35,7 @@ public class ProximityVoiceTrigger : VoiceComponent
         this.photonView = this.GetComponentInParent<PhotonView>();
         Collider tmpCollider = this.GetComponent<Collider>();
         tmpCollider.isTrigger = true;
+        this.IsLocalCheck();
     }
 
     private void ToggleTransmission()
@@ -65,54 +66,60 @@ public class ProximityVoiceTrigger : VoiceComponent
 
     private void OnTriggerEnter(Collider other)
     {
-        ProximityVoiceTrigger trigger = other.GetComponent<ProximityVoiceTrigger>();
-        if (trigger != null)
+        if (this.IsLocalCheck())
         {
-            byte group = trigger.TargetInterestGroup;
-            if (this.Logger.IsDebugEnabled)
+            ProximityVoiceTrigger trigger = other.GetComponent<ProximityVoiceTrigger>();
+            if (trigger != null)
             {
-                this.Logger.LogDebug("OnTriggerEnter {0}", group);
-            }
-            if (group == this.TargetInterestGroup)
-            {
-                return;
-            }
-            if (group == 0)
-            {
-                return;
-            }
-            if (!this.groupsToAdd.Contains(group))
-            {
-                this.groupsToAdd.Add(group);
+                byte group = trigger.TargetInterestGroup;
+                if (this.Logger.IsDebugEnabled)
+                {
+                    this.Logger.LogDebug("OnTriggerEnter {0}", group);
+                }
+                if (group == this.TargetInterestGroup)
+                {
+                    return;
+                }
+                if (group == 0)
+                {
+                    return;
+                }
+                if (!this.groupsToAdd.Contains(group))
+                {
+                    this.groupsToAdd.Add(group);
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        ProximityVoiceTrigger trigger = other.GetComponent<ProximityVoiceTrigger>();
-        if (trigger != null)
+        if (this.IsLocalCheck())
         {
-            byte group = trigger.TargetInterestGroup;
-            if (this.Logger.IsDebugEnabled)
+            ProximityVoiceTrigger trigger = other.GetComponent<ProximityVoiceTrigger>();
+            if (trigger != null)
             {
-                this.Logger.LogDebug("OnTriggerExit {0}", group);
-            }
-            if (group == this.TargetInterestGroup)
-            {
-                return;
-            }
-            if (group == 0)
-            {
-                return;
-            }
-            if (this.groupsToAdd.Contains(group))
-            {
-                this.groupsToAdd.Remove(group);
-            }
-            if (!this.groupsToRemove.Contains(group))
-            {
-                this.groupsToRemove.Add(group);
+                byte group = trigger.TargetInterestGroup;
+                if (this.Logger.IsDebugEnabled)
+                {
+                    this.Logger.LogDebug("OnTriggerExit {0}", group);
+                }
+                if (group == this.TargetInterestGroup)
+                {
+                    return;
+                }
+                if (group == 0)
+                {
+                    return;
+                }
+                if (this.groupsToAdd.Contains(group))
+                {
+                    this.groupsToAdd.Remove(group);
+                }
+                if (!this.groupsToRemove.Contains(group))
+                {
+                    this.groupsToRemove.Add(group);
+                }
             }
         }
     }
@@ -123,7 +130,7 @@ public class ProximityVoiceTrigger : VoiceComponent
         {
             this.subscribedGroups = null;
         }
-        else
+        else if (this.IsLocalCheck())
         {
             if (this.groupsToAdd.Count > 0 || this.groupsToRemove.Count > 0)
             {
@@ -139,7 +146,7 @@ public class ProximityVoiceTrigger : VoiceComponent
                 }
                 if (this.Logger.IsInfoEnabled)
                 {
-                    this.Logger.LogInfo("Trying to change groups, to_be_removed#:{0} to_be_added#={1}", this.groupsToRemove.Count, this.groupsToAdd.Count);
+                    this.Logger.LogInfo("client of actor number {0} trying to change groups, to_be_removed#:{1} to_be_added#={2}", this.TargetInterestGroup, this.groupsToRemove.Count, this.groupsToAdd.Count);
                 }
                 if (PhotonVoiceNetwork.Instance.Client.OpChangeGroups(toRemove, toAdd))
                 {
@@ -181,4 +188,25 @@ public class ProximityVoiceTrigger : VoiceComponent
             this.ToggleTransmission();
         }
     }
+
+    private bool IsLocalCheck()
+    {
+        if (this.photonVoiceView.IsPhotonViewReady)
+        {
+            if (this.photonView.IsMine)
+            {
+                return true;
+            }
+            if (this.enabled)
+            {
+                if (this.Logger.IsInfoEnabled)
+                {
+                    this.Logger.LogInfo("Disabling ProximityVoiceTrigger as does not belong to local player, actor number {0}", this.TargetInterestGroup);
+                }
+                this.enabled = false;
+            }
+        }
+        return false;
+    }
+
 }

@@ -69,7 +69,7 @@ namespace Photon.Voice
             if (ev.Code == VoiceEvent.FrameCode)
             {
                 // Payloads are arrays. If first array element is 0 than next is event subcode. Otherwise, the event is data frame with voiceId in 1st element.
-                this.onVoiceFrameEvent(ev[(byte)ParameterCode.CustomEventContent], VOICE_CHANNEL, (int)ev[ParameterCode.ActorNr], this.LocalPlayer.ActorNumber);
+                this.onVoiceFrameEvent(ev[(byte)ParameterCode.CustomEventContent], VOICE_CHANNEL, ev.Sender, this.LocalPlayer.ActorNumber);
             }
             else
             {
@@ -82,11 +82,13 @@ namespace Photon.Voice
         {
             byte[] content = null;
             int contentLength = 0;
+            int sliceOffset = 0;
             ByteArraySlice slice = content0 as ByteArraySlice;
             if (slice != null)
             {
                 content = slice.Buffer;
                 contentLength = slice.Count;
+                sliceOffset = slice.Offset;
             }
             else
             {
@@ -100,24 +102,27 @@ namespace Photon.Voice
             }
             else
             {
-                byte dataOffset = (byte)content[0];
-                byte voiceId = (byte)content[1];
-                byte evNumber = (byte)content[2];
+                byte dataOffset = (byte)content[sliceOffset];
+                byte voiceId = (byte)content[sliceOffset + 1];
+                byte evNumber = (byte)content[sliceOffset + 2];
                 FrameFlags flags = 0;
                 if (dataOffset > 3)
                 {
                     flags = (FrameFlags)content[3];
                 }
 
-                byte[] receivedBytes = new byte[contentLength - dataOffset]; // TODO: pool this and release when decoded (problem: size is different for most frames)
-                Buffer.BlockCopy(content, dataOffset, receivedBytes, 0, receivedBytes.Length);
-
+                FrameBuffer buffer;
                 if (slice != null)
                 {
-                    slice.Release();
+                    buffer = new FrameBuffer(slice.Buffer, slice.Offset + dataOffset, contentLength - dataOffset, flags, () => slice.Release());
                 }
+                else
+                {
+                    buffer = new FrameBuffer(content, dataOffset, contentLength - dataOffset, flags, null);
+                }
+                
 
-                this.voiceClient.onFrame(channelId, playerId, voiceId, evNumber, receivedBytes, flags, playerId == localPlayerId);
+                this.voiceClient.onFrame(channelId, playerId, voiceId, evNumber, buffer, playerId == localPlayerId);
             }
         }
     }

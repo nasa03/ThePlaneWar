@@ -87,11 +87,11 @@ namespace Photon.Voice.Unity
         [SerializeField]
         private DebugLevel globalSpeakersLogLevel = DebugLevel.INFO;
 
-        #pragma warning disable 649
+        #pragma warning disable 414
         [SerializeField]
         [HideInInspector]
         private int globalPlaybackDelay = 200;
-        #pragma warning restore 649
+        #pragma warning restore 414
 
         [SerializeField]
         private PlaybackDelaySettings globalPlaybackDelaySettings = new PlaybackDelaySettings

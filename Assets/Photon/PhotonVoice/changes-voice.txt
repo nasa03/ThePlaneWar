@@ -1,5 +1,34 @@
 Photon Voice 2 Change Log
 
+v2.24 (March 15th, 2021)
+   PUN2: v2.29 (fd2ef98)
+   PhotonVoiceApi: revision 6019
+   NOTE: [BREAKING] minimal supported Unity version is now 2018.4LTS.
+   NOTE: [BREAKING] .netstandard2.0 Photon library is used. (See PUN2's changelog for more details)
+   NOTE: [BREAKING] ProjectSettings' API Compatibility Level .NET4.x is required for the .netstandard2.0 library to be used. The old library to be used for .NET 3.5 is still in the project if you want to switch. (See PUN2's changelog for more details) 
+   NOTE: [BREAKING] a client workaround used to connect to self-hosted Photon Server v4 is removed. You now need to explicitly set the LoadBalancingClient.SerializationProtocol to 1.6 before connecting to self-hosted Photon Server v4. v5 is OK.  (See PUN2's changelog for more details)
+   FIXED: [Editor only] minor, two more CS0649 warnings.
+   ADDED: [VoicePunDemo] a workaround to avoid NullReferenceException.
+   CHANGED: [VoicePunDemo] CrossPlatformInput StandardAssets updated.
+   ADDED: error log when PrimaryRecorder not set.
+   FIXED: [VoiceDebugScript] IsMine should not be used as condition in CantHearYou RPC, comparing sender vs. receiver instead.
+   
+v2.23.2 (March 10th, 2021)
+   PUN2: v2.28.3 (3c4b188)
+   PhotonVoiceApi: revision 6004
+   NOTE: [BREAKING] if you update from a version before 2.23, make sure to delete "Assets\Photon" root folder before importing. 
+	    Otherwise you need to move (from Editor or from explorer by moving .meta files also) 
+		"Assets\Photon\PhotonUnityNetworking\Code\Editor\AccountService.cs" and
+		"Assets\Photon\PhotonUnityNetworking\Code\Editor\PhotonEditorUtils.cs" to respectively
+		"Assets\Photon\PhotonRealtime\Code\Unity\Editor\AccountService.cs" and
+		"Assets\Photon\PhotonRealtime\Code\Editor\PhotonEditorUtils.cs".
+   ADDED: VoiceDebugScript to try to diagnose common issues in PUN integration
+   FIXED: correct warning number pragma suppression (649 -> 414)
+   FIXED: [DemoProximityVoiceChat] ChangeColour script to call RPC only if IsMine.
+   FIXED: [DemoProximityVoiceChat] ChangeColour RPC is buffered.
+   FIXED: [DemoProximityVoiceChat] ProximityVoiceTrigger checks if attached to local player and disable it if not.
+   ADDED: debug logs when Recorder is destoryed or local voice removed.
+
 v2.23.1 (February 25th, 2021)
    PUN2: v2.28.1 (433550f)
    PhotonVoiceApi: revision 5982

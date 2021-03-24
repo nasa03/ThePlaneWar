@@ -42,11 +42,11 @@ namespace Photon.Voice.Unity
         private int outputSampleRate;
         #endif
 
-        #pragma warning disable 649
+        #pragma warning disable 414
         [SerializeField]
         [HideInInspector]
         private int playDelayMs = 200;
-        #pragma warning restore 649
+        #pragma warning restore 414
 
         [SerializeField] 
         private PlaybackDelaySettings playbackDelaySettings = new PlaybackDelaySettings
