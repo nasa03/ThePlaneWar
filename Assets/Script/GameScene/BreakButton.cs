@@ -6,8 +6,20 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class BreakButton : AbstractButton
+public class BreakButton : MonoBehaviour
 { 
+    [SerializeField] private Image image;
+    [SerializeField] private GameObject button;
+    private ButtonType _buttonType = ButtonType.Normal;
+    private float _time = 0.0f;
+    private const int CoolingMaxTime = 10;
+
+    private enum ButtonType
+    {
+        Normal,
+        Cooling
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -43,12 +55,7 @@ public class BreakButton : AbstractButton
         }
     }
 
-    public override void ProcessingStart()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void CoolingStart()
+    public void CoolingStart()
     {
         _buttonType = ButtonType.Cooling;
         _time = CoolingMaxTime;
@@ -58,7 +65,7 @@ public class BreakButton : AbstractButton
         button.GetComponent<ButtonHandler>().SetUpState();
     }
     
-    public override void CoolingEnd()
+    private void CoolingEnd()
     {
         _buttonType = ButtonType.Normal;
         button.GetComponent<Button>().enabled = true;

@@ -145,7 +145,7 @@ MonoBehaviour:
   m_ZeroLiftSpeed: 300
   m_RollEffect: 10
   m_PitchEffect: 4
-  m_YawEffect: 4
+  m_YawEffect: 6
   m_BankedTurnEffect: 2
   m_AerodynamicEffect: 0.02
   m_AutoTurnPitch: 0.5
