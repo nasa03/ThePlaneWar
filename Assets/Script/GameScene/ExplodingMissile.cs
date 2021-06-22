@@ -33,7 +33,7 @@ public class ExplodingMissile : MonoBehaviourPun
 
         if (GetComponent<AIBullet>() && GetComponent<AIBullet>().aiTarget.CompareTag("AI") &&
             !PhotonNetwork.IsMasterClient) return;
-        
+
         _timer += Time.deltaTime;
         if (!(_timer >= explosionTimer)) return;
 
@@ -49,9 +49,13 @@ public class ExplodingMissile : MonoBehaviourPun
 
         if (GetComponent<AIBullet>() && GetComponent<AIBullet>().aiTarget.CompareTag("AI") &&
             !PhotonNetwork.IsMasterClient) return;
-        
-        transform.LookAt(_missileTarget != null ? _missileTarget : transform);
 
+        Transform current = Global.GetNearTargetTransform(transform);
+        if (current != null && current == _missileTarget && _missileTarget != null)
+            transform.LookAt(_missileTarget);
+        else
+            _missileTarget = null;
+        
         _thisRigidbody.AddForce(transform.forward * speed);
 
         if (_timer >= 0.05f)
