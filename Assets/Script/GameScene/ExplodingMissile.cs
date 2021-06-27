@@ -50,12 +50,15 @@ public class ExplodingMissile : MonoBehaviourPun
         if (GetComponent<AIBullet>() && GetComponent<AIBullet>().aiTarget.CompareTag("AI") &&
             !PhotonNetwork.IsMasterClient) return;
 
-        Transform current = Global.GetNearTargetTransform(transform);
-        if (current != null && current == _missileTarget && _missileTarget != null)
-            transform.LookAt(_missileTarget);
-        else
-            _missileTarget = null;
-        
+        if (_missileTarget != null)
+        {
+            float distance = Global.GetDistance(transform, _missileTarget);
+            if (distance != 0)
+                transform.LookAt(_missileTarget);
+            else
+                _missileTarget = null;
+        }
+
         _thisRigidbody.AddForce(transform.forward * speed);
 
         if (_timer >= 0.05f)
