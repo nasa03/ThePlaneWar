@@ -37,9 +37,9 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
 
             // auto throttle up, or down if braking.
             float throttle = airBrakes ? -1 : 1;
-#if MOBILE_INPUT
+
             AdjustInputForMobileControls(ref roll, ref pitch, ref throttle);
-#endif
+
             // Pass the input to the aeroplane
             //m_Aeroplane.Move(roll, pitch, 0, throttle, airBrakes);
             m_Aeroplane.Move(roll, pitch, yaw, throttle, airBrakes);

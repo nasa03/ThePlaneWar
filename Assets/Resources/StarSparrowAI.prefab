@@ -5724,8 +5724,8 @@ MonoBehaviour:
         byteData: 4265686176696f7244657369676e65722e52756e74696d652e5368617265645472616e73666f726d7461726765740101
         byteDataArray: 4265686176696f7244657369676e65722e52756e74696d652e5368617265645472616e73666f726d7461726765740101
       Version: 1.6.6
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &7122586083482933344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29592,7 +29592,7 @@ MonoBehaviour:
     m_Bits: 2
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 0
+  antialiasingMode: 3
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.25
